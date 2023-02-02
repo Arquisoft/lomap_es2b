@@ -1,5 +1,9 @@
 # lomap_es2b
 
+#members
+ - Hugo Roberto Pulido Pensado - UO282823
+ 
+ 
 [![CI for LOMAP_ES2B](https://github.com/Arquisoft/lomap_es2b/actions/workflows/lomap_es2b.yml/badge.svg)](https://github.com/Arquisoft/lomap_es2b/actions/workflows/lomap_es2b.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_lomap_es2b&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_lomap_es2b)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_lomap_es2b&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Arquisoft_lomap_es2b)
