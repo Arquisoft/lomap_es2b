@@ -30,6 +30,8 @@ In the homepage will show the  generic map in your current city. In this page, y
 :imagesdir: images/
 image::diagrama.png[]
 
+*Caption:*
+
 [options="header",cols="1,2"]
 |===
 | Entity | Description 
