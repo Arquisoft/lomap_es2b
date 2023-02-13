@@ -1,6 +1,6 @@
 # lomap_es2b
 
-#members
+# Members
  - Hugo Roberto Pulido Pensado - UO282823
  - Javier González Velázquez - UO276803
  - Álvaro Davila Sampedro - UO284548
@@ -261,6 +261,3 @@ Everything is ready now to make the deploy. For that we need to create a new rel
 After the actions process is finished, we can access the application using the IP of our virtual machine in port 3000. Note that is very simple to modify the application to work in port 80 instead. We only need to open that port and configure react to use this port instead.
 
 ![image](https://user-images.githubusercontent.com/10683040/155297402-41c09d54-8160-4832-be04-21951d18bc28.png)
-
-
-
