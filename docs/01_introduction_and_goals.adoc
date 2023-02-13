@@ -49,3 +49,4 @@ Javier González Velázquez_ | _Desarrolladores principales de la aplicación, c
 funcional, rápida y fácil de entender._
 | _Contratador_ | _Ayuntamiento de Bruselas_ | _Una aplicación funcional que cumpla los requisitos solicitados en el contrato._
 |===
+****
