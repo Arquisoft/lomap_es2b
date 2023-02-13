@@ -1,14 +1,9 @@
 [[section-introduction-and-goals]]
 == Introduction and Goals
 
-
-
 Documentación del sistema LoMap, aplicación en el que los ciudadanos pueden disponer de mapas personalizados sobre lugares y negocios locales de la ciudad.
 
-
 === Requirements Overview
-
-
 
 * Añadir lugares en categorías diferentes.
 * Los usuarios serán capaces de mostrar lugares en una ventana tipo mapa.
@@ -17,10 +12,7 @@ Documentación del sistema LoMap, aplicación en el que los ciudadanos pueden di
 * Los usuarios podrán ver lugares e información tomada de sus amigos.
 * Se permite realizar filtros a las búsquedas en el mapa.
 
-
 === Quality Goals
-
-[role="arc42help"]
 
 [options="header",cols="1,2"]
 |===
@@ -32,10 +24,7 @@ Documentación del sistema LoMap, aplicación en el que los ciudadanos pueden di
 | _Interoperabilidad_ | _La aplicación debe de ser capaz de intercambiar su información con otras y utilizar la información intercambiada._
 |===
 
-
 === Stakeholders
-
-[role="arc42help"]
 
 [options="header",cols="1,2,2"]
 |===
