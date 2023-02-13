@@ -1,27 +1,27 @@
 [[section-introduction-and-goals]]
 == Introduction and Goals
 
-[role="arc42help"]
-****
+
+
 Documentación del sistema LoMap, aplicación en el que los ciudadanos pueden disponer de mapas personalizados sobre lugares y negocios locales de la ciudad.
-****
+
 
 === Requirements Overview
 
-[role="arc42help"]
-****
+
+
 * Añadir lugares en categorías diferentes.
 * Los usuarios serán capaces de mostrar lugares en una ventana tipo mapa.
 * Los usuarios pueden asociar puntuaciones, comentarios, fotos sobre los lugares añadidos.
 * La información sobre un lugar almacenada por cada usuario se almacenará en el pod de cada usuario.
 * Los usuarios podrán ver lugares e información tomada de sus amigos.
 * Se permite realizar filtros a las búsquedas en el mapa.
-****
+
 
 === Quality Goals
 
 [role="arc42help"]
-****
+
 [options="header",cols="1,2"]
 |===
 |Objetivo|Descripción
@@ -31,12 +31,12 @@ Documentación del sistema LoMap, aplicación en el que los ciudadanos pueden di
 | _Escalabilidad_ | _LoMap debe ser capaz de crecer y aumentar sus funcionalidades de forma sencilla._
 | _Interoperabilidad_ | _La aplicación debe de ser capaz de intercambiar su información con otras y utilizar la información intercambiada._
 |===
-****
+
 
 === Stakeholders
 
 [role="arc42help"]
-****
+
 [options="header",cols="1,2,2"]
 |===
 |Role/Name|Contact|Expectations
@@ -49,4 +49,4 @@ Javier González Velázquez_ | _Desarrolladores principales de la aplicación, c
 funcional, rápida y fácil de entender._
 | _Contratador_ | _Ayuntamiento de Bruselas_ | _Una aplicación funcional que cumpla los requisitos solicitados en el contrato._
 |===
-****
+
