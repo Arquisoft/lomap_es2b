@@ -23,3 +23,10 @@ After having been talking, we have decided that both the documentation and the a
 
 === Security
 Regarding security, we will follow the SOLID principles and will use the PODs to gain access. As we use the POD API we can verify the user and only access the data that he allows. In our case we will only store the username without the need to store the password.
+
+=== Development concepts
+We are going to explain how the development task will be as well as the tools to be used:
+* REACT is a library that is based on JavaScript that allows making interactive user interfaces in a simple way.
+* PODs to store users' personal information.
+* MongoDB to store all information related to maps, such as points of interest.
+* NodeJS for running web applications outside the client's browser.
