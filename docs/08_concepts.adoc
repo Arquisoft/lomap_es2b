@@ -1,67 +1,25 @@
 [[section-concepts]]
 == Cross-cutting Concepts
 
-
-[role="arc42help"]
-****
-.Content
-This section describes overall, principal regulations and solution ideas that are
-relevant in multiple parts (= cross-cutting) of your system.
-Such concepts are often related to multiple building blocks.
-They can include many different topics, such as
-
-* domain models
-* architecture patterns or design patterns
-* rules for using specific technology
-* principal, often technical decisions of overall decisions
-* implementation rules
-
-.Motivation
-Concepts form the basis for _conceptual integrity_ (consistency, homogeneity)
-of the architecture. Thus, they are an important contribution to achieve inner qualities of your system.
-
-Some of these concepts cannot be assigned to individual building blocks
-(e.g. security or safety). This is the place in the template that we provided for a
-cohesive specification of such concepts.
-
-.Form
-The form can be varied:
-
-* concept papers with any kind of structure
-* cross-cutting model excerpts or scenarios using notations of the architecture views
-* sample implementations, especially for technical concepts
-* reference to typical usage of standard frameworks (e.g. using Hibernate for object/relational mapping)
-
-.Structure
-A potential (but not mandatory) structure for this section could be:
-
-* Domain concepts
-* User Experience concepts (UX)
-* Safety and security concepts
-* Architecture and design patterns
-* "Under-the-hood"
-* development concepts
-* operational concepts
-
-Note: it might be difficult to assign individual concepts to one specific topic
-on this list.
-
-image:08-Crosscutting-Concepts-Structure-EN.png["Possible topics for crosscutting concepts"]
-****
-
-
 === Domain model
 
-image:UmlDiagram.png["Example UML Diagram"]
+:imagesdir: images/
+image::Modelo de dominio.png[]
 
+[options="header",cols="1,2"]
+|===
+| Entity | Description 
+| User | Application user
+| POD | Store the personal data
+| Map | Map of the city
+| Marker | Location marker with the information
+|===
 
+=== Gaphical user interface
+To develop the user interface we are going to use the REACT library together with TypeScript. We are going to use REACT since it seems to us the most appropriate because it is based on components. The user interface should be intuitive, clean and simple to make it easier for the user to use the web, and only worry about looking for personalized maps about the city.
 
-=== _<Concept 2>_
+=== Internationalization
+After having been talking, we have decided that both the documentation and the application are going to be done in English. This will be so because we want the application to be more international.
 
-_<explanation>_
-
-...
-
-=== _<Concept n>_
-
-_<explanation>_
+=== Security
+Regarding security, we will follow the SOLID principles and will use the PODs to gain access. As we use the POD API we can verify the user and only access the data that he allows. In our case we will only store the username without the need to store the password.
