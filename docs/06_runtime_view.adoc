@@ -9,7 +9,7 @@
 :imagesdir: images/
 image::06_Diagrama_secuencia_registro.png[]
 
-When the user registers, the app redirects to the pod for the user enter his data
+When the user registers, the app redirects to the pod for the user enter his data.
 
 === Log
 
@@ -24,5 +24,4 @@ The pod returns the result of the login.
 
 :imagesdir: images/
 image::06_Diagrama_secuencia_anadir_mark.png[]
-
-The app ask for the data of the mark, when receives the data, the app create the mark and saves it on the DB
+The app ask for the data of the mark, when receives the data, the app create the mark and saves it on the pod.
