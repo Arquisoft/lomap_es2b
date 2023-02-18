@@ -47,3 +47,5 @@ The last quality goal is accessibility. However, as the main part of the UI is a
 
 === Organizational decisions
 
+* In terms of communication, we will use WhatsApp for minor doubts and general comunication. To keep a record of problems and asigned tasks we will utilize de Issue system of Github combine with a Kanban project to have a more visual view of the work flow. We will hold a weekly class meetings and, if necessary, we will hold additional meetings in Microsft Teams.
+* We will keep a record of every meeting in the Wiki section of the Github project.
