@@ -1,4 +1,4 @@
-[[section-solution-strategy]]
+[[solution-strategy]]
 == Solution Strategy
 
 
@@ -22,3 +22,30 @@ Motivate what you have decided and why you decided that way,
 based upon your problem statement, the quality goals and key constraints.
 Refer to details in the following sections.
 ****
+
+=== Technological decisions
+We have decided to use the following technologies:
+
+* React: The JavaScript library we will use to create the user interface.
+* Node.js: It is a JavaScript environment that will be used to create the web server of the application
+* Typescript: JavaScript superset whose main objective is to add strong typing to JavaScript
+* MongoDB: NoSQL open source database where non personal information of the application will be stored
+* SOLID: Decentrilized storage system where the user's data will be stored.
+* Git/Github: Version control system also used for managing all the development process.
+
+
+=== Decision about the top-level decomposition of the system
+The system can be divided in two main parts, the backend and the frontend:
+
+* For the frontend we are using the React library allong with TypeScript.
+* For the backend we will use a MVC pattern (model-view-controller) as it provides a easy way of dividing the different parts of the application. The view part, however, will not exist on our backend as it will be part of the frontent
+
+=== Decisions on achieving key quality goals
+One of the key quality goals of the project is to keep user's data private. For this reason we will use the SOLID POD, which decentrilizes that data.
+Another important quality goal is usability and user experience. For this we will make our application as intuitive and simple as posible.
+The last quality goal is accessibility. However, as the main part of the UI is a map, it is very difficult to make it trully accesible, so it won't be the top priority when designing and developing the application. 
+
+=== Organizational decisions
+
+* In terms of communication, we will use WhatsApp for minor doubts and general comunication. To keep a record of problems and asigned tasks we will utilize de Issue system of Github combine with a Kanban project to have a more visual view of the work flow. We will hold a weekly class meetings and, if necessary, we will hold additional meetings in Microsft Teams.
+* We will keep a record of every meeting in the Wiki section of the Github project.
