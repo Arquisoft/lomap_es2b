@@ -3,6 +3,8 @@
 
 === Quality Tree
 
+[plantuml, "Quality tree", png]
+----
 left to right direction
 (Privacy) as (Pr)
 (Usability) as (U)
@@ -14,6 +16,7 @@ Q --> U
 Q --> S
 Q --> I
 Q --> A
+----
 
 === Quality Scenarios
 [options="header",cols="1,2,2"]
