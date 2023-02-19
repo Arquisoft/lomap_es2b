@@ -9,8 +9,8 @@
 image::05_Diagrama_Level_1.png[]
 
 Motivation::
-
-Lomap is the main application and is used by the user. All usar data is saved in the pod.
+ 
+Lomap is formed by the web app, the database and the rest api, each one has its on funcionality in order to separate responsabilities.
 
 Contained Building Blocks::
 
@@ -26,22 +26,6 @@ Contained Building Blocks::
 
 |PODs
 |Saves the user's data
-|===
-
-=== Level 2:
-
-:imagesdir: images/
-image::05_Diagrama_Level_2.png[]
-
-Motivation::
- 
-Lomap is formed by the web app, the database and the rest api, each one has its on funcionality in order to separate responsabilities.
-
-Contained Building Blocks::
-
-[options="header",cols="1,2"]
-|===
-|Name| Description
 
 |Webapp
 |Is the part of the application with wich the user interacts
