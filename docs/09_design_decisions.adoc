@@ -1,26 +1,15 @@
 [[section-design-decisions]]
 == Design Decisions
 
+In this part of the documentation we are going to explain the design decisions that we will make. These decisions will appear in the following table.
 
-[role="arc42help"]
-****
-.Contents
-Important, expensive, large scale or risky architecture decisions including rationals.
-With "decisions" we mean selecting one alternative based on given criteria.
-
-Please use your judgement to decide whether an architectural decision should be documented
-here in this central section or whether you better document it locally
-(e.g. within the white box template of one building block).
-
-Avoid redundancy. Refer to section 4, where you already captured the most important decisions of your architecture.
-
-.Motivation
-Stakeholders of your system should be able to comprehend and retrace your decisions.
-
-.Form
-Various options:
-
-* List or table, ordered by importance and consequences or:
-* more detailed in form of separate sections per decision
-* ADR (architecture decision record) for every important decision
-****
+[options="header",cols="1,2,3,4"]
+|===
+|Architectural decision|Pros|Cons|Link
+|TypeScript|TypeScript is a programming language built on top of JavaScript. This superset of JavaScript gives the language several additional features that make it easier to write code that is less buggy, simpler, more consistent, and easier to test.|On the one hand the learning curve is greater than that of JavaScript. It also has a somewhat complicated type system. But the most important thing is that no member of the team has used it before|https://github.com/Arquisoft/lomap_es2b/wiki/RDA-%232:-Lenguaje-com%C3%BAn-para-el-proyecto[Decision #01]
+|MongoDB|The main advantages is that it is a perfect complement for TypeScript, it has great documentation as well as being a NOSQL type database.|It does not have "joins" to make queries, it is not a suitable database for applications with complex transactions and it is also a young technology|https://github.com/Arquisoft/lomap_es2b/wiki/RDA-%231:-MongoDB[Decision #02]
+|REACT|
+It is easy to learn, has a high level of flexibility, 100% open source JavaScript Library with frequent updates and improvements from developers around the world.|Lack of official documentation, no development pattern, takes a long time to fully master.|https://github.com/Arquisoft/lomap_es2b/wiki/RDA-%234:-Librar%C3%ADa-para-Frontend[Decision #03]
+|SOLID|It allows us to facilitate the understanding of the architectures, prevent our code from falling into chaos and unexpected errors appear at all times, it also allows us to improve cohesion.|The greatest disadvantage is that if we do not have a correct preparation we will find ourselves with ambiguous concepts that will make it difficult to understand the code.|https://github.com/Arquisoft/lomap_es2b/wiki/RDA-%235:-Almac%C3%A9n-de-datos-descentralizado[Decision #04]
+|NodeJS|The biggest advantage is that it will allow us to share code and structures between the server and the client, it is tremendously flexible as well as having a smooth data stream.|Some of the disadvantages are that it has an unstable API, the code can be difficult to debug, and it is a young technology.|https://github.com/Arquisoft/lomap_es2b/wiki/RDA-%233:-Framework-para-Backend[Decision #05]
+|===

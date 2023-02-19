@@ -1,4 +1,4 @@
-[[section-glossary]]
+[[glossary]]
 == Glossary
 
 
@@ -25,7 +25,13 @@ Potentially more columns in case you need translations.
 
 [options="header"]
 |===
-| Term         | Definition
-| <Term-1>     | <definition-1>
-| <Term-2>     | <definition-2>
+| Term        | Definition
+
+| Backend     | Part of application that handles the processing and retrieval of data, and communicates with the database
+| Frontend    | Part of the application that the user communicates with through a browser
+| RestAPI     | It is a standarized backend architecture for creating web services usign HTTP methods.
+| MongoDB     | Open source NoSQL database that uses document-oriented data models.
+| SOLID       | It is a web technology project that aims to decentralize the web by giving users control of their private data.
+| POD         | It  is server or storage space where users can store, share and control their data. The SOLID project is built on PODs.
+| User        | Client that uses our application.
 |===
