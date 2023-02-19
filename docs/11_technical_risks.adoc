@@ -1,17 +1,26 @@
 [[section-technical-risks]]
 == Risks and Technical Debts
+Below we indicate the risks identified, as well as the measures proposed to eliminate them.
+
+=== Risks
+
+[options="header",cols="3,5,5"]
+|===
+|Risk
+|Description
+|Measure
+
+|*Knowledge of SOLID*
+| SOLID is a new technology for the whole group that we have never used and therefore certain problems may arise when using it. Also, it is not very easy to find good examples on the Internet..
+| Understand the technology before using it by looking for documentation and tutorials so as not to have problems when we are implementing it.
 
 
-[role="arc42help"]
-****
-.Contents
-A list of identified technical risks or technical debts, ordered by priority
+|*Time*
+|Due to the fact that there are many works by other subjects in this semester, it may be difficult for us to reach a delivery date.
+| We must make an effort to organize the time we have and carry out good planning.
 
-.Motivation
-“Risk management is project management for grown-ups” (Tim Lister, Atlantic Systems Guild.) 
+|*Github*
+| Despite the fact that we have used Git and Github in other subjects, our knowledge is basic and problems can arise, such as knowing how to create a pull request or delete information due to a merge.
+|Github is a basic technology that we must learn to use in order to work in the future and we can do it through examples or making small project prototypes to familiarize ourselves with it.
 
-This should be your motto for systematic detection and evaluation of risks and technical debts in the architecture, which will be needed by management stakeholders (e.g. project managers, product owners) as part of the overall risk analysis and measurement planning.
-
-.Form
-List of risks and/or technical debts, probably including suggested measures to minimize, mitigate or avoid risks or reduce technical debts.
-****
+|===
