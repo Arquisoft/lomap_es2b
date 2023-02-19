@@ -1,5 +1,11 @@
 # lomap_es2b
 
+# Members
+ - Hugo Roberto Pulido Pensado - UO282823
+ - Javier González Velázquez - UO276803
+ - Álvaro Davila Sampedro - UO284548
+ - Adrián Martínez Rodríguez - UO284163
+ 
 [![CI for LOMAP_ES2B](https://github.com/Arquisoft/lomap_es2b/actions/workflows/lomap_es2b.yml/badge.svg)](https://github.com/Arquisoft/lomap_es2b/actions/workflows/lomap_es2b.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_lomap_es2b&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_lomap_es2b)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_lomap_es2b&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Arquisoft_lomap_es2b)
@@ -255,6 +261,3 @@ Everything is ready now to make the deploy. For that we need to create a new rel
 After the actions process is finished, we can access the application using the IP of our virtual machine in port 3000. Note that is very simple to modify the application to work in port 80 instead. We only need to open that port and configure react to use this port instead.
 
 ![image](https://user-images.githubusercontent.com/10683040/155297402-41c09d54-8160-4832-be04-21951d18bc28.png)
-
-
-
