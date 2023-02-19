@@ -1,27 +1,21 @@
 [[section-introduction-and-goals]]
 == Introduction and Goals
 
-[role="arc42help"]
-****
 Documentation of the LoMap system, an application in which citizens can have personalized maps of places and local businesses in the city.
-****
+
 
 === Requirements Overview
 
-[role="arc42help"]
-****
 * Add places in different categories.
 * Users will be able to display locations in a map-like window.
 * Users can associate ratings, comments, photos on the added places.
 * Information about a place stored by each user will be stored in each user's pod.
 * Users will be able to see places and information taken from their friends.
 * Filters are allowed for searches on the map.
-****
+
 
 === Quality Goals
 
-[role="arc42help"]
-****
 [options="header",cols="1,2"]
 |===
 |Goal|Description
@@ -31,12 +25,9 @@ Documentation of the LoMap system, an application in which citizens can have per
 | _Scalability_ | _LoMap must be able to grow and increase its functionalities in a simple way._
 | _Interoperability_ | _The application must be able to exchange its information with others and use the information exchanged._
 |===
-****
 
 === Stakeholders
 
-[role="arc42help"]
-****
 [options="header",cols="1,2,2"]
 |===
 |Role/Name|Contact|Expectations
