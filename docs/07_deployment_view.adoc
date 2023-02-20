@@ -34,7 +34,7 @@ when your infrastructure is more complex.
 * When your (hardware) stakeholders prefer other kinds of diagrams rather than the deployment diagram, let them use any kind that is able to show nodes and channels of the infrastructure.
 ****
 
-=== Infrastructure Level 1
+=== Infrastructure
 
 [role="arc42help"]
 ****
@@ -48,39 +48,38 @@ Describe (usually in a combination of diagrams, tables, and text):
 For multiple environments or alternative deployments please copy that section of arc42 for all relevant environments.
 ****
 
-_**<Overview Diagram>**_
+:imagesdir: images/
+image::07_Deployment.png[]
 
 Motivation::
 
-_<explanation in text form>_
+This diagram shows is a basic overview of how our application will be deployed. It will be updated in the future as the development process goes a¡on and we take more detailed decisions.
 
 Quality and/or Performance Features::
 
-_<explanation in text form>_
+As one of our key quality goals is to have a fast and efficient application, we tried to make the simplest arquitecture posible and using fast and reliable third party services.
 
 Mapping of Building Blocks to Infrastructure::
-_<description of the mapping>_
 
+|===
+| Node | Description
 
-=== Infrastructure Level 2
-
-[role="arc42help"]
-****
-Here you can include the internal structure of (some) infrastructure elements from level 1.
-
-Please copy the structure from level 1 for each selected element.
-****
-
-==== _<Infrastructure Element 1>_
-
-_<diagram + explanation>_
-
-==== _<Infrastructure Element 2>_
-
-_<diagram + explanation>_
-
-...
-
-==== _<Infrastructure Element n>_
-
-_<diagram + explanation>_
+| Browser
+| The client side application the user will use to connect to our application.
+| WebServer
+| This is where both our frontend and backend applications will be stored. The frontend will be served to the user and it will send requests to the backend.
+| WebApp
+| This is the frontend application that the user will receive and interact with through the browser.
+| RestAPI
+| It will serve as an interface between the frontend and the database.
+| Atlas
+| It is the provider of the MongoDB database we will use
+| MongoDB
+| This is the NoSQL database we will use to store data that is public for all users.
+| MapProvider
+| It is the third party map API we will use to display the user's marks and info.
+| PodProvider
+| This is the third party service where our users' SOLID PODs will be stored
+| User_Pod
+| This is the SOLID POD where users' personal data will be stored and read by the WebApp.
+|===

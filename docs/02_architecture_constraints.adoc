@@ -1,4 +1,4 @@
-[[section-architecture-constraints]]
+[[architecture-constraints]]
 == Architecture Constraints
 
 
@@ -17,3 +17,41 @@ If needed you can subdivide them into
 technical constraints, organizational and political constraints and
 conventions (e.g. programming or versioning guidelines, documentation or naming conventions)
 ****
+
+=== Tecnichal Constraints
+|===
+| Constraint | Explanation
+
+| React
+| The React framework will be used to create the web based UI (User Interface).
+| Typescript
+| TypeScript is a strongly typed version of JavaScript. We will use it to make development easier and to be able to detect typing errors during compilation.
+| SOLID
+| We will use SOLID as a way to have a decentralized storage of our users data.
+| Git/GitHub
+| Git will be used as a version control system and Github will be the platform where the remote repository is store. All the documentation of the development process will be stored in GitHub as well.
+|===
+=== Organizational Constraints
+|===
+| Constraint | Explanation
+
+| Team meetings
+| We must hold at least one meeting a week. This will be done in the weekly laboratory session. Extra meetings may be hold when necessary.
+| Deadlines
+| As this project is part of a college course, it has very tight and fixed deadlines. This means we may have trouble delivering all releseases with the desired quality.
+| Application interoperability
+| It is desirable that the different groups agree on a common storage standard for the SOLID part of the application. This, however, is not mandatory as it can be difficult to coordinate those many groups.
+|===
+=== Conventions
+|===
+| Constraint | Explanation
+
+| Arc42 Documentation
+| We will follow the Arc42 template for the documentation of the project.
+| JavaScript/TypeScript
+| We will use JavaScript/TypeScript naming conventions.
+| MVC
+| We will follow MVC naming and layering conventions.
+| SOLID
+| We will follow the SOLID specification in order to ensure our users data is kept private and under their control.
+|===

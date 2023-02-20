@@ -1,0 +1,24 @@
+@startuml lomap_deployment
+actor User
+node Device {
+    component Browser
+}
+node WebServer {
+    component WebApp
+    component RestAPI
+}
+node MapProvider
+node PodProvider {
+    database User_Pod
+}
+node Atlas {
+    database MongoDB
+}
+User->Device
+
+Device<-->WebServer:https
+WebApp<-->PodProvider:https
+WebApp<--MapProvider:https
+Device<->RestAPI:https
+RestAPI<-->Atlas
+@enduml
