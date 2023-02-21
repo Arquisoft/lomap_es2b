@@ -12,8 +12,6 @@ image::Modelo de dominio.PNG[]
 |===
 | Entity | Description 
 | User | Application user
-| POD | Store the personal data
-| Map | Map of the city
 | Marker | Location marker with the information
 |===
 
