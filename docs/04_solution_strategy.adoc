@@ -41,9 +41,9 @@ The system can be divided in two main parts, the backend and the frontend:
 * For the backend we will use a MVC pattern (model-view-controller) as it provides a easy way of dividing the different parts of the application. The view part, however, will not exist on our backend as it will be part of the frontent
 
 === Decisions on achieving key quality goals
-One of the key quality goals of the project is to keep user's data private. For this reason we will use the SOLID POD, which decentrilizes that data.
-Another important quality goal is usability and user experience. For this we will make our application as intuitive and simple as posible.
-The last quality goal is accessibility. However, as the main part of the UI is a map, it is very difficult to make it trully accesible, so it won't be the top priority when designing and developing the application. 
+* One of the key quality goals of the project is to keep user's data private. For this reason we will use the SOLID POD, which decentrilizes that data.
+* Another important quality goal is usability and user experience. For this we will make our application as intuitive and simple as posible.
+* The last quality goal is accessibility. However, as the main part of the UI is a map, it is very difficult to make it trully accesible, so it won't be the top priority when designing and developing the application. 
 
 === Organizational decisions
 
