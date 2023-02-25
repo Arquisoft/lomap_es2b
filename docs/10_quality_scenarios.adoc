@@ -11,11 +11,11 @@ left to right direction
 (Decentralization) as (S)
 (Interoperability) as (I)
 (Scalability) as (A)
-Q --> Pr
-Q --> U
-Q --> S
-Q --> I
-Q --> A
+User --> Pr
+User --> U
+User --> S
+User --> I
+User --> A
 ----
 
 === Quality Scenarios
