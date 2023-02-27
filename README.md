@@ -7,15 +7,13 @@
 
 
 # Members
- - Hugo Roberto Pulido Pensado - UO282823
- - Javier González Velázquez - UO276803
- - Álvaro Davila Sampedro - UO284548
- - Adrián Martínez Rodríguez - UO284163
- - Felipe García Gomez - UO286267
- 
-
- 
-
+ |        Desarrolladores        |         UOs        |
+|:-----------------------------:|:------------------:|
+|     Álvaro Davila Sampedro     | UO284548 |
+|     Felipe García Gomez     | UO285267 |
+|    Javier González Velázquez     | UO276803 | 
+|  Adrián Martinez Rodriguez | UO284163 |
+| Hugo Roberto Pulido Pensado| UO282823 |
 
 <p float="left">
 <img src="https://blog.wildix.com/wp-content/uploads/2020/06/react-logo.jpg" height="100">
