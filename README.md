@@ -1,4 +1,10 @@
-# lomap_es2b
+# LOMAP ES 2B
+[![CI for LOMAP_ES2B](https://github.com/Arquisoft/lomap_es2b/actions/workflows/lomap_es2b.yml/badge.svg)](https://github.com/Arquisoft/lomap_es2b/actions/workflows/lomap_es2b.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_lomap_es2b&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_lomap_es2b)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_lomap_es2b&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Arquisoft_lomap_es2b)
+
+<img src="https://github.com/Arquisoft/lomap_es2b/blob/login-page/webapp/src/assets/img/logo-color.svg" height="400">
+
 
 # Members
  - Hugo Roberto Pulido Pensado - UO282823
@@ -7,9 +13,9 @@
  - Adrián Martínez Rodríguez - UO284163
  - Felipe García Gomez - UO286267
  
-[![CI for LOMAP_ES2B](https://github.com/Arquisoft/lomap_es2b/actions/workflows/lomap_es2b.yml/badge.svg)](https://github.com/Arquisoft/lomap_es2b/actions/workflows/lomap_es2b.yml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_lomap_es2b&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_lomap_es2b)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_lomap_es2b&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Arquisoft_lomap_es2b)
+
+ 
+
 
 <p float="left">
 <img src="https://blog.wildix.com/wp-content/uploads/2020/06/react-logo.jpg" height="100">
