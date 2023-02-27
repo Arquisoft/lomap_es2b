@@ -3,11 +3,15 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_lomap_es2b&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_lomap_es2b)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_lomap_es2b&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Arquisoft_lomap_es2b)
 
+# Logo
+<p>
+This will be the logo that we will use in the application
+</p>
 <img src="https://github.com/Arquisoft/lomap_es2b/blob/login-page/webapp/src/assets/img/logo-color.svg" height="400">
 
 
 # Members
- |        Desarrolladores        |         UOs        |
+ |        Developers        |         UO        |
 |:-----------------------------:|:------------------:|
 |     Álvaro Davila Sampedro     | UO284548 |
 |     Felipe García Gomez     | UO285267 |
