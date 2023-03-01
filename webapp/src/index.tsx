@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import './index.css';
+import SolidSessionProvider from './components/SolidSessionProvider';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <SolidSessionProvider>
+      <App />
+    </SolidSessionProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

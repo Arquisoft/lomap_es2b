@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
 import { Autocomplete, TextField, Divider, Box } from '@mui/material';
 
 import { login } from "@inrupt/solid-client-authn-browser";
 
-import Logo from '../logo.svg'
+// import Logo from '../logo.svg'
 import './login.css'
 import { Button } from '@mui/material';
+import { ProviderOption } from '../types/provider';
 
 
 const Login = ({  }) : JSX.Element => {
@@ -17,13 +18,12 @@ const Login = ({  }) : JSX.Element => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>)=>{
     event.preventDefault();
     
-    console.log(identity)
-    if (identity) {
+    if (identity && identity.url) {
       login({
         redirectUrl: window.location.href,
         oidcIssuer: identity.url,
         clientName: "LOMAP",
-      });
+      })
     }
 
   };
@@ -55,8 +55,7 @@ const Login = ({  }) : JSX.Element => {
           options={proveedores}
           getOptionLabel = {option => option.label}
           sx={{ width: 300 }}
-          value={identity}
-          onChange={(event, value : ProviderOption | null) => setIdentity(value)}
+          onChange={(_event, value : ProviderOption | null) => setIdentity(value)}
           renderInput={(params) => <TextField {...params} label="Proveedor"/>}
           />
           <Button type="submit" variant="contained">Registrarse</Button>
@@ -64,11 +63,6 @@ const Login = ({  }) : JSX.Element => {
       </div>
     </div>
   )
-}
-
-interface ProviderOption {
-  label: string,
-  url: string
 }
 
 const proveedores : ProviderOption[] = [
