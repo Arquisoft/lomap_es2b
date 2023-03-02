@@ -1,6 +1,6 @@
-import React from 'react'
 import { Fab } from '@mui/material'
 import { useMap } from 'react-map-gl'
+import { BiCurrentLocation } from 'react-icons/bi'
 
 import './focusOnUserButton.css'
 
@@ -17,7 +17,7 @@ const FocusOnUserButton = () => {
   }
 
   return (
-    <Fab className='locate-button' onClick={getLocation}>Localizar</Fab>
+    <Fab className='locate-button' onClick={getLocation} style={{position: 'absolute', margin: '1.5em'}}><BiCurrentLocation size='2em' /></Fab>
   )
 }
 

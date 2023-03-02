@@ -1,19 +1,17 @@
-import React, { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import Map, { useMap } from 'react-map-gl'
 import { CircularProgress } from '@mui/material'
 
-import { mapboxApiKey } from '../config/constants'
-
-import { Coordinates } from '../types/Coordinates'
+import { mapboxApiKey } from '../../config/constants'
 
 import 'mapbox-gl/dist/mapbox-gl.css';
+import './Map.css'
 
 const MapComponent = () => {
 
   const [isLoading , setIsLoading] = useState(true)
 
   const { map } = useMap()
-  const mapRef = useRef()
 
   const locateUser = () => {
     if ("geolocation" in navigator) {
@@ -28,13 +26,13 @@ const MapComponent = () => {
     }
   }
   
-  useEffect(locateUser,[])
+  useEffect(locateUser,[map])
 
   return (
     <>
       {
         isLoading ?
-        <CircularProgress style={{position:'absolute', top:'50%', left: '50%', transform: 'translate(-50%, -50%)'}} />
+        <CircularProgress className='loader' />
         : 
         <Map id='map' initialViewState={{
           latitude: 43.3602900, 
@@ -42,7 +40,6 @@ const MapComponent = () => {
           zoom: 12
         }}
           onLoad={locateUser}
-          style={{width: '100vw', height: '100vh'}} 
           mapboxAccessToken={mapboxApiKey}
           mapStyle="mapbox://styles/mapbox/streets-v9"
         />

@@ -1,4 +1,4 @@
 .locate-button {
-  position: absolute;
-  float: right
+  bottom: 0;
+  right: 0;
 }
