@@ -3,8 +3,6 @@ import React, { useState, useEffect } from 'react'
 import { Autocomplete, TextField, Divider, Box } from '@mui/material';
 
 import { login } from "@inrupt/solid-client-authn-browser";
-
-import Logo from '../logo.svg'
 import './login.css'
 import { Button } from '@mui/material';
 
