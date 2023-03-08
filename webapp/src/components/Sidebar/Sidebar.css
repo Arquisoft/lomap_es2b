@@ -12,33 +12,30 @@
 }
 
 .sidebar.closed {
-    right: -18px;
+    right: -20px;
     height: calc(100vh - 3em);
     width: 100px;
-    top: 0;
     position: absolute;
     z-index: 100;
+    top: 0;
     left: 0;
     margin: 1.0em;
     border-radius: 0.5em;
     transition: transform 0.3s ease-in-out;
 }
 
-.toggle-button {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    cursor: pointer;
-    position: absolute;
-    top: 5px;
-    right: 40px;
-    transition: all 0.3s;
-    background-position: center center;
-    border: none;
+.top_section { 
+  display: flex;
+  align-items: center;
+  padding:20px, 10px;
 }
 
-.toggle-button.rotate {
-   transform: rotate(180deg);
+.bars{
+  display: flex;
+  font-size: 25px;
+  margin-left: 50px;
+  position: relative;
+  margin-top: 10px;
 }
 
 .marker {

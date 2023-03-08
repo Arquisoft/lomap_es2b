@@ -1,18 +1,14 @@
 import React, { useState } from "react";
-import {AiOutlineLeft} from "react-icons/ai"
+import {FaBars} from "react-icons/fa"
+import { IMarker } from "../../types/Marker";
 import './Sidebar.css'
 
-interface Marker {
-  id: number;
-  name: string;
-  value: string;
-}
-
 const Sidebar = () => {
-  const [markers, setMarkers] = useState<Marker[]>([
-    { id: 1, name: "Marker 1", value: "Value 1" },
-    { id: 2, name: "Marker 2", value: "Value 2" },
-    { id: 3, name: "Marker 3", value: "Value 3" },
+  const miArreglo: any[] = [];
+  const [markers, setMarkers] = useState<IMarker[]>([
+    { id: 1, name: "Marker 1", address: "Value 1", lat: 0, lng: 0, date: new Date, images: miArreglo, description: "", category: miArreglo, comments: miArreglo, score: 10},
+    { id: 2, name: "Marker 2", address: "Value 2" , lat: 0, lng: 0, date: new Date, images: miArreglo, description: "", category: miArreglo, comments: miArreglo, score: 10},
+    { id: 3, name: "Marker 3", address: "Value 3" , lat: 0, lng: 0, date: new Date, images: miArreglo, description: "", category: miArreglo, comments: miArreglo, score: 10},
   ]);
 
   const [isOpen, setIsOpen] = useState(false); // Nuevo estado para controlar la apertura/cierre de la barra lateral
@@ -31,20 +27,21 @@ const Sidebar = () => {
 
   return (
     <div className={`sidebar ${isOpen ? "open" : "closed"}`}>
+      <div className="top_section">
         <h2 style={{display: isOpen ? "block" : "none"}} className="title">Marcadores</h2>
-    <button className= {`toggle-button ${isOpen ? "" : "rotate"}`} onClick={toggleSidebar}>
-      <AiOutlineLeft />
-    </button>
+        <div style={{marginLeft: isOpen ? "300px" : "35px"}} className = "bars">
+            <FaBars onClick={toggleSidebar}/>
+        </div>
+       </div>    
       {markers.map((marker) => (
         <Marker key={marker.id} marker={marker} onClick={handleMarkerClick} />
       ))}
-      
     </div>
   );
 };
 
 interface MarkerProps {
-  marker: Marker;
+  marker: IMarker;
   onClick: (id: number) => void;
 }
 
@@ -54,9 +51,9 @@ const Marker = ({ marker, onClick }: MarkerProps) => {
   };
 
   return (
-    <div className="marker" onClick={handleClick}>
+    <div className="marker" onClick={handleClick} >
       <h3>{marker.name}</h3>
-      <p>{marker.value}</p>
+      <p>{marker.address}</p>
     </div>
   );
 };
