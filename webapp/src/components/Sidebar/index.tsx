@@ -12,6 +12,7 @@ const Sidebar = () => {
   ]);
 
   const [isOpen, setIsOpen] = useState(false); // Nuevo estado para controlar la apertura/cierre de la barra lateral
+  const [searchValue, setSearchValue] = useState("");
 
   const handleMarkerClick = (id: number) => {
     const selectedMarker = markers.find((marker) => marker.id === id);
@@ -25,16 +26,23 @@ const Sidebar = () => {
     setIsOpen(!isOpen)
   }
 
+  const filteredMarkers = markers.filter((marker) => {
+    return marker.name.toLowerCase().includes(searchValue.toLowerCase());
+  });
+
   return (
     <div className={`sidebar ${isOpen ? "open" : "closed"}`}>
-      <div className="top_section">
-        <h2 style={{display: isOpen ? "block" : "none"}} className="title">Marcadores</h2>
-        <div style={{marginLeft: isOpen ? "300px" : "35px"}} className = "bars">
+      <div className="top_section" >
+        <h1 style={{display: isOpen ? "block" : "none"}} className="title">Marcadores</h1>
+        <div style={{marginLeft: isOpen ? "200px" : "35px"}} className = "bars">
             <FaBars onClick={toggleSidebar}/>
         </div>
-       </div>    
-      {markers.map((marker) => (
-        <Marker key={marker.id} marker={marker} onClick={handleMarkerClick} />
+      </div> 
+      <div>
+          <input style={{display: isOpen ? "block" : "none"}} type="text" placeholder="Buscar" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} className = "search-bar"/>
+      </div>   
+      {filteredMarkers.map((marker) => (
+      <Marker key={marker.id} marker={marker} onClick={handleMarkerClick} />
       ))}
     </div>
   );

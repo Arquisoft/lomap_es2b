@@ -1,7 +1,7 @@
 .sidebar {
     background-color: #f8f8f8;
     height: calc(100vh - 3em);
-    width: 500px;
+    width: 400px;
     position: absolute;
     z-index: 100;
     top: 0;
@@ -64,4 +64,11 @@
     text-align: center;
   }
 
+  .search-bar {
+    position: relative; 
+    width: 300px; 
+    height: 20px;
+    margin: 0 auto; 
+    border-radius: 0.5em;
+  }
   
