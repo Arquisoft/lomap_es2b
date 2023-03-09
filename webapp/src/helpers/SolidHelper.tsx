@@ -2,7 +2,7 @@
 import { getSolidDataset,getStringNoLocale,Thing,getThing} from "@inrupt/solid-client";
 import { FOAF } from "@inrupt/vocab-common-rdf";
 import {MarkerType} from "../types/Marker";
-import { getFile, isRawData, getContentType, getSourceUrl, } from "@inrupt/solid-client";
+import { getFile, overwriteFile, getContentType, getSourceUrl, } from "@inrupt/solid-client";
 import { fetch } from "@inrupt/solid-client-authn-browser";
 
 async function getProfile(webId: string){
@@ -37,6 +37,28 @@ export async function readMarkerFromPod(webId?:string ) {
       }
     return markers;
 };
+
+export async function saveMarkerToPod(markers:MarkerType[], webId?:string) {
+    
+    let profileDocumentURI = webId?.split("profile")[0];
+    let targetFileURL = profileDocumentURI+'private/Markers.json';
+    let str=JSON.stringify(markers);
+    const bytes = new TextEncoder().encode(str);
+    const blob = new Blob([bytes], {
+        type: "application/json;charset=utf-8"
+    });
+    try {
+        const savedFile = await overwriteFile(  
+          targetFileURL,                              // URL for the file.
+          blob,                                       // File
+          { contentType: blob.type, fetch: fetch }    // mimetype if known, fetch from the authenticated session
+        );
+        console.log(`File saved at ${getSourceUrl(savedFile)}`);
+      } catch (error) {
+        console.error(error);
+    }
+};
+
     
 
 
