@@ -1,7 +1,7 @@
 import { TextField, Button } from '@mui/material'
 import { LngLat } from 'mapbox-gl';
 import { useState } from 'react';
-import './AddPopup.css'
+import styled from 'styled-components'
 
 interface Props{
     visible:boolean;
@@ -30,19 +30,25 @@ function AddPopup( props: Props){
 
     if(props.visible){
         return(
-            <div className="addPopup-container">
-                <form onSubmit={(e)=>handleSubmit(e)}>
-                    <p>Introduce los datos del nuevo marcador</p>
-                    <p><label htmlFor="Nombre">Nombre:</label></p>
-                    <TextField className='field' id='Nombre' label='Nombre' variant='standard' onChange={(e)=>handleChangeName(e.target.value)}/>
-                    <p><label htmlFor="Descripcion">Descripcion:</label></p>
-                    <TextField className='field' id='Descripcion' label='Descripcion' variant='standard' multiline maxRows={4} onChange={(e)=>handleChangeDescription(e.target.value)}/>         
-                    <p><label>Coordenadas(LngLat):</label></p>
-                    <TextField disabled label={props.lngLat?.lng} variant='standard' />
-                    <TextField disabled label={props.lngLat?.lat} variant='standard'/>
-                    <p><Button type='submit' color='success' variant='contained'>Anadir</Button></p>
-                </form>
-            </div>
+            <PopupContainer>
+                <Form onSubmit={(e)=>handleSubmit(e)}>
+                    <h2>Introduce los datos del nuevo marcador</h2>
+                    <FormGroup>
+                        <label htmlFor="Nombre">Nombre:</label>
+                        <TextField className='field' id='Nombre' label='Nombre' variant='standard' onChange={(e)=>handleChangeName(e.target.value)}/>
+                    </FormGroup>
+                    <FormGroup>
+                        <label htmlFor="Descripcion">Descripcion:</label>
+                        <TextField className='field' id='Descripcion' label='Descripcion' variant='standard' multiline maxRows={4} onChange={(e)=>handleChangeDescription(e.target.value)}/>         
+                    </FormGroup>
+                    <FormGroup>
+                        <label>Coordenadas(LngLat):</label>
+                        <TextField disabled label={props.lngLat?.lng} variant='standard' />
+                        <TextField disabled label={props.lngLat?.lat} variant='standard' />
+                    </FormGroup>
+                    <p><Button style={{float:'right'}} type='submit' color='success' variant='contained'>Anadir</Button></p>
+                </Form>
+            </PopupContainer>
         )
     }else{
         return(
@@ -50,8 +56,25 @@ function AddPopup( props: Props){
         )
     }
 
-
-   
 }
+
+const PopupContainer = styled.div`
+    z-index: 1050;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+`
+
+const Form = styled.form`
+    background-color: #fff;
+    padding: 1.5em;
+`
+
+const FormGroup = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+`
 
 export default AddPopup

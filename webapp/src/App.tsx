@@ -9,8 +9,6 @@ import {
 } from "@inrupt/solid-client-authn-browser";
 import { MarkerContext, Types } from './context/MarkersContext';
 
-
-
 function App(): JSX.Element {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -18,10 +16,10 @@ function App(): JSX.Element {
 
   const { dispatch } = useContext(MarkerContext)
 
+
   session.onLogin(()=>{
     setIsLoggedIn(true)
-    //TODO Cargar los marcadores desde solid y guardarlos usando
-    // dispatch({ type: Types.SET, payload: { markers: <Array de marcadores> } })
+    //dispatch({ type: Types.SET, payload: { markers:  } })
   })
 
   //We have logged out
@@ -32,10 +30,9 @@ function App(): JSX.Element {
   })
 
   return (
-    // <SessionProvider sessionId="log-in-example">
-    //   {(!isLoggedIn) ? <Login/> : <Map/>}
-    // </SessionProvider>
-    <Map />
+    <SessionProvider sessionId="log-in-example">
+      {(!isLoggedIn) ? <Login/> : <Map/>}
+    </SessionProvider>
   );
 }
 
