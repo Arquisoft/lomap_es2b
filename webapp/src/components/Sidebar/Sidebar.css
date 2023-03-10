@@ -6,7 +6,6 @@
     z-index: 100;
     top: 0;
     left: 0;
-    margin: 1.0em;
     border-radius: 0.5em;
     transition: transform 0.3s ease-in-out;
 }
@@ -19,7 +18,6 @@
     z-index: 100;
     top: 0;
     left: 0;
-    margin: 1.0em;
     border-radius: 0.5em;
     transition: transform 0.3s ease-in-out;
 }
@@ -31,7 +29,6 @@
 }
 
 .bars{
-  display: flex;
   font-size: 25px;
   margin-left: 50px;
   position: relative;
@@ -50,6 +47,7 @@
     left: 0;
     margin: 0.5em;
     border-radius: 0.5em;
+    border: none;
   }
   
   .marker:hover {

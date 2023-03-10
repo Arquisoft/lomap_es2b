@@ -33,8 +33,8 @@ const Sidebar = () => {
   return (
     <div className={`sidebar ${isOpen ? "open" : "closed"}`}>
       <div className="top_section" >
-        <h1 style={{display: isOpen ? "block" : "none"}} className="title">Marcadores</h1>
-        <div style={{marginLeft: isOpen ? "200px" : "35px"}} className = "bars">
+        <h1 style={{display: isOpen ? "block" : "none"}} className="title">Puntos de interes</h1>
+        <div style={{marginLeft: isOpen ? "150px" : "35px"}} className = "bars">
             <FaBars onClick={toggleSidebar}/>
         </div>
       </div> 
