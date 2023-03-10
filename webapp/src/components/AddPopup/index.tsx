@@ -16,12 +16,10 @@ function AddPopup( props: Props){
 
     function handleChangeName(name:string){
         setName(name)
-        console.log(name)
     }
 
     function handleChangeDescription(description:string){
         setDescription(description)
-        console.log(description)
     }
 
     function handleSubmit(e:React.FormEvent){
@@ -36,13 +34,13 @@ function AddPopup( props: Props){
                 <form onSubmit={(e)=>handleSubmit(e)}>
                     <p>Introduce los datos del nuevo marcador</p>
                     <p><label htmlFor="Nombre">Nombre:</label></p>
-                    <TextField id='Nombre' label='Nombre' variant='standard' onChange={(e)=>handleChangeName(e.target.value)}/>
+                    <TextField className='field' id='Nombre' label='Nombre' variant='standard' onChange={(e)=>handleChangeName(e.target.value)}/>
                     <p><label htmlFor="Descripcion">Descripcion:</label></p>
-                    <TextField id='Descripcion' label='Descripcion' variant='standard' multiline maxRows={4} onChange={(e)=>handleChangeDescription(e.target.value)}/>
-                    <p><Button type='submit' color='success' variant='contained'>Anadir</Button></p>
+                    <TextField className='field' id='Descripcion' label='Descripcion' variant='standard' multiline maxRows={4} onChange={(e)=>handleChangeDescription(e.target.value)}/>         
                     <p><label>Coordenadas(LngLat):</label></p>
-                    <TextField disabled label={props.lngLat?.lng} variant='outlined' />
-                    <TextField disabled label={props.lngLat?.lat} variant='outlined'/>
+                    <TextField disabled label={props.lngLat?.lng} variant='standard' />
+                    <TextField disabled label={props.lngLat?.lat} variant='standard'/>
+                    <p><Button type='submit' color='success' variant='contained'>Anadir</Button></p>
                 </form>
             </div>
         )

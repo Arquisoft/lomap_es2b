@@ -28,7 +28,6 @@ const MapPage = () : JSX.Element => {
     if(lngLat===undefined){
       return
     }
-    console.log(markers.length+1)
     var newMarker:IMarker={id: markers.length+1, name: name, address: "Value 1", lat: lngLat.lat, lng: lngLat.lng, date: new Date, images: miArreglo, description: description, category: miArreglo, comments: miArreglo, score: 10}
     setMarkers([...markers,newMarker])
     setPopupVisible(false)

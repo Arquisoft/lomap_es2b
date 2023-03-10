@@ -5,9 +5,18 @@
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: aliceblue;
-    padding: 1em;
-    border-radius: 5%;
+    padding: 1.5em;
+    border-radius: 3%;
     border-style: solid;
-    border-color: black;
+    border-width: 0.2em;
+    border-color: rgb(0, 145, 255);
+}
+
+.field{
+    width:100%;
+}
+
+[type='submit']{
+    float:right
 }
 

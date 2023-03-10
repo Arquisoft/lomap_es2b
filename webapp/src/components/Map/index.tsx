@@ -34,6 +34,7 @@ const MapComponent = ({onClick, markers}:Props) => {
     }
   }
   
+  
   useEffect(locateUser,[map])
 
   return (
