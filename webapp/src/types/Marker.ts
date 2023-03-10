@@ -1,4 +1,4 @@
-export interface Marker {
+export interface IMarker {
   id: number
   name: string
   address?: string
