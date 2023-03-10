@@ -1,4 +1,5 @@
 export interface Marker {
+  id: number
   name: string
   address?: string
   lat: number

@@ -1,13 +1,19 @@
 import { useEffect, useState } from 'react'
-import Map, { useMap } from 'react-map-gl'
+import Map, { LngLat, useMap } from 'react-map-gl'
 import { CircularProgress } from '@mui/material'
 
 import { mapboxApiKey } from '../../config/constants'
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import './Map.css'
+import { Marker } from '../../types/Marker';
 
-const MapComponent = () => {
+interface Props{
+    onClick:(lngLat:LngLat)=>void;
+    markers: Marker[];
+}
+
+const MapComponent = ({onClick}:Props) => {
 
   const [isLoading , setIsLoading] = useState(true)
 
@@ -34,6 +40,7 @@ const MapComponent = () => {
         isLoading ?
         <CircularProgress className='loader' />
         : 
+
         <Map id='map' initialViewState={{
           latitude: 43.3602900, 
           longitude: 5.8447600, 
@@ -42,7 +49,10 @@ const MapComponent = () => {
           onLoad={locateUser}
           mapboxAccessToken={mapboxApiKey}
           mapStyle="mapbox://styles/mapbox/streets-v9"
-        />
+          onClick={(MapLayerMouseEvent)=>{onClick(MapLayerMouseEvent.lngLat)}
+        }>
+          
+        </Map>
       }
     </>
   )

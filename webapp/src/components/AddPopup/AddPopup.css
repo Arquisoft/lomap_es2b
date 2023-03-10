@@ -1,0 +1,13 @@
+.addPopup-container{
+    z-index: 1050;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: aliceblue;
+    padding: 1em;
+    border-radius: 5%;
+    border-style: solid;
+    border-color: black;
+}
+
