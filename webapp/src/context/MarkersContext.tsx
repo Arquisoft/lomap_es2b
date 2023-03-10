@@ -1,5 +1,5 @@
 import { createContext, Dispatch, useReducer } from "react";
-import { Marker } from '../types/Marker';
+import { IMarker } from '../types/IMarker';
 
 export enum Types {
   ADD = 'ADD_MARKER',
@@ -10,12 +10,12 @@ export enum Types {
 type MarkerActions = {
   type: Types.ADD;
   payload: {
-      marker: Marker;
+      marker: IMarker;
   };
 } | {
   type: Types.SET;
   payload: {
-      markers: Marker[];
+      markers: IMarker[];
   };
 } | {
   type: Types.DELETE;
@@ -24,9 +24,9 @@ type MarkerActions = {
   };
 }
 
-export const MarkerContext = createContext<{ state: Marker[], dispatch: Dispatch<MarkerActions> }>({state: [], dispatch: () => null})
+export const MarkerContext = createContext<{ state: IMarker[], dispatch: Dispatch<MarkerActions> }>({state: [], dispatch: () => null})
 
-export const markerReducer = (state:Marker[], action: MarkerActions) : Marker[] => {
+export const markerReducer = (state:IMarker[], action: MarkerActions) : IMarker[] => {
   switch (action.type) {
     case Types.SET: 
       return action.payload.markers

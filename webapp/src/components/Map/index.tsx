@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Map, { LngLat, Marker, useMap } from 'react-map-gl'
 import { CircularProgress } from '@mui/material'
 
@@ -6,20 +6,20 @@ import { mapboxApiKey } from '../../config/constants'
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import './Map.css'
-import { IMarker } from '../../types/Marker';
+import { IMarker } from '../../types/IMarker';
+import { MarkerContext } from '../../context/MarkersContext';
 
 interface Props{
     onClick:(lngLat:LngLat,visible:boolean)=>void;
-    markers: IMarker[];
 }
 
-const MapComponent = ({onClick, markers}:Props) => {
+const MapComponent = ({onClick,}:Props) => {
 
   const [isLoading , setIsLoading] = useState(true)
 
   const { map } = useMap()
 
-
+  const { state: markers } = useContext(MarkerContext)
 
   const locateUser = () => {
     if ("geolocation" in navigator) {

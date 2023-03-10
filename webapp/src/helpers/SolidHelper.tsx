@@ -1,9 +1,10 @@
 
-import { getSolidDataset,getStringNoLocale,Thing,getThing} from "@inrupt/solid-client";
+import { getSolidDataset,getStringNoLocale,Thing,getThing, saveFileInContainer} from "@inrupt/solid-client";
 import { FOAF } from "@inrupt/vocab-common-rdf";
-import {MarkerType} from "../types/Marker";
+import { IMarker } from "../types/IMarker";
 import { getFile, overwriteFile, getContentType, getSourceUrl, } from "@inrupt/solid-client";
 import { fetch } from "@inrupt/solid-client-authn-browser";
+
 
 async function getProfile(webId: string){
     let profileDocumentURI = webId.split("#")[0]; 
@@ -23,23 +24,43 @@ export async function getNameFromPod(webId: string) {
 
 
 export async function readMarkerFromPod(webId?:string ) {
-    let markers : MarkerType[] = []
+    let markers : IMarker[] = []
     let profileDocumentURI = webId?.split("profile")[0];
     try {
         const file = await getFile(
             profileDocumentURI+'private/Markers.json',
             { fetch: fetch },
-        );
-        console.log(`Fetched a ${getContentType(file)} file from ${getSourceUrl(file)}.`);
-        markers=JSON.parse(await file.text());
+        ).then(async () => {
+            const file = await getFile(
+                profileDocumentURI+'private/Markers.json',
+                { fetch: fetch },
+            )     
+            console.log(`Fichero: ${getContentType(file)} leído de la url: ${getSourceUrl(file)}.`);
+            markers=JSON.parse(await file.text());
+        }).catch(async err => {
+            console.log("Fichero Markers.json creado");
+            const blob = new Blob([], {
+                type: "application/json;charset=utf-8"
+            })
+            const createFile = await saveFileInContainer(
+                profileDocumentURI+'private/',
+                blob,
+                { slug: "Markers.json", contentType: blob.type, fetch: fetch }
+            );
+        });
       } catch (err) {
         console.log(err);
       }
     return markers;
 };
 
-export async function saveMarkerToPod(markers:MarkerType[], webId?:string) {
-    
+const checkFIle = async (url:string) => {
+    return fetch(url, { method: "GET" });
+};
+
+
+export async function saveMarkerToPod(markers:IMarker[], webId?:string) {
+    console.log(markers)
     let profileDocumentURI = webId?.split("profile")[0];
     let targetFileURL = profileDocumentURI+'private/Markers.json';
     let str=JSON.stringify(markers);

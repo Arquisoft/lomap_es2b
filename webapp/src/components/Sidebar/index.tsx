@@ -1,25 +1,25 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {FaBars} from "react-icons/fa"
-import { IMarker } from "../../types/Marker";
+import { useMap } from "react-map-gl";
+import { MarkerContext } from "../../context/MarkersContext";
+import { IMarker } from "../../types/IMarker";
 import './Sidebar.css'
 
 const Sidebar = () => {
-  const miArreglo: any[] = [];
-  const [markers, setMarkers] = useState<IMarker[]>([
-    { id: 1, name: "Marker 1", address: "Value 1", lat: 0, lng: 0, date: new Date, images: miArreglo, description: "", category: miArreglo, comments: miArreglo, score: 10},
-    { id: 2, name: "Marker 2", address: "Value 2" , lat: 0, lng: 0, date: new Date, images: miArreglo, description: "", category: miArreglo, comments: miArreglo, score: 10},
-    { id: 3, name: "Marker 3", address: "Value 3" , lat: 0, lng: 0, date: new Date, images: miArreglo, description: "", category: miArreglo, comments: miArreglo, score: 10},
-  ]);
 
-  const [isOpen, setIsOpen] = useState(false); // Nuevo estado para controlar la apertura/cierre de la barra lateral
-  const [searchValue, setSearchValue] = useState("");
+  const { map  } = useMap()
 
-  const handleMarkerClick = (id: number) => {
-    const selectedMarker = markers.find((marker) => marker.id === id);
-  };
+  const { state: markers } = useContext(MarkerContext)
+
+  const [isOpen, setIsOpen] = useState(false) // Nuevo estado para controlar la apertura/cierre de la barra lateral
+  const [searchValue, setSearchValue] = useState("")
+
+  const handleMarkerClick = (marker: IMarker) => {
+    map?.flyTo({ center: { lat: marker.lat, lng: marker.lng }, zoom: 16 })
+  }
 
   const toggleSidebar = () => { // Nueva función para cambiar el estado de la barra lateral
-    setIsOpen(!isOpen);
+    setIsOpen(!isOpen)
   }
 
   const sideBarOpen = () =>{
@@ -27,14 +27,14 @@ const Sidebar = () => {
   }
 
   const filteredMarkers = markers.filter((marker) => {
-    return marker.name.toLowerCase().includes(searchValue.toLowerCase());
-  });
+    return marker.name.toLowerCase().includes(searchValue.toLowerCase())
+  })
 
   return (
     <div className={`sidebar ${isOpen ? "open" : "closed"}`}>
       <div className="top_section" >
-        <h1 style={{display: isOpen ? "block" : "none"}} className="title">Puntos de interes</h1>
-        <div style={{marginLeft: isOpen ? "150px" : "35px"}} className = "bars">
+        { isOpen ? <h1 className="title">Puntos de interés</h1> : null }
+        <div className = "bars">
             <FaBars onClick={toggleSidebar}/>
         </div>
       </div> 
@@ -45,25 +45,22 @@ const Sidebar = () => {
       <Marker key={marker.id} marker={marker} onClick={handleMarkerClick} />
       ))}
     </div>
-  );
-};
+  )
+}
 
 interface MarkerProps {
-  marker: IMarker;
-  onClick: (id: number) => void;
+  marker: IMarker
+  onClick: (marker: IMarker) => void
 }
 
 const Marker = ({ marker, onClick }: MarkerProps) => {
-  const handleClick = () => {
-    onClick(marker.id);
-  };
 
   return (
-    <div className="marker" onClick={handleClick} >
+    <div className="marker" onClick={() => onClick(marker)} >
       <h3>{marker.name}</h3>
-      <p>{marker.address}</p>
+      <p>{marker.description}</p>
     </div>
   );
 };
 
-export default Sidebar;
+export default Sidebar
