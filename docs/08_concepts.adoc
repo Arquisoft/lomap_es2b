@@ -4,7 +4,7 @@
 === Domain model
 
 :imagesdir: images/
-image::Modelo de dominio.PNG[]
+image::Modelo de dominio.png[]
 
 *Caption*
 
