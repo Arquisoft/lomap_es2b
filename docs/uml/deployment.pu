@@ -7,7 +7,8 @@ node WebServer {
     component WebApp
     component RestAPI
 }
-node MapProvider
+
+node Mapbox
 node PodProvider {
     database User_Pod
 }
@@ -18,7 +19,7 @@ User->Device
 
 Device<-->WebServer:https
 WebApp<-->PodProvider:https
-WebApp<--MapProvider:https
+WebApp<--Mapbox:https
 Device<->RestAPI:https
 RestAPI<-->Atlas
 @enduml
