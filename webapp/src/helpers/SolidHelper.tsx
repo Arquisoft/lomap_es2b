@@ -35,10 +35,8 @@ export async function readMarkerFromPod(webId?: string) {
                 profileDocumentURI + 'private/Markers.json',
                 { fetch: fetch },
             )
-            console.log(`Fichero: ${getContentType(file)} leído de la url: ${getSourceUrl(file)}.`);
             markers = JSON.parse(await file.text());
         }).catch(async (err: any) => {
-            console.log("Fichero Markers.json creado");
             const blob = new Blob([], {
                 type: "application/json;charset=utf-8"
             })
