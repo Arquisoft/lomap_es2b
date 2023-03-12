@@ -500,7 +500,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#section-quality-scenarios">10. Quality Requirements</a>
 <ul class="sectlevel2">
 <li><a href="#_quality_tree">10.1. Quality Tree</a></li>
-<li><a href="#_quality_scenarios">10.2. Quality Scenarios</a></li>
 </ul>
 </li>
 <li><a href="#section-technical-risks">11. Risks and Technical Debts</a>
@@ -989,10 +988,18 @@ Refer to details in the following sections.</p>
 </div>
 <div class="sect2">
 <h3 id="_decisions_on_achieving_key_quality_goals">4.3. Decisions on achieving key quality goals</h3>
-<div class="paragraph">
-<p>One of the key quality goals of the project is to keep user&#8217;s data private. For this reason we will use the SOLID POD, which decentrilizes that data.
-Another important quality goal is usability and user experience. For this we will make our application as intuitive and simple as posible.
-The last quality goal is accessibility. However, as the main part of the UI is a map, it is very difficult to make it trully accesible, so it won&#8217;t be the top priority when designing and developing the application.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>One of the key quality goals of the project is to keep user&#8217;s data private. For this reason we will use the SOLID POD, which decentrilizes that data.</p>
+</li>
+<li>
+<p>Another important quality goal is usability and user experience. For this we will make our application as intuitive and simple as posible.</p>
+</li>
+<li>
+<p>The last quality goal is accessibility. However, as the main part of the UI is a map, it is very difficult to make it trully accesible, so it won&#8217;t be the top priority when designing and developing the application.</p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect2">
@@ -1248,8 +1255,8 @@ when your infrastructure is more complex.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">This is the NoSQL database we will use to store data that is public for all users.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MapProvider</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">It is the third party map API we will use to display the user&#8217;s marks and info.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mapbox</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">To display the user markers we will use Mapbox as the map provider.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PodProvider</p></td>
@@ -1404,6 +1411,12 @@ when your infrastructure is more complex.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Some of the disadvantages are that it has an unstable API, the code can be difficult to debug, and it is a young technology.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/Arquisoft/lomap_es2b/wiki/RDA-%233:-Framework-para-Backend">Decision #05</a></p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MapBox</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It is a free library that offers us a wide range of tools and options to customize and design maps, it is also compatible with a large number of platforms and offers extensive documentation.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Requires a learning curve for new users, some of the customizations and map layouts can be complex as well as vendor dependency.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/Arquisoft/lomap_es2b/wiki/RDA-%236:-Librar%C3%ADa-para-Mapa">Decision #06</a></p></td>
+</tr>
 </tbody>
 </table>
 <div style="page-break-after: always;"></div>
@@ -1416,49 +1429,53 @@ when your infrastructure is more complex.</p>
 <h3 id="_quality_tree">10.1. Quality Tree</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Quality%20tree.png" alt="Quality tree" width="249" height="314">
+<img src="./images/Quality%20tree.png" alt="Quality tree" width="243" height="310">
 </div>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_quality_scenarios">10.2. Quality Scenarios</h3>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 20%;">
-<col style="width: 40%;">
-<col style="width: 40%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+<col style="width: 37.5%;">
+<col style="width: 12.5%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Quality Goal</th>
-<th class="tableblock halign-left valign-top">Quality Scenario</th>
+<th class="tableblock halign-left valign-top">Quality goal</th>
+<th class="tableblock halign-left valign-top">Motivation</th>
+<th class="tableblock halign-left valign-top">Usage scenarios</th>
 <th class="tableblock halign-left valign-top">Priority</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Privacy</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Protection of end-user data in order to carry out the decentralization of personal data and thereby improve the level of privacy of users with the use of personal pods.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User data must be protected and it must also be done in a decentralized way</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data from users will be retrieved in a decentralized way, from the user’s pod. For this we will use different pod providers such as INRUPT and SOLID. All information related to personal bookmarks will be stored in the pods.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Usability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The system should be able to be used quickly and easily for 90% of the users in less than 3 minutes.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">In order for the page to stand out from the rest and to be easy to use and understand, it has to be usable.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When a user wants to perform any action in Lomap, they will do so without any complications with the help of the interface</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Decentralization</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">To avoid security problems by having all the data in a central base, the personalized maps will be under the control of the users and the shared information will be stored in the personal pod of each one</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Security</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The page has to be very secure to protect user data, because if it were insecure no user would use it.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data must not be accessible for any third parties. Data from users will be stored in a secure system.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Interoperability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Capacity of the information system and the procedures it supports, to share data and enable the exchange of information and knowledge between them.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lomap has to be able to use the data from the other partners' pages without having to modify the code.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">For this, an attempt will be made to speak with the rest of the colleagues through github or other means to formalize the data system that will be used by all.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Medium</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Scalability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">LoMap must be able to grow and increase its functionalities in a simple way without making changes without making changes to the other finished parts</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Portability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Today web page users use many different devices such as phones, computers. Therefore, we want to make the application portable to reach the maximum number of users.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">We will try to make the page as comfortable as possible for different devices, making it more adaptable, usable&#8230;&#8203;</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Medium</p></td>
 </tr>
 </tbody>
@@ -1612,7 +1629,7 @@ Created by Dr. Peter Hruschka &amp; Dr. Gernot Starke.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-02-19 14:20:52 +0100
+Last updated 2023-03-10 21:01:13 +0100
 </div>
 </div>
 </body>
