@@ -76,8 +76,8 @@ Mapping of Building Blocks to Infrastructure::
 | It is the provider of the MongoDB database we will use
 | MongoDB
 | This is the NoSQL database we will use to store data that is public for all users.
-| MapProvider
-| It is the third party map API we will use to display the user's marks and info.
+| Mapbox
+| To display the user markers we will use Mapbox as the map provider.
 | PodProvider
 | This is the third party service where our users' SOLID PODs will be stored
 | User_Pod
