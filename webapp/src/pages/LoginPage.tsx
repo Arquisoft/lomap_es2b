@@ -5,7 +5,6 @@ import styled from 'styled-components'
 
 import { login } from "@inrupt/solid-client-authn-browser";
 import { Button } from '@mui/material';
-import './login.css'
 
 const Login = ({  }) : JSX.Element => {
 
@@ -103,14 +102,32 @@ const Container = styled.div`
       font-family: 'Oswald', sans-serif;
       margin: 0.2em 0;
     }
+
+    @media only screen and (max-width: 600px) {
+      width: 100%;
+    }
   }
 
   .column:nth-child(3) > .title {
     display: none;
+
+    @media only screen and (max-width: 600px) {
+      display: block;
+    }
+  }
+
+  .column:first-child {
+    @media only screen and (max-width: 600px) {
+      display: none;
+    }
   }
 
   .divider {
     background-color: #d3d3d3;
+
+    @media only screen and (max-width: 600px) {
+      display: none;
+    }
   }
 `
 
