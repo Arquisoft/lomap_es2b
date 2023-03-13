@@ -1,0 +1,1 @@
+export const mapboxApiKey = "pk.eyJ1IjoidW8yODI4MjMiLCJhIjoiY2xlbXVodWN1MDFsbjNzdDVsb2NjdDZ4ZSJ9.OhmnN55rwagDTZa4LrGZ8A"

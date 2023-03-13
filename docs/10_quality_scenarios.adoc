@@ -8,23 +8,46 @@
 left to right direction
 (Privacy) as (Pr)
 (Usability) as (U)
-(Decentralization) as (S)
+(Security) as (S)
 (Interoperability) as (I)
-(Scalability) as (A)
+(Portability) as (P)
 User --> Pr
 User --> U
 User --> S
 User --> I
-User --> A
+User --> P
 ----
-
-=== Quality Scenarios
-[options="header",cols="1,2,2"]
+[options="header",cols="1,3,3,1"]
 |===
-|Quality Goal|Quality Scenario|Priority
-| Privacy | Protection of end-user data in order to carry out the decentralization of personal data and thereby improve the level of privacy of users with the use of personal pods. | High
-| Usability | The system should be able to be used quickly and easily for 90% of the users in less than 3 minutes. | High
-| Decentralization | To avoid security problems by having all the data in a central base, the personalized maps will be under the control of the users and the shared information will be stored in the personal pod of each one| High
-| Interoperability | Capacity of the information system and the procedures it supports, to share data and enable the exchange of information and knowledge between them.| Medium
-| Scalability | LoMap must be able to grow and increase its functionalities in a simple way without making changes without making changes to the other finished parts| Medium
+|Quality goal
+|Motivation
+|Usage scenarios
+|Priority
+
+
+| Privacy 
+| User data must be protected and it must also be done in a decentralized way 
+| Data from users will be retrieved in a decentralized way, from the user’s pod. For this we will use different pod providers such as INRUPT and SOLID. All information related to personal bookmarks will be stored in the pods.
+| High
+
+| Usability 
+| In order for the page to stand out from the rest and to be easy to use and understand, it has to be usable.
+| When a user wants to perform any action in Lomap, they will do so without any complications with the help of the interface 
+| High
+
+
+| Security 
+| The page has to be very secure to protect user data, because if it were insecure no user would use it.
+| Data must not be accessible for any third parties. Data from users will be stored in a secure system.
+| High
+
+| Interoperability 
+| Lomap has to be able to use the data from the other partners' pages without having to modify the code.
+| For this, an attempt will be made to speak with the rest of the colleagues through github or other means to formalize the data system that will be used by all.
+| Medium
+
+| Portability
+| Today web page users use many different devices such as phones, computers. Therefore, we want to make the application portable to reach the maximum number of users.
+| We will try to make the page as comfortable as possible for different devices, making it more adaptable, usable...
+| Medium
 |===
