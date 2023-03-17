@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { NavbarContainer, Logo, NavLinks, NavLink } from "./Styles";
+import { NavbarContainer, Logo, NavLinks, NavLink, SearchBar } from "./Styles";
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -26,6 +26,7 @@ const Navbar = () => {
   return (
     <NavbarContainer>
       <Logo>LoMap</Logo>
+      <SearchBar placeholder="Buscar lugar" />
       <NavLinks>
         <NavLink href="#">Home</NavLink>
         <NavLink href="#">About</NavLink>
