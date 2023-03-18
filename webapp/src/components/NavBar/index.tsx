@@ -7,13 +7,24 @@ import Menu from '@mui/material/Menu';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import About from '../../pages/About';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const settings = ['Profile','Logout'];
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+
+  const linksArray=[
+    {
+      label: "Home",
+      to: "/"
+    },
+    {
+      label: "About",
+      to: "/about"
+    }
+  ];
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -27,10 +38,11 @@ const Navbar = () => {
     <NavbarContainer>
       <Logo>LoMap</Logo>
       <SearchBar placeholder="Buscar lugar" />
-      <NavLinks>
-        <NavLink href="#">Home</NavLink>
-        <NavLink href="#">About</NavLink>
-      </NavLinks>
+      {linksArray.map(({label, to}) =>(
+        <NavLink key={label}>
+          <span>{label}</span>
+        </NavLink>
+      ))}
       <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
