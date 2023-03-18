@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
-import Map, { LngLat, Marker, useMap } from 'react-map-gl'
-import { CircularProgress } from '@mui/material'
+import Map, { LngLat, Marker, useMap,Popup} from 'react-map-gl'
+import { CircularProgress,TextField } from '@mui/material'
 
 import { mapboxApiKey } from '../../config/constants'
 
@@ -13,9 +13,13 @@ interface Props{
     onClick:(lngLat:LngLat,visible:boolean)=>void;
 }
 
+
+
 const MapComponent = ({onClick,}:Props) => {
 
   const [isLoading , setIsLoading] = useState(true)
+
+  
 
   const { map } = useMap()
 
@@ -33,6 +37,13 @@ const MapComponent = ({onClick,}:Props) => {
       setIsLoading(false)
     }
   }
+
+
+  const [infoVisible,setInfoVisible] = useState<IMarker|null>(null);
+
+
+
+ 
   
   
   useEffect(locateUser,[map])
@@ -52,18 +63,42 @@ const MapComponent = ({onClick,}:Props) => {
           onLoad={locateUser}
           mapboxAccessToken={mapboxApiKey}
           mapStyle="mapbox://styles/mapbox/streets-v9"
-          onClick={(MapLayerMouseEvent)=>{onClick(MapLayerMouseEvent.lngLat,false)}}
           onDblClick={(MapLayerMouseEvent)=>{onClick(MapLayerMouseEvent.lngLat,true)
             MapLayerMouseEvent.preventDefault()
           }
         }>
+
+       
           {markers.map((marker,index)=>
-          <Marker 
+          <Marker style={{cursor:"pointer"}} 
           key={marker.id}
           longitude={marker.lng}
           latitude={marker.lat}
+          onClick={(e)=>{
+            e.originalEvent.stopPropagation()
+            setInfoVisible(marker)
+
+          }}
           />
           )}
+
+
+          {infoVisible && (
+          <Popup 
+          longitude={infoVisible.lng}
+          latitude={infoVisible.lat}
+          onClose={()=>setInfoVisible(null)}
+          closeOnMove={false}
+          >
+            <p>{infoVisible.name}</p>
+            <TextField  label="Descripcion" defaultValue={infoVisible.description}
+            InputProps={{
+              readOnly: true,
+            }}
+            />
+
+             </Popup>
+        )}
         </Map>
       }
     </>

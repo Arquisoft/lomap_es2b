@@ -1,12 +1,13 @@
 import { TextField, Button } from '@mui/material'
 import { LngLat } from 'mapbox-gl';
 import { useState } from 'react';
-import styled from 'styled-components'
+import {FormGroup,PopupContainer,CloseButton} from "./AddPopup";
 
 interface Props{
     visible:boolean;
     lngLat:LngLat|undefined;
     addMark:(name:string, lngLat:LngLat|undefined,description:string)=>void;
+    setPopupVisible:(visible:boolean)=>void;
 }
 
 function AddPopup( props: Props){
@@ -30,8 +31,11 @@ function AddPopup( props: Props){
 
     if(props.visible){
         return(
-            <PopupContainer>
-                <Form onSubmit={(e)=>handleSubmit(e)}>
+            
+                 <PopupContainer>
+                    <CloseButton onClick={()=> props.setPopupVisible(false)} />
+                <form onSubmit={(e)=>handleSubmit(e)}>
+                    
                     <h2>Introduce los datos del nuevo marcador</h2>
                     <FormGroup>
                         <label htmlFor="Nombre">Nombre:</label>
@@ -47,8 +51,11 @@ function AddPopup( props: Props){
                         <TextField disabled label={props.lngLat?.lat} variant='standard' />
                     </FormGroup>
                     <p><Button style={{float:'right'}} type='submit' color='success' variant='contained'>Anadir</Button></p>
-                </Form>
+                </form>
             </PopupContainer>
+            
+
+           
         )
     }else{
         return(
@@ -58,23 +65,6 @@ function AddPopup( props: Props){
 
 }
 
-const PopupContainer = styled.div`
-    z-index: 1050;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-`
 
-const Form = styled.form`
-    background-color: #fff;
-    padding: 1.5em;
-`
-
-const FormGroup = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: left;
-`
 
 export default AddPopup
