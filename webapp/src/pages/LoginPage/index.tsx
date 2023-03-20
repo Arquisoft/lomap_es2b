@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 
 import { Autocomplete, TextField, Divider, Box } from '@mui/material'
 import styled from 'styled-components'
-
 import { login } from "@inrupt/solid-client-authn-browser";
 import { Button } from '@mui/material';
 import './login.css'

@@ -3,6 +3,13 @@ name: CI for LOMAP_ES2B
 on:
   release:
     types: [published]
+  pull_request:
+    branches:
+      - master
+      - develop
+  push:
+    branches:
+      - develop
 
 jobs:
   unit-test-webapp:
