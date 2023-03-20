@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState} from 'react'
 
 import { Autocomplete, TextField, Divider, Box } from '@mui/material'
 import styled from 'styled-components'
@@ -6,7 +6,7 @@ import { login } from "@inrupt/solid-client-authn-browser";
 import { Button } from '@mui/material';
 import './login.css'
 
-const Login = ({  }) : JSX.Element => {
+const Login = () : JSX.Element => {
 
   const [identity, setIdentity] = useState<ProviderOption | null>({ label: '', url: '' })
 

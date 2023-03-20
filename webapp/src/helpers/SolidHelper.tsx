@@ -2,7 +2,7 @@
 import { getSolidDataset, getStringNoLocale, Thing, getThing, saveFileInContainer } from "@inrupt/solid-client";
 import { FOAF } from "@inrupt/vocab-common-rdf";
 import { IMarker } from "../types/IMarker";
-import { getFile, overwriteFile, getContentType, getSourceUrl, } from "@inrupt/solid-client";
+import { getFile, overwriteFile} from "@inrupt/solid-client";
 import { fetch } from "@inrupt/solid-client-authn-browser";
 
 
@@ -27,7 +27,7 @@ export async function readMarkerFromPod(webId?: string) {
     let markers: IMarker[] = []
     let profileDocumentURI = webId?.split("profile")[0];
     try {
-        const file = await getFile(
+        await getFile(
             profileDocumentURI + 'private/Markers.json',
             { fetch: fetch },
         ).then(async () => {
@@ -40,7 +40,7 @@ export async function readMarkerFromPod(webId?: string) {
             const blob = new Blob([], {
                 type: "application/json;charset=utf-8"
             })
-            const createFile = await saveFileInContainer(
+            await saveFileInContainer(
                 profileDocumentURI + 'private/',
                 blob,
                 { slug: "Markers.json", contentType: blob.type, fetch: fetch }
@@ -64,7 +64,7 @@ export async function saveMarkerToPod(markers: IMarker[], webId?: string) {
             type: "application/json;charset=utf-8"
         });
         try {
-            const savedFile = await overwriteFile(
+            await overwriteFile(
                 targetFileURL,                              // URL for the file.
                 blob,                                       // File
                 { contentType: blob.type, fetch: fetch }    // mimetype if known, fetch from the authenticated session
