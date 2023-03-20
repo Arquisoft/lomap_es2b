@@ -1,0 +1,7 @@
+POST http://localhost:5000/api/friends/addFriend
+Content-Type: application/json
+Web-Id: https://adrimr02.inrupt.net/
+
+{
+  "friendWebId": "juan@email.com"
+}
