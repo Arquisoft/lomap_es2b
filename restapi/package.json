@@ -4,7 +4,7 @@
   "main": "src/server.ts",
   "scripts": {
     "start": "ts-node-dev src/server.ts",
-    "test": "cross-env NODE_ENV=test jest --runInBand"
+    "test": "cd tests && jest --runInBand --detectOpenHandles"
   },
   "keywords": [],
   "author": "lomap_es2b",
