@@ -38,7 +38,7 @@ export default function() {
     return {
       dbUser: process.env.MONGODB_USERNAME,
       dbPass: process.env.MONGODB_PASSWORD,
-      dbName: process.env.MONGODB_TEST_DATABASE_NAME,
+      dbName: process.env.MONGODB_TEST_DATABASE_NAME || '',
       dbHost: process.env.MONGODB_HOST,
       jwtToken: process.env.JWT_TOKEN,
       port: process.env.PORT,

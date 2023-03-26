@@ -1,11 +1,10 @@
 import { Response } from "express"
-import { IncomingHttpHeaders } from "http"
 
 import UserModel from "../model/userModel"
-import { FriendsRequest, IFriendBody } from "../types/FriendRequest"
+import { CustomRequest, IFriendBody } from "../types/FriendRequest"
 import { IRestApiResponse } from "../types/IRestApiResponse"
 
-const getFriends = async (req:FriendsRequest<{}>, res:Response<IRestApiResponse,any>) => {
+const getFriends = async (req:CustomRequest<{}>, res:Response<IRestApiResponse,any>) => {
   const userWebId = res.locals.WebId
 
   try {
@@ -29,7 +28,7 @@ const getFriends = async (req:FriendsRequest<{}>, res:Response<IRestApiResponse,
   }
 }
 
-const addFriend = async (req:FriendsRequest<IFriendBody>, res:Response<IRestApiResponse,any>) => {
+const addFriend = async (req:CustomRequest<IFriendBody>, res:Response<IRestApiResponse,any>) => {
   const userWebId = res.locals.WebIds
   const newFriendWebId = req.body.friendWebId
 

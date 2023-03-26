@@ -4,6 +4,6 @@ export interface IFriendBody {
   friendWebId: string
 }
 
-export interface FriendsRequest<TBody> extends Request {
+export interface CustomRequest<TBody> extends Request {
   body: TBody
 }

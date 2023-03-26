@@ -31,6 +31,7 @@ app.use(cors())
 app.use(bp.json())
 
 app.use("/api/friends", routes.friends)
+app.use("/api", routes.auth)
 
 app.listen(app.get('port'), () : void => {
     console.log('Restapi listening on '+ app.get('port'))
