@@ -58,7 +58,7 @@ export const SearchBar = styled.input<{ isOpen: boolean }>`
   position: relative; 
   width: 300px; 
   height: 20px;
-  margin: 0 auto; 
+  margin: 1em auto; 
   border-radius: 0.3em;
   outline: none;
   border: none;

@@ -7,10 +7,12 @@ import Menu from '@mui/material/Menu';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const settings = ['Profile','Logout'];
+  const pages = ['About'];
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -34,19 +36,35 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
 
+  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElNav(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+
   return (
     <NavbarContainer>
       <Logo>LoMap</Logo>
       <SearchBar placeholder="Buscar lugar" />
-      {linksArray.map(({label, to}) =>(
-        <NavLink key={label}>
-          <span>{label}</span>
-        </NavLink>
-      ))}
+      
+      <Box sx={{ flexGrow: 0.25, display: { xs: 'none', md: 'flex' } }}>
+            {pages.map((page) => (
+              <Button
+                key={page}
+                onClick={handleCloseNavMenu}
+                sx={{ my: 1, color: 'black', display: 'block', fontSize: 17, fontWeight: 'bold'}}
+              >
+                {page}
+              </Button>
+            ))}
+      </Box>
       <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar.jpg" />
+                <Avatar alt="Remy Sharp" src=" " />
               </IconButton>
             </Tooltip>
             <Menu
@@ -71,7 +89,7 @@ const Navbar = () => {
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
+        </Box>
     </NavbarContainer>
   );
 };

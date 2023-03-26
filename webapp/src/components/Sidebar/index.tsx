@@ -1,3 +1,4 @@
+import { List } from "@mui/material";
 import React, { useContext, useState } from "react";
 import {FaBars, FaTimes} from "react-icons/fa"
 import { useMap } from "react-map-gl";
@@ -49,9 +50,21 @@ const Sidebar = () => {
           <FaTimes onClick={toggleSidebar}/>
         </CloseSection>
       )}
-      {filteredMarkers.map((marker) => (
-        <Marker key={marker.id} marker={marker} onClick={handleMarkerClick} />
-      ))}
+      <List
+        sx={{
+          width: '100%',
+          height: '100%',
+          maxWidth: 360,
+          bgcolor: '#f8f8f8',
+          position: 'relative',
+          overflow: 'auto',
+          maxHeight: isOpen ? 400 : 450
+        }}
+      >
+        {filteredMarkers.map((marker) => (
+          <Marker key={marker.id} marker={marker} onClick={handleMarkerClick} />
+        ))}
+    </List>
     </SidebarSection>
   )
 }

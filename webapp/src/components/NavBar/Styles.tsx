@@ -37,13 +37,12 @@ export const NavLink = styled.a`
 
 export const SearchBar = styled.input`
   position: relative; 
-  width: 300px; 
   height: 20px;
   margin: 0 auto; 
   border-radius: 0.3em;
   outline: none;
   border: none;
-  width: 60%;
+  width: 70%;
   background: #eaeaea;
   font-size: 1em;
   padding: 0.3em;
