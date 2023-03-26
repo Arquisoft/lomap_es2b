@@ -38,3 +38,5 @@ app.listen(app.get('port'), () : void => {
     console.error('Error occured: ' + error.message)
 });
 
+export default app
+

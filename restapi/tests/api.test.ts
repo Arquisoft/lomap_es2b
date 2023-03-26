@@ -3,7 +3,6 @@ import express, { Application } from 'express';
 import * as http from 'http';
 import bp from 'body-parser';
 import cors from 'cors';
-import api from '../api';
 
 let app:Application;
 let server:http.Server;
@@ -16,7 +15,7 @@ beforeAll(async () => {
     };
     app.use(cors(options));
     app.use(bp.json());
-    app.use("/api", api)
+    // app.use("/api", api)
 
     server = app.listen(port, ():void => {
         console.log('Restapi server for testing listening on '+ port);

@@ -1,30 +1,27 @@
 import { NextFunction, Request, Response } from "express"
 import jwt from 'jsonwebtoken'
 import { IRestApiResponse } from "../types/IRestApiResponse"
+import axios from 'axios'
+import { Session } from "@inrupt/solid-client-authn-node"
 
 function verifyToken(token:string) {
-  const publicKey = ""// obtain the user's public key from the IDP
-  const options : jwt.VerifyOptions = {
-    algorithms: ["ES256"],
-    audience: 'https://solidcommunity.net',
-    issuer: 'https://solidcommunity.net',
-  }
+  const session = new Session({
 
-  try {
-    const decoded = jwt.verify(token, publicKey, options)
-    return decoded
-  } catch (error) {
-    console.error('Invalid Solid session token:', error.message)
-    return null
-  }
+  }, token)
+
+  console.log(session)
 }
 
 const isAuthorized = (req:Request, res:Response<IRestApiResponse>, next:NextFunction) => {
   //TODO Falta verificar la identidad del usuario
   console.log(`User: ${req.headers['web-id']}`)
-  if (!req.headers['web-id'])
+  if (!req.headers['Web-Id'])
+    return res.status(401).json({ success: false, error: { message: 'User\'s WebId missing in request headers' } })
+  if (!req.headers['Session-Token'])
     return res.status(401).json({ success: false, error: { message: 'User\'s WebId missing in request headers' } })
   
+  verifyToken(req.headers['Session-Token'])
+
   res.locals.WebId=req.headers['web-id']
   next()
 }
