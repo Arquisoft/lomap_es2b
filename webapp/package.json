@@ -53,6 +53,7 @@
     ]
   },
   "devDependencies": {
+    "@inrupt/jest-jsdom-polyfills": "^1.6.0",
     "@types/expect-puppeteer": "^4.4.7",
     "@types/express": "^4.17.15",
     "@types/jest": "^29.2.5",

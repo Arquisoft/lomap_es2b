@@ -23,10 +23,6 @@ const Sidebar = () => {
     setIsOpen(!isOpen)
   }
 
-  const sideBarOpen = () =>{
-    setIsOpen(!isOpen)
-  }
-
   const filteredMarkers = markers.filter((marker) => {
     return marker.name.toLowerCase().includes(searchValue.toLowerCase())
   })

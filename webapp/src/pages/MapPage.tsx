@@ -6,7 +6,7 @@ import Sidebar from '../components/Sidebar';
 import { useContext, useEffect, useState } from 'react';
 import AddPopup from '../components/AddPopup';
 import {IMarker} from '../types/IMarker'
-import { readMarkerFromPod, saveMarkerToPod } from '../helpers/SolidHelper';
+import {saveMarkerToPod } from '../helpers/SolidHelper';
 import { useSession } from '@inrupt/solid-ui-react';
 import { MarkerContext, Types } from '../context/MarkersContext';
 
