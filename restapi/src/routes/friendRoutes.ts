@@ -4,8 +4,8 @@ import { isAuthorized } from '../middlewares/isAuthorized'
 
 const router = Router()
 
-router.get("/getFriends", isAuthorized, getFriends)
+router.get("/all", isAuthorized, getFriends)
 
-router.post("/addFriend", isAuthorized, addFriend)
+router.post("/new", isAuthorized, addFriend)
 
 export default router

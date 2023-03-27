@@ -30,7 +30,7 @@ export const login = async (req:CustomRequest<{ WebId: string }>, res:Response<I
     newUser = true
   }
 
-  const token = createToken(webId)
+  const token = createToken(user._id.toString())
 
   return res.status(200).json({ success: true, data: { token, webId, newUser } })
 }

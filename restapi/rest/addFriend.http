@@ -1,6 +1,6 @@
-POST http://localhost:5000/api/friends/addFriend
+POST http://localhost:5000/api/friends/new
 Content-Type: application/json
-Web-Id: https://adrimr02.inrupt.net/
+Session-Token: 
 
 {
   "friendWebId": "juan@email.com"

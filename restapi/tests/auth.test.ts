@@ -1,20 +1,20 @@
-import express from 'express'
 import request from 'supertest'
 
 import app from '../src/app'
-import { connect, clearAndClose } from './helpers/db'
+import { connect, clearAndClose, addMockData } from './helpers/db'
 
 /**
  * Starts the server connecting to a test DB
  */
-beforeAll(() => {
-  connect()
+beforeAll( async () => {
+  await connect()
+  await addMockData()
 })
 
 describe('POST /api/login', () => {
 
   test('User logs in with a new WebId', async () => {
-    const webId = 'https://user1.inrupt.com'
+    const webId = 'https://user4.inrupt.com'
     const response = await request(app).post('/api/login').send({ WebId: webId })
     expect(response.statusCode).toBe(200)
     expect(response.body.success).toBe(true)
@@ -42,6 +42,6 @@ describe('POST /api/login', () => {
 
 })
 
-afterAll(() => {
-  clearAndClose()
+afterAll( async () => {
+  await clearAndClose()
 })

@@ -1,26 +1,25 @@
-import { Response } from "express"
+import { Request, Response } from "express"
 
 import UserModel from "../model/userModel"
 import { CustomRequest, IFriendBody } from "../types/FriendRequest"
 import { IRestApiResponse } from "../types/IRestApiResponse"
 
-const getFriends = async (req:CustomRequest<{}>, res:Response<IRestApiResponse,any>) => {
-  const userWebId = res.locals.WebId
+const getFriends = async (req:Request, res:Response<IRestApiResponse,any>) => {
+  const userId = res.locals.userId
 
   try {
-    let user = await UserModel.findOne({ webId: userWebId })
+    let user = await UserModel.findById(userId)
     if (!user) {
-      user = await UserModel.create({ webId: userWebId, friends: [] })
+      return res.status(400).json({ success: false, error: { message: 'Could not find user data' } })
     }
 
     const friends:String[] = []
-    console.log(user.friends)
     for (let friendId of user.friends) {
       const friend = await UserModel.findById(friendId)
       if (friend && friend.webId)
-        friends.push(friend.webId) && console.log(friend)
+        friends.push(friend.webId)
     }
-    console.log(friends)
+
     return res.status(200).json({ success: true, data: { friends } })
 
   } catch(err) {
@@ -29,44 +28,36 @@ const getFriends = async (req:CustomRequest<{}>, res:Response<IRestApiResponse,a
 }
 
 const addFriend = async (req:CustomRequest<IFriendBody>, res:Response<IRestApiResponse,any>) => {
-  const userWebId = res.locals.WebIds
+  const userId = res.locals.userId
   const newFriendWebId = req.body.friendWebId
-
-  if (!userWebId) 
-    return res.status(400).json({ success: false, error: { message: 'User\'s WebId missing in request headers' } })
   
-  if (!userWebId)
-    return res.status(400).json({ success: false, error: { message: 'Friend\'s WebId is required on request body' } })
+  if (!newFriendWebId)
+    return res.status(400).json({ success: false, error: { message: 'Friend\'s WebId missing on request body' } })
 
   try {
-    let user = await UserModel.findOne({ webId: userWebId })
-
+    let user = await UserModel.findById(userId)
     if (!user) {
-      user = await UserModel.create({ webId: userWebId, friends: [] })
+      return res.status(400).json({ success: false, error: { message: 'Could not find user data' } })
     }
-    
+
+    if (user.webId === newFriendWebId)
+      return res.status(400).json({ success: false, error: { message: 'Cannot add yourself as friend' } })
+
     let friend = await UserModel.findOne({ webId: newFriendWebId })
     if (!friend) {
-      friend = await 
-      UserModel.create({ webId: newFriendWebId, friends: [] })
+      return res.status(400).json({ success: false, error: { message: 'Friend is not a LoMap user' } })
     }
-
-    if (userWebId === newFriendWebId)
-      return res.status(400).json({ success: false, error: { message: 'Cannot add yourself as friend' } })
 
     if (friend.friends.includes(user.id))
       return res.status(200).json({ success: true, data: { message: 'Already friends' } })
 
-    console.log(friend.id)
     const updatedFriend = friend
     updatedFriend.friends = [...friend.friends, user._id]
-    console.log(updatedFriend)
-    UserModel.findByIdAndUpdate(friend.id, updatedFriend).catch(err => console.log(err))
+    await UserModel.findByIdAndUpdate(friend.id, updatedFriend)
 
     return res.status(200).json({ success: true, data: { message: 'Added new friend' } })
   } catch(err) {
-    console.log(err)
-    return res.status(500).json({ success: false, error: err })
+    return res.status(500).json({ success: false, error: { message: 'Error while adding friend'} })
   }
 }
 
