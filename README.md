@@ -7,7 +7,6 @@
  |        Developers        |         UO        |
 |:-----------------------------:|:------------------:|
 |     Álvaro Davila Sampedro     | UO284548 |
-|     Felipe García Gomez     | UO285267 |
 |    Javier González Velázquez     | UO276803 | 
 |  Adrián Martinez Rodriguez | UO284163 |
 | Hugo Roberto Pulido Pensado| UO282823 |
