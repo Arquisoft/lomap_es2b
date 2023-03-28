@@ -1,35 +1,30 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
-export const SidebarSection = styled.div<{ isOpen: boolean }>`
-  &.open {
-    background-color: #f8f8f8;
-    height: calc(100vh - 3em);
+const toggleAnimation = keyframes`
+  from {
+    width: 0;
+    opacity: 0;
+  }
+  to {
     width: 25%;
-    position: absolute;
-    z-index: 100;
-    top: 0;
-    left: 0;
-    margin: 1.0em;
-    border-radius: 0.5em;
-    transition: transform 0.3s ease-in-out;
-    -webkit-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
-    -moz-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
-    box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
+    opacity: 1;
   }
-  &.closed {
-    background-color: #f8f8f8;
-    right: -10px;
-    height: calc(100vh - 3em);
-    width: 10%;
-    top: 0;
-    position: absolute;
-    z-index: 100;
-    top: 0;
-    left: 0;
-    margin: 1.0em;
-    border-radius: 0.5em;
-    transition: transform 0.3s ease-in-out;
-  }
+`
+
+export const SidebarSection = styled.div`
+  background-color: #f8f8f8;
+  height: calc(100vh - 3em);
+  width: 25%;
+  position: absolute;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  margin: 1.0em;
+  border-radius: 0.5em;
+  animation: ${toggleAnimation} 0.2s ease-in-out;
+  -webkit-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
+  -moz-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
+  box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
 `;
 
 export const TopSection = styled.div`
@@ -48,17 +43,12 @@ export const Title = styled.h1`
   text-align: center;
 `;
 
-export const Bars = styled.div`
-  font-size: 25px;
-  margin-top: 10px;
-`;
-
 export const SearchBar = styled.input<{ isOpen: boolean }>`
   display: ${({ isOpen }) => isOpen ? "block" : "none"};
   position: relative; 
-  width: 300px; 
+  width: 85%; 
   height: 20px;
-  margin: 1em auto; 
+  margin: 0 auto; 
   border-radius: 0.3em;
   outline: none;
   border: none;
@@ -69,11 +59,25 @@ export const SearchBar = styled.input<{ isOpen: boolean }>`
 `;
 
 export const CloseSection = styled.div`
-  position: absolute;
+  display: flex;
+  font-size: 2em;
+  cursor: pointer;
+`;
+
+export const ClosedSidebar = styled.div`
+  display: flex;
+  justify-content: center;
+  font-size: 2em;
+  background-color: #f8f8f8;
   top: 0;
-  right: 0;
-  margin: 20px;
-  font-size: 25px;
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  margin: 0;
+  margin-top: 2%;
+  padding: 0.1em;
+  border-radius: 0 0.2em 0.2em 0;
   cursor: pointer;
 `;
 
@@ -92,7 +96,7 @@ export const MarkerSection = styled.div`
 `;
 
 export const MarkerHover = styled.div`
-background-color: #f8f8f8;
+  background-color: #f8f8f8;
   background-size: auto;
   border-radius: 0.3em;
-`;
+`; 
