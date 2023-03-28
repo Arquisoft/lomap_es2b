@@ -7,6 +7,7 @@ import { mapboxApiKey } from '../../config/constants'
 import 'mapbox-gl/dist/mapbox-gl.css';
 import './Map.css'
 import { MarkerContext } from '../../context/MarkersContext';
+import { IMarker } from '../../types/IMarker';
 
 interface Props{
     onClick:(lngLat:LngLat,visible:boolean)=>void;
