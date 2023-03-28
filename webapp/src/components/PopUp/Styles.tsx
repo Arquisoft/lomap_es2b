@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import {AiFillCloseCircle} from "react-icons/ai"
+import { FaTimes } from "react-icons/fa"
 
 export const PopupContainer = styled.div`
     position: absolute;
@@ -24,7 +24,8 @@ export const PopupContent = styled.div`
     -moz-box-shadow: 5px 5px 8px 0px rgba(0,0,0,0.75);
     box-shadow: 5px 5px 8px 0px rgba(0,0,0,0.75);
 `
-export const CloseButton = styled(AiFillCloseCircle)`
+export const CloseButton = styled(FaTimes)`
     float:right;
+    font-size: 1.2em;
     cursor: pointer;
 `
