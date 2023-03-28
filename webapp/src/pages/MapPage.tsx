@@ -24,6 +24,10 @@ const MapPage = () : JSX.Element => {
     setLngLat(lngLat)
   }
 
+  function closePopup() {
+    setPopupVisible(false)
+  }
+
   function addMark(name:string, lngLat:LngLat|undefined,description:string){
     if(lngLat===undefined){
       return
@@ -43,9 +47,8 @@ const MapPage = () : JSX.Element => {
       <Sidebar />
       <Map onClick={showPopup}/>
       <FocusOnUserButton />
-      <AddPopup setPopupVisible={setPopupVisible} visible={popupVisible} lngLat={lngLat} addMark={addMark}/>
-    </MapProvider>
-    
+      <AddPopup closePopup={closePopup} visible={popupVisible} lngLat={lngLat} addMark={addMark}/>
+    </MapProvider> 
   )
 }
 

@@ -1,34 +1,29 @@
 import { useContext, useEffect, useState } from 'react'
-import Map, { LngLat, Marker, useMap,Popup} from 'react-map-gl'
 import { CircularProgress,TextField } from '@mui/material'
+import Map, { LngLat, Marker, useMap,Popup} from 'react-map-gl'
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 import { mapboxApiKey } from '../../config/constants'
 
-import 'mapbox-gl/dist/mapbox-gl.css';
-import './Map.css'
 import { MarkerContext } from '../../context/MarkersContext';
 import { IMarker } from '../../types/IMarker';
+import './Map.css'
 
 interface Props{
     onClick:(lngLat:LngLat,visible:boolean)=>void;
 }
 
-
-
-const MapComponent = ({onClick,}:Props) => {
-
-  const [isLoading , setIsLoading] = useState(true)
-
-  
+const MapComponent = ({ onClick }:Props) => {
 
   const { map } = useMap()
+  
+  const [isLoading , setIsLoading] = useState(true)
+  const [infoVisible,setInfoVisible] = useState<IMarker|null>(null); 
 
   const { state: markers } = useContext(MarkerContext)
 
   const locateUser = () => {
-    if ("geolocation" in navigator) {
-
-      
+    if ("geolocation" in navigator) {      
         navigator.geolocation.getCurrentPosition((position) => {
         map?.setCenter({ lat: position.coords.latitude, lng: position.coords.longitude })
         setIsLoading(false)
@@ -39,8 +34,6 @@ const MapComponent = ({onClick,}:Props) => {
       setIsLoading(false)
     }
   }
-
-  const [infoVisible,setInfoVisible] = useState<IMarker|null>(null); 
   
   useEffect(locateUser,[map])
 
