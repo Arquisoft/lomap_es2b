@@ -133,7 +133,7 @@ const SearchBar = styled.input<{ isOpen: boolean }>`
 `;
 
 const CloseSection = styled.div`
-  height: fit-content;
+  display: flex;
   font-size: 2em;
   cursor: pointer;
 `;
