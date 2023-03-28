@@ -6,7 +6,6 @@ import { mapboxApiKey } from '../../config/constants'
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import './Map.css'
-import { IMarker } from '../../types/IMarker';
 import { MarkerContext } from '../../context/MarkersContext';
 
 interface Props{
@@ -23,10 +22,12 @@ const MapComponent = ({onClick,}:Props) => {
 
   const locateUser = () => {
     if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
+
+      
+        navigator.geolocation.getCurrentPosition((position) => {
         map?.setCenter({ lat: position.coords.latitude, lng: position.coords.longitude })
         setIsLoading(false)
-      }, (error) => {
+      }, () => {
         setIsLoading(false)
       })
     } else {

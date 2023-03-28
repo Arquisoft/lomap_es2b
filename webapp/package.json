@@ -30,7 +30,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --coverage",
-    "test:e2e": "start-server-and-test 'npm --prefix ../restapi start' http://localhost:5000/api/users/list prod 3000 'cd e2e && jest'",
+    "test:e2e": "start-server-and-test 'npm --prefix ../restapi start' http://localhost:5000/api/users/list prod 3000 \"cd e2e && jest\"",
     "eject": "react-scripts eject",
     "prod": "ts-node-dev ./server.ts"
   },
@@ -53,6 +53,7 @@
     ]
   },
   "devDependencies": {
+    "@inrupt/jest-jsdom-polyfills": "^1.6.0",
     "@types/expect-puppeteer": "^4.4.7",
     "@types/express": "^4.17.15",
     "@types/jest": "^29.2.5",
