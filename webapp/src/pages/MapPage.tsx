@@ -43,7 +43,7 @@ const MapPage = () : JSX.Element => {
       <Sidebar />
       <Map onClick={showPopup}/>
       <FocusOnUserButton />
-      <AddPopup visible={popupVisible} lngLat={lngLat} addMark={addMark}/>
+      <AddPopup setPopupVisible={setPopupVisible} visible={popupVisible} lngLat={lngLat} addMark={addMark}/>
     </MapProvider>
     
   )
