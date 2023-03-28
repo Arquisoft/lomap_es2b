@@ -3,6 +3,16 @@ import styled from 'styled-components'
 import {AiFillCloseCircle} from "react-icons/ai"
 
 const PopupContainer = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1049;
+    background-color: #0000006c;
+`
+
+const PopupForm = styled.div`
     z-index: 1050;
     position: absolute;
     top: 50%;
@@ -20,8 +30,6 @@ const CloseButton = styled(AiFillCloseCircle)`
     cursor: pointer;
 `
 
-
-
 const FormGroup = styled.div`
     display: flex;
     flex-direction: column;
@@ -30,4 +38,4 @@ const FormGroup = styled.div`
     
 `
 
-export {FormGroup,PopupContainer,CloseButton}
+export {PopupContainer,FormGroup,PopupForm,CloseButton}

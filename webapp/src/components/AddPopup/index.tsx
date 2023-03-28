@@ -1,7 +1,7 @@
 import { TextField, Button } from '@mui/material'
 import { LngLat } from 'mapbox-gl';
 import { useState } from 'react';
-import {FormGroup,PopupContainer,CloseButton} from "./AddPopup";
+import {PopupContainer,FormGroup,PopupForm,CloseButton} from "./Styles";
 
 interface Props{
     visible:boolean;
@@ -31,9 +31,9 @@ function AddPopup( props: Props){
 
     if(props.visible){
         return(
-            
-                 <PopupContainer>
-                    <CloseButton onClick={()=> props.setPopupVisible(false)} />
+        <PopupContainer>
+            <PopupForm>
+                <CloseButton onClick={()=> props.setPopupVisible(false)} />
                 <form onSubmit={(e)=>handleSubmit(e)}>
                     
                     <h2>Introduce los datos del nuevo marcador</h2>
@@ -52,10 +52,8 @@ function AddPopup( props: Props){
                     </FormGroup>
                     <p><Button style={{float:'right'}} type='submit' color='success' variant='contained'>Anadir</Button></p>
                 </form>
-            </PopupContainer>
-            
-
-           
+            </PopupForm>
+        </PopupContainer>          
         )
     }else{
         return(

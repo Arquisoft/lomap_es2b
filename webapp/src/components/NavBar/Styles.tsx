@@ -8,7 +8,7 @@ export const NavbarContainer = styled.nav`
   color: #333;
   padding: 1rem;
   margin: 1em;
-  width:70%;
+  width:65%;
   position: absolute;
   z-index: 100;
   top: 0;

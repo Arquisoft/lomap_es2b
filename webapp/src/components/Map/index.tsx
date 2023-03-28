@@ -40,13 +40,7 @@ const MapComponent = ({onClick,}:Props) => {
     }
   }
 
-
-  const [infoVisible,setInfoVisible] = useState<IMarker|null>(null);
-
-
-
- 
-  
+  const [infoVisible,setInfoVisible] = useState<IMarker|null>(null); 
   
   useEffect(locateUser,[map])
 
@@ -56,7 +50,6 @@ const MapComponent = ({onClick,}:Props) => {
         isLoading ?
         <CircularProgress className='loader' />
         : 
-
         <Map id='map' initialViewState={{
           latitude: 43.3602900, 
           longitude: 5.8447600, 
@@ -65,7 +58,7 @@ const MapComponent = ({onClick,}:Props) => {
           onLoad={locateUser}
           mapboxAccessToken={mapboxApiKey}
           mapStyle="mapbox://styles/mapbox/streets-v9"
-          onDblClick={(MapLayerMouseEvent)=>{onClick(MapLayerMouseEvent.lngLat,true)
+          onClick={(MapLayerMouseEvent)=>{onClick(MapLayerMouseEvent.lngLat,true)
             MapLayerMouseEvent.preventDefault()
           }
         }>
