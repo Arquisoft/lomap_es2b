@@ -3,6 +3,7 @@ import { LngLat, MapProvider} from 'react-map-gl'
 import Map from '../components/Map'
 import FocusOnUserButton from '../components/FocusOnUserButton';
 import Sidebar from '../components/Sidebar';
+import Navbar from '../components/NavBar';
 import { useContext, useEffect, useState } from 'react';
 import AddPopup from '../components/AddPopup';
 import {IMarker} from '../types/IMarker'
@@ -38,6 +39,7 @@ const MapPage = () : JSX.Element => {
 
   return (
     <MapProvider>
+      <Navbar />
       <Sidebar />
       <Map onClick={showPopup}/>
       <FocusOnUserButton />
