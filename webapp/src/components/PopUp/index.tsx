@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { CloseButton, PopupContainer, PopupContent } from './Styles';
 
 interface PopupProps {
@@ -8,7 +8,7 @@ interface PopupProps {
 
 const Popup: React.FC<PopupProps> = ({ isOpen, closePopup, children }) => {
   return isOpen ? (
-    <PopupContainer>
+    <PopupContainer onClick={closePopup}>
       <PopupContent>
         <CloseButton onClick={closePopup} />
         { children }
