@@ -8,7 +8,7 @@ interface PopupProps {
 
 const Popup: React.FC<PopupProps> = ({ isOpen, closePopup, children }) => {
   return isOpen ? (
-    <PopupContainer onClick={closePopup}>
+    <PopupContainer>
       <PopupContent>
         <CloseButton onClick={closePopup} />
         { children }

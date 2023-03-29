@@ -1,12 +1,10 @@
 import { List } from "@mui/material";
 import React, { useContext, useState } from "react";
-import { FaBars, FaTimes, FaChevronRight } from "react-icons/fa"
+import { FaTimes, FaChevronRight } from "react-icons/fa"
 import { useMap } from "react-map-gl";
 import { MarkerContext } from "../../context/MarkersContext";
 import { IMarker } from "../../types/IMarker";
 import { ClosedSidebar, CloseSection, MarkerHover, MarkerSection, SearchBar, SidebarSection, Title, TopSection } from "./Styles"
-import styled, { keyframes } from 'styled-components'
-
 
 const Sidebar = () => {
 

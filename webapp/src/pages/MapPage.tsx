@@ -5,7 +5,7 @@ import FocusOnUserButton from '../components/FocusOnUserButton';
 import Sidebar from '../components/Sidebar';
 import Navbar from '../components/NavBar';
 import { useContext, useEffect, useState } from 'react';
-import AddPopup from '../components/AddPopup';
+import AddMarkerPopup from '../components/AddMarkerPopup';
 import {IMarker} from '../types/IMarker'
 import {saveMarkerToPod } from '../helpers/SolidHelper';
 import { useSession } from '@inrupt/solid-ui-react';
@@ -72,7 +72,7 @@ const MapPage = () : JSX.Element => {
       <Sidebar />
       <Map onClick={showAddMarkerPopup} />
       <FocusOnUserButton />
-      <AddPopup closePopup={closePopup} visible={popupVisible === Popups.ADD_MARKER} lngLat={lngLat} addMark={addMark}/>
+      <AddMarkerPopup closePopup={closePopup} visible={popupVisible === Popups.ADD_MARKER} lngLat={lngLat} addMark={addMark}/>
       <FriendsPopup closePopup={closePopup} isOpen={popupVisible === Popups.FRIENDS} />
     </MapProvider> 
   )
