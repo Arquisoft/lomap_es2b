@@ -1,5 +1,5 @@
 
-import { getSolidDataset, getStringNoLocale, Thing, getThing, saveFileInContainer } from "@inrupt/solid-client";
+import { getSolidDataset, getStringNoLocale, Thing, getThing, saveFileInContainer, getUrlAll } from "@inrupt/solid-client";
 import { FOAF } from "@inrupt/vocab-common-rdf";
 import { IMarker } from "../types/IMarker";
 import { getFile, overwriteFile} from "@inrupt/solid-client";
@@ -55,6 +55,7 @@ export async function readMarkerFromPod(webId?: string) {
 
 
 export async function saveMarkerToPod(markers: IMarker[], webId?: string) {
+    
     if (markers.length > 0) {
         let profileDocumentURI = webId?.split("profile")[0];
         let targetFileURL = profileDocumentURI + 'private/Markers.json';
@@ -75,6 +76,18 @@ export async function saveMarkerToPod(markers: IMarker[], webId?: string) {
     }
 
 };
+
+export async function getFriends(webId: string) {
+    let dataset = await getSolidDataset(webId);
+    let aux= getThing(dataset,webId) as Thing;
+    let friends= getUrlAll(aux, FOAF.knows);
+
+    let list: any[]=[];
+    
+    friends.forEach(friend => list.push(friend));
+
+    return list;
+}
 
 
 
