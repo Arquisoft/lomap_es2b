@@ -103,6 +103,19 @@ export async function addFriend(webId: string,friend:string) {
     saveSolidDatasetAt(webId, dataset, { fetch: fetch });
 }
 
+export async function deleteFriend(webId: string,friend:string) {
+    let dataset = await getSolidDataset(webId);
+    let friends= getThing(dataset,webId) as Thing;
+    
+    friends = buildThing(friends)
+            .removeUrl(FOAF.knows, friend)
+            .build();
+    
+    dataset = setThing(dataset, friends);
+    
+    saveSolidDatasetAt(webId, dataset, { fetch: fetch });
+}
+
 
 
 
