@@ -1,5 +1,5 @@
 
-import { getSolidDataset, getStringNoLocale, Thing, getThing, saveFileInContainer, getUrlAll } from "@inrupt/solid-client";
+import { getSolidDataset, getStringNoLocale,saveSolidDatasetAt, Thing, getThing,setThing, saveFileInContainer,buildThing, getUrlAll } from "@inrupt/solid-client";
 import { FOAF } from "@inrupt/vocab-common-rdf";
 import { IMarker } from "../types/IMarker";
 import { getFile, overwriteFile} from "@inrupt/solid-client";
@@ -87,6 +87,20 @@ export async function getFriends(webId: string) {
     friends.forEach(friend => list.push(friend));
 
     return list;
+}
+
+
+export async function addFriend(webId: string,friend:string) {
+    let dataset = await getSolidDataset(webId);
+    let friends= getThing(dataset,webId) as Thing;
+    
+    friends = buildThing(friends)
+            .addUrl(FOAF.knows, friend)
+            .build();
+    
+    dataset = setThing(dataset, friends);
+    
+    saveSolidDatasetAt(webId, dataset, { fetch: fetch });
 }
 
 
