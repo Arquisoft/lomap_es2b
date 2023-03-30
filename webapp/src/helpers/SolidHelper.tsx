@@ -1,9 +1,10 @@
 
-import { getSolidDataset, getStringNoLocale,saveSolidDatasetAt, Thing, getThing,setThing, saveFileInContainer,buildThing, getUrlAll } from "@inrupt/solid-client";
+import { getSolidDataset,universalAccess,getStringNoLocale,saveSolidDatasetAt, Thing, getThing,setThing, saveFileInContainer,buildThing, getUrlAll } from "@inrupt/solid-client";
 import { FOAF } from "@inrupt/vocab-common-rdf";
 import { IMarker } from "../types/IMarker";
 import { getFile, overwriteFile} from "@inrupt/solid-client";
 import { fetch } from "@inrupt/solid-client-authn-browser";
+
 
 
 async function getProfile(webId: string) {
@@ -81,10 +82,13 @@ export async function getFriends(webId: string) {
     let dataset = await getSolidDataset(webId);
     let aux= getThing(dataset,webId) as Thing;
     let friends= getUrlAll(aux, FOAF.knows);
+    
 
     let list: any[]=[];
     
     friends.forEach(friend => list.push(friend));
+
+    
 
     return list;
 }
@@ -93,6 +97,7 @@ export async function getFriends(webId: string) {
 export async function addFriend(webId: string,friend:string) {
     let dataset = await getSolidDataset(webId);
     let friends= getThing(dataset,webId) as Thing;
+   
     
     friends = buildThing(friends)
             .addUrl(FOAF.knows, friend)
@@ -101,6 +106,11 @@ export async function addFriend(webId: string,friend:string) {
     dataset = setThing(dataset, friends);
     
     saveSolidDatasetAt(webId, dataset, { fetch: fetch });
+
+    
+    setPerms(webId,friend,true);
+    
+    
 }
 
 export async function deleteFriend(webId: string,friend:string) {
@@ -114,9 +124,46 @@ export async function deleteFriend(webId: string,friend:string) {
     dataset = setThing(dataset, friends);
     
     saveSolidDatasetAt(webId, dataset, { fetch: fetch });
+
+    setPerms(webId,friend,false);
 }
 
 
 
 
+
+
+
+function setPerms(webId: string, friend: string, mode: boolean) {
+    let profileDocumentURI = webId?.split("profile")[0];
+    let targetFileURL = profileDocumentURI + 'private/prueba.json';
+
+
+    universalAccess.getAgentAccessAll(
+        targetFileURL, // resource
+        { fetch: fetch }                // fetch function from authenticated session
+      ).then((accessByAgent) => {
+        // => accessByAgent is an object with Agent WebIDs as keys,
+        //    and their associated access object {read: <boolean>, ... } as values.
+        for (const [agent, agentAccess] of Object.entries(accessByAgent!)) {
+          logAccessInfo(agent, agentAccess, targetFileURL);
+        }
+      });
+      universalAccess.setAgentAccess(
+        targetFileURL, // resource
+        friend,
+        { read: mode, write: false },    // Access object
+        { fetch: fetch }                 // fetch function from authenticated session
+      );
+      
+}
+
+function logAccessInfo(agent:any, agentAccess:any, resource:any) {
+    console.log(`For resource: ${resource}`);
+    if (agentAccess === null) {
+      console.log(`Could not load ${agent}'s access details.`);
+    } else {
+      console.log(`${agent}'s Access: ${JSON.stringify(agentAccess)}`);
+    }
+  }
 
