@@ -5,14 +5,14 @@ import { SessionProvider, useSession } from '@inrupt/solid-ui-react';
 import { useState } from 'react';
 
 import { MarkerContext, Types } from './context/MarkersContext';
-import { getImageFromPod, readMarkerFromPod } from './helpers/SolidHelper';
+import { readMarkerFromPod } from './helpers/SolidHelper';
 
 
 function App(): JSX.Element {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { session } = useSession();
-  const [logo,setLogo] = useState<string>();
+  
 
 
   const { dispatch } = useContext(MarkerContext)
@@ -22,8 +22,6 @@ function App(): JSX.Element {
     setIsLoggedIn(true)
     const aux=readMarkerFromPod(session.info.webId)
     dispatch({ type: Types.SET, payload: { markers: await aux}});
-    const logo=getImageFromPod(session.info.webId)
-    setLogo(await logo);
   })
 
   
@@ -37,7 +35,7 @@ function App(): JSX.Element {
 
   return (
     <SessionProvider sessionId="log-in-example">
-      {(!isLoggedIn) ? <Login/> : <Map logo={logo!}/>}
+      {(!isLoggedIn) ? <Login/> : <Map/>}
     </SessionProvider>
   );
 }

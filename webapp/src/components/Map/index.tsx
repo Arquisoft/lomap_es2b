@@ -1,6 +1,6 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect,useState } from 'react'
 import { CircularProgress,TextField } from '@mui/material'
-import Map, { LngLat, Marker, useMap,Popup} from 'react-map-gl'
+import Map,{ LngLat, Marker, useMap,Popup} from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import { mapboxApiKey } from '../../config/constants'
@@ -8,6 +8,7 @@ import { mapboxApiKey } from '../../config/constants'
 import { MarkerContext } from '../../context/MarkersContext';
 import { IMarker } from '../../types/IMarker';
 import './Map.css'
+
 
 interface Props{
     onClick:(lngLat:LngLat,visible:boolean)=>void;
@@ -26,6 +27,7 @@ const MapComponent = ({ onClick }:Props) => {
     if ("geolocation" in navigator) {      
         navigator.geolocation.getCurrentPosition((position) => {
         map?.setCenter({ lat: position.coords.latitude, lng: position.coords.longitude })
+        
         setIsLoading(false)
       }, () => {
         setIsLoading(false)
@@ -47,6 +49,7 @@ const MapComponent = ({ onClick }:Props) => {
           latitude: 43.3602900, 
           longitude: 5.8447600, 
           zoom: 12
+          
         }}
           onLoad={locateUser}
           mapboxAccessToken={mapboxApiKey}
@@ -54,8 +57,8 @@ const MapComponent = ({ onClick }:Props) => {
           onClick={(MapLayerMouseEvent)=>{onClick(MapLayerMouseEvent.lngLat,true)
             MapLayerMouseEvent.preventDefault()
           }
+          
         }>
-
        
           {markers.map((marker,index)=>
           <Marker style={{cursor:"pointer"}} 
@@ -78,6 +81,7 @@ const MapComponent = ({ onClick }:Props) => {
           onClose={()=>setInfoVisible(null)}
           closeOnMove={false}
           >
+            
             <p>{infoVisible.name}</p>
             <TextField  label="Descripcion" defaultValue={infoVisible.description}
             InputProps={{
@@ -87,6 +91,7 @@ const MapComponent = ({ onClick }:Props) => {
 
              </Popup>
         )}
+        
         </Map>
       }
     </>

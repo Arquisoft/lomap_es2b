@@ -4,20 +4,18 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
-import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
+import { CombinedDataProvider, Image,useSession} from '@inrupt/solid-ui-react';
+import { VCARD } from '@inrupt/vocab-common-rdf';
 
 
 
-interface Props{
-  logo: string
-}
-
-const Navbar = ({ logo }:Props) => {
+const Navbar = () => {
   const settings = ['Profile','Logout'];
   const pages = ['About'];
+  const { session } = useSession();
   
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -49,11 +47,18 @@ const Navbar = ({ logo }:Props) => {
             ))}
       </Box>
       <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src={ logo}/>
-              </IconButton>
-            </Tooltip>
+          {session.info.webId ? (
+                  <CombinedDataProvider
+                      datasetUrl={session.info.webId}
+                      thingUrl={session.info.webId}>
+                    <Tooltip title="User settings">
+                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                      <Image property={VCARD.hasPhoto}  alt="User profile picture" style={{width:45, height:45, borderRadius:30}}/>
+                    </IconButton>
+                    </Tooltip>
+                  </CombinedDataProvider>
+              ): null }
+                      
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"

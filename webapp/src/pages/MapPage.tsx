@@ -11,12 +11,7 @@ import { saveMarkerToPod } from '../helpers/SolidHelper';
 import { useSession } from '@inrupt/solid-ui-react';
 import { MarkerContext, Types } from '../context/MarkersContext';
 
-
-interface Props{
-  logo: string
-}
-
-const MapPage = ({logo}:Props) : JSX.Element => {
+const MapPage = () : JSX.Element => {
 
   const[popupVisible,setPopupVisible] = useState(false)
   const [lngLat, setLngLat] = useState<LngLat>();
@@ -55,7 +50,7 @@ const MapPage = ({logo}:Props) : JSX.Element => {
 
   return (
     <MapProvider>
-      <Navbar logo={ logo}/>
+      <Navbar/>
       <Sidebar />
       <Map onClick={showPopup}/>
       <FocusOnUserButton />
