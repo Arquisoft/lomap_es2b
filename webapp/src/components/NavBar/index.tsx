@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { NavbarContainer, Logo, NavLinks, NavLink, SearchBar } from "./Styles";
+import { NavbarContainer, Logo,SearchBar } from "./Styles";
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -8,25 +8,19 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
-import { Link } from 'react-router-dom';
 
-const Navbar = () => {
+
+
+interface Props{
+  logo: string
+}
+
+const Navbar = ({ logo }:Props) => {
   const settings = ['Profile','Logout'];
   const pages = ['About'];
-
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
-  const linksArray=[
-    {
-      label: "Home",
-      to: "/"
-    },
-    {
-      label: "About",
-      to: "/about"
-    }
-  ];
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -36,13 +30,7 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
+  
 
 
   return (
@@ -54,7 +42,6 @@ const Navbar = () => {
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
                 sx={{ my: 1, color: 'black', display: 'block', fontSize: 17, fontWeight: 'bold'}}
               >
                 {page}
@@ -64,7 +51,7 @@ const Navbar = () => {
       <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src=" " />
+                <Avatar alt="Remy Sharp" src={ logo}/>
               </IconButton>
             </Tooltip>
             <Menu

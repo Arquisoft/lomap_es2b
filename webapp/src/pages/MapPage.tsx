@@ -4,18 +4,24 @@ import Map from '../components/Map'
 import FocusOnUserButton from '../components/FocusOnUserButton';
 import Sidebar from '../components/Sidebar';
 import Navbar from '../components/NavBar';
-import { useContext, useEffect, useState } from 'react';
+import {useContext, useEffect, useState } from 'react';
 import AddPopup from '../components/AddPopup';
 import {IMarker} from '../types/IMarker'
-import {saveMarkerToPod } from '../helpers/SolidHelper';
+import { saveMarkerToPod } from '../helpers/SolidHelper';
 import { useSession } from '@inrupt/solid-ui-react';
 import { MarkerContext, Types } from '../context/MarkersContext';
 
-const MapPage = () : JSX.Element => {
+
+interface Props{
+  logo: string
+}
+
+const MapPage = ({logo}:Props) : JSX.Element => {
 
   const[popupVisible,setPopupVisible] = useState(false)
   const [lngLat, setLngLat] = useState<LngLat>();
   const {session} = useSession();
+  
 
   const { state: markers, dispatch } = useContext(MarkerContext)
 
@@ -32,18 +38,24 @@ const MapPage = () : JSX.Element => {
     if(lngLat===undefined){
       return
     }
-    var newMarker:IMarker={ id: markers.length+1, name: name, address: "Value 1", lat: lngLat.lat, lng: lngLat.lng, date: new Date, images: [], description: description, category: [], comments: [], score: 10 }
+    var newMarker:IMarker={ id: markers.length+1, name: name, address: "Value 1", lat: lngLat.lat, lng: lngLat.lng, date: new Date(), images: [], description: description, category: [], comments: [], score: 10 }
     dispatch({ type: Types.ADD, payload: { marker: newMarker } })
     setPopupVisible(false)
   }
 
+ 
+
   useEffect(() => {
+    
     saveMarkerToPod(markers, session.info.webId)
-  }, [markers])
+  }, [markers,session]) 
+
+  
+  
 
   return (
     <MapProvider>
-      <Navbar />
+      <Navbar logo={ logo}/>
       <Sidebar />
       <Map onClick={showPopup}/>
       <FocusOnUserButton />

@@ -1,6 +1,6 @@
 
-import { getSolidDataset,universalAccess,getStringNoLocale,saveSolidDatasetAt, Thing, getThing,setThing, saveFileInContainer,buildThing, getUrlAll } from "@inrupt/solid-client";
-import { FOAF } from "@inrupt/vocab-common-rdf";
+import { getSolidDataset,universalAccess,getStringNoLocale,getUrl,saveSolidDatasetAt, Thing, getThing,setThing, saveFileInContainer,buildThing, getUrlAll } from "@inrupt/solid-client";
+import { FOAF, VCARD } from "@inrupt/vocab-common-rdf";
 import { IMarker } from "../types/IMarker";
 import { getFile, overwriteFile} from "@inrupt/solid-client";
 import { fetch } from "@inrupt/solid-client-authn-browser";
@@ -21,6 +21,17 @@ export async function getNameFromPod(webId: string) {
         name = "Not Name Found"
     }
     return name;
+}
+
+export async function getImageFromPod(webId?: string) {
+    if (webId === "" || webId === undefined) {
+        return "Not Found"
+    }
+    let image = getUrl(await getProfile(webId),VCARD.hasPhoto);
+    if (image == null) {
+        image = "Not image Found"
+    }
+    return image;
 }
 
 
