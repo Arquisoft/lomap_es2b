@@ -1,5 +1,5 @@
 import { List } from "@mui/material";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { FaTimes, FaChevronRight } from "react-icons/fa"
 import { useMap } from "react-map-gl";
 import { MarkerContext } from "../../context/MarkersContext";

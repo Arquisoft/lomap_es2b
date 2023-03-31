@@ -7,7 +7,7 @@ import Navbar from '../components/NavBar';
 import { useContext, useEffect, useState } from 'react';
 import AddMarkerPopup from '../components/AddMarkerPopup';
 import {IMarker} from '../types/IMarker'
-import {saveMarkerToPod } from '../helpers/SolidHelper';
+import { saveMarkerToPod } from '../helpers/SolidHelper';
 import { useSession } from '@inrupt/solid-ui-react';
 import { MarkerContext } from '../context/MarkersContext';
 import FriendsPopup from '../components/FriendsPopup';
@@ -25,6 +25,7 @@ const MapPage = () : JSX.Element => {
   const[popupVisible,setPopupVisible] = useState<Popups>(Popups.NONE)
   const [lngLat, setLngLat] = useState<LngLat>();
   const {session} = useSession();
+  
 
   const { state: markers, dispatch } = useContext(MarkerContext)
 
@@ -63,7 +64,10 @@ const MapPage = () : JSX.Element => {
     closePopup()
   }
 
+ 
+
   useEffect(() => {
+    
     saveMarkerToPod(markers, session.info.webId)
   }, [markers, session.info.webId])
 

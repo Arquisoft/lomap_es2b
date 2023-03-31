@@ -13,6 +13,8 @@ function App(): JSX.Element {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { session } = useSession();
+  
+
 
   const { dispatch: markersDispatch } = useContext(MarkerContext)
   const { dispatch: userDispatch } = useContext(UserContext)
