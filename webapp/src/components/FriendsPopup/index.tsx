@@ -1,14 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, TextField } from '@mui/material'
-import { getNamedNodeAll } from "@inrupt/solid-client";
+import { Button, TextField, CircularProgress } from '@mui/material'
 
 import { UserContext } from '../../context/UserContext'
-import { getProfile } from '../../helpers/SolidHelper'
+import { getFriends, getProfile } from '../../helpers/SolidHelper'
 import { ISolidUser } from '../../types/ISolidUser'
-import { getFriend } from '../../helpers/friendHelper'
 import Popup from '../PopUp'
-import { AddFriend, CustomDivider, FriendList, FriendListItem } from './Styles'
-import { FOAF } from '@inrupt/vocab-common-rdf';
+import { AddFriend, CustomDivider, FriendList, FriendListItem, LoaderContainer } from './Styles'
 
 type Props = {
   isOpen: boolean
@@ -19,24 +16,18 @@ const FriendsPopup = ({ isOpen, closePopup } : Props) => {
 
   const [ friends, setFriends ] = useState<ISolidUser[]>([])
   const [newFriendId, setNewFriendId] = useState('')
+  const [ isLoading, setIsLoading ] = useState(false)
 
   const { state: user } = useContext(UserContext)
   
   const loadfriends = async () => {
     if (!user) return
-    console.log('cargando amigos')
-    const friendIds = getNamedNodeAll(user, FOAF.knows).map(node => node.value)
-    const friendList : ISolidUser[] = []
-    for (let id of friendIds) {
-      const friend = await getFriend(id)
-      if (friend && friends.filter(f => f.webId === friend.webId).length === 0)
-        friendList.push(friend)
-    }
-    setFriends(friendList)
+    setIsLoading(true)
+    setFriends(await getFriends(user.url))
+    setIsLoading(false)
   }
 
   useEffect(() => {
-    console.log(user)
     if (user) {
       loadfriends()
     }
@@ -60,16 +51,21 @@ const FriendsPopup = ({ isOpen, closePopup } : Props) => {
       </AddFriend>
       <CustomDivider />
       {
-        friends.length > 0 ?
-        <FriendList>
-          {
-            friends.map((friend, index) => (
-              <FriendCard key={index} friend={friend}/>
-            ))
-          }
-        </FriendList>
+        isLoading ? 
+          <LoaderContainer>
+            <CircularProgress color='primary' />
+          </LoaderContainer>
         :
-        <div>Aun no tienes amigos</div>
+          friends.length > 0 ?
+          <FriendList>
+            {
+              friends.map((friend, index) => (
+                <FriendCard key={index} friend={friend}/>
+              ))
+            }
+          </FriendList>
+          :
+          <div>Aun no tienes amigos</div>
       }
     </Popup>
   )
