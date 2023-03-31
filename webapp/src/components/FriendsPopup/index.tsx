@@ -5,7 +5,7 @@ import { getNamedNodeAll } from "@inrupt/solid-client";
 import { UserContext } from '../../context/UserContext'
 import { getProfile } from '../../helpers/SolidHelper'
 import { ISolidUser } from '../../types/ISolidUser'
-
+import { getFriend } from '../../helpers/friendHelper'
 import Popup from '../PopUp'
 import { AddFriend, CustomDivider, FriendList, FriendListItem } from './Styles'
 import { FOAF } from '@inrupt/vocab-common-rdf';
@@ -22,10 +22,23 @@ const FriendsPopup = ({ isOpen, closePopup } : Props) => {
 
   const { state: user } = useContext(UserContext)
   
+  const loadfriends = async () => {
+    if (!user) return
+    console.log('cargando amigos')
+    const friendIds = getNamedNodeAll(user, FOAF.knows).map(node => node.value)
+    const friendList : ISolidUser[] = []
+    for (let id of friendIds) {
+      const friend = await getFriend(id)
+      if (friend && friends.filter(f => f.webId === friend.webId).length === 0)
+        friendList.push(friend)
+    }
+    setFriends(friendList)
+  }
+
   useEffect(() => {
+    console.log(user)
     if (user) {
-      const friends = getNamedNodeAll(user, FOAF.knows).map(node => node.value)
-      setFriends(friends.map(friendId => ({ webId: friendId })))
+      loadfriends()
     }
   },[user])
 
@@ -34,6 +47,7 @@ const FriendsPopup = ({ isOpen, closePopup } : Props) => {
       setFriends(friends => [...friends, { webId: newFriendId }])
       setNewFriendId('')
       getProfile(newFriendId).then(result => console.log(result))
+      loadfriends()
     }
   }
 

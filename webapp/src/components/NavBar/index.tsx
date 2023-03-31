@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
-import { getStringNoLocale } from "@inrupt/solid-client";
+import { getStringNoLocale, getNamedNodeAll } from "@inrupt/solid-client";
 import { useSession } from '@inrupt/solid-ui-react';
-import { FOAF } from '@inrupt/vocab-common-rdf';
+import { FOAF, VCARD } from '@inrupt/vocab-common-rdf';
 import { Avatar, Box, Divider, IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 
 import { IMenuOption } from '../../types/IMenuOption';
@@ -25,6 +25,9 @@ const Navbar = ({ openPopup } : Props) => {
   useEffect(() => {
     if (user) {
       setUsername(getStringNoLocale(user, FOAF.name) || '')
+      
+      // Con esto se carga la url de la imagen de perfil del usuario si existe
+      getNamedNodeAll(user, VCARD.hasPhoto)
     }
   },[user])
 
@@ -76,7 +79,7 @@ const Navbar = ({ openPopup } : Props) => {
       <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src=" " />
+                <Avatar alt="Remy Sharp" src="" />
               </IconButton>
             </Tooltip>
             <Menu
