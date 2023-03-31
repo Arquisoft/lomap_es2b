@@ -25,6 +25,10 @@ export const PopupContent = styled.div`
     -webkit-box-shadow: 5px 5px 8px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 5px 5px 8px 0px rgba(0,0,0,0.75);
     box-shadow: 5px 5px 8px 0px rgba(0,0,0,0.75);
+    @media only screen and (max-width: 550px) {
+        height: 90vh;
+        width: 90vw;
+    }
 `
 export const CloseButton = styled(FaTimes)`
     float:right;

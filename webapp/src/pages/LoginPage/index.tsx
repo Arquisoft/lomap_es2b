@@ -14,7 +14,6 @@ const Login = () : JSX.Element => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>)=>{
     event.preventDefault()
     
-    console.log(identity)
     if (identity) {
       login({
         redirectUrl: window.location.href,
