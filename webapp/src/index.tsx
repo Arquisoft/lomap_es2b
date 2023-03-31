@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { MarkerContextProvider } from './context/MarkersContext';
+import AppContext from './context/AppContext';
 
 ReactDOM.render(
   <React.StrictMode>
-    <MarkerContextProvider>
+    <AppContext>
       <App />
-    </MarkerContextProvider>
+    </AppContext>
   </React.StrictMode>,
   document.getElementById('root')
 );

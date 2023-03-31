@@ -1,25 +1,33 @@
-import * as React from 'react';
-import { NavbarContainer, Logo, SearchBar } from "./Styles";
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import Avatar from '@mui/material/Avatar';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
+import { useContext, useEffect, useState } from 'react';
+import { getStringNoLocale } from "@inrupt/solid-client";
+import { useSession } from '@inrupt/solid-ui-react';
+import { FOAF } from '@inrupt/vocab-common-rdf';
+import { Avatar, Box, Divider, IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
+
 import { IMenuOption } from '../../types/IMenuOption';
 import { Popups } from '../../pages/MapPage';
-import { useSession } from '@inrupt/solid-ui-react';
+import { UserContext } from '../../context/UserContext';
+import { NavbarContainer, Logo, SearchBar, TextMenuItem } from "./Styles";
 
 type Props = {
   openPopup: (popup : Popups) => void
 }
 
 const Navbar = ({ openPopup } : Props) => {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const [ username, setUsername ] = useState<string>('')
 
   const { logout } = useSession()
+
+  const { state: user } = useContext(UserContext)
+  
+  useEffect(() => {
+    if (user) {
+      setUsername(getStringNoLocale(user, FOAF.name) || '')
+    }
+  },[user])
+
 
   const options : IMenuOption[] = [
     {
@@ -87,6 +95,10 @@ const Navbar = ({ openPopup } : Props) => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
+              <TextMenuItem>
+                <Typography textAlign="center">Hola, { username }</Typography>
+              </TextMenuItem>
+              <Divider />
               {options.map(({ label, onClick }) => (
                 <MenuItem key={ label } onClick={ onClick }>
                   <Typography textAlign="center">{ label }</Typography>

@@ -9,8 +9,9 @@ import AddMarkerPopup from '../components/AddMarkerPopup';
 import {IMarker} from '../types/IMarker'
 import {saveMarkerToPod } from '../helpers/SolidHelper';
 import { useSession } from '@inrupt/solid-ui-react';
-import { MarkerContext, Types } from '../context/MarkersContext';
+import { MarkerContext } from '../context/MarkersContext';
 import FriendsPopup from '../components/FriendsPopup';
+import { Types } from '../types/ContextActionTypes';
 
 export enum Popups {
   NONE,

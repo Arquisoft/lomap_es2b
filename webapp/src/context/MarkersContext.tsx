@@ -1,11 +1,6 @@
 import { createContext, Dispatch, useReducer } from "react";
+import { Types } from "../types/ContextActionTypes";
 import { IMarker } from '../types/IMarker';
-
-export enum Types {
-  ADD = 'ADD_MARKER',
-  SET = 'SET_MARKERS',
-  DELETE = 'DELETE_MARKER',
-}
 
 type MarkerActions = {
   type: Types.ADD;

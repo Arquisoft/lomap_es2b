@@ -4,31 +4,32 @@ import Map from './pages/MapPage';
 import { SessionProvider, useSession } from '@inrupt/solid-ui-react';
 import { useState } from 'react';
 
-import { MarkerContext, Types } from './context/MarkersContext';
-import { readMarkerFromPod } from './helpers/SolidHelper';
-
+import { MarkerContext } from './context/MarkersContext';
+import { getProfile, readMarkerFromPod } from './helpers/SolidHelper';
+import { Types } from './types/ContextActionTypes';
+import { UserContext } from './context/UserContext';
 
 function App(): JSX.Element {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { session } = useSession();
 
-  const { dispatch } = useContext(MarkerContext)
+  const { dispatch: markersDispatch } = useContext(MarkerContext)
+  const { dispatch: userDispatch } = useContext(UserContext)
 
-
-  session.onLogin(async ()=>{
+  session.onLogin(async () => {
     setIsLoggedIn(true)
-    const aux=readMarkerFromPod(session.info.webId)
-    dispatch({ type: Types.SET, payload: { markers: await aux}});
+    const profile = await getProfile(session.info.webId || '')
+    userDispatch({ type: Types.SET, payload: { user: profile }});
+    const markers = await readMarkerFromPod(session.info.webId)
+    markersDispatch({ type: Types.SET, payload: { markers }});
   })
-
-  
 
   //We have logged out
   session.onLogout(()=>{
     setIsLoggedIn(false)
     // Al cerrar sesion elimina los marcadores del usuario de la memoria
-    dispatch({ type: Types.SET, payload: { markers: [] } })
+    markersDispatch({ type: Types.SET, payload: { markers: [] } })
   })
 
   return (

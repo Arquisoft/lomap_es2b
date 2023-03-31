@@ -47,3 +47,7 @@ export const SearchBar = styled.input`
   font-size: 1em;
   padding: 0.3em;
 `;
+
+export const TextMenuItem = styled.div`
+  padding: 1em;
+`

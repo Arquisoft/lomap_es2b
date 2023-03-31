@@ -6,11 +6,12 @@ import { getFile, overwriteFile} from "@inrupt/solid-client";
 import { fetch } from "@inrupt/solid-client-authn-browser";
 
 
-async function getProfile(webId: string) {
+export async function getProfile(webId: string) {
     let profileDocumentURI = webId.split("#")[0];
     let myDataset = await getSolidDataset(profileDocumentURI);
     return getThing(myDataset, webId) as Thing;
 }
+
 export async function getNameFromPod(webId: string) {
     if (webId === "" || webId === undefined) {
         return "Not Found"
