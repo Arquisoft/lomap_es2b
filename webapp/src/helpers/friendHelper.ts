@@ -13,7 +13,7 @@ export const getFriendData = async (webId: string) => {
 
   const friend :ISolidUser = {
     webId: webId,
-    name: getStringNoLocale(user, FOAF.name) || undefined,
+    name: getStringNoLocale(user, FOAF.firstName) || undefined,
     profilePic: userPic,
   }
   

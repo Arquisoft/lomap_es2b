@@ -92,7 +92,6 @@ export async function getFriends(webId: string) {
   let friends= getUrlAll(aux, FOAF.knows);
 
   const list: ISolidUser[] = []
-
   for (let id of friends) {
     const friend = await getFriendData(id)
     if (friend)
