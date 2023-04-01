@@ -1,49 +1,106 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-export const NavbarContainer = styled.nav`
-  background-color: #fff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #333;
-  padding: 1rem;
-  margin: 1em;
-  width:65%;
+export const Nav = styled.nav`
   position: absolute;
   z-index: 100;
-  top: 0;
-  right: 0;
-  border-radius: 0.5em;
-`;
-
-export const Logo = styled.a`
-  font-size: 2rem;
-  font-weight: bold;
-  color: #333;
-`;
-
-export const NavLinks = styled.div`
   display: flex;
   align-items: center;
-  margin-left: auto;
+  justify-content: center;
+  padding: 1rem;
+  background-color: #fff;
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
+  flex-grow: 1;
+  top: 0;
+  left: 0;
+  margin: 1%;
+  height: 5%;
+  width: 28%;
+  border-radius: 0.5em;
+  -webkit-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
+  -moz-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
+  box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
 `;
 
-export const NavLink = styled.a`
+export const MenuToggle = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 1.5rem;
   color: #333;
-  margin-right: 1.5rem;
-  text-decoration: none;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    color: #000;
+  }
 `;
 
-export const SearchBar = styled.input`
-  position: relative; 
-  height: 20px;
-  margin: 0 auto; 
-  border-radius: 0.3em;
-  outline: none;
-  border: none;
-  width: 70%;
-  background: #eaeaea;
-  font-size: 1em;
-  padding: 0.3em;
+export const Menu = styled.ul`
+  position: absolute;
+  top: 100%;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  margin: 0;
+  background-color: #fff;
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  z-index: 1;
 `;
+
+export const MenuItem = styled.li`
+  font-size: 1rem;
+  color: #333;
+  cursor: pointer;
+
+  &:hover {
+    color: #000;
+  }
+`;
+
+export const SearchForm = styled.form`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const SearchInput = styled.input`
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px 0 0 5px;
+  background-color: #f5f5f5;
+  outline: none;
+
+  &:focus {
+    background-color: #fff;
+  }
+`;
+
+export const SearchButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  background-color: #333;
+  color: #fff;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #000;
+  }
+`;
+
+export const styles = {
+  container: {
+    textAlign: 'right',
+  },
+  button: {
+    float: 'right',
+  },
+};

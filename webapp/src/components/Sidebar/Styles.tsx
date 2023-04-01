@@ -75,7 +75,7 @@ export const ClosedSidebar = styled.div`
   top: 0;
   left: 0;
   margin: 0;
-  margin-top: 2%;
+  margin-top: 10%;
   padding: 0.1em;
   border-radius: 0 0.2em 0.2em 0;
   cursor: pointer;
