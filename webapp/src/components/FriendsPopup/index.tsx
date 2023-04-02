@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Button, TextField, CircularProgress, Avatar } from '@mui/material'
 import { MdDelete } from 'react-icons/md'
 
 import { UserContext } from '../../context/UserContext'
-import { getFriends } from '../../helpers/SolidHelper'
+import { getFriends, addFriend as addFriendToSolid, deleteFriend as removeFriendFromSolid } from '../../helpers/SolidHelper'
 import { ISolidUser } from '../../types/ISolidUser'
 import Popup from '../PopUp'
-import { AddFriend, CustomDivider, FriendList, FriendListItem, LoaderContainer } from './Styles'
+import { AddFriend, CustomDivider, FriendList, FriendListItem, LoaderContainer, DeleteButtons, DeletePopup } from './Styles'
 
 type Props = {
   isOpen: boolean
@@ -23,7 +23,7 @@ const FriendsPopup = ({ isOpen, closePopup } : Props) => {
 
   const { state: user } = useContext(UserContext)
   
-  const loadfriends = async () => {
+  const loadFriends = async () => {
     if (!user) return
     setIsLoading(true)
     setFriends(await getFriends(user.url))
@@ -32,15 +32,17 @@ const FriendsPopup = ({ isOpen, closePopup } : Props) => {
 
   useEffect(() => {
     if (user) {
-      loadfriends()
+      loadFriends()
     }
   },[user])
 
-  const addFriend = () => {
-    if (newFriendId) {
+  const addFriend = async () => {
+    if (newFriendId && user?.url) {
       setFriends(friends => [...friends, { webId: newFriendId }])
+      setIsLoading(true)
       setNewFriendId('')
-      loadfriends()
+      await addFriendToSolid(user.url, newFriendId)
+      loadFriends()
     }
   }
 
@@ -49,10 +51,12 @@ const FriendsPopup = ({ isOpen, closePopup } : Props) => {
     setDeleteOpen(true)
   }
 
-  const deleteResult = (result: boolean) => {
+  const deleteResult = async (result: boolean) => {
     setDeleteOpen(false)
-    if (result) {
-      console.log('deleting friend ' + friendToDelete)
+    if (result && user?.url) {
+      setIsLoading(true)
+      await removeFriendFromSolid(user.url, friendToDelete)
+      loadFriends()
     }
     setFriendToDelete('')
   }
@@ -94,11 +98,12 @@ type FriendCardProps = {
   deleteFriend: (webId: string) => void
 }
 const FriendCard = ({ friend, deleteFriend } : FriendCardProps) => {
-  console.log(friend)
   return (
     <FriendListItem>
-      <Avatar src={friend.profilePic} />
-      <a href={friend.webId} target='_blank'>{ friend.name || friend.webId }</a>
+      <div>
+        <Avatar src={friend.profilePic} />
+        <a href={friend.webId} target='_blank'>{ friend.name || friend.webId }</a>
+      </div>
       <Button style={{ float: 'right' }} onClick={() => deleteFriend(friend.webId)}><MdDelete /></Button>
     </FriendListItem>
   )
@@ -112,14 +117,16 @@ type PopupProps = {
 }
 const ConfirmPopup = ({ isOpen, closePopup, friend, result }: PopupProps) => {
   return (
-    <Popup isOpen={isOpen} closePopup={closePopup}>
+    <DeletePopup isOpen={isOpen} closePopup={closePopup}>
       <h4>Eliminar amigo</h4>
       <div>
         ¿Seguro que quieres eliminar a {friend} de tu lista de amigos?
       </div>
-      <Button color='error' onClick={() => result(true)}>Eliminar</Button>
-      <Button color='info' onClick={() => result(false)}>Cancelar</Button>
-    </Popup>
+      <DeleteButtons>
+        <Button color='error' onClick={() => result(true)}>Eliminar</Button>
+        <Button color='info' onClick={() => result(false)}>Cancelar</Button>
+      </DeleteButtons>
+    </DeletePopup>
   )
 }
 

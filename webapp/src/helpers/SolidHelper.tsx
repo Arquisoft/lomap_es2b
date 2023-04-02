@@ -57,7 +57,7 @@ export async function readMarkerFromPod(webId?: string) {
       await saveFileInContainer(
         profileDocumentURI + 'private/',
         blob,
-        { slug: "Markers.json", contentType: blob.type, fetch: fetch }
+        { slug: "Markers.json", contentType: blob.type, fetch }
       );
     });
   } catch (err) {
@@ -78,7 +78,7 @@ export async function saveMarkerToPod(markers: IMarker[], webId?: string) {
       await overwriteFile(
         targetFileURL,                              // URL for the file.
         blob,                                       // File
-        { contentType: blob.type, fetch: fetch }    // mimetype if known, fetch from the authenticated session
+        { contentType: blob.type, fetch }    // mimetype if known, fetch from the authenticated session
       );
     } catch (error) {
       console.error(error);
@@ -110,9 +110,9 @@ export async function addFriend(webId: string,friend:string) {
   
   dataset = setThing(dataset, friends);
   
-  saveSolidDatasetAt(webId, dataset, { fetch: fetch });
+  await saveSolidDatasetAt(webId, dataset, { fetch });
 
-  setPerms(webId,friend,true);
+  // setPerms(webId,friend,true);
 }
 
 export async function deleteFriend(webId: string,friend:string) {
@@ -123,9 +123,9 @@ export async function deleteFriend(webId: string,friend:string) {
   
   dataset = setThing(dataset, friends);
   
-  saveSolidDatasetAt(webId, dataset, { fetch: fetch });
+  await saveSolidDatasetAt(webId, dataset, { fetch });
 
-  setPerms(webId,friend,false);
+  // setPerms(webId,friend,false);
 }
 
 function setPerms(webId: string, friend: string, mode: boolean) {

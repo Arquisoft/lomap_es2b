@@ -21,7 +21,7 @@ export const PopupContent = styled.div`
     transform: translate(-50%, -50%);
     background-color: #fff;
     padding: 1em;
-    border-radius: 3%;
+    border-radius: 0.8em;
     -webkit-box-shadow: 5px 5px 8px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 5px 5px 8px 0px rgba(0,0,0,0.75);
     box-shadow: 5px 5px 8px 0px rgba(0,0,0,0.75);
