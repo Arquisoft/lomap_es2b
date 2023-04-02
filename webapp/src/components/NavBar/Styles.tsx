@@ -13,8 +13,8 @@ export const Nav = styled.nav`
   top: 0;
   left: 0;
   margin: 1%;
-  height: 5%;
-  width: 28%;
+  height: 4%;
+  width: 20%;
   border-radius: 0.5em;
   -webkit-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
   -moz-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
@@ -96,11 +96,38 @@ export const SearchButton = styled.button`
   }
 `;
 
-export const styles = {
-  container: {
-    textAlign: 'right',
-  },
-  button: {
-    float: 'right',
-  },
-};
+export const FormGroup = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    margin:1em;
+    
+`
+
+export const Title = styled.h1`
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 1rem;
+  cursor: pointer;
+`;
+
+export const IconButton = styled.button`
+  font-size: 1.5rem;
+  color: #333;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    color: #000;
+  }
+`;
+
+export const NavPopupButton = styled(IconButton)`
+  color: #333;
+
+  &:hover {
+    background-color: #f3f3f3;
+  }
+`;
+

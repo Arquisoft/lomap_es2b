@@ -14,7 +14,7 @@ const toggleAnimation = keyframes`
 export const SidebarSection = styled.div`
   background-color: #f8f8f8;
   height: calc(100vh - 3em);
-  width: 25%;
+  width: 20%;
   position: absolute;
   z-index: 999;
   top: 0;
