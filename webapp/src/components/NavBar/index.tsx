@@ -1,7 +1,7 @@
 import React, { useState, FormEvent, ChangeEvent } from "react";
 import { FaSearch, FaBars } from "react-icons/fa";
 import { IconButton } from "@mui/material";
-import { FormGroup, Menu, MenuItem, Nav, SearchButton, SearchForm, SearchInput } from "./Styles";
+import { FormGroup, Menu, MenuItem, Nav, SearchButton, SearchForm, SearchInput, TitleContainer } from "./Styles";
 import { Title } from "../Sidebar/Styles";
 import NavPopup from "../NavPopup";
 
@@ -55,14 +55,16 @@ const Navbar = () => {
       </IconButton>
       {isPopupOpen && (
         <NavPopup isOpen={isPopupOpen} closePopup={handlePopupClose}>
-          <>
+          <TitleContainer>
+            <h2>Menú de Opciones</h2>
+          </TitleContainer>
             <FormGroup>
               <button onClick={handleConfigClick}>Configuraciones</button>
             </FormGroup>
             <FormGroup>
               <button onClick={handleAboutClick}>Acerca de</button>
             </FormGroup>
-          </>
+         
         </NavPopup>
       )}
     </Nav>

@@ -16,7 +16,7 @@ export const PopupContainer = styled.div`
 
 export const PopupContent = styled.div`
   position: relative;
-  width: 10%;
+  width: 15%;
   height: 80%;
   background-color: #fff;
   border-radius: 10px;
