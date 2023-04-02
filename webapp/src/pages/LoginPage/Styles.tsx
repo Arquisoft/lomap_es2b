@@ -71,15 +71,19 @@ export const Form = styled.form`
   -moz-box-shadow: 8px 8px 10px 0px rgba(34,2,0,0.27);
   box-shadow: 8px 8px 10px 0px rgba(34,2,0,0.27);
 
-  > * {
-    margin-bottom: 0.6em;
+  * {
     width: 90%;
   }
 
-  > h2 {
+  h2 {
     text-align: center;
     margin: 0;
     font-size: 1.7em;
     margin-bottom: 0.5em;
+  }
+
+  .error {
+    margin: 0;
+    padding: 0.5em;
   }
 `
