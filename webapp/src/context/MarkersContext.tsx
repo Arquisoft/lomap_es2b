@@ -3,20 +3,26 @@ import { Types } from "../types/ContextActionTypes";
 import { IMarker } from '../types/IMarker';
 
 type MarkerActions = {
-  type: Types.ADD;
+  type: Types.ADD
   payload: {
-      marker: IMarker;
-  };
+      marker: IMarker
+  }
 } | {
-  type: Types.SET;
+  type: Types.SET
   payload: {
-      markers: IMarker[];
-  };
+      markers: IMarker[]
+  }
 } | {
-  type: Types.DELETE;
+  type: Types.DELETE
   payload: {
-      name: string;
-  };
+      name: string
+  }
+} | {
+  type: Types.UPDATE
+  payload: {
+      id: number
+      marker: IMarker
+  }
 }
 
 export const MarkerContext = createContext<{ state: IMarker[], dispatch: Dispatch<MarkerActions> }>({state: [], dispatch: () => null})
@@ -28,6 +34,11 @@ export const markerReducer = (state:IMarker[], action: MarkerActions) : IMarker[
 
     case Types.ADD:
       return [action.payload.marker, ...state]
+
+    case Types.UPDATE:
+      const index: number = state.findIndex(m => m.id === action.payload.id)
+      state[index] = { ...state[index], ...action.payload.marker}
+      return state
 
     case Types.DELETE:
       return state.filter(m => m.name !== action.payload.name)

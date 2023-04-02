@@ -1,5 +1,6 @@
 export enum Types {
-  ADD = 'ADD_MARKER',
-  SET = 'SET_MARKERS',
-  DELETE = 'DELETE_MARKER',
+  ADD = 'ADD',
+  SET = 'SET',
+  DELETE = 'DELETE',
+  UPDATE = 'UPDATE'
 }
