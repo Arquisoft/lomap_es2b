@@ -71,8 +71,12 @@ export const Form = styled.form`
   -moz-box-shadow: 8px 8px 10px 0px rgba(34,2,0,0.27);
   box-shadow: 8px 8px 10px 0px rgba(34,2,0,0.27);
 
-  * {
+  > * {
     width: 90%;
+  }
+
+  > div {
+    margin-bottom: 0.5em;
   }
 
   h2 {

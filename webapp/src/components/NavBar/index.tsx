@@ -71,38 +71,38 @@ const Navbar = ({ openPopup } : Props) => {
       <Logo>LoMap</Logo>
       <SearchBar placeholder="Buscar lugar" />
       <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              <TextMenuItem>
-                <Typography textAlign="center">Hola, { username }</Typography>
-              </TextMenuItem>
-              <Divider />
-              {options.map(({ label, onClick }) => (
-                <MenuItem key={ label } onClick={ onClick }>
-                  <Typography textAlign="center">{ label }</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-        </Box>
+        <Tooltip title="Open settings">
+          <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+            <Avatar alt="Remy Sharp" src="" />
+          </IconButton>
+        </Tooltip>
+        <Menu
+          sx={{ mt: '45px' }}
+          id="menu-appbar"
+          anchorEl={anchorElUser}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          keepMounted
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          open={Boolean(anchorElUser)}
+          onClose={handleCloseUserMenu}
+        >
+          <TextMenuItem>
+            <Typography textAlign="center">Hola, { username }</Typography>
+          </TextMenuItem>
+          <Divider />
+          {options.map(({ label, onClick }) => (
+            <MenuItem key={ label } onClick={ onClick }>
+              <Typography textAlign="center">{ label }</Typography>
+            </MenuItem>
+          ))}
+        </Menu>
+      </Box>
     </NavbarContainer>
   );
 };
