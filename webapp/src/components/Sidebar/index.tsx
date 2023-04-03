@@ -32,7 +32,7 @@ const Sidebar = () => {
   return (
     <>
       <SidePopup isOpen={isOpen} closePopup={toggleSidebar}>
-        <Title>Puntos de interés</Title>
+      <Title>Puntos de interés</Title>
         <TopSection>
           <SearchBar isOpen={isOpen} type="text" placeholder="Buscar" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
         </TopSection>
@@ -40,11 +40,12 @@ const Sidebar = () => {
           sx={{
             width: '100%',
             height: '100%',
-            maxWidth: 360,
-            bgcolor: '#f8f8f8',
+            maxWidth: 500,
+            bgcolor: '#fff',
             position: 'relative',
             overflow: 'auto',
-            maxHeight: isOpen ? 400 : 450
+            maxHeight: isOpen ? 800 : 800
+            
           }}
         >
           {
