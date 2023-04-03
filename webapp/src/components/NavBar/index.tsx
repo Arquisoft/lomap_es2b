@@ -44,9 +44,7 @@ const Navbar = () => {
 
   return (
     <Nav>
-      <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", alignItems: "center" }}>
-        <Title>LoMap</Title>
-      </div>
+      <Title>LoMap</Title>
       <SearchForm onSubmit={handleSearchSubmit}>
         <SearchInput
           type="text"
@@ -61,6 +59,7 @@ const Navbar = () => {
         <IconButton onClick={handleSidebarToggle}>
           <FaMapMarkerAlt />
         </IconButton>
+        
       <IconButton onClick={handlePopupOpen}>
         <FaBars />
       </IconButton>
