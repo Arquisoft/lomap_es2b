@@ -1,13 +1,15 @@
 import React, { useState, FormEvent, ChangeEvent } from "react";
-import { FaSearch, FaBars } from "react-icons/fa";
+import { FaSearch, FaBars, FaMapMarkerAlt } from "react-icons/fa";
 import { IconButton } from "@mui/material";
 import { FormGroup, Menu, MenuItem, Nav, SearchButton, SearchForm, SearchInput, TitleContainer } from "./Styles";
 import { Title } from "../Sidebar/Styles";
 import NavPopup from "../NavPopup";
+import Sidebar from "../Sidebar";
 
 const Navbar = () => {
   const [searchValue, setSearchValue] = useState("");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(false);
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
@@ -26,6 +28,10 @@ const Navbar = () => {
     setIsPopupOpen(false);
   };
 
+  const handleSidebarToggle = () => {
+    setShowSidebar(!showSidebar);
+  };
+
   const handleConfigClick = () => {
     // Aquí puedes agregar la lógica para navegar a la página de configuraciones
     console.log("Configuraciones");
@@ -38,7 +44,9 @@ const Navbar = () => {
 
   return (
     <Nav>
-      <Title>LoMap</Title>
+      <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", alignItems: "center" }}>
+        <Title>LoMap</Title>
+      </div>
       <SearchForm onSubmit={handleSearchSubmit}>
         <SearchInput
           type="text"
@@ -50,6 +58,9 @@ const Navbar = () => {
           <FaSearch />
         </SearchButton>
       </SearchForm>
+        <IconButton onClick={handleSidebarToggle}>
+          <FaMapMarkerAlt />
+        </IconButton>
       <IconButton onClick={handlePopupOpen}>
         <FaBars />
       </IconButton>
@@ -64,9 +75,9 @@ const Navbar = () => {
             <FormGroup>
               <button onClick={handleAboutClick}>Acerca de</button>
             </FormGroup>
-         
         </NavPopup>
       )}
+      {showSidebar && <Sidebar />}
     </Nav>
   );
 };

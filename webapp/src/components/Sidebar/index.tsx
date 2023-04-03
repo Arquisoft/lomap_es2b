@@ -1,6 +1,5 @@
 import { List } from "@mui/material";
 import React, { useContext, useState } from "react";
-import { FaBars, FaTimes, FaChevronRight } from "react-icons/fa"
 import { useMap } from "react-map-gl";
 import { MarkerContext } from "../../context/MarkersContext";
 import { IMarker } from "../../types/IMarker";
@@ -32,7 +31,7 @@ const Sidebar = () => {
   return (
     <>
       <SidePopup isOpen={isOpen} closePopup={toggleSidebar}>
-      <Title>Puntos de interés</Title>
+        <Title>Puntos de interés</Title>
         <TopSection>
           <SearchBar isOpen={isOpen} type="text" placeholder="Buscar" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
         </TopSection>
@@ -45,17 +44,15 @@ const Sidebar = () => {
             position: 'relative',
             overflow: 'auto',
             maxHeight: isOpen ? 800 : 800
-            
           }}
         >
           {
-          filteredMarkers.map((marker) => (
-            <Marker key={marker.id} marker={marker} onClick={handleMarkerClick} />
-          ))
+            filteredMarkers.map((marker) => (
+              <Marker key={marker.id} marker={marker} onClick={handleMarkerClick} />
+            ))
           }
         </List>
       </SidePopup>
-      <FaChevronRight onClick={toggleSidebar}/>
     </>
   )
 }
