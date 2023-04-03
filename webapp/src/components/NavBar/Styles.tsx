@@ -47,3 +47,4 @@ export const SearchBar = styled.input`
   font-size: 1em;
   padding: 0.3em;
 `;
+

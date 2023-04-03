@@ -16,6 +16,7 @@ const MapPage = () : JSX.Element => {
   const[popupVisible,setPopupVisible] = useState(false)
   const [lngLat, setLngLat] = useState<LngLat>();
   const {session} = useSession();
+  const [loaded,setLoaded] = useState(false);
   
 
   const { state: markers, dispatch } = useContext(MarkerContext)
@@ -41,9 +42,13 @@ const MapPage = () : JSX.Element => {
  
 
   useEffect(() => {
-    
-    saveMarkerToPod(markers, session.info.webId)
-  }, [markers,session]) 
+    if(loaded){
+      saveMarkerToPod(markers, session.info.webId)
+    }else{
+      setLoaded(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [markers]) 
 
   
   

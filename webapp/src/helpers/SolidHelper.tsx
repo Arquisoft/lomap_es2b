@@ -67,8 +67,6 @@ export async function readMarkerFromPod(webId?: string) {
 
 
 export async function saveMarkerToPod(markers: IMarker[], webId?: string) {
-    
-    if (markers.length > 0) {
         let profileDocumentURI = webId?.split("profile")[0];
         let targetFileURL = profileDocumentURI + 'private/Markers.json';
         let str = JSON.stringify(markers);
@@ -85,8 +83,6 @@ export async function saveMarkerToPod(markers: IMarker[], webId?: string) {
         } catch (error) {
             console.error(error);
         }
-    }
-
 };
 
 export async function getFriends(webId: string) {
@@ -97,7 +93,7 @@ export async function getFriends(webId: string) {
 
     let list: any[]=[];
     
-    friends.forEach(friend => list.push(friend));
+    friends.forEach((friend: any) => list.push(friend));
 
     
 
