@@ -3,7 +3,6 @@ import { LngLat, MapProvider} from 'react-map-gl'
 import Map from '../components/Map'
 import FocusOnUserButton from '../components/FocusOnUserButton';
 import Sidebar from '../components/Sidebar';
-import Navbar from '../components/NavBar';
 import { useContext, useEffect, useState } from 'react';
 import AddMarkerPopup from '../components/AddMarkerPopup';
 import {IMarker} from '../types/IMarker'
@@ -12,6 +11,7 @@ import { useSession } from '@inrupt/solid-ui-react';
 import { MarkerContext } from '../context/MarkersContext';
 import FriendsPopup from '../components/FriendsPopup';
 import { Types } from '../types/ContextActionTypes';
+import Navbar from '../components/NavBar';
 
 export enum Popups {
   NONE,
@@ -41,6 +41,8 @@ const MapPage = () : JSX.Element => {
   function closePopup() {
     setPopupVisible(Popups.NONE)
   }
+
+
 
   function addMark(name:string, lngLat:LngLat|undefined,description:string){
     if(lngLat===undefined){

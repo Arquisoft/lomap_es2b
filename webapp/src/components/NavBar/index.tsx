@@ -1,24 +1,38 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, FormEvent, ChangeEvent } from 'react';
 import { getStringNoLocale, getNamedNodeAll } from "@inrupt/solid-client";
 import { useSession } from '@inrupt/solid-ui-react';
 import { FOAF, VCARD } from '@inrupt/vocab-common-rdf';
 import { Avatar, Box, Divider, IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
+import { FaSearch, FaBars, FaMapMarkerAlt } from "react-icons/fa";
 
 import { IMenuOption } from '../../types/IMenuOption';
 import { Popups } from '../../pages/MapPage';
 import { UserContext } from '../../context/UserContext';
-import { NavbarContainer, Logo, SearchBar, TextMenuItem } from "./Styles";
+import { Title } from "../Sidebar/Styles";
+import NavPopup from "../NavPopup";
+import Sidebar from "../Sidebar";
+import { mapboxApiKey } from "../../config/constants";
+import { useMap } from "react-map-gl";
+import { Nav, SearchForm, SearchInput, SearchButton, TitleContainer, FormGroup } from './Styles';
+import { TextMenuItem } from './Styles';
 
 type Props = {
   openPopup: (popup : Popups) => void
 }
 
 const Navbar = ({ openPopup } : Props) => {
+  const { map  } = useMap()
+  const { logout } = useSession()
+
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [ username, setUsername ] = useState<string>('')
 
-  const { logout } = useSession()
+  const [searchValue] = useState("");
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(false);
+  const [query, setQuery] = useState('');
+
 
   const { state: user } = useContext(UserContext)
   
@@ -57,19 +71,83 @@ const Navbar = ({ openPopup } : Props) => {
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
-  };
-
+  }
+  
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  }
+
+  const handleSearch = async () => {
+    const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?access_token=${mapboxApiKey}`);
+    const data = await response.json();
+    const [lng, lat] = data.features[0].center;
+    map?.flyTo({ center: { lat: lat, lng: lng }, zoom: 14})
+    console.log(data)
   };
 
+  const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log(`Realizando búsqueda de: ${searchValue}`);
+  };
+
+  const handlePopupOpen = () => {
+    setIsPopupOpen(true);
+  };
+
+  const handlePopupClose = () => {
+    setIsPopupOpen(false);
+  };
+
+  const handleSidebarToggle = () => {
+    setShowSidebar(!showSidebar);
+  };
+
+  const handleConfigClick = () => {
+    // Aquí puedes agregar la lógica para navegar a la página de configuraciones
+    console.log("Configuraciones");
+  };
+
+  const handleAboutClick = () => {
+    // Aquí puedes agregar la lógica para navegar a la página de acerca de
+    console.log("Acerca de");
+  };
   
 
-
   return (
-    <NavbarContainer>
-      <Logo>LoMap</Logo>
-      <SearchBar placeholder="Buscar lugar" />
+    <Nav>
+       <IconButton onClick={handlePopupOpen}>
+        <FaBars />
+      </IconButton>
+
+      <Title>LoMap</Title>
+      <SearchForm onSubmit={handleSearchSubmit}>
+        <SearchInput
+          type="text"
+          placeholder="Buscar lugares..."
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+        />
+        <SearchButton type="submit" onClick={handleSearch}>
+          <FaSearch />
+        </SearchButton>
+      </SearchForm>
+        <IconButton onClick={handleSidebarToggle}>
+          <FaMapMarkerAlt />
+        </IconButton>
+      {isPopupOpen && (
+        <NavPopup isOpen={isPopupOpen} closePopup={handlePopupClose}>
+          <TitleContainer>
+            <h2>Menú de Opciones</h2>
+          </TitleContainer>
+            <FormGroup>
+              <button onClick={handleConfigClick}>Configuraciones</button>
+            </FormGroup>
+            <FormGroup>
+              <button onClick={handleAboutClick}>Acerca de</button>
+            </FormGroup>
+        </NavPopup>
+      )}
+      {showSidebar && <Sidebar />}
       <Box sx={{ flexGrow: 0 }}>
         <Tooltip title="Open settings">
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -103,9 +181,8 @@ const Navbar = ({ openPopup } : Props) => {
           ))}
         </Menu>
       </Box>
-    </NavbarContainer>
+    </Nav>
   );
 };
-
 
 export default Navbar;

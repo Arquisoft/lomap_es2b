@@ -47,6 +47,7 @@ export const TopSection = styled.div`
   align-items: center;
   justify-content: center;
   padding: 1em 0.5em;
+  width: 90%;
 `;
 
 export const Title = styled.h1`
