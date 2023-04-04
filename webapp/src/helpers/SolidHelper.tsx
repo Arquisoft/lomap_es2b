@@ -65,25 +65,23 @@ export async function readMarkerFromPod(webId?: string) {
   return markers;
 };
 
-export async function saveMarkerToPod(markers: IMarker[], webId?: string) { 
-  if (markers.length > 0) {
-    let profileDocumentURI = webId?.split("profile")[0];
-    let targetFileURL = profileDocumentURI + 'private/Markers.json';
-    let str = JSON.stringify(markers);
-    const bytes = new TextEncoder().encode(str);
-    const blob = new Blob([bytes], {
-      type: "application/json;charset=utf-8"
-    });
-    try {
-      await overwriteFile(
-        targetFileURL,                              // URL for the file.
-        blob,                                       // File
-        { contentType: blob.type, fetch }    // mimetype if known, fetch from the authenticated session
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  }
+export async function saveMarkerToPod(markers: IMarker[], webId?: string) {
+        let profileDocumentURI = webId?.split("profile")[0];
+        let targetFileURL = profileDocumentURI + 'private/Markers.json';
+        let str = JSON.stringify(markers);
+        const bytes = new TextEncoder().encode(str);
+        const blob = new Blob([bytes], {
+            type: "application/json;charset=utf-8"
+        });
+        try {
+            await overwriteFile(
+                targetFileURL,                              // URL for the file.
+                blob,                                       // File
+                { contentType: blob.type, fetch: fetch }    // mimetype if known, fetch from the authenticated session
+            );
+        } catch (error) {
+            console.error(error);
+        }
 };
 
 export async function getFriends(webId: string) {
