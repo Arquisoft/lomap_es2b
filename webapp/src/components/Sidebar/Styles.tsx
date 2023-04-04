@@ -19,7 +19,7 @@ export const SidebarSection = styled.div`
   margin: 1.0em;
   flex-grow: 1;
   height: calc(100vh - 5em - 9%);
-  width: 22%;
+  width: 25%;
   position: absolute;
   z-index: 100;
   top: calc(1em + 7%);

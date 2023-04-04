@@ -120,9 +120,11 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
 
   return (
     <Nav>
-       <IconButton onClick={handlePopupOpen}>
-        <FaBars />
-      </IconButton>
+      <Tooltip title="Open menu">
+        <IconButton onClick={handlePopupOpen}>
+          <FaBars />
+        </IconButton>
+      </Tooltip>
 
       <Title>LoMap</Title>
       <SearchForm onSubmit={handleSearchSubmit}>
@@ -132,13 +134,17 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
           value={query}
           onChange={e => setQuery(e.target.value)}
         />
+        <Tooltip title="Search">
         <SearchButton type="submit" onClick={handleSearch}>
           <FaSearch />
         </SearchButton>
+        </Tooltip>
       </SearchForm>
+        <Tooltip title="Open markers">
         <IconButton onClick={() => toggleSidebar(undefined)}>
           <FaMapMarkerAlt />
         </IconButton>
+        </Tooltip>
       {isPopupOpen && (
         <NavPopup isOpen={isPopupOpen} closePopup={handlePopupClose}>
           <TitleContainer>
@@ -152,7 +158,7 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
             </FormGroup>
         </NavPopup>
       )}
-      {/* <Box sx={{ flexGrow: 0 }}>
+      {  <Box sx={{ flexGrow: 0 }}>
         <Tooltip title="Open settings">
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
             <Avatar alt="" src={profilePic} style={{ backgroundColor: 'white' }} />
@@ -184,7 +190,7 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
             </MenuItem>
           ))}
         </Menu>
-      </Box> */}
+      </Box> } 
     </Nav>
   );
 };

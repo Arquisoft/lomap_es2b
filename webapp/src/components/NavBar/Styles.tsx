@@ -26,7 +26,7 @@ export const Nav = styled.nav`
   left: 0;
   margin: 1%;
   height: 4%;
-  width: 22%;
+  width: 25%;
   border-radius: 0.5em;
   -webkit-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
   -moz-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
