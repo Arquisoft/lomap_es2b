@@ -15,11 +15,11 @@ export const SidebarSection = styled.div`
   flex-direction: column;
   justify-content: center;
   background-color: #f8f8f8;
-  height: calc(100vh - 3em);
-  width: calc(30% - 1em);
+  height: calc(100vh - 3em - 9%);
+  width: calc(22% + 1em);
   position: absolute;
-  z-index: 999;
-  top: 0;
+  z-index: 100;
+  top: calc(1em + 7%);
   left: 0;
   margin: 1.0em;
   border-radius: 0.5em;
@@ -133,13 +133,15 @@ export const ClosedSidebar = styled.div`
 `;
 
 export const MarkerSection = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   cursor: pointer;
   margin-bottom: 10px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #fff;
-  transition: background-color 0.2s ease-in-out;
   top: 0;
   left: 0;
   margin: 0.5em;
@@ -149,8 +151,6 @@ export const MarkerSection = styled.div`
   }
 `;
 
-export const MarkerHover = styled.div`
-  background-color: #f8f8f8;
-  background-size: auto;
-  border-radius: 0.3em;
-`; 
+export const MarkerContent = styled.div`
+  flex-direction: column;
+`

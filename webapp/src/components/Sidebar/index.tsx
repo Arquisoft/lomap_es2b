@@ -1,41 +1,48 @@
 import { useContext, useState } from "react";
 import { useMap } from "react-map-gl";
+import { FaTimes } from "react-icons/fa";
+
 import { MarkerContext} from "../../context/MarkersContext";
 import { IMarker } from "../../types/IMarker";
-import { MarkerHover, MarkerList, MarkerSection, SearchBar, Title, TopSection } from "./Styles"
+import { MarkerList, MarkerSection, SearchBar, Title, TopSection, SidebarSection, CloseSection, MarkerContent } from "./Styles"
 import DeleteButton from "../DeleteButton";
 import SidePopup from '../SidePopup';
 
-const Sidebar = () => {
+type Props = {
+  isOpen: boolean,
+  toggleSidebar: (open: boolean) => void
+}
+
+const Sidebar = ({ isOpen, toggleSidebar } : Props) => {
 
   const { map  } = useMap()
 
   const { state: markers} = useContext(MarkerContext)
 
-  const [isOpen, setIsOpen] = useState(true) // Nuevo estado para controlar la apertura/cierre de la barra lateral
   const [searchValue, setSearchValue] = useState("")
 
   const handleMarkerClick = (marker: IMarker) => {
     map?.flyTo({ center: { lat: marker.lat, lng: marker.lng }, zoom: 16 })
   }
 
-  const toggleSidebar = () => { // Nueva función para cambiar el estado de la barra lateral
-    setIsOpen(!isOpen)
-  }
-
   const filteredMarkers = markers.filter((marker) => {
     return marker.name.toLowerCase().includes(searchValue.toLowerCase())
   })
 
-  
-
   return (
     <>
-      <SidePopup isOpen={isOpen} closePopup={toggleSidebar}>
-        <Title>Puntos de interés</Title>
+    {
+      isOpen ?
+      <SidebarSection>
         <TopSection>
-          <SearchBar type="text" placeholder="Buscar" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
-        </TopSection>
+            <Title>Puntos de interés</Title>
+            <CloseSection>
+              <FaTimes onClick={() => toggleSidebar(false)}/>
+            </CloseSection>
+          </TopSection>
+          <div className="search">
+            <SearchBar type="text" placeholder="Buscar" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
+          </div>
         <MarkerList>
           <div className="container">
             <div className="list">
@@ -47,7 +54,9 @@ const Sidebar = () => {
             </div>
           </div>
         </MarkerList>
-      </SidePopup>
+      </SidebarSection>
+      : null
+    }
     </>
   )
 }
@@ -61,13 +70,13 @@ const Marker = ({ marker, onClick }: MarkerProps) => {
   
 
   return (
-    <MarkerHover>
-      <MarkerSection onClick={() => onClick(marker)} >
+    <MarkerSection onClick={() => onClick(marker)} >
+      <MarkerContent>
         <h3>{marker.name}</h3>
         <p>{marker.description}</p>
-        <DeleteButton name={marker.name}/>
-      </MarkerSection>
-    </MarkerHover>
+      </MarkerContent>
+      <DeleteButton name={marker.name} />
+    </MarkerSection>
   );
 };
 

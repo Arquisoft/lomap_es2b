@@ -19,7 +19,7 @@ export enum Popups {
 
 const MapPage = () : JSX.Element => {
 
-
+  const [ sidebarOpen, setSidebarOpen ] = useState(true)
   const[popupVisible,setPopupVisible] = useState<Popups>(Popups.NONE)
   const [lngLat, setLngLat] = useState<LngLat>()  
 
@@ -74,13 +74,18 @@ const MapPage = () : JSX.Element => {
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [markers]) 
 
-  
+  const toggleSidebar = (open: boolean | undefined) => {
+    if (open !== undefined) 
+      setSidebarOpen(open)
+    else 
+      setSidebarOpen(!sidebarOpen)
+  }
   
 
   return (
     <MapProvider>
-      <Navbar openPopup={openPopup} />
-      <Sidebar />
+      <Navbar openPopup={openPopup} toggleSidebar={toggleSidebar} />
+      <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar}/>
       <Map onClick={showAddMarkerPopup} />
       <FocusOnUserButton />
       <AddMarkerPopup closePopup={closePopup} visible={popupVisible === Popups.ADD_MARKER} lngLat={lngLat} addMark={addMark}/>

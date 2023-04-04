@@ -1,29 +1,5 @@
 import styled from "styled-components";
 
-export const NavbarContainer = styled.nav`
-  background-color: #fff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #333;
-  padding: 1rem;
-  margin: 1em;
-  width: calc(65% - 1em);
-  position: absolute;
-  z-index: 100;
-  top: 0;
-  right: 0;
-  border-radius: 0.5em;
-
-  @media only screen and (max-width: 600px) {
-    top: 0;
-    width: calc(100% - 1rem);
-    margin: 0;
-    height: calc(10% - 2rem - 1%);
-    border-radius: 0;
-  }
-`;
-
 export const Logo = styled.a`
   font-size: 2rem;
   font-weight: bold;
@@ -42,7 +18,7 @@ export const Nav = styled.nav`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: 1em;
   background-color: #fff;
   box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
   flex-grow: 1;
@@ -55,6 +31,15 @@ export const Nav = styled.nav`
   -webkit-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
   -moz-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
   box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
+
+  @media only screen and (max-width: 600px) {
+    top: 0;
+    padding: 0.5rem
+    width: calc(100% - 1rem);
+    margin: 0;
+    height: calc(10% - 2rem - 1%);
+    border-radius: 0;
+  }
 `;
 
 export const MenuToggle = styled.button`
@@ -79,7 +64,7 @@ export const SearchBar = styled.input`
   border-radius: 0.3em;
   outline: none;
   border: none;
-  width: 70%;
+
   background: #eaeaea;
   font-size: 1em;
   padding: 0.3em;

@@ -19,10 +19,11 @@ import { TextMenuItem } from './Styles';
 import DefaulPic from '../../assets/defaultPic.png'
 
 type Props = {
+  toggleSidebar: (open: boolean | undefined) => void
   openPopup: (popup : Popups) => void
 }
 
-const Navbar = ({ openPopup } : Props) => {
+const Navbar = ({ openPopup, toggleSidebar } : Props) => {
   const { map  } = useMap()
   const { logout } = useSession()
 
@@ -86,7 +87,7 @@ const Navbar = ({ openPopup } : Props) => {
     const data = await response.json();
     const [lng, lat] = data.features[0].center;
     map?.flyTo({ center: { lat: lat, lng: lng }, zoom: 14})
-    console.log(data)
+    // console.log(data)
   };
 
   const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -135,7 +136,7 @@ const Navbar = ({ openPopup } : Props) => {
           <FaSearch />
         </SearchButton>
       </SearchForm>
-        <IconButton onClick={handleSidebarToggle}>
+        <IconButton onClick={() => toggleSidebar(undefined)}>
           <FaMapMarkerAlt />
         </IconButton>
       {isPopupOpen && (
@@ -151,8 +152,7 @@ const Navbar = ({ openPopup } : Props) => {
             </FormGroup>
         </NavPopup>
       )}
-      {showSidebar && <Sidebar />}
-      <Box sx={{ flexGrow: 0 }}>
+      {/* <Box sx={{ flexGrow: 0 }}>
         <Tooltip title="Open settings">
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
             <Avatar alt="" src={profilePic} style={{ backgroundColor: 'white' }} />
@@ -184,7 +184,7 @@ const Navbar = ({ openPopup } : Props) => {
             </MenuItem>
           ))}
         </Menu>
-      </Box>
+      </Box> */}
     </Nav>
   );
 };
