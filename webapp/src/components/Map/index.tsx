@@ -12,6 +12,7 @@ import { isNull } from 'util';
 
 
 
+
 interface Props{
     onClick:(lngLat:LngLat,visible:boolean)=>void;
 }
@@ -52,6 +53,7 @@ const MapComponent = ({ onClick }:Props) => {
     if ("geolocation" in navigator) {      
         navigator.geolocation.getCurrentPosition((position) => {
         map?.setCenter({ lat: position.coords.latitude, lng: position.coords.longitude })
+        
         setIsLoading(false)
       }, () => {
         setIsLoading(false)
@@ -73,6 +75,7 @@ const MapComponent = ({ onClick }:Props) => {
           latitude: 43.3602900, 
           longitude: 5.8447600, 
           zoom: 12
+          
         }}
           onLoad={locateUser}
           mapboxAccessToken={mapboxApiKey}
@@ -80,8 +83,8 @@ const MapComponent = ({ onClick }:Props) => {
           onClick={(MapLayerMouseEvent)=>{onClick(MapLayerMouseEvent.lngLat,true)
             MapLayerMouseEvent.preventDefault()
           }
+          
         }>
-
        
           {markers.map((marker,index)=>
           <Marker style={{cursor:"pointer"}} 
@@ -104,6 +107,7 @@ const MapComponent = ({ onClick }:Props) => {
           onClose={()=>setInfoVisible(null)}
           closeOnMove={false}
           >
+            
             <p>{infoVisible.name}</p>
             <TextField  label="Descripcion" defaultValue={infoVisible.description}
             InputProps={{
@@ -124,6 +128,7 @@ const MapComponent = ({ onClick }:Props) => {
              </Popup>
              
         )}
+        
         </Map>
       }
     </>

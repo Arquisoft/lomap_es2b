@@ -1,9 +1,11 @@
 import { List } from "@mui/material";
+import { FaTimes, FaChevronRight } from "react-icons/fa"
 import React, { useContext, useState } from "react";
 import { useMap } from "react-map-gl";
-import { MarkerContext } from "../../context/MarkersContext";
+import { MarkerContext} from "../../context/MarkersContext";
 import { IMarker } from "../../types/IMarker";
-import { MarkerHover, MarkerSection, SearchBar, Title, TopSection } from "./Styles"
+import { ClosedSidebar, CloseSection, MarkerHover, MarkerSection, SearchBar, SidebarSection, Title, TopSection } from "./Styles"
+import DeleteButton from "../DeleteButton";
 import styled, { keyframes } from 'styled-components'
 import SidePopup from '../SidePopup';
 
@@ -11,7 +13,7 @@ const Sidebar = () => {
 
   const { map  } = useMap()
 
-  const { state: markers } = useContext(MarkerContext)
+  const { state: markers} = useContext(MarkerContext)
 
   const [isOpen, setIsOpen] = useState(true) // Nuevo estado para controlar la apertura/cierre de la barra lateral
   const [searchValue, setSearchValue] = useState("")
@@ -27,6 +29,8 @@ const Sidebar = () => {
   const filteredMarkers = markers.filter((marker) => {
     return marker.name.toLowerCase().includes(searchValue.toLowerCase())
   })
+
+  
 
   return (
     <>
@@ -63,12 +67,14 @@ interface MarkerProps {
 }
 
 const Marker = ({ marker, onClick }: MarkerProps) => {
+  
 
   return (
     <MarkerHover>
       <MarkerSection onClick={() => onClick(marker)} >
         <h3>{marker.name}</h3>
         <p>{marker.description}</p>
+        <DeleteButton name={marker.name}/>
       </MarkerSection>
     </MarkerHover>
   );

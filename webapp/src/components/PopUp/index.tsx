@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { CloseButton, PopupContainer, PopupContent } from './Styles';
 
 interface PopupProps {
