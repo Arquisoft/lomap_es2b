@@ -88,6 +88,20 @@ export const Menu = styled.ul`
   box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
   list-style: none;
   z-index: 1;
+
+  @media only screen and (max-width: 600px) {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 70%;
+    height: 100vh;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+
+    &.open {
+      transform: translateX(0%);
+    }
+  }
 `;
 
 export const MenuItem = styled.li`
@@ -98,12 +112,20 @@ export const MenuItem = styled.li`
   &:hover {
     color: #000;
   }
+
+  @media (max-width: 600px) {
+    font-size: 0.8rem;
+  }
 `;
 
 export const SearchForm = styled.form`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
 `;
 
 export const SearchInput = styled.input`
@@ -116,6 +138,11 @@ export const SearchInput = styled.input`
 
   &:focus {
     background-color: #fff;
+  }
+
+  @media (max-width: 600px) {
+    border-radius: 5px;
+    margin-bottom: 1rem;
   }
 `;
 
@@ -134,6 +161,10 @@ export const SearchButton = styled.button`
   &:hover {
     background-color: #000;
   }
+
+  @media (max-width: 600px) {
+    font-size: 0.8rem;
+  }
 `;
 
 export const FormGroup = styled.div`
@@ -141,6 +172,10 @@ export const FormGroup = styled.div`
     flex-direction: column;
     justify-content: left;
     margin:1em;
+
+    @media (max-width: 600px) {
+      margin: 0.5em;
+    }
     
 `
 

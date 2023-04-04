@@ -15,18 +15,21 @@ export const SidebarSection = styled.div`
   flex-direction: column;
   justify-content: center;
   background-color: #f8f8f8;
-  height: calc(100vh - 3em - 9%);
-  width: calc(22% + 1em);
+  padding: 1em;
+  margin: 1.0em;
+  flex-grow: 1;
+  height: calc(100vh - 5em - 9%);
+  width: 22%;
   position: absolute;
   z-index: 100;
   top: calc(1em + 7%);
   left: 0;
-  margin: 1.0em;
   border-radius: 0.5em;
   animation: ${toggleAnimation} 0.2s ease-in-out;
   -webkit-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
   -moz-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
   box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
+  
 
   .search {
     display: flex;
