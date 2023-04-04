@@ -3,13 +3,13 @@ import { LngLat, MapProvider} from 'react-map-gl'
 import Map from '../components/Map'
 import FocusOnUserButton from '../components/FocusOnUserButton';
 import Sidebar from '../components/Sidebar';
-import Navbar from '../components/NavBar';
 import { useContext, useEffect, useState } from 'react';
 import AddPopup from '../components/AddPopup';
 import {IMarker} from '../types/IMarker'
 import {saveMarkerToPod } from '../helpers/SolidHelper';
 import { useSession } from '@inrupt/solid-ui-react';
 import { MarkerContext, Types } from '../context/MarkersContext';
+import NavBar from '../components/NavBar';
 
 const MapPage = () : JSX.Element => {
 
@@ -43,7 +43,7 @@ const MapPage = () : JSX.Element => {
 
   return (
     <MapProvider>
-      <Navbar />
+      <NavBar />
       <Sidebar />
       <Map onClick={showPopup}/>
       <FocusOnUserButton />
