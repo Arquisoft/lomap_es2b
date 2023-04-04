@@ -1,7 +1,8 @@
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton } from '@mui/material'
-import CloseIcon from '@mui/icons-material/Close';
-import { MarkerContext, Types } from '../../context/MarkersContext';
+import { Close as CloseIcon } from '@mui/icons-material';
+import { MarkerContext } from '../../context/MarkersContext';
 import { useContext,useState} from "react";
+import { Types } from '../../types/ContextActionTypes';
 
 interface Props {
     name: any;

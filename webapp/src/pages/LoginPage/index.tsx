@@ -23,6 +23,7 @@ const Login = () : JSX.Element => {
         oidcIssuer: identity,
         clientName: "LOMAP",
       });
+      console.log('logging in')
     } else {
       setError(true)
       setErrorText('Debes elegir un proveedor')

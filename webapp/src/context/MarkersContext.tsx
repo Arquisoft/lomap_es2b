@@ -1,6 +1,8 @@
-import { createContext, Dispatch, useReducer } from "react";
+import { createContext, Dispatch, useEffect, useReducer, useState } from "react";
 import { Types } from "../types/ContextActionTypes";
 import { IMarker } from '../types/IMarker';
+import { saveMarkerToPod } from "../helpers/SolidHelper";
+import { useSession } from "@inrupt/solid-ui-react";
 
 type MarkerActions = {
   type: Types.ADD
@@ -21,7 +23,7 @@ type MarkerActions = {
   type: Types.UPDATE
   payload: {
       id: number
-      marker: IMarker
+      marker: any
   }
 }
 
@@ -38,6 +40,7 @@ export const markerReducer = (state:IMarker[], action: MarkerActions) : IMarker[
     case Types.UPDATE:
       const index: number = state.findIndex(m => m.id === action.payload.id)
       state[index] = { ...state[index], ...action.payload.marker}
+      // console.log('updating', state[index])
       return state
 
     case Types.DELETE:
@@ -50,7 +53,20 @@ export const markerReducer = (state:IMarker[], action: MarkerActions) : IMarker[
 
 export const MarkerContextProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(markerReducer, [])
+
+  const [loaded,setLoaded] = useState(false);
+  const {session} = useSession();
   
+  useEffect(() => {
+    if(loaded){
+      console.log('guardando')
+      saveMarkerToPod(state, session.info.webId)
+    }else{
+      setLoaded(true)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]) 
+
   return (
     <MarkerContext.Provider value={{state, dispatch}}>  
       { children }

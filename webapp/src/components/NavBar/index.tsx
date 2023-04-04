@@ -16,6 +16,8 @@ import { useMap } from "react-map-gl";
 import { Nav, SearchForm, SearchInput, SearchButton, TitleContainer, FormGroup } from './Styles';
 import { TextMenuItem } from './Styles';
 
+import DefaulPic from '../../assets/defaultPic.png'
+
 type Props = {
   openPopup: (popup : Popups) => void
 }
@@ -24,9 +26,9 @@ const Navbar = ({ openPopup } : Props) => {
   const { map  } = useMap()
   const { logout } = useSession()
 
-  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [ username, setUsername ] = useState<string>('')
+  const [ profilePic, setProfilePic ] = useState<string>(DefaulPic)
 
   const [searchValue] = useState("");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -39,9 +41,11 @@ const Navbar = ({ openPopup } : Props) => {
   useEffect(() => {
     if (user) {
       setUsername(getStringNoLocale(user, FOAF.name) || '')
-      
-      // Con esto se carga la url de la imagen de perfil del usuario si existe
-      getNamedNodeAll(user, VCARD.hasPhoto)
+
+      if (getNamedNodeAll(user, VCARD.hasPhoto) && getNamedNodeAll(user, VCARD.hasPhoto).length > 0)
+        setProfilePic(getNamedNodeAll(user, VCARD.hasPhoto)[0].value || DefaulPic)
+      else
+        setProfilePic(DefaulPic)
     }
   },[user])
 
@@ -151,7 +155,7 @@ const Navbar = ({ openPopup } : Props) => {
       <Box sx={{ flexGrow: 0 }}>
         <Tooltip title="Open settings">
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-            <Avatar alt="Remy Sharp" src="" />
+            <Avatar alt="" src={profilePic} style={{ backgroundColor: 'white' }} />
           </IconButton>
         </Tooltip>
         <Menu
@@ -171,7 +175,7 @@ const Navbar = ({ openPopup } : Props) => {
           onClose={handleCloseUserMenu}
         >
           <TextMenuItem>
-            <Typography textAlign="center">Hola, { username }</Typography>
+            <Typography textAlign="center">{ username ? `Hola, ${username}!` : 'Hola!' }</Typography>
           </TextMenuItem>
           <Divider />
           {options.map(({ label, onClick }) => (

@@ -73,6 +73,8 @@ export const SearchBar = styled.input`
 
 export const MarkerList = styled.div`
   overflow: hidden;
+  width: calc(100% - 1em); 
+  height: calc(100vh - 13em); 
   padding: 0.5em 0.2em;
 
   .container {
