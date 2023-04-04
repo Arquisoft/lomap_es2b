@@ -28,6 +28,8 @@ const MapPage = () : JSX.Element => {
     setPopupVisible(false)
   }
 
+
+
   function addMark(name:string, lngLat:LngLat|undefined,description:string){
     if(lngLat===undefined){
       return
