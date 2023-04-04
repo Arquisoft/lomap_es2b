@@ -4,30 +4,42 @@ import Map from '../components/Map'
 import FocusOnUserButton from '../components/FocusOnUserButton';
 import Sidebar from '../components/Sidebar';
 import { useContext, useEffect, useState } from 'react';
-import AddPopup from '../components/AddPopup';
+import AddMarkerPopup from '../components/AddMarkerPopup';
 import {IMarker} from '../types/IMarker'
 import { saveMarkerToPod } from '../helpers/SolidHelper';
 import { useSession } from '@inrupt/solid-ui-react';
-import { MarkerContext, Types } from '../context/MarkersContext';
-import NavBar from '../components/NavBar';
+import { MarkerContext } from '../context/MarkersContext';
+import FriendsPopup from '../components/FriendsPopup';
+import { Types } from '../types/ContextActionTypes';
+import Navbar from '../components/NavBar';
+
+export enum Popups {
+  NONE,
+  ADD_MARKER,
+  FRIENDS,
+}
 
 const MapPage = () : JSX.Element => {
 
-  const[popupVisible,setPopupVisible] = useState(false)
+
+  const[popupVisible,setPopupVisible] = useState<Popups>(Popups.NONE)
   const [lngLat, setLngLat] = useState<LngLat>();
   const {session} = useSession();
-  const [loaded,setLoaded] = useState(false);
   
 
   const { state: markers, dispatch } = useContext(MarkerContext)
 
-  function showPopup(lngLat: LngLat, visible:boolean): void{
-    setPopupVisible(visible)
+  function showAddMarkerPopup(lngLat: LngLat): void{
+    setPopupVisible(Popups.ADD_MARKER)
     setLngLat(lngLat)
   }
 
+  function openPopup(popup : Popups) {
+    setPopupVisible(popup)
+  }
+
   function closePopup() {
-    setPopupVisible(false)
+    setPopupVisible(Popups.NONE)
   }
 
 
@@ -36,32 +48,47 @@ const MapPage = () : JSX.Element => {
     if(lngLat===undefined){
       return
     }
-    var newMarker:IMarker={ id: markers.length+1, name: name, address: "Value 1", lat: lngLat.lat, lng: lngLat.lng, date: new Date(), images: [], description: description, category: [], comments: [], score: 10 }
+    var newMarker:IMarker = { 
+      id: markers.length+1, 
+      name: name, 
+      address: "Value 1", 
+      lat: lngLat.lat, 
+      lng: lngLat.lng, 
+      date: new Date(), 
+      images: [], 
+      description: 
+      description, 
+      category: [], 
+      comments: [], 
+      score: 10 
+    }
     dispatch({ type: Types.ADD, payload: { marker: newMarker } })
-    setPopupVisible(false)
+    closePopup()
   }
 
  
 
-  useEffect(() => {
-    if(loaded){
-      saveMarkerToPod(markers, session.info.webId)
-    }else{
-      setLoaded(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [markers]) 
+  // useEffect(() => {
+  //   if(loaded){
+  //     console.log('guardando')
+  //     saveMarkerToPod(markers, session.info.webId)
+  //   }else{
+  //     setLoaded(true);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [markers]) 
 
   
   
 
   return (
     <MapProvider>
-      <NavBar />
+      <Navbar openPopup={openPopup} />
       <Sidebar />
-      <Map onClick={showPopup}/>
+      <Map onClick={showAddMarkerPopup} />
       <FocusOnUserButton />
-      <AddPopup closePopup={closePopup} visible={popupVisible} lngLat={lngLat} addMark={addMark}/>
+      <AddMarkerPopup closePopup={closePopup} visible={popupVisible === Popups.ADD_MARKER} lngLat={lngLat} addMark={addMark}/>
+      <FriendsPopup closePopup={closePopup} isOpen={popupVisible === Popups.FRIENDS} />
     </MapProvider> 
   )
 }
