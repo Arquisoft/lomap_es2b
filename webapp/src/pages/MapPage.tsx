@@ -1,13 +1,11 @@
+import { useContext, useState } from 'react';
 import { LngLat, MapProvider} from 'react-map-gl'
 
 import Map from '../components/Map'
 import FocusOnUserButton from '../components/FocusOnUserButton';
 import Sidebar from '../components/Sidebar';
-import { useContext, useEffect, useState } from 'react';
 import AddMarkerPopup from '../components/AddMarkerPopup';
 import {IMarker} from '../types/IMarker'
-import { saveMarkerToPod } from '../helpers/SolidHelper';
-import { useSession } from '@inrupt/solid-ui-react';
 import { MarkerContext } from '../context/MarkersContext';
 import FriendsPopup from '../components/FriendsPopup';
 import { Types } from '../types/ContextActionTypes';
@@ -23,9 +21,7 @@ const MapPage = () : JSX.Element => {
 
 
   const[popupVisible,setPopupVisible] = useState<Popups>(Popups.NONE)
-  const [lngLat, setLngLat] = useState<LngLat>();
-  const {session} = useSession();
-  
+  const [lngLat, setLngLat] = useState<LngLat>()  
 
   const { state: markers, dispatch } = useContext(MarkerContext)
 

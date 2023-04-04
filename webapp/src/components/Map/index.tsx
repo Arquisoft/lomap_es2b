@@ -27,7 +27,7 @@ const MapComponent = ({ onClick }:Props) => {
   const { state: markers, dispatch } = useContext(MarkerContext)
 
   function addComment(id:number, comment:string){
-    var listComments = markers.find(marker => marker.id==id)?.comments;
+    var listComments = markers.find(marker => marker.id === id)?.comments;
     if(!session.info.webId) return
     listComments?.push({ comment, author: session.info.webId })
     if(!infoVisible) return

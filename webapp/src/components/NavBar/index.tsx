@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, FormEvent, ChangeEvent } from 'react';
+import { useContext, useEffect, useState, FormEvent } from 'react';
 import { getStringNoLocale, getNamedNodeAll } from "@inrupt/solid-client";
 import { useSession } from '@inrupt/solid-ui-react';
 import { FOAF, VCARD } from '@inrupt/vocab-common-rdf';
