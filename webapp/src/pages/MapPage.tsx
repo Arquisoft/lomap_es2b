@@ -10,6 +10,7 @@ import { MarkerContext } from '../context/MarkersContext';
 import FriendsPopup from '../components/FriendsPopup';
 import { Types } from '../types/ContextActionTypes';
 import Navbar from '../components/NavBar';
+import Filter from '../components/Filters';
 
 export enum Popups {
   NONE,
@@ -86,6 +87,7 @@ const MapPage = () : JSX.Element => {
     <MapProvider>
       <Navbar openPopup={openPopup} toggleSidebar={toggleSidebar} />
       <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar}/>
+      <Filter/>
       <Map onClick={showAddMarkerPopup} />
       <FocusOnUserButton />
       <AddMarkerPopup closePopup={closePopup} visible={popupVisible === Popups.ADD_MARKER} lngLat={lngLat} addMark={addMark}/>
