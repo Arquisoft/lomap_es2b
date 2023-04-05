@@ -1,16 +1,17 @@
 import { useContext, useState } from 'react';
 import { LngLat, MapProvider} from 'react-map-gl'
 
-import Map from '../components/Map'
-import FocusOnUserButton from '../components/FocusOnUserButton';
-import Sidebar from '../components/Sidebar';
-import AddMarkerPopup from '../components/AddMarkerPopup';
-import {IMarker} from '../types/IMarker'
-import { MarkerContext } from '../context/MarkersContext';
-import FriendsPopup from '../components/FriendsPopup';
-import { Types } from '../types/ContextActionTypes';
-import Navbar from '../components/NavBar';
-import Filter from '../components/Filters';
+import Map from '../../components/Map'
+import FocusOnUserButton from '../../components/FocusOnUserButton';
+import Sidebar from '../../components/Sidebar';
+import AddMarkerPopup from '../../components/AddMarkerPopup';
+import {IMarker} from '../../types/IMarker'
+import { MarkerContext } from '../../context/MarkersContext';
+import FriendsPopup from '../../components/FriendsPopup';
+import { Types } from '../../types/ContextActionTypes';
+import Navbar from '../../components/NavBar';
+import Filter from '../../components/Filters';
+import { NavContainer} from './Styles'
 
 export enum Popups {
   NONE,
@@ -85,9 +86,11 @@ const MapPage = () : JSX.Element => {
 
   return (
     <MapProvider>
-      <Navbar openPopup={openPopup} toggleSidebar={toggleSidebar} />
+      <NavContainer>
+        <Navbar openPopup={openPopup} toggleSidebar={toggleSidebar} />
+        <Filter />
+      </NavContainer>
       <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar}/>
-      <Filter/>
       <Map onClick={showAddMarkerPopup} />
       <FocusOnUserButton />
       <AddMarkerPopup closePopup={closePopup} visible={popupVisible === Popups.ADD_MARKER} lngLat={lngLat} addMark={addMark}/>

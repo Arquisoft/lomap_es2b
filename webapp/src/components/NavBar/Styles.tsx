@@ -13,7 +13,6 @@ export const Logo = styled.a`
 export const NavLinks = styled.div``
 
 export const Nav = styled.nav`
-  position: absolute;
   z-index: 100;
   display: flex;
   align-items: center;
@@ -24,9 +23,10 @@ export const Nav = styled.nav`
   flex-grow: 1;
   top: 0;
   left: 0;
-  margin: 1%;
-  height: 4%;
-  width: 25%;
+  height: 4vh;
+  min-height: fit-content;
+  max-height: 7vh;
+  width: fit-content;
   border-radius: 0.5em;
   -webkit-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
   -moz-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
@@ -180,9 +180,9 @@ export const FormGroup = styled.div`
 `
 
 export const Title = styled.h1`
-  font-size: 1.5rem;
+  font-size: 1.5em;
   font-weight: bold;
-  margin: 0 1rem;
+  margin: 0 1em;
   cursor: pointer;
 `;
 

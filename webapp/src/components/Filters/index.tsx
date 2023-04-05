@@ -32,29 +32,27 @@ const FilterComponent: React.FC<FilterProps> = ({ activeFilter, locations, setAc
 
   return (
     <FilterContainer>
-      <div>
-        <FilterButton isActive={activeFilter === Category.Restaurant} onClick={() => setActiveFilter(Category.Restaurant)}>
-          Restaurants
-        </FilterButton>
-        <FilterButton isActive={activeFilter === Category.Hotel} onClick={() => setActiveFilter(Category.Hotel)}>
-          Hotels
-        </FilterButton>
-        <FilterButton isActive={activeFilter === Category.Monuments} onClick={() => setActiveFilter(Category.Monuments)}>
-          Monuments
-        </FilterButton>
-        <FilterButton isActive={activeFilter === Category.Shops} onClick={() => setActiveFilter(Category.Shops)}>
-          Shops
-        </FilterButton>
-        <FilterButton isActive={activeFilter === Category.Bar} onClick={() => setActiveFilter(Category.Bar)}>
-          Bar
-        </FilterButton>
-        <FilterButton isActive={activeFilter === Category.Landscapes} onClick={() => setActiveFilter(Category.Landscapes)}>
-          Landscapes
-        </FilterButton>
-        <FilterButton isActive={activeFilter === Category.Others} onClick={() => setActiveFilter(Category.Others)}>
-          Others
-        </FilterButton>
-      </div>
+      <FilterButton isActive={activeFilter === Category.Restaurant} onClick={() => setActiveFilter(Category.Restaurant)}>
+        Restaurants
+      </FilterButton>
+      <FilterButton isActive={activeFilter === Category.Hotel} onClick={() => setActiveFilter(Category.Hotel)}>
+        Hotels
+      </FilterButton>
+      <FilterButton isActive={activeFilter === Category.Monuments} onClick={() => setActiveFilter(Category.Monuments)}>
+        Monuments
+      </FilterButton>
+      <FilterButton isActive={activeFilter === Category.Shops} onClick={() => setActiveFilter(Category.Shops)}>
+        Shops
+      </FilterButton>
+      <FilterButton isActive={activeFilter === Category.Bar} onClick={() => setActiveFilter(Category.Bar)}>
+        Bar
+      </FilterButton>
+      <FilterButton isActive={activeFilter === Category.Landscapes} onClick={() => setActiveFilter(Category.Landscapes)}>
+        Landscapes
+      </FilterButton>
+      <FilterButton isActive={activeFilter === Category.Others} onClick={() => setActiveFilter(Category.Others)}>
+        Others
+      </FilterButton>
       {/* <LocationList>
         {filteredLocations.map((loc) => (
           <LocationItem key={loc.name}>

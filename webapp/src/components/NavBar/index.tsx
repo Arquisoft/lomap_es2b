@@ -121,8 +121,11 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
   return (
     <Nav>
       <Tooltip title="Open menu">
-        <IconButton onClick={handlePopupOpen}>
-          <FaBars onClick={handleBarsClick}/>
+        <IconButton onClick={() => {
+          handlePopupOpen()
+          handleBarsClick()
+        }}>
+          <FaBars/>
         </IconButton>
       </Tooltip>
 
