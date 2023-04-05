@@ -10,7 +10,6 @@ import { Popups } from '../../pages/MapPage';
 import { UserContext } from '../../context/UserContext';
 import { Title } from "../Sidebar/Styles";
 import NavPopup from "../NavPopup";
-import Sidebar from "../Sidebar";
 import { mapboxApiKey } from "../../config/constants";
 import { useMap } from "react-map-gl";
 import { Nav, SearchForm, SearchInput, SearchButton, TitleContainer, FormGroup } from './Styles';
@@ -33,9 +32,8 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
 
   const [searchValue] = useState("");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [showSidebar, setShowSidebar] = useState(false);
   const [query, setQuery] = useState('');
-
+  const [showMarkers, setShowMarkers] = useState(false);
 
   const { state: user } = useContext(UserContext)
   
@@ -90,21 +88,23 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
     // console.log(data)
   };
 
+  const handleBarsClick = () => {
+    setShowMarkers(false);
+    toggleSidebar(false);
+  };
+
   const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log(`Realizando búsqueda de: ${searchValue}`);
   };
 
   const handlePopupOpen = () => {
+    setShowMarkers(false);
     setIsPopupOpen(true);
   };
 
   const handlePopupClose = () => {
     setIsPopupOpen(false);
-  };
-
-  const handleSidebarToggle = () => {
-    setShowSidebar(!showSidebar);
   };
 
   const handleConfigClick = () => {
@@ -122,7 +122,7 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
     <Nav>
       <Tooltip title="Open menu">
         <IconButton onClick={handlePopupOpen}>
-          <FaBars />
+          <FaBars onClick={handleBarsClick}/>
         </IconButton>
       </Tooltip>
 

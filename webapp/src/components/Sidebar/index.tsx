@@ -1,12 +1,11 @@
 import { useContext, useState } from "react";
 import { useMap } from "react-map-gl";
-import { FaTimes } from "react-icons/fa";
+import {FaTimes } from "react-icons/fa";
 
 import { MarkerContext} from "../../context/MarkersContext";
 import { IMarker } from "../../types/IMarker";
 import { MarkerList, MarkerSection, SearchBar, Title, TopSection, SidebarSection, CloseSection, MarkerContent } from "./Styles"
 import DeleteButton from "../DeleteButton";
-import SidePopup from '../SidePopup';
 
 type Props = {
   isOpen: boolean,
