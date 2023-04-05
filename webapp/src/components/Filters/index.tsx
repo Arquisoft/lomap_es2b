@@ -1,15 +1,10 @@
 import React from 'react';
-import { FilterButton, FilterContainer, LocationItem, LocationList, FilterWrapper } from './Styles';
-
-enum Category {
-  Restaurant = 'restaurant',
-  Hotel = 'hotel',
-  Monuments = 'monuments',
-  Shops = 'shops',
-  Bar = 'bar',
-  Landscapes = 'landscapes', 
-  Others = 'others'
-}
+import { BiRestaurant } from 'react-icons/bi';
+import { MdLocalHotel, MdLandscape, MdOtherHouses } from 'react-icons/md';
+import { FaMonument, FaShoppingCart } from 'react-icons/fa';
+import {IoIosBeer} from 'react-icons/io';
+import { FilterButton, FilterContainer, FilterWrapper } from './Styles';
+import { Category } from '../../types/Category';
 
 interface Location {
   name: string;
@@ -33,24 +28,31 @@ const FilterComponent: React.FC<FilterProps> = ({ activeFilter, locations, setAc
   return (
     <FilterContainer>
       <FilterButton isActive={activeFilter === Category.Restaurant} onClick={() => setActiveFilter(Category.Restaurant)}>
+        <BiRestaurant />
         Restaurants
       </FilterButton>
       <FilterButton isActive={activeFilter === Category.Hotel} onClick={() => setActiveFilter(Category.Hotel)}>
+        <MdLocalHotel />
         Hotels
       </FilterButton>
       <FilterButton isActive={activeFilter === Category.Monuments} onClick={() => setActiveFilter(Category.Monuments)}>
+        <FaMonument />
         Monuments
       </FilterButton>
       <FilterButton isActive={activeFilter === Category.Shops} onClick={() => setActiveFilter(Category.Shops)}>
+        <FaShoppingCart />
         Shops
       </FilterButton>
       <FilterButton isActive={activeFilter === Category.Bar} onClick={() => setActiveFilter(Category.Bar)}>
+        <IoIosBeer />
         Bar
       </FilterButton>
       <FilterButton isActive={activeFilter === Category.Landscapes} onClick={() => setActiveFilter(Category.Landscapes)}>
+        <MdLandscape />
         Landscapes
       </FilterButton>
       <FilterButton isActive={activeFilter === Category.Others} onClick={() => setActiveFilter(Category.Others)}>
+        <MdOtherHouses />
         Others
       </FilterButton>
       {/* <LocationList>
