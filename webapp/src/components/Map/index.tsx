@@ -2,56 +2,52 @@ import { useContext, useEffect, useState } from 'react'
 import { Button, CircularProgress,Rating,TextField, Typography } from '@mui/material'
 import Map, { LngLat, Marker, useMap,Popup} from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { useSession } from '@inrupt/solid-ui-react';
 
 import { mapboxApiKey } from '../../config/constants'
 
-import { MarkerContext, Types } from '../../context/MarkersContext';
+import { MarkerContext } from '../../context/MarkersContext';
 import { IMarker } from '../../types/IMarker';
 import './Map.css'
-import { isNull } from 'util';
-
-
+import { Types } from '../../types/ContextActionTypes';
 
 interface Props{
     onClick:(lngLat:LngLat,visible:boolean)=>void;
 }
 
 const MapComponent = ({ onClick }:Props) => {
-
+  
   const { map } = useMap()
+  const {session} = useSession();
   
   const [isLoading , setIsLoading] = useState(true)
   const [infoVisible,setInfoVisible] = useState<IMarker|null>(null); 
   const [comment,setComment] = useState<string>("");
 
-  const { state: markers } = useContext(MarkerContext)
+  const { state: markers, dispatch } = useContext(MarkerContext)
 
   function addComment(id:number, comment:string){
-    var newList=[...markers];
-    newList.find(marker => marker.id==id)?.comments.push(comment);
-    dispatch({type: Types.SET, payload:{markers:newList}});
+    var listComments = markers.find(marker => marker.id === id)?.comments;
+    if(!session.info.webId) return
+    listComments?.push({ comment, author: session.info.webId })
+    if(!infoVisible) return
+    dispatch({type: Types.UPDATE, payload:{id: infoVisible.id, marker:{comments:listComments}}});
+    setComment("");
+    console.log(markers.find(m => m.id === infoVisible.id));
   }
 
-  function setScore(id:number, newScore:number|null){
-    console.log("Llega al setSocre");
-    if(isNull(newScore)){
-      return;
-    }
-    var newMarkers: IMarker[] = markers.map(marker=>{
-      if(marker.id==id){
-        return{...marker,score:newScore};
-      }else{
-        return marker;
-      }
-    })
-    dispatch({type: Types.SET, payload:{markers:newMarkers}});
+  function setScore(newScore:number | null){
+    if(!newScore || !infoVisible) return
     
+    dispatch({ type: Types.UPDATE, payload:{ id: infoVisible.id, marker: { score: newScore } } });
+    setInfoVisible(markers.find(m => m.id === infoVisible.id) || infoVisible)
   }
 
   const locateUser = () => {
     if ("geolocation" in navigator) {      
         navigator.geolocation.getCurrentPosition((position) => {
         map?.setCenter({ lat: position.coords.latitude, lng: position.coords.longitude })
+        
         setIsLoading(false)
       }, () => {
         setIsLoading(false)
@@ -67,12 +63,13 @@ const MapComponent = ({ onClick }:Props) => {
     <>
       {
         isLoading ?
-        <CircularProgress className='loader' />
+        <CircularProgress className='loader' color='primary' />
         : 
         <Map id='map' initialViewState={{
           latitude: 43.3602900, 
           longitude: 5.8447600, 
           zoom: 12
+          
         }}
           onLoad={locateUser}
           mapboxAccessToken={mapboxApiKey}
@@ -80,30 +77,32 @@ const MapComponent = ({ onClick }:Props) => {
           onClick={(MapLayerMouseEvent)=>{onClick(MapLayerMouseEvent.lngLat,true)
             MapLayerMouseEvent.preventDefault()
           }
+          
         }>
-
        
-          {markers.map((marker,index)=>
-          <Marker style={{cursor:"pointer"}} 
-          key={marker.id}
-          longitude={marker.lng}
-          latitude={marker.lat}
-          onClick={(e)=>{
-            e.originalEvent.stopPropagation()
-            setInfoVisible(marker)
-
-          }}
-          />
-          )}
+          {
+            markers.map((marker)=>
+              <Marker style={{cursor:"pointer"}} 
+                key={marker.id}
+                longitude={marker.lng}
+                latitude={marker.lat}
+                onClick={(e)=>{
+                  e.originalEvent.stopPropagation()
+                  setInfoVisible(marker)
+                }}
+              />
+            )
+          }
 
 
           {infoVisible && (
           <Popup 
-          longitude={infoVisible.lng}
-          latitude={infoVisible.lat}
-          onClose={()=>setInfoVisible(null)}
-          closeOnMove={false}
+            longitude={infoVisible.lng}
+            latitude={infoVisible.lat}
+            onClose={()=>setInfoVisible(null)}
+            closeOnMove={false}
           >
+            
             <p>{infoVisible.name}</p>
             <TextField  label="Descripcion" defaultValue={infoVisible.description}
             InputProps={{
@@ -111,19 +110,19 @@ const MapComponent = ({ onClick }:Props) => {
             }}
             />
             <label>Comentar</label>
-            <TextField onChange={(e)=>setComment(e.target.value)} label={"Comenta aqui"} variant='standard' />
-            <Button  onClick={()=>addComment(infoVisible.id,comment)} color='success' variant='contained'>Anadir</Button>       
+            <TextField value={comment} onChange={(e)=>setComment(e.target.value)} label={"Comenta aqui"} variant='standard' />
+            <Button onClick={()=>addComment(infoVisible.id,comment)} color='success' variant='contained'>Anadir</Button>       
             <Typography component="legend">Puntuacion</Typography>
             <Rating
               name="simple-controlled"
               value={infoVisible.score}
               onChange={(event,newValue)=>{
-              setScore(infoVisible.id,newValue);
+                setScore(newValue);
               }}
-/>           
-             </Popup>
-             
+            />
+          </Popup>
         )}
+        
         </Map>
       }
     </>
@@ -131,7 +130,3 @@ const MapComponent = ({ onClick }:Props) => {
 }
 
 export default MapComponent
-
-function dispatch(arg0: { type: any; payload: { markers: IMarker[]; }; }) {
-  throw new Error('Function not implemented.');
-}

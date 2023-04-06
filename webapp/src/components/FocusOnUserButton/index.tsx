@@ -17,7 +17,7 @@ const FocusOnUserButton = () => {
   }
 
   return (
-    <Fab className='locate-button' onClick={getLocation} style={{position: 'absolute', margin: '1.5em'}}><BiCurrentLocation size='2em' /></Fab>
+    <Fab className='locate-button' onClick={getLocation} style={{position: 'absolute', margin: '1.5em', zIndex: 500}}><BiCurrentLocation size='2em' /></Fab>
   )
 }
 

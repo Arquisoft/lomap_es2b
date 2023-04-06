@@ -6,15 +6,17 @@ const toggleAnimation = keyframes`
     opacity: 0;
   }
   to {
-    width: 25%;
     opacity: 1;
   }
 `
 
 export const SidebarSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   background-color: #f8f8f8;
   height: calc(100vh - 3em);
-  width: 25%;
+  width: calc(30% - 1em);
   position: absolute;
   z-index: 999;
   top: 0;
@@ -25,38 +27,83 @@ export const SidebarSection = styled.div`
   -webkit-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
   -moz-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
   box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
+
+  .search {
+    display: flex;
+    justify-content: center;
+  }
+
+  @media only screen and (max-width: 600px) {
+    top: 10%;
+    width: 100%;
+    margin: 0;
+    height: calc(90%);
+    border-radius: 0;
+  }
 `;
 
 export const TopSection = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px 10px;
+  padding: 1em 0.5em;
+  width: 90%;
 `;
 
 export const Title = styled.h1`
   width: 100%;
-  font-size: 24px;
+  font-size: 1.5em;
   font-weight: bold;
   padding: 10px;
   margin: 0;
   text-align: center;
 `;
 
-export const SearchBar = styled.input<{ isOpen: boolean }>`
-  display: ${({ isOpen }) => isOpen ? "block" : "none"};
+export const SearchBar = styled.input`
   position: relative; 
-  width: 85%; 
-  height: 20px;
-  margin: 0 auto; 
+  width: 85%;
   border-radius: 0.3em;
   outline: none;
   border: none;
-  width: 90%;
   background: #eaeaea;
   font-size: 1em;
   padding: 0.3em;
+  margin-bottom: 0.5em;
 `;
+
+export const MarkerList = styled.div`
+  overflow: hidden;
+  width: calc(100% - 1em); 
+  height: calc(100vh - 13em); 
+  padding: 0.5em 0.2em;
+
+  .container {
+    overflow: auto;
+    height: 100%;
+
+    /* Scrollbar */
+    scrollbar-color: #c2c2c2 #f8f8f8;
+
+    ::-webkit-scrollbar {
+      width: 0.7em;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f8f8f8;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: #c2c2c2;
+      border-radius: 1em;
+      border: 0.15em solid #f8f8f8;
+    }
+
+    .content: {
+      position: relative;
+      height: auto;
+    }
+  }
+`
 
 export const CloseSection = styled.div`
   display: flex;
@@ -79,6 +126,10 @@ export const ClosedSidebar = styled.div`
   padding: 0.1em;
   border-radius: 0 0.2em 0.2em 0;
   cursor: pointer;
+
+  @media only screen and (max-width: 600px) {
+    top: 10%;
+  }
 `;
 
 export const MarkerSection = styled.div`
@@ -93,6 +144,9 @@ export const MarkerSection = styled.div`
   left: 0;
   margin: 0.5em;
   border-radius: 0.5em;
+  :hover {
+    background-color: #f8f8f8;
+  }
 `;
 
 export const MarkerHover = styled.div`

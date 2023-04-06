@@ -1,18 +1,16 @@
-import { List } from "@mui/material";
-import React, { useContext, useState } from "react";
-import { FaBars, FaTimes, FaChevronRight } from "react-icons/fa"
+import { useContext, useState } from "react";
 import { useMap } from "react-map-gl";
-import { MarkerContext } from "../../context/MarkersContext";
+import { MarkerContext} from "../../context/MarkersContext";
 import { IMarker } from "../../types/IMarker";
-import { ClosedSidebar, CloseSection, MarkerHover, MarkerSection, SearchBar, SidebarSection, Title, TopSection } from "./Styles"
-import styled, { keyframes } from 'styled-components'
-
+import { MarkerHover, MarkerList, MarkerSection, SearchBar, Title, TopSection } from "./Styles"
+import DeleteButton from "../DeleteButton";
+import SidePopup from '../SidePopup';
 
 const Sidebar = () => {
 
   const { map  } = useMap()
 
-  const { state: markers } = useContext(MarkerContext)
+  const { state: markers} = useContext(MarkerContext)
 
   const [isOpen, setIsOpen] = useState(true) // Nuevo estado para controlar la apertura/cierre de la barra lateral
   const [searchValue, setSearchValue] = useState("")
@@ -29,44 +27,27 @@ const Sidebar = () => {
     return marker.name.toLowerCase().includes(searchValue.toLowerCase())
   })
 
+  
+
   return (
     <>
-      {
-        isOpen ?
-        <SidebarSection>
-          <TopSection>
-            <Title>Puntos de interés</Title>
-            <CloseSection>
-              <FaTimes onClick={toggleSidebar}/>
-            </CloseSection>
-          </TopSection>
-          <div>
-            <SearchBar isOpen={isOpen} type="text" placeholder="Buscar" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
+      <SidePopup isOpen={isOpen} closePopup={toggleSidebar}>
+        <Title>Puntos de interés</Title>
+        <TopSection>
+          <SearchBar type="text" placeholder="Buscar" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
+        </TopSection>
+        <MarkerList>
+          <div className="container">
+            <div className="list">
+              {
+              filteredMarkers.map((marker) => (
+                <Marker key={marker.id} marker={marker} onClick={handleMarkerClick} />
+              ))
+              }
+            </div>
           </div>
-          <List
-            sx={{
-              width: '100%',
-              height: '100%',
-              maxWidth: 360,
-              bgcolor: '#f8f8f8',
-              position: 'relative',
-              overflow: 'auto',
-              maxHeight: isOpen ? 400 : 450
-            }}
-          >
-            {
-            filteredMarkers.map((marker) => (
-              <Marker key={marker.id} marker={marker} onClick={handleMarkerClick} />
-            ))
-            }
-          </List>
-        </SidebarSection>
-        :
-
-        <ClosedSidebar>
-          <FaChevronRight onClick={toggleSidebar}/>
-        </ClosedSidebar>
-      }
+        </MarkerList>
+      </SidePopup>
     </>
   )
 }
@@ -77,12 +58,14 @@ interface MarkerProps {
 }
 
 const Marker = ({ marker, onClick }: MarkerProps) => {
+  
 
   return (
     <MarkerHover>
       <MarkerSection onClick={() => onClick(marker)} >
         <h3>{marker.name}</h3>
         <p>{marker.description}</p>
+        <DeleteButton name={marker.name}/>
       </MarkerSection>
     </MarkerHover>
   );

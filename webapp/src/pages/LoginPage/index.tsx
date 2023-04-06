@@ -1,6 +1,6 @@
 import React, { useState} from 'react'
 
-import { Autocomplete, TextField, Divider, Box } from '@mui/material'
+import { Select, InputLabel, FormControl, Divider, Box, MenuItem, FormHelperText } from '@mui/material'
 import { login } from "@inrupt/solid-client-authn-browser";
 import { Button } from '@mui/material';
 
@@ -8,19 +8,25 @@ import { Container, Form } from './Styles'
 
 const Login = () : JSX.Element => {
 
-  const [identity, setIdentity] = useState<ProviderOption | null>({ label: '', url: '' })
-
+  const [identity, setIdentity] = useState<string>('')
+  const [error, setError] = React.useState(false);
+  const [errorText, setErrorText] = React.useState('');
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>)=>{
     event.preventDefault()
     
-    console.log(identity)
     if (identity) {
+      setError(false)
+      setErrorText('')
       login({
         redirectUrl: window.location.href,
-        oidcIssuer: identity.url,
+        oidcIssuer: identity,
         clientName: "LOMAP",
       });
+      console.log('logging in')
+    } else {
+      setError(true)
+      setErrorText('Debes elegir un proveedor')
     }
 
   };
@@ -39,7 +45,7 @@ const Login = () : JSX.Element => {
         justifyContent="center"
         alignContent="center"
         height="80%"
-        >
+      >
         <Divider className='divider' orientation='vertical' variant='middle'/>
       </Box>
       {/* Div formulario(derecha) */}
@@ -47,15 +53,24 @@ const Login = () : JSX.Element => {
         <h1 className='title'>LoMap</h1>
         <Form onSubmit={handleSubmit}>
           <h2>Elige un proveedor</h2>
-          <Autocomplete
-            disablePortal
-            options={providers}
-            getOptionLabel = {option => option.label}
-            sx={{ width: 300 }}
-            value={identity}
-            onChange={(event, value : ProviderOption | null) => setIdentity(value)}
-            renderInput={(params) => <TextField {...params} label="Proveedor"/>}
-          />
+          <FormControl>
+            <InputLabel id="provider-select-label">Proveedor</InputLabel>
+            <Select
+              labelId='provider-select-label'
+              label='Proveedor'
+              value={identity}
+              onChange={(e) => setIdentity(e.target.value)}
+            >
+              {
+                providers.map((provider, index) => (
+                  <MenuItem value={provider.url} key={index}>{ provider.label }</MenuItem>
+                ))
+              }
+            </Select>
+            {
+              error && <FormHelperText className='error' error={error}>{errorText}</FormHelperText>
+            }
+          </FormControl>
           <Button type="submit" variant="contained">Entrar</Button>
         </Form> 
       </div>

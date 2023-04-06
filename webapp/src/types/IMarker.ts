@@ -8,6 +8,11 @@ export interface IMarker {
   images: string[] // Se guardan las URLs
   description?: string
   category: string[]
-  comments: string[]
-  score: number
+  comments: IComment[]
+  score?: number
+}
+
+export interface IComment {
+  author: string
+  comment: string
 }
