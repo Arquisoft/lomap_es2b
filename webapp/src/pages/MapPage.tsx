@@ -11,6 +11,7 @@ import FriendsPopup from '../components/FriendsPopup';
 import { Types } from '../types/ContextActionTypes';
 import Navbar from '../components/NavBar';
 
+
 export enum Popups {
   NONE,
   ADD_MARKER,
@@ -19,11 +20,10 @@ export enum Popups {
 
 const MapPage = () : JSX.Element => {
 
-
   const[popupVisible,setPopupVisible] = useState<Popups>(Popups.NONE)
   const [lngLat, setLngLat] = useState<LngLat>()  
 
-  const { state: markers, dispatch } = useContext(MarkerContext)
+  let { state: markers, dispatch } = useContext(MarkerContext)
 
   function showAddMarkerPopup(lngLat: LngLat): void{
     setPopupVisible(Popups.ADD_MARKER)
@@ -62,19 +62,6 @@ const MapPage = () : JSX.Element => {
     closePopup()
   }
 
- 
-
-  // useEffect(() => {
-  //   if(loaded){
-  //     console.log('guardando')
-  //     saveMarkerToPod(markers, session.info.webId)
-  //   }else{
-  //     setLoaded(true);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [markers]) 
-
-  
   
 
   return (

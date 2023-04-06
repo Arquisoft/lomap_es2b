@@ -10,6 +10,7 @@ import { MarkerContext } from '../../context/MarkersContext';
 import { IMarker } from '../../types/IMarker';
 import './Map.css'
 import { Types } from '../../types/ContextActionTypes';
+import { saveMarkerToPod } from '../../helpers/SolidHelper';
 
 interface Props{
     onClick:(lngLat:LngLat,visible:boolean)=>void;
@@ -56,8 +57,23 @@ const MapComponent = ({ onClick }:Props) => {
       setIsLoading(false)
     }
   }
+
+  
   
   useEffect(locateUser,[map])
+
+  const [loaded,setLoaded] = useState(false);
+
+  
+  useEffect(() => {
+    if(loaded){
+      console.log('guardando')
+      saveMarkerToPod(markers, session.info.webId)
+    }else{
+      setLoaded(true)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [markers]) 
 
   return (
     <>
