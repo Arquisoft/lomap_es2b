@@ -5,6 +5,7 @@ import { IMarker } from "../../types/IMarker";
 import { MarkerHover, MarkerList, MarkerSection, SearchBar, Title, TopSection } from "./Styles"
 import DeleteButton from "../DeleteButton";
 import SidePopup from '../SidePopup';
+import ShareButton from "../ShareButton";
 
 const Sidebar = () => {
 
@@ -66,6 +67,7 @@ const Marker = ({ marker, onClick }: MarkerProps) => {
         <h3>{marker.name}</h3>
         <p>{marker.description}</p>
         <DeleteButton name={marker.name}/>
+        <ShareButton marker={marker}/>
       </MarkerSection>
     </MarkerHover>
   );
