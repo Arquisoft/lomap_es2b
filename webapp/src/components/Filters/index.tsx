@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BiRestaurant } from 'react-icons/bi';
 import { MdLocalHotel, MdLandscape, MdOtherHouses } from 'react-icons/md';
 import { FaMonument, FaShoppingCart } from 'react-icons/fa';
 import {IoIosBeer} from 'react-icons/io';
 import { FilterButton, FilterContainer, FilterWrapper } from './Styles';
 import { Category } from '../../types/Category';
+
+type Props = {
+  toggleSidebar: (open: boolean | undefined) => void
+}
 
 interface Location {
   name: string;
@@ -20,38 +24,55 @@ interface FilterProps {
   locations: Location[];
   activeFilter: Category;
   setActiveFilter: (category: Category) => void;
+  toggleSidebar: (open: boolean | undefined) => void;
 }
 
-const FilterComponent: React.FC<FilterProps> = ({ activeFilter, locations, setActiveFilter }) => {
+const LocationList: React.FC<{ locations: Location[] }> = ({ locations }) => (
+  <ul>
+    {locations.map((loc) => (
+      <li key={loc.name}>
+        <h3>{loc.name}</h3>
+        <p>{loc.address}</p>
+      </li>
+    ))}
+  </ul>
+);
+
+const FilterComponent: React.FC<FilterProps> = ({ activeFilter, locations, setActiveFilter, toggleSidebar}) => {
   const filteredLocations = locations.filter((loc) => loc.category === activeFilter);
+
+  const handleFilterClick = (category: Category) => {
+    setActiveFilter(category);
+    toggleSidebar(true);
+  };
 
   return (
     <FilterContainer>
-      <FilterButton isActive={activeFilter === Category.Restaurant} onClick={() => setActiveFilter(Category.Restaurant)}>
+      <FilterButton isActive={activeFilter === Category.Restaurant} onClick={() => handleFilterClick(Category.Restaurant)}>
         <BiRestaurant />
         Restaurants
       </FilterButton>
-      <FilterButton isActive={activeFilter === Category.Hotel} onClick={() => setActiveFilter(Category.Hotel)}>
+      <FilterButton isActive={activeFilter === Category.Hotel} onClick={() => handleFilterClick(Category.Hotel)}>
         <MdLocalHotel />
         Hotels
       </FilterButton>
-      <FilterButton isActive={activeFilter === Category.Monuments} onClick={() => setActiveFilter(Category.Monuments)}>
+      <FilterButton isActive={activeFilter === Category.Monuments} onClick={() => handleFilterClick(Category.Monuments)}>
         <FaMonument />
         Monuments
       </FilterButton>
-      <FilterButton isActive={activeFilter === Category.Shops} onClick={() => setActiveFilter(Category.Shops)}>
+      <FilterButton isActive={activeFilter === Category.Shops} onClick={() => handleFilterClick(Category.Shops)}>
         <FaShoppingCart />
         Shops
       </FilterButton>
-      <FilterButton isActive={activeFilter === Category.Bar} onClick={() => setActiveFilter(Category.Bar)}>
+      <FilterButton isActive={activeFilter === Category.Bar} onClick={() => handleFilterClick(Category.Bar)}>
         <IoIosBeer />
         Bar
       </FilterButton>
-      <FilterButton isActive={activeFilter === Category.Landscapes} onClick={() => setActiveFilter(Category.Landscapes)}>
+      <FilterButton isActive={activeFilter === Category.Landscapes} onClick={() => handleFilterClick(Category.Landscapes)}>
         <MdLandscape />
         Landscapes
       </FilterButton>
-      <FilterButton isActive={activeFilter === Category.Others} onClick={() => setActiveFilter(Category.Others)}>
+      <FilterButton isActive={activeFilter === Category.Others} onClick={() => handleFilterClick(Category.Others)}>
         <MdOtherHouses />
         Others
       </FilterButton>
@@ -67,7 +88,8 @@ const FilterComponent: React.FC<FilterProps> = ({ activeFilter, locations, setAc
   );
 };
 
-const Filter: React.FC = () => {
+const Filter = ({ toggleSidebar } : Props) => {
+
   const locations: Location[] = [
     {
       name: 'McDonalds',
@@ -93,7 +115,7 @@ const Filter: React.FC = () => {
 
   return (
     <FilterWrapper>
-        <FilterComponent activeFilter={activeFilter} locations={locations} setActiveFilter={setActiveFilter} />
+        <FilterComponent activeFilter={activeFilter} locations={locations} setActiveFilter={setActiveFilter} toggleSidebar={toggleSidebar}/>
     </FilterWrapper>
   );
 };

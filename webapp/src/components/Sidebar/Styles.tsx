@@ -50,7 +50,7 @@ export const TopSection = styled.div`
   align-items: center;
   justify-content: center;
   padding: 1em 0.5em;
-  width: 90%;
+  width: 95%;
 `;
 
 export const Title = styled.h1`
@@ -110,7 +110,7 @@ export const MarkerList = styled.div`
 
 export const CloseSection = styled.div`
   display: flex;
-  font-size: 2em;
+  font-size: 1.8em;
   cursor: pointer;
 `;
 

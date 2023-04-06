@@ -29,23 +29,15 @@ export const FilterButton = styled.button<{ isActive: boolean }>`
 `;
 
 export const LocationList = styled.ul`
- 
+   list-style: none;
+   margin: 0;
+   padding: 0;
 `;
 
 export const LocationItem = styled.li`
-  
-`;
-
-// export const LocationList = styled.ul`
-//   list-style: none;
-//   margin: 0;
-//   padding: 0;
-// `;
-
-// export const LocationItem = styled.li`
-//   margin: 10px 0;
-//   padding: 20px;
-//   background-color: lightgray;
-//   border-radius: 10px;
-//   font-size: 1rem;
-// `;
+   margin: 10px 0;
+   padding: 20px;
+   background-color: lightgray;
+   border-radius: 10px;
+   font-size: 1rem;
+ `;

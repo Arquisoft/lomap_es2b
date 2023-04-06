@@ -88,7 +88,7 @@ const MapPage = () : JSX.Element => {
     <MapProvider>
       <NavContainer>
         <Navbar openPopup={openPopup} toggleSidebar={toggleSidebar} />
-        <Filter />
+        <Filter toggleSidebar={toggleSidebar}/>
       </NavContainer>
       <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar}/>
       <Map onClick={showAddMarkerPopup} />
