@@ -1,29 +1,5 @@
 import styled from "styled-components";
 
-export const NavbarContainer = styled.nav`
-  background-color: #fff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #333;
-  padding: 1rem;
-  margin: 1em;
-  width: calc(65% - 1em);
-  position: absolute;
-  z-index: 100;
-  top: 0;
-  right: 0;
-  border-radius: 0.5em;
-
-  @media only screen and (max-width: 600px) {
-    top: 0;
-    width: calc(100% - 1rem);
-    margin: 0;
-    height: calc(10% - 2rem - 1%);
-    border-radius: 0;
-  }
-`;
-
 export const Logo = styled.a`
   font-size: 2rem;
   font-weight: bold;
@@ -37,24 +13,33 @@ export const Logo = styled.a`
 export const NavLinks = styled.div``
 
 export const Nav = styled.nav`
-  position: absolute;
   z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: 1em;
   background-color: #fff;
   box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
   flex-grow: 1;
   top: 0;
   left: 0;
-  margin: 1%;
-  height: 4%;
-  width: 22%;
+  height: 4vh;
+  min-height: fit-content;
+  max-height: 7vh;
+  width: fit-content;
   border-radius: 0.5em;
   -webkit-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
   -moz-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
   box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
+
+  @media only screen and (max-width: 600px) {
+    top: 0;
+    padding: 0.5rem
+    width: calc(100% - 1rem);
+    margin: 0;
+    height: calc(10% - 2rem - 1%);
+    border-radius: 0;
+  }
 `;
 
 export const MenuToggle = styled.button`
@@ -79,7 +64,7 @@ export const SearchBar = styled.input`
   border-radius: 0.3em;
   outline: none;
   border: none;
-  width: 70%;
+
   background: #eaeaea;
   font-size: 1em;
   padding: 0.3em;
@@ -103,6 +88,20 @@ export const Menu = styled.ul`
   box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
   list-style: none;
   z-index: 1;
+
+  @media only screen and (max-width: 600px) {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 70%;
+    height: 100vh;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+
+    &.open {
+      transform: translateX(0%);
+    }
+  }
 `;
 
 export const MenuItem = styled.li`
@@ -113,12 +112,20 @@ export const MenuItem = styled.li`
   &:hover {
     color: #000;
   }
+
+  @media (max-width: 600px) {
+    font-size: 0.8rem;
+  }
 `;
 
 export const SearchForm = styled.form`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
 `;
 
 export const SearchInput = styled.input`
@@ -131,6 +138,11 @@ export const SearchInput = styled.input`
 
   &:focus {
     background-color: #fff;
+  }
+
+  @media (max-width: 600px) {
+    border-radius: 5px;
+    margin-bottom: 1rem;
   }
 `;
 
@@ -149,6 +161,10 @@ export const SearchButton = styled.button`
   &:hover {
     background-color: #000;
   }
+
+  @media (max-width: 600px) {
+    font-size: 0.8rem;
+  }
 `;
 
 export const FormGroup = styled.div`
@@ -156,13 +172,17 @@ export const FormGroup = styled.div`
     flex-direction: column;
     justify-content: left;
     margin:1em;
+
+    @media (max-width: 600px) {
+      margin: 0.5em;
+    }
     
 `
 
 export const Title = styled.h1`
-  font-size: 1.5rem;
+  font-size: 1.5em;
   font-weight: bold;
-  margin: 0 1rem;
+  margin: 0 1em;
   cursor: pointer;
 `;
 

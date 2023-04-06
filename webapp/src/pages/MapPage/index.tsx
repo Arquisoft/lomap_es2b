@@ -1,15 +1,17 @@
 import { useContext, useState } from 'react';
 import { LngLat, MapProvider} from 'react-map-gl'
 
-import Map from '../components/Map'
-import FocusOnUserButton from '../components/FocusOnUserButton';
-import Sidebar from '../components/Sidebar';
-import AddMarkerPopup from '../components/AddMarkerPopup';
-import {IMarker} from '../types/IMarker'
-import { MarkerContext } from '../context/MarkersContext';
-import FriendsPopup from '../components/FriendsPopup';
-import { Types } from '../types/ContextActionTypes';
-import Navbar from '../components/NavBar';
+import Map from '../../components/Map'
+import FocusOnUserButton from '../../components/FocusOnUserButton';
+import Sidebar from '../../components/Sidebar';
+import AddMarkerPopup from '../../components/AddMarkerPopup';
+import {IMarker} from '../../types/IMarker'
+import { MarkerContext } from '../../context/MarkersContext';
+import FriendsPopup from '../../components/FriendsPopup';
+import { Types } from '../../types/ContextActionTypes';
+import Navbar from '../../components/NavBar';
+import Filter from '../../components/Filters';
+import { NavContainer} from './Styles'
 
 
 export enum Popups {
@@ -20,6 +22,7 @@ export enum Popups {
 
 const MapPage = () : JSX.Element => {
 
+  const [ sidebarOpen, setSidebarOpen ] = useState(true)
   const[popupVisible,setPopupVisible] = useState<Popups>(Popups.NONE)
   const [lngLat, setLngLat] = useState<LngLat>()  
 
@@ -62,12 +65,33 @@ const MapPage = () : JSX.Element => {
     closePopup()
   }
 
+ 
+
+  // useEffect(() => {
+  //   if(loaded){
+  //     console.log('guardando')
+  //     saveMarkerToPod(markers, session.info.webId)
+  //   }else{
+  //     setLoaded(true);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [markers]) 
+
+  const toggleSidebar = (open: boolean | undefined) => {
+    if (open !== undefined) 
+      setSidebarOpen(open)
+    else 
+      setSidebarOpen(!sidebarOpen)
+  }
   
 
   return (
     <MapProvider>
-      <Navbar openPopup={openPopup} />
-      <Sidebar />
+      <NavContainer>
+        <Navbar openPopup={openPopup} toggleSidebar={toggleSidebar} />
+        <Filter toggleSidebar={toggleSidebar}/>
+      </NavContainer>
+      <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar}/>
       <Map onClick={showAddMarkerPopup} />
       <FocusOnUserButton />
       <AddMarkerPopup closePopup={closePopup} visible={popupVisible === Popups.ADD_MARKER} lngLat={lngLat} addMark={addMark}/>

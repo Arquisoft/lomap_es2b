@@ -15,18 +15,21 @@ export const SidebarSection = styled.div`
   flex-direction: column;
   justify-content: center;
   background-color: #f8f8f8;
-  height: calc(100vh - 3em);
-  width: calc(30% - 1em);
-  position: absolute;
-  z-index: 999;
-  top: 0;
-  left: 0;
+  padding: 1em;
   margin: 1.0em;
+  flex-grow: 1;
+  height: calc(100vh - 5em - 9%);
+  width: calc(100vw - 5em - 71%);
+  position: absolute;
+  z-index: 100;
+  top: calc(1em + 7%);
+  left: 0;
   border-radius: 0.5em;
   animation: ${toggleAnimation} 0.2s ease-in-out;
   -webkit-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
   -moz-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
   box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
+  
 
   .search {
     display: flex;
@@ -47,7 +50,7 @@ export const TopSection = styled.div`
   align-items: center;
   justify-content: center;
   padding: 1em 0.5em;
-  width: 90%;
+  width: 95%;
 `;
 
 export const Title = styled.h1`
@@ -107,7 +110,7 @@ export const MarkerList = styled.div`
 
 export const CloseSection = styled.div`
   display: flex;
-  font-size: 2em;
+  font-size: 1.8em;
   cursor: pointer;
 `;
 
@@ -133,13 +136,15 @@ export const ClosedSidebar = styled.div`
 `;
 
 export const MarkerSection = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   cursor: pointer;
   margin-bottom: 10px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #fff;
-  transition: background-color 0.2s ease-in-out;
   top: 0;
   left: 0;
   margin: 0.5em;
@@ -149,8 +154,6 @@ export const MarkerSection = styled.div`
   }
 `;
 
-export const MarkerHover = styled.div`
-  background-color: #f8f8f8;
-  background-size: auto;
-  border-radius: 0.3em;
-`; 
+export const MarkerContent = styled.div`
+  flex-direction: column;
+`
