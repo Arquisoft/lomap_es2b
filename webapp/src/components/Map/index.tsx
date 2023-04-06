@@ -87,6 +87,7 @@ const MapComponent = ({ onClick }:Props) => {
                 longitude={marker.lng}
                 latitude={marker.lat}
                 onClick={(e)=>{
+                  console.log(marker)
                   e.originalEvent.stopPropagation()
                   setInfoVisible(marker)
                 }}
@@ -99,7 +100,9 @@ const MapComponent = ({ onClick }:Props) => {
           <Popup 
             longitude={infoVisible.lng}
             latitude={infoVisible.lat}
-            onClose={()=>setInfoVisible(null)}
+            onClose={()=>{
+              setInfoVisible(null)
+            }}
             closeOnMove={false}
           >
             

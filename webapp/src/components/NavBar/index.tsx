@@ -151,7 +151,7 @@ const Navbar = ({ openPopup } : Props) => {
             </FormGroup>
         </NavPopup>
       )}
-      {showSidebar && <Sidebar />}
+      {showSidebar && <Sidebar/>}
       <Box sx={{ flexGrow: 0 }}>
         <Tooltip title="Open settings">
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

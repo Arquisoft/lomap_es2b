@@ -25,6 +25,7 @@ const MapPage = () : JSX.Element => {
 
   const { state: markers, dispatch } = useContext(MarkerContext)
 
+
   function showAddMarkerPopup(lngLat: LngLat): void{
     setPopupVisible(Popups.ADD_MARKER)
     setLngLat(lngLat)
@@ -33,6 +34,8 @@ const MapPage = () : JSX.Element => {
   function openPopup(popup : Popups) {
     setPopupVisible(popup)
   }
+
+
 
   function closePopup() {
     setPopupVisible(Popups.NONE)
