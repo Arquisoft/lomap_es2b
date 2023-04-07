@@ -157,14 +157,14 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
           </TitleContainer>
             <FormGroup>
               <Button onClick={handleConfigClick}>
+              <FcDataConfiguration />
                 Configurations 
-                <FcDataConfiguration />
               </Button>
             </FormGroup>
             <FormGroup>
               <Button onClick={handleAboutClick}>
-                About
                 <FcAbout />
+                About
               </Button>
             </FormGroup>
         </NavPopup>
