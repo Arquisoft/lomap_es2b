@@ -230,8 +230,7 @@ export const Button = styled.button`
   display: flex-end;
 
   svg {
-    margin-left: 10px;
-    margin-right: 0;
+    margin-right: 0.5em;
   }
 
   &:hover {
