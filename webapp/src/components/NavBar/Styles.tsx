@@ -34,7 +34,7 @@ export const Nav = styled.nav`
 
   @media only screen and (max-width: 600px) {
     top: 0;
-    padding: 0.5rem
+    padding: 0.5rem;
     width: calc(100% - 1rem);
     margin: 0;
     height: calc(10% - 2rem - 1%);

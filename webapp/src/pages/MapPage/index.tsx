@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { LngLat, MapProvider} from 'react-map-gl'
 
 import Map from '../../components/Map'
@@ -12,11 +12,15 @@ import { Types } from '../../types/ContextActionTypes';
 import Navbar from '../../components/NavBar';
 import Filter from '../../components/Filters';
 import { NavContainer} from './Styles'
+import { Category } from '../../types/Category';
+import About from '../About';
+import AboutPopup from '../../components/AboutPopup';
 
 export enum Popups {
   NONE,
   ADD_MARKER,
   FRIENDS,
+  ABOUT
 }
 
 const MapPage = () : JSX.Element => {
@@ -26,6 +30,7 @@ const MapPage = () : JSX.Element => {
   const [lngLat, setLngLat] = useState<LngLat>()  
 
   const { state: markers, dispatch } = useContext(MarkerContext)
+  const [ categories, setCategories ] = useState<Category[]>([Category.Restaurant, Category.Hotel, Category.Monuments, Category.Shops, Category.Bar, Category.Landscapes, Category.Others]);
 
   function showAddMarkerPopup(lngLat: LngLat): void{
     setPopupVisible(Popups.ADD_MARKER)
@@ -90,11 +95,12 @@ const MapPage = () : JSX.Element => {
         <Navbar openPopup={openPopup} toggleSidebar={toggleSidebar} />
         <Filter toggleSidebar={toggleSidebar}/>
       </NavContainer>
-      <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar}/>
+      <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} categories={categories} />
       <Map onClick={showAddMarkerPopup} />
       <FocusOnUserButton />
       <AddMarkerPopup closePopup={closePopup} visible={popupVisible === Popups.ADD_MARKER} lngLat={lngLat} addMark={addMark}/>
       <FriendsPopup closePopup={closePopup} isOpen={popupVisible === Popups.FRIENDS} />
+      <AboutPopup closePopup={closePopup} isOpen={popupVisible === Popups.ABOUT}/>
     </MapProvider> 
   )
 }

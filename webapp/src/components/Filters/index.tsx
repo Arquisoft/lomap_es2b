@@ -38,7 +38,7 @@ const LocationList: React.FC<{ locations: Location[] }> = ({ locations }) => (
   </ul>
 );
 
-const FilterComponent: React.FC<FilterProps> = ({ activeFilter, locations, setActiveFilter, toggleSidebar}) => {
+export const FilterComponent: React.FC<FilterProps> = ({ activeFilter, locations, setActiveFilter, toggleSidebar}) => {
   const filteredLocations = locations.filter((loc) => loc.category === activeFilter);
 
   const handleFilterClick = (category: Category) => {

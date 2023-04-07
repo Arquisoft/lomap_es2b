@@ -16,6 +16,8 @@ import { Nav, SearchForm, SearchInput, SearchButton, TitleContainer, FormGroup }
 import { TextMenuItem } from './Styles';
 
 import DefaulPic from '../../assets/defaultPic.png'
+import About from '../../pages/About';
+import AboutPopup from '../AboutPopup';
 
 type Props = {
   toggleSidebar: (open: boolean | undefined) => void
@@ -35,7 +37,8 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
   const [query, setQuery] = useState('');
   const [showMarkers, setShowMarkers] = useState(false);
 
-  const { state: user } = useContext(UserContext)
+  const { state: user } = useContext(UserContext);
+  const [isAboutPopupOpen, setIsAboutPopupOpen] = useState(false);
   
   useEffect(() => {
     if (user) {
@@ -113,7 +116,7 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
   };
 
   const handleAboutClick = () => {
-    // Aquí puedes agregar la lógica para navegar a la página de acerca de
+    setIsAboutPopupOpen(true);
     console.log("Acerca de");
   };
   
@@ -161,6 +164,19 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
             </FormGroup>
         </NavPopup>
       )}
+
+      {isAboutPopupOpen && (
+        <AboutPopup isOpen={isAboutPopupOpen} closePopup={() => setIsAboutPopupOpen(false)}>
+          <h1>Acerca de...</h1>
+          <p>Este proyecto está siendo desarrollado por: </p>
+          <p> - Álvaro Dávila Sampedro-UO284548 </p> 
+          <p> - Adrián Martínez Rodríguez-UO284163 </p>
+          <p> - Hugo Roberto Pulido Pensado-UO282823 </p>   
+          <p> - Javier González Velázquez-UO276803 </p>   
+          <p> Nuestro enlace a GitHub es: <a href="https://github.com/Arquisoft/lomap_es2b">https://github.com/Arquisoft/lomap_es2b</a> </p>
+          
+      </AboutPopup>)} 
+        
       {  <Box sx={{ flexGrow: 0 }}>
         <Tooltip title="Open settings">
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -193,7 +209,7 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
             </MenuItem>
           ))}
         </Menu>
-      </Box> } 
+      </Box> }
     </Nav>
   );
 };
