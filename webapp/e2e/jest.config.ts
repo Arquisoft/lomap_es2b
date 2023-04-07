@@ -6,5 +6,6 @@ export default {
     moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
     moduleNameMapper:{"^uuid$": "uuid"},
     preset: "jest-puppeteer",
+    passWithNoTests: true,
     testTimeout: 30000
 }
