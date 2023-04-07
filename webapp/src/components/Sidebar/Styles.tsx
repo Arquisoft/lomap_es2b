@@ -18,8 +18,8 @@ export const SidebarSection = styled.div`
   padding: 1em;
   margin: 1.0em;
   flex-grow: 1;
-  height: calc(100vh - 5.8em - 9%);
-  width: calc(100vw - 5.8em - 71%);
+  height: calc(100vh - 5em - 9%);
+  width: calc(100vw - 5em - 71%);
   position: absolute;
   z-index: 100;
   top: calc(1em + 7%);

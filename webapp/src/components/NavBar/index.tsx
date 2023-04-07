@@ -4,6 +4,7 @@ import { useSession } from '@inrupt/solid-ui-react';
 import { FOAF, VCARD } from '@inrupt/vocab-common-rdf';
 import { Avatar, Box, Divider, IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import { FaSearch, FaBars, FaMapMarkerAlt } from "react-icons/fa";
+import {FcAbout, FcDataConfiguration} from "react-icons/fc"
 
 import { IMenuOption } from '../../types/IMenuOption';
 import { Popups } from '../../pages/MapPage';
@@ -12,11 +13,10 @@ import { Title } from "../Sidebar/Styles";
 import NavPopup from "../NavPopup";
 import { mapboxApiKey } from "../../config/constants";
 import { useMap } from "react-map-gl";
-import { Nav, SearchForm, SearchInput, SearchButton, TitleContainer, FormGroup } from './Styles';
+import { Nav, SearchForm, SearchInput, SearchButton, TitleContainer, FormGroup, Button } from './Styles';
 import { TextMenuItem } from './Styles';
 
 import DefaulPic from '../../assets/defaultPic.png'
-import About from '../../pages/About';
 import AboutPopup from '../AboutPopup';
 
 type Props = {
@@ -39,7 +39,6 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
 
   const { state: user } = useContext(UserContext);
   const [isAboutPopupOpen, setIsAboutPopupOpen] = useState(false);
-  const [isMarkerPopupOpen, setIsMarkerPopupOpen] = useState(false);
   
   useEffect(() => {
     if (user) {
@@ -121,12 +120,6 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
     console.log("Acerca de");
   };
 
-  const handleMarkerClick = () => {
-    setIsMarkerPopupOpen(true);
-    console.log("Añadir marcador");
-  };
-  
-
   return (
     <Nav>
       <Tooltip title="Open menu">
@@ -163,10 +156,16 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
             <h2>Options Menu</h2>
           </TitleContainer>
             <FormGroup>
-              <button onClick={handleConfigClick}>Configurations</button>
+              <Button onClick={handleConfigClick}>
+                Configurations 
+                <FcDataConfiguration />
+              </Button>
             </FormGroup>
             <FormGroup>
-              <button onClick={handleAboutClick}>About</button>
+              <Button onClick={handleAboutClick}>
+                About
+                <FcAbout />
+              </Button>
             </FormGroup>
         </NavPopup>
       )}
