@@ -7,7 +7,9 @@ import { FilterButton, FilterContainer, FilterWrapper } from './Styles';
 import { Category } from '../../types/Category';
 
 type Props = {
-  toggleSidebar: (open: boolean | undefined) => void
+  toggleSidebar: (open: boolean | undefined) => void;
+  activeFilter: Category;
+  setActiveFilter: (category: Category) => void;
 }
 
 interface Location {
@@ -38,11 +40,15 @@ const LocationList: React.FC<{ locations: Location[] }> = ({ locations }) => (
   </ul>
 );
 
-export const FilterComponent: React.FC<FilterProps> = ({ activeFilter, locations, setActiveFilter, toggleSidebar}) => {
+export const FilterComponent: React.FC<FilterProps> = ({ activeFilter, locations, setActiveFilter, toggleSidebar }) => {
   const filteredLocations = locations.filter((loc) => loc.category === activeFilter);
 
   const handleFilterClick = (category: Category) => {
-    setActiveFilter(category);
+    if (activeFilter === category) {
+      setActiveFilter(Category.All);
+    } else {
+      setActiveFilter(category);
+    }
     toggleSidebar(true);
   };
 
@@ -88,7 +94,7 @@ export const FilterComponent: React.FC<FilterProps> = ({ activeFilter, locations
   );
 };
 
-const Filter = ({ toggleSidebar } : Props) => {
+const Filter = ({ toggleSidebar, setActiveFilter, activeFilter } : Props) => {
 
   const locations: Location[] = [
     {
@@ -110,8 +116,6 @@ const Filter = ({ toggleSidebar } : Props) => {
       coordinates: { lat: 0, lng: 0 },
     },
   ];
-
-  const [activeFilter, setActiveFilter] = React.useState<Category>(Category.Restaurant);
 
   return (
     <FilterWrapper>

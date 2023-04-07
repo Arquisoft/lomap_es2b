@@ -11,23 +11,22 @@ import { Category } from "../../types/Category";
 type Props = {
   isOpen: boolean,
   toggleSidebar: (open: boolean) => void,
-  categories: Category[]
+  selectedCategory: Category
 }
 
-const Sidebar = ({ isOpen, toggleSidebar, categories }: Props) => {
+const Sidebar = ({ isOpen, toggleSidebar, selectedCategory }: Props) => {
   const { map } = useMap();
 
   const { state: markers } = useContext(MarkerContext);
 
   const [searchValue, setSearchValue] = useState("");
-  const [filter, setFilter] = useState<Category | "">("");
 
   const handleMarkerClick = (marker: IMarker) => {
     map?.flyTo({ center: { lat: marker.lat, lng: marker.lng }, zoom: 16 });
   };
 
   const filteredMarkers = markers.filter((marker) => {
-    return marker.name.toLowerCase().includes(searchValue.toLowerCase()) && (!filter || marker.category.includes(filter));
+    return marker.name.toLowerCase().includes(searchValue.toLowerCase()) && (selectedCategory === Category.All || marker.category.includes(selectedCategory));
   });
 
   return (
@@ -35,7 +34,7 @@ const Sidebar = ({ isOpen, toggleSidebar, categories }: Props) => {
       {isOpen && (
         <SidebarSection>
           <TopSection>
-            <Title>Puntos de interés</Title>
+            <Title>Points of interest</Title>
             <CloseSection>
               <FaTimes onClick={() => toggleSidebar(false)} />
             </CloseSection>
@@ -43,18 +42,10 @@ const Sidebar = ({ isOpen, toggleSidebar, categories }: Props) => {
           <div className="search">
             <SearchBar
               type="text"
-              placeholder="Buscar"
+              placeholder="Search..."
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
             />
-            <select onChange={(e) => setFilter(e.target.value as Category)}>
-              <option value="">Filtrar por categoría</option>
-              {categories.map((category) => (
-                <option key={category} value={category}>
-                  {category}
-                </option>
-              ))}
-            </select>
           </div>
           <MarkerList>
             <div className="container">

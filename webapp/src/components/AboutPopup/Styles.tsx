@@ -9,7 +9,7 @@ export const PopupContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: flex-start; /* Alinea el contenido a la izquierda */
+  justify-content: flex-start; 
   align-items: center;
 `
 

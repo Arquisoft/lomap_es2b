@@ -13,7 +13,6 @@ import Navbar from '../../components/NavBar';
 import Filter from '../../components/Filters';
 import { NavContainer} from './Styles'
 import { Category } from '../../types/Category';
-import About from '../About';
 import AboutPopup from '../../components/AboutPopup';
 
 export enum Popups {
@@ -30,7 +29,7 @@ const MapPage = () : JSX.Element => {
   const [lngLat, setLngLat] = useState<LngLat>()  
 
   const { state: markers, dispatch } = useContext(MarkerContext)
-  const [ categories, setCategories ] = useState<Category[]>([Category.Restaurant, Category.Hotel, Category.Monuments, Category.Shops, Category.Bar, Category.Landscapes, Category.Others]);
+  const [ selectedCategory, setSelectedCategory ] = useState<Category>(Category.All);
 
   function showAddMarkerPopup(lngLat: LngLat): void{
     setPopupVisible(Popups.ADD_MARKER)
@@ -44,7 +43,6 @@ const MapPage = () : JSX.Element => {
   function closePopup() {
     setPopupVisible(Popups.NONE)
   }
-
 
 
   function addMark(name:string, lngLat:LngLat|undefined,description:string){
@@ -93,9 +91,9 @@ const MapPage = () : JSX.Element => {
     <MapProvider>
       <NavContainer>
         <Navbar openPopup={openPopup} toggleSidebar={toggleSidebar} />
-        <Filter toggleSidebar={toggleSidebar}/>
+        <Filter toggleSidebar={toggleSidebar} activeFilter={selectedCategory} setActiveFilter={setSelectedCategory}/>
       </NavContainer>
-      <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} categories={categories} />
+      <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} selectedCategory={selectedCategory} />
       <Map onClick={showAddMarkerPopup} />
       <FocusOnUserButton />
       <AddMarkerPopup closePopup={closePopup} visible={popupVisible === Popups.ADD_MARKER} lngLat={lngLat} addMark={addMark}/>

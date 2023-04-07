@@ -5,5 +5,6 @@ export enum Category {
     Shops = 'shops',
     Bar = 'bar',
     Landscapes = 'landscapes', 
-    Others = 'others'
+    Others = 'others',
+    All = 'all'
   }

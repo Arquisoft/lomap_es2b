@@ -39,6 +39,7 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
 
   const { state: user } = useContext(UserContext);
   const [isAboutPopupOpen, setIsAboutPopupOpen] = useState(false);
+  const [isMarkerPopupOpen, setIsMarkerPopupOpen] = useState(false);
   
   useEffect(() => {
     if (user) {
@@ -119,6 +120,11 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
     setIsAboutPopupOpen(true);
     console.log("Acerca de");
   };
+
+  const handleMarkerClick = () => {
+    setIsMarkerPopupOpen(true);
+    console.log("Añadir marcador");
+  };
   
 
   return (
@@ -136,7 +142,7 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
       <SearchForm onSubmit={handleSearchSubmit}>
         <SearchInput
           type="text"
-          placeholder="Buscar lugares..."
+          placeholder="Find places..."
           value={query}
           onChange={e => setQuery(e.target.value)}
         />
@@ -154,26 +160,26 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
       {isPopupOpen && (
         <NavPopup isOpen={isPopupOpen} closePopup={handlePopupClose}>
           <TitleContainer>
-            <h2>Menú de Opciones</h2>
+            <h2>Options Menu</h2>
           </TitleContainer>
             <FormGroup>
-              <button onClick={handleConfigClick}>Configuraciones</button>
+              <button onClick={handleConfigClick}>Configurations</button>
             </FormGroup>
             <FormGroup>
-              <button onClick={handleAboutClick}>Acerca de</button>
+              <button onClick={handleAboutClick}>About</button>
             </FormGroup>
         </NavPopup>
       )}
 
       {isAboutPopupOpen && (
         <AboutPopup isOpen={isAboutPopupOpen} closePopup={() => setIsAboutPopupOpen(false)}>
-          <h1>Acerca de...</h1>
-          <p>Este proyecto está siendo desarrollado por: </p>
+          <h1>About...</h1>
+          <p>This project is being developed by: </p>
           <p> - Álvaro Dávila Sampedro-UO284548 </p> 
           <p> - Adrián Martínez Rodríguez-UO284163 </p>
           <p> - Hugo Roberto Pulido Pensado-UO282823 </p>   
           <p> - Javier González Velázquez-UO276803 </p>   
-          <p> Nuestro enlace a GitHub es: <a href="https://github.com/Arquisoft/lomap_es2b">https://github.com/Arquisoft/lomap_es2b</a> </p>
+          <p> Our link to GitHub is:  <a href="https://github.com/Arquisoft/lomap_es2b">https://github.com/Arquisoft/lomap_es2b</a> </p>
           
       </AboutPopup>)} 
         
