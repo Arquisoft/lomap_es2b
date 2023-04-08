@@ -22,20 +22,10 @@ const MapComponent = ({ onClick }:Props) => {
   
   const [isLoading , setIsLoading] = useState(true)
   const [infoVisible,setInfoVisible] = useState<IMarker|null>(null); 
-  const [comment,setComment] = useState<string>("");
 
   const { state: markers, dispatch } = useContext(MarkerContext)
 
-  function addComment(id:number, comment:string){
-    var listComments = markers.find(marker => marker.id === id)?.comments;
-    if(!session.info.webId) return
-    listComments?.push({ comment, author: session.info.webId })
-    if(!infoVisible) return
-    dispatch({type: Types.UPDATE, payload:{id: infoVisible.id, marker:{comments:listComments}}});
-    setComment("");
-    console.log(markers.find(m => m.id === infoVisible.id));
-  }
-
+ 
   function setScore(newScore:number | null){
     if(!newScore || !infoVisible) return
     
@@ -112,9 +102,6 @@ const MapComponent = ({ onClick }:Props) => {
               readOnly: true,
             }}
             />
-            <label>Comentar</label>
-            <TextField value={comment} onChange={(e)=>setComment(e.target.value)} label={"Comenta aqui"} variant='standard' />
-            <Button onClick={()=>addComment(infoVisible.id,comment)} color='success' variant='contained'>Anadir</Button>       
             <Typography component="legend">Puntuacion</Typography>
             <Rating
               name="simple-controlled"

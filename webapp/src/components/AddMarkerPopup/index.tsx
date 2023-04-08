@@ -1,4 +1,4 @@
-import { TextField, Button } from '@mui/material'
+import { TextField, Button, Select, MenuItem } from '@mui/material'
 import { LngLat } from 'mapbox-gl';
 import { useState } from 'react';
 
@@ -8,7 +8,7 @@ import { FormGroup } from "./Styles";
 interface Props{
     visible:boolean;
     lngLat:LngLat|undefined;
-    addMark:(name:string, lngLat:LngLat|undefined,description:string)=>void;
+    addMark:(name:string, lngLat:LngLat|undefined,description:string, category:string)=>void;
     closePopup:()=>void;
 }
 
@@ -16,6 +16,7 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
 
   const[name,setName]=useState<string>("")
   const[description,setDescription]=useState<string>("")
+  const[ category, setCategory] = useState<string>("")
 
   function handleChangeName(name:string){
     setName(name)
@@ -28,7 +29,18 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
   function handleSubmit(e:React.FormEvent){
     e.preventDefault();
 
-    addMark(name, lngLat, description)
+    addMark(name, lngLat, description, category)
+  }
+
+   enum Category {
+    Restaurant = 'restaurant',
+    Hotel = 'hotel',
+    Monuments = 'monuments',
+    Shops = 'shops',
+    Bar = 'bar',
+    Landscapes = 'landscapes', 
+    Others = 'others',
+    All = 'all'
   }
 
   return(
@@ -42,6 +54,24 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
       <FormGroup>
         <label htmlFor="Descripcion">Descripcion:</label>
         <TextField className='field' id='Descripcion' label='Descripcion' variant='standard' multiline maxRows={4} onChange={(e)=>handleChangeDescription(e.target.value)}/>         
+      </FormGroup>
+      <FormGroup>
+      <label htmlFor="Category">Categoría:</label>
+      <Select
+        value={category}
+        label="Category"
+        onChange={(e) => setCategory(e.target.value)}
+  >
+    
+       <MenuItem value={Category.Restaurant}>{Category.Restaurant}</MenuItem>
+       <MenuItem value={Category.Hotel}>{Category.Hotel}</MenuItem>
+       <MenuItem value={Category.Bar}>{Category.Bar}</MenuItem>
+       <MenuItem value={Category.Landscapes}>{Category.Landscapes}</MenuItem>
+       <MenuItem value={Category.Monuments}>{Category.Monuments}</MenuItem>
+       <MenuItem value={Category.Shops}>{Category.Shops}</MenuItem>
+       <MenuItem value={Category.Others}>{Category.Others}</MenuItem>
+   
+  </Select>
       </FormGroup>
       <FormGroup>
         <label>Coordenadas(LngLat):</label>

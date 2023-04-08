@@ -2,23 +2,27 @@ import { useContext, useState } from "react";
 import { useMap } from "react-map-gl";
 import { MarkerContext} from "../../context/MarkersContext";
 import { IMarker } from "../../types/IMarker";
-import { MarkerHover, MarkerList, MarkerSection, SearchBar, Title, TopSection } from "./Styles"
+import { MarkerList, MarkerSection, SearchBar, Title, TopSection, SidebarSection, CloseSection, MarkerContent } from "./Styles"
 import DeleteButton from "../DeleteButton";
 import SidePopup from '../SidePopup';
 import { Button, Rating, TextField, Typography } from "@mui/material";
 import { useSession } from "@inrupt/solid-ui-react";
 import { Types } from "../../types/ContextActionTypes";
+import { FaTimes } from "react-icons/fa";
 
+type Props = {
+  isOpen: boolean,
+  toggleSidebar: (open: boolean) => void
+}
 
-
-const Sidebar = () => {
+const Sidebar = ({ isOpen, toggleSidebar } : Props) => {
 
   const { map  } = useMap()
 
   const { state: markers, dispatch } = useContext(MarkerContext)
   const {session} = useSession();
 
-  const [isOpen, setIsOpen] = useState(true) // Nuevo estado para controlar la apertura/cierre de la barra lateral
+
   const [searchValue, setSearchValue] = useState("")
   const[markerToShow,setMarkerToShow] = useState<IMarker|null>(null)
   const [comment,setComment] = useState<string>("");
@@ -29,9 +33,7 @@ const Sidebar = () => {
     setMarkerToShow(marker)
   }
 
-  const toggleSidebar = () => { // Nueva función para cambiar el estado de la barra lateral
-    setIsOpen(!isOpen)
-  }
+  
 
   const filteredMarkers = markers.filter((marker) => {
     return marker.name.toLowerCase().includes(searchValue.toLowerCase())
@@ -47,6 +49,16 @@ const Sidebar = () => {
     console.log(markers.find(m => m.id === markerToShow.id));
   }
 
+  function showComments(){
+    var comments = markerToShow?.comments;
+    return(
+      comments?.map((comment)=> 
+          <p>{comment.comment}</p>    
+    )
+    )
+    
+  }
+
   function setScore(newScore:number | null){
     if(!newScore || !markerToShow) return
     
@@ -60,16 +72,14 @@ const Sidebar = () => {
     }
     return(
       <>
-      <p>{markerToShow.name}</p>
+      <div className="markInfo">
+      <h2>{markerToShow.name}</h2>
             <TextField  label="Descripcion" defaultValue={markerToShow.description}
             InputProps={{
               readOnly: true,
             }}
             />
-            <label>Comentar</label>
-            <TextField value={comment} onChange={(e)=>setComment(e.target.value)} label={"Comenta aqui"} variant='standard' />
-            <Button onClick={()=>addComment(markerToShow.id,comment)} color='success' variant='contained'>Anadir</Button>       
-            <Typography component="legend">Puntuacion</Typography>
+             <Typography component="legend">Puntuacion</Typography>
             <Rating
               name="simple-controlled"
               value={markerToShow.score}
@@ -77,7 +87,26 @@ const Sidebar = () => {
                 setScore(newValue);
               }}
             />
-             <Button onClick={()=>setMarkerToShow(null)} color='success' variant='contained'>Volver</Button>  
+            <h3>Comentar</h3>
+            <TextField value={comment} onChange={(e)=>setComment(e.target.value)} label={"Comenta aqui"} variant='standard' />
+            <Button className="addComment" onClick={()=>addComment(markerToShow.id,comment)} color='success' variant='contained'>Anadir</Button>       
+           
+            <h3>Comentarios</h3>
+            <MarkerList>
+               <div className="container">
+            <div className="list">
+              {
+              showComments()
+              }
+            </div>
+          </div>
+            </MarkerList>
+           
+            
+             <Button className="backButton" onClick={()=>setMarkerToShow(null)} color='success' variant='contained'>Volver</Button>  
+      </div>
+      
+ 
       </>
     )
   }
@@ -85,21 +114,26 @@ const Sidebar = () => {
   const showMarkerList = ()=>{
     return(
       <>
-       <Title>Puntos de interés</Title>
-      <TopSection>
-      <SearchBar type="text" placeholder="Buscar" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
-      </TopSection>
-     <MarkerList>
-      <div className="container">
-        <div className="list">
-          {
-          filteredMarkers.map((marker) => (
-            <Marker key={marker.id} marker={marker} onClick={handleMarkerClick} />
-          ))
-          }
-        </div>
-      </div>
-    </MarkerList>
+       <TopSection>
+            <Title>Puntos de interés</Title>
+            <CloseSection>
+              <FaTimes onClick={() => toggleSidebar(false)}/>
+            </CloseSection>
+          </TopSection>
+          <div className="search">
+            <SearchBar type="text" placeholder="Buscar" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
+          </div>
+        <MarkerList>
+          <div className="container">
+            <div className="list">
+              {
+              filteredMarkers.map((marker) => (
+                <Marker key={marker.id} marker={marker} onClick={handleMarkerClick} />
+              ))
+              }
+            </div>
+          </div>
+        </MarkerList>
       </>
       
     )
@@ -109,11 +143,15 @@ const Sidebar = () => {
 
   return (
     <>
-      <SidePopup isOpen={isOpen} closePopup={toggleSidebar}>
-       
-        {markerToShow ? showMarkerInfo() : showMarkerList()}        
-      </SidePopup>
+    {
+      isOpen ?
+      <SidebarSection>
+        {markerToShow ? showMarkerInfo() : showMarkerList()} 
+      </SidebarSection>
+      : null
+    }
     </>
+   
   )
 }
 
@@ -126,15 +164,13 @@ const Marker = ({ marker, onClick }: MarkerProps) => {
   
 
   return (
-    <MarkerHover>
-      <MarkerSection onClick={() => {
-        onClick(marker)
-        }} >
+    <MarkerSection onClick={() => onClick(marker)} >
+      <MarkerContent>
         <h3>{marker.name}</h3>
         <p>{marker.description}</p>
-        <DeleteButton name={marker.name}/>
-      </MarkerSection>
-    </MarkerHover>
+      </MarkerContent>
+      <DeleteButton name={marker.name} />
+    </MarkerSection>
   );
 };
 

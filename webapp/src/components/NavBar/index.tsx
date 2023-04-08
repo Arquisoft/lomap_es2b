@@ -10,7 +10,6 @@ import { Popups } from '../../pages/MapPage';
 import { UserContext } from '../../context/UserContext';
 import { Title } from "../Sidebar/Styles";
 import NavPopup from "../NavPopup";
-import Sidebar from "../Sidebar";
 import { mapboxApiKey } from "../../config/constants";
 import { useMap } from "react-map-gl";
 import { Nav, SearchForm, SearchInput, SearchButton, TitleContainer, FormGroup } from './Styles';
@@ -19,10 +18,11 @@ import { TextMenuItem } from './Styles';
 import DefaulPic from '../../assets/defaultPic.png'
 
 type Props = {
+  toggleSidebar: (open: boolean | undefined) => void
   openPopup: (popup : Popups) => void
 }
 
-const Navbar = ({ openPopup } : Props) => {
+const Navbar = ({ openPopup, toggleSidebar } : Props) => {
   const { map  } = useMap()
   const { logout } = useSession()
 
@@ -32,9 +32,8 @@ const Navbar = ({ openPopup } : Props) => {
 
   const [searchValue] = useState("");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [showSidebar, setShowSidebar] = useState(false);
   const [query, setQuery] = useState('');
-
+  const [showMarkers, setShowMarkers] = useState(false);
 
   const { state: user } = useContext(UserContext)
   
@@ -86,7 +85,12 @@ const Navbar = ({ openPopup } : Props) => {
     const data = await response.json();
     const [lng, lat] = data.features[0].center;
     map?.flyTo({ center: { lat: lat, lng: lng }, zoom: 14})
-    console.log(data)
+    // console.log(data)
+  };
+
+  const handleBarsClick = () => {
+    setShowMarkers(false);
+    toggleSidebar(false);
   };
 
   const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -95,15 +99,12 @@ const Navbar = ({ openPopup } : Props) => {
   };
 
   const handlePopupOpen = () => {
+    setShowMarkers(false);
     setIsPopupOpen(true);
   };
 
   const handlePopupClose = () => {
     setIsPopupOpen(false);
-  };
-
-  const handleSidebarToggle = () => {
-    setShowSidebar(!showSidebar);
   };
 
   const handleConfigClick = () => {
@@ -119,9 +120,14 @@ const Navbar = ({ openPopup } : Props) => {
 
   return (
     <Nav>
-       <IconButton onClick={handlePopupOpen}>
-        <FaBars />
-      </IconButton>
+      <Tooltip title="Open menu">
+        <IconButton onClick={() => {
+          handlePopupOpen()
+          handleBarsClick()
+        }}>
+          <FaBars/>
+        </IconButton>
+      </Tooltip>
 
       <Title>LoMap</Title>
       <SearchForm onSubmit={handleSearchSubmit}>
@@ -131,13 +137,17 @@ const Navbar = ({ openPopup } : Props) => {
           value={query}
           onChange={e => setQuery(e.target.value)}
         />
+        <Tooltip title="Search">
         <SearchButton type="submit" onClick={handleSearch}>
           <FaSearch />
         </SearchButton>
+        </Tooltip>
       </SearchForm>
-        <IconButton onClick={handleSidebarToggle}>
+        <Tooltip title="Open markers">
+        <IconButton onClick={() => toggleSidebar(undefined)}>
           <FaMapMarkerAlt />
         </IconButton>
+        </Tooltip>
       {isPopupOpen && (
         <NavPopup isOpen={isPopupOpen} closePopup={handlePopupClose}>
           <TitleContainer>
@@ -151,8 +161,7 @@ const Navbar = ({ openPopup } : Props) => {
             </FormGroup>
         </NavPopup>
       )}
-      {showSidebar && <Sidebar/>}
-      <Box sx={{ flexGrow: 0 }}>
+      {  <Box sx={{ flexGrow: 0 }}>
         <Tooltip title="Open settings">
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
             <Avatar alt="" src={profilePic} style={{ backgroundColor: 'white' }} />
@@ -184,9 +193,10 @@ const Navbar = ({ openPopup } : Props) => {
             </MenuItem>
           ))}
         </Menu>
-      </Box>
+      </Box> } 
     </Nav>
   );
 };
 
 export default Navbar;
+
