@@ -33,7 +33,7 @@ describe('Navbar', () => {
 
   it("opens the search form when clicking on the search button", () => {
     render(<Navbar toggleSidebar={mockToggleSidebar} openPopup={mockOpenPopup} />);
-    const searchButton = screen.getByTitle("Buscar");
+    const searchButton = screen.getByRole("button", { name: "Buscar" });
     userEvent.click(searchButton);
     expect(screen.getByPlaceholderText("Buscar lugares...")).toBeInTheDocument();
   });
