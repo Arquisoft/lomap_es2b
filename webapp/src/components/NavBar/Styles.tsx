@@ -120,8 +120,8 @@ export const MenuItem = styled.li`
 
 export const SearchForm = styled.form`
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: left;
+  justify-content: left;
 
   @media (max-width: 600px) {
     flex-direction: column;
@@ -171,6 +171,7 @@ export const FormGroup = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    align-items: flex-start;
     margin:1em;
 
     @media (max-width: 600px) {
@@ -208,7 +209,7 @@ export const NavPopupButton = styled(IconButton)`
 
 export const TitleContainer = styled.div`
   display: flex;
-  justify-content: center;
+  align-items: center;
   margin-bottom: 1rem;
 `;
 
@@ -225,9 +226,13 @@ export const Button = styled.button`
   border: none;
   background-color: #fff;
   color: #000;
-  padding: 14px 28px;
-  font-size: 20px;
-  display: flex-end;
+  padding: 0.4vw 0.8vw;
+  font-size: 1.2vw;
+  display: flex;
+  justify-content: flex-start;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 
   svg {
     margin-right: 0.5em;
@@ -236,4 +241,45 @@ export const Button = styled.button`
   &:hover {
     border: 2px solid #000;
   }
+`;
+
+export const Table = styled.table`
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1rem;
+
+td, th {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+th {
+  background-color: #eee;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+`
+
+export const GitHubLink = styled.a`
+  display: flex;
+  align-items: center;
+  color: #fff;
+  text-decoration: none;
+
+  img {
+    margin-right: 0.5rem;
+  }
+`;
+
+export const GitHubIcon = styled.img`
+  height: 30px;
+  width: 30px;
+`;
+
+export const GitHubText = styled.span`
+  font-size: 1rem;
+  color: #000;
 `;

@@ -24,7 +24,27 @@ export const PopupContent = styled.div`
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
   overflow: auto;
   padding: 1rem;
-  padding: 1rem;
+  align-items: left;
+
+  table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+td, th {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+th {
+  background-color: #eee;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
 `
 export const CloseButton = styled(AiFillCloseCircle)`
     float:right;
