@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { LngLat, MapProvider} from 'react-map-gl'
+import { v4 as uuid } from 'uuid'
 
 import Map from '../../components/Map'
 import FocusOnUserButton from '../../components/FocusOnUserButton';
@@ -29,7 +30,7 @@ const MapPage = () : JSX.Element => {
   const[popupVisible,setPopupVisible] = useState<Popups>(Popups.NONE)
   const [lngLat, setLngLat] = useState<LngLat>()  
 
-  const { state: markers, dispatch } = useContext(MarkerContext)
+  const { dispatch } = useContext(MarkerContext)
   const [ selectedCategory, setSelectedCategory ] = useState<Category>(Category.All);
 
   function showAddMarkerPopup(lngLat: LngLat): void{
@@ -50,35 +51,26 @@ const MapPage = () : JSX.Element => {
     if(lngLat===undefined){
       return
     }
-    var newMarker:IMarker = { 
-      id: markers.length+1, 
-      name: name, 
-      address: "Value 1", 
-      lat: lngLat.lat, 
-      lng: lngLat.lng, 
-      date: new Date(), 
-      images: [], 
-      description: 
-      description, 
-      category: [], 
-      comments: [], 
-      score: 10 
+    var newMarker:IMarker = {
+      id: uuid(),
+      name: name,
+      address: "Value 1",
+      lat: lngLat.lat,
+      lng: lngLat.lng,
+      date: new Date(),
+      images: [],
+      description: description,
+      category: [],
+      comments: [],
+      score: 10,
+      property: {
+        owns: true,
+        public: false
+      }
     }
     dispatch({ type: Types.ADD, payload: { marker: newMarker } })
     closePopup()
   }
-
- 
-
-  // useEffect(() => {
-  //   if(loaded){
-  //     console.log('guardando')
-  //     saveMarkerToPod(markers, session.info.webId)
-  //   }else{
-  //     setLoaded(true);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [markers]) 
 
   const toggleSidebar = (open: boolean | undefined) => {
     if (open !== undefined) 
@@ -87,7 +79,6 @@ const MapPage = () : JSX.Element => {
       setSidebarOpen(!sidebarOpen)
   }
   
-
   return (
     <MapProvider>
       <NavContainer>

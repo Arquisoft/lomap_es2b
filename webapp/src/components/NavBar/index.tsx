@@ -35,7 +35,6 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
   const [searchValue] = useState("");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [query, setQuery] = useState('');
-  const [showMarkers, setShowMarkers] = useState(false);
 
   const { state: user } = useContext(UserContext);
   const [isAboutPopupOpen, setIsAboutPopupOpen] = useState(false);
@@ -88,21 +87,17 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
     const data = await response.json();
     const [lng, lat] = data.features[0].center;
     map?.flyTo({ center: { lat: lat, lng: lng }, zoom: 14})
-    // console.log(data)
   };
 
   const handleBarsClick = () => {
-    setShowMarkers(false);
     toggleSidebar(false);
   };
 
   const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(`Realizando búsqueda de: ${searchValue}`);
   };
 
   const handlePopupOpen = () => {
-    setShowMarkers(false);
     setIsPopupOpen(true);
   };
 
@@ -112,7 +107,6 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
 
   const handleConfigClick = () => {
     // Aquí puedes agregar la lógica para navegar a la página de configuraciones
-    console.log("Configuraciones");
   };
 
   const handleAboutClick = () => {

@@ -10,7 +10,7 @@ import { MarkerContext } from '../../context/MarkersContext';
 import { IMarker } from '../../types/IMarker';
 import './Map.css'
 import { Types } from '../../types/ContextActionTypes';
-import { saveMarkerToPod } from '../../helpers/SolidHelper';
+import { saveMarkersToPrivate } from '../../helpers/SolidHelper';
 
 interface Props{
     onClick:(lngLat:LngLat,visible:boolean)=>void;
@@ -27,14 +27,13 @@ const MapComponent = ({ onClick }:Props) => {
 
   const { state: markers, dispatch } = useContext(MarkerContext)
 
-  function addComment(id:number, comment:string){
+  function addComment(id:string, comment:string){
     var listComments = markers.find(marker => marker.id === id)?.comments;
     if(!session.info.webId) return
     listComments?.push({ comment, author: session.info.webId })
     if(!infoVisible) return
     dispatch({type: Types.UPDATE, payload:{id: infoVisible.id, marker:{comments:listComments}}});
     setComment("");
-    console.log(markers.find(m => m.id === infoVisible.id));
   }
 
   function setScore(newScore:number | null){
@@ -64,17 +63,6 @@ const MapComponent = ({ onClick }:Props) => {
 
   const [loaded,setLoaded] = useState(false);
 
-  
-  useEffect(() => {
-    if(loaded){
-      console.log('guardando')
-      saveMarkerToPod(markers, session.info.webId)
-    }else{
-      setLoaded(true)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [markers]) 
-
   return (
     <>
       {
@@ -100,6 +88,7 @@ const MapComponent = ({ onClick }:Props) => {
             markers.map((marker)=>
               <Marker style={{cursor:"pointer"}} 
                 key={marker.id}
+                color={!marker.property.owns ? 'red' : ''}
                 longitude={marker.lng}
                 latitude={marker.lat}
                 onClick={(e)=>{
