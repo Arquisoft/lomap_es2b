@@ -42,6 +42,9 @@ export const SidebarSection = styled.div`
     .addComment{
       margin-top: 1em;
     }
+    p{
+      word-wrap:break-word;
+    }
   }
   
   .search {
@@ -98,7 +101,8 @@ export const MarkerList = styled.div`
   height: calc(100vh - 13em); 
   padding: 0.5em 0.2em;
   .container {
-    overflow: auto;
+    overflow-y: auto;
+    /* overflow-x: hidden; */
     height: 100%;
 
     .content {
@@ -169,10 +173,14 @@ export const MarkerSection = styled.div`
 
 export const MarkerContent = styled.div`
   flex: 1;
-  
+  width: calc(90% - 20px);
   .shared {
     width: 100%;
     display: flex;
     justify-content: end;
+  }
+  p{
+    word-wrap: break-word;
+    width: 100%;
   }
 `

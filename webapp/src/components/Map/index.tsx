@@ -19,20 +19,14 @@ interface Props{
 const MapComponent = ({ onClick }:Props) => {
   
   const { map } = useMap()
-  const {session} = useSession();
   
   const [isLoading , setIsLoading] = useState(true)
   const [infoVisible,setInfoVisible] = useState<IMarker|null>(null); 
 
-  const { state: markers, dispatch } = useContext(MarkerContext)
+  const { state: markers } = useContext(MarkerContext)
 
 
-  function setScore(newScore:number | null){
-    if(!newScore || !infoVisible) return
-    
-    dispatch({ type: Types.UPDATE, payload:{ id: infoVisible.id, marker: { score: newScore } } });
-    setInfoVisible(markers.find(m => m.id === infoVisible.id) || infoVisible)
-  }
+
 
   const locateUser = () => {
     if ("geolocation" in navigator) {      
@@ -52,7 +46,7 @@ const MapComponent = ({ onClick }:Props) => {
   
   useEffect(locateUser,[map])
 
-  const [loaded,setLoaded] = useState(false);
+ 
 
   return (
     <>
@@ -103,19 +97,8 @@ const MapComponent = ({ onClick }:Props) => {
           >
             
             <p>{infoVisible.name}</p>
-            <TextField  label="Descripcion" defaultValue={infoVisible.description}
-            InputProps={{
-              readOnly: true,
-            }}
-            />
-            <Typography component="legend">Puntuacion</Typography>
-            <Rating
-              name="simple-controlled"
-              value={infoVisible.score}
-              onChange={(event,newValue)=>{
-                setScore(newValue);
-              }}
-            />
+           
+           
           </Popup>
         )}
         

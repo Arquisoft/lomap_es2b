@@ -4,11 +4,12 @@ import { useState } from 'react';
 
 import Popup from '../PopUp';
 import { FormGroup } from "./Styles";
+import { Category } from '../../types/Category';
 
 interface Props{
     visible:boolean;
     lngLat:LngLat|undefined;
-    addMark:(name:string, lngLat:LngLat|undefined,description:string, category:string)=>void;
+    addMark:(name:string, lngLat:LngLat|undefined,description:string, category:Category)=>void;
     closePopup:()=>void;
 }
 
@@ -16,7 +17,7 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
 
   const[name,setName]=useState<string>("")
   const[description,setDescription]=useState<string>("")
-  const[ category, setCategory] = useState<string>("")
+  const[ category, setCategory] = useState<Category>(Category.Others)
 
   function handleChangeName(name:string){
     setName(name)
@@ -30,17 +31,6 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
     e.preventDefault();
 
     addMark(name, lngLat, description, category)
-  }
-
-   enum Category {
-    Restaurant = 'restaurant',
-    Hotel = 'hotel',
-    Monuments = 'monuments',
-    Shops = 'shops',
-    Bar = 'bar',
-    Landscapes = 'landscapes', 
-    Others = 'others',
-    All = 'all'
   }
 
   return(
@@ -60,16 +50,16 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
       <Select
         value={category}
         label="Category"
-        onChange={(e) => setCategory(e.target.value)}
-  >
+        onChange={(e) => setCategory(e.target.value as Category)}
+      >
     
-       <MenuItem value={Category.Restaurant}>{Category.Restaurant}</MenuItem>
-       <MenuItem value={Category.Hotel}>{Category.Hotel}</MenuItem>
-       <MenuItem value={Category.Bar}>{Category.Bar}</MenuItem>
-       <MenuItem value={Category.Landscapes}>{Category.Landscapes}</MenuItem>
-       <MenuItem value={Category.Monuments}>{Category.Monuments}</MenuItem>
-       <MenuItem value={Category.Shops}>{Category.Shops}</MenuItem>
-       <MenuItem value={Category.Others}>{Category.Others}</MenuItem>
+       <MenuItem value={Category.Restaurant}>Restaurante</MenuItem>
+       <MenuItem value={Category.Hotel}>Hotel</MenuItem>
+       <MenuItem value={Category.Bar}>Bar</MenuItem>
+       <MenuItem value={Category.Landscapes}>Paisaje</MenuItem>
+       <MenuItem value={Category.Monuments}>Monumento</MenuItem>
+       <MenuItem value={Category.Shops}>Tienda</MenuItem>
+       <MenuItem value={Category.Others}>Otro</MenuItem>
    
   </Select>
       </FormGroup>
