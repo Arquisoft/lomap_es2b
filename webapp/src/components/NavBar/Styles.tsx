@@ -34,10 +34,10 @@ export const Nav = styled.nav`
 
   @media only screen and (max-width: 600px) {
     top: 0;
-    padding: 0.5rem;
-    width: calc(100% - 1rem);
+    padding: 0.5em;
+    width: calc(100% - 1em);
     margin: 0;
-    height: calc(10% - 2rem - 1%);
+    height: calc(10% - 2em - 1%);
     border-radius: 0;
   }
 `;

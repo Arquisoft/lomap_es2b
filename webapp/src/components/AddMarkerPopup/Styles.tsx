@@ -5,5 +5,4 @@ export const FormGroup = styled.div`
     flex-direction: column;
     justify-content: left;
     margin:1em;
-    
 `

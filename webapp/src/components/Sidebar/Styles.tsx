@@ -20,8 +20,9 @@ export const SidebarSection = styled.div`
   flex-grow: 1;
   height: calc(100vh - 5em - 9%);
   width: calc(100vw - 5em - 71%);
+  min-width: 300px;
   position: absolute;
-  z-index: 100;
+  z-index: 600;
   top: calc(1em + 7%);
   left: 0;
   border-radius: 0.5em;
@@ -43,9 +44,9 @@ export const SidebarSection = styled.div`
 
   @media only screen and (max-width: 600px) {
     top: 10%;
-    width: 100%;
+    width: calc(100% - 2em);
     margin: 0;
-    height: calc(90%);
+    height: calc(90% - 2em);
     border-radius: 0;
   }
 `;

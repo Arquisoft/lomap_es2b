@@ -98,16 +98,16 @@ const Sidebar = ({ isOpen, toggleSidebar, selectedCategory  } : Props) => {
               <ToggleButton value={Owner.FRIENDS} style={{ width: '40%' }}>Amigos</ToggleButton>
             </ToggleButtonGroup>
           </div>
-        <MarkerList>
-          <div className="container">
-            <div className="list">
-              {
-              finalList.map((marker) => (
-                <Marker key={marker.id} marker={marker} onClick={handleMarkerClick} changeVisibility={changeVisibility} />
-              ))
-              }
+          <MarkerList>
+            <div className="container">
+              <div className="list">
+                {
+                finalList.map((marker) => (
+                  <Marker key={marker.id} marker={marker} onClick={handleMarkerClick} changeVisibility={changeVisibility} />
+                ))
+                }
+              </div>
             </div>
-          </div>
           </MarkerList>
         </SidebarSection>
       )}
