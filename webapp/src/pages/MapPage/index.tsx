@@ -30,7 +30,7 @@ const MapPage = () : JSX.Element => {
   const[popupVisible,setPopupVisible] = useState<Popups>(Popups.NONE)
   const [lngLat, setLngLat] = useState<LngLat>()  
 
-  const { state: markers, dispatch } = useContext(MarkerContext)
+  const { dispatch } = useContext(MarkerContext)
   const [ selectedCategory, setSelectedCategory ] = useState<Category>(Category.All);
 
   function showAddMarkerPopup(lngLat: LngLat): void{
@@ -79,7 +79,6 @@ const MapPage = () : JSX.Element => {
       setSidebarOpen(!sidebarOpen)
   }
   
-
   return (
     <MapProvider>
       <NavContainer>

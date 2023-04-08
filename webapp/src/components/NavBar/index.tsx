@@ -110,12 +110,8 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
   };
 
   const handleAboutClick = () => {
-<<<<<<< HEAD
-    // Aquí puedes agregar la lógica para navegar a la página de acerca de
-=======
     setIsAboutPopupOpen(true);
     console.log("Acerca de");
->>>>>>> develop
   };
 
   return (

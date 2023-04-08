@@ -29,19 +29,7 @@ interface FilterProps {
   toggleSidebar: (open: boolean | undefined) => void;
 }
 
-const LocationList: React.FC<{ locations: Location[] }> = ({ locations }) => (
-  <ul>
-    {locations.map((loc) => (
-      <li key={loc.name}>
-        <h3>{loc.name}</h3>
-        <p>{loc.address}</p>
-      </li>
-    ))}
-  </ul>
-);
-
 export const FilterComponent: React.FC<FilterProps> = ({ activeFilter, locations, setActiveFilter, toggleSidebar }) => {
-  const filteredLocations = locations.filter((loc) => loc.category === activeFilter);
 
   const handleFilterClick = (category: Category) => {
     if (activeFilter === category) {
@@ -82,14 +70,6 @@ export const FilterComponent: React.FC<FilterProps> = ({ activeFilter, locations
         <MdOtherHouses />
         Others
       </FilterButton>
-      {/* <LocationList>
-        {filteredLocations.map((loc) => (
-          <LocationItem key={loc.name}>
-            <h3>{loc.name}</h3>
-            <p>{loc.address}</p>
-          </LocationItem>
-        ))}
-      </LocationList> */}
     </FilterContainer>
   );
 };
