@@ -138,7 +138,7 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
           onChange={e => setQuery(e.target.value)}
         />
         <Tooltip title="Buscar">
-        <SearchButton type="submit" onClick={handleSearch}>
+        <SearchButton title="Buscar" type="submit" onClick={handleSearch}>
           <FaSearch />
         </SearchButton>
         </Tooltip>
