@@ -1,5 +1,14 @@
 
-import { getSolidDataset,getStringNoLocale,saveSolidDatasetAt, Thing, getThing,setThing, saveFileInContainer,buildThing, getUrlAll } from "@inrupt/solid-client";
+import { 
+  getSolidDataset,
+  getStringNoLocale,
+  saveSolidDatasetAt,
+  Thing,
+  getThing,
+  setThing,
+  buildThing,
+  getUrlAll,
+} from "@inrupt/solid-client";
 import { FOAF} from "@inrupt/vocab-common-rdf";
 import { IMarker } from "../types/IMarker";
 import { getFile, overwriteFile} from "@inrupt/solid-client";
@@ -7,16 +16,16 @@ import { fetch } from "@inrupt/solid-client-authn-browser";
 import { getFriendData } from "./friendHelper";
 import { ISolidUser } from "../types/ISolidUser";
 import {
-    getSolidDatasetWithAcl,
-    hasResourceAcl,
-    hasFallbackAcl,
-    hasAccessibleAcl,
-    createAclFromFallbackAcl,
-    getResourceAcl,
-    setAgentResourceAccess,
-    saveAclFor,
-  } from "@inrupt/solid-client";
-  
+  getSolidDatasetWithAcl,
+  hasResourceAcl,
+  hasFallbackAcl,
+  hasAccessibleAcl,
+  createAclFromFallbackAcl,
+  getResourceAcl,
+  setAgentResourceAccess,
+  saveAclFor,
+} from "@inrupt/solid-client";
+import { type } from "os";
 
 
 
@@ -37,50 +46,144 @@ export async function getNameFromPod(webId: string) {
   return name;
 }
 
-export async function readMarkerFromPod(webId?: string) {
+export async function readMarkersFromPod(webId?: string) {
+  let markers: IMarker[] = []
+
+  const settledPromises = await Promise.allSettled([readMarkerFromPrivate(webId), readMarkerFromPublic(webId), readMarkerFromFriends(webId)])
+  settledPromises.forEach(promise => {
+    if (promise.status === 'fulfilled') {
+      markers = [...markers, ...promise.value]
+    } else {
+      console.log(promise.reason)
+    }
+  })
+  
+  console.log(markers)
+  return markers
+}
+
+export async function readMarkerFromPrivate(webId?: string) {
   let markers: IMarker[] = []
   let profileDocumentURI = webId?.split("profile")[0];
   try {
     await getFile(
       profileDocumentURI + 'private/LoMap/Markers.json',
       { fetch: fetch },
-    ).then(async () => {
-      const file = await getFile(
-        profileDocumentURI + 'private/LoMap/Markers.json',
-        { fetch: fetch },
-      )
+    ).then(async (file) => {
       markers = JSON.parse(await file.text());
     }).catch(async (err: any) => {
       const blob = new Blob([], {
         type: "application/json;charset=utf-8"
       })
-      await saveFileInContainer(
-        profileDocumentURI + 'private/LoMap/',
-        blob,
-        { slug: "Markers.json", contentType: blob.type, fetch }
-      );
+      try {
+        await overwriteFile(
+          profileDocumentURI + 'private/LoMap/Markers.json', // URL for the file.
+          blob,                                             // File
+          { contentType: blob.type, fetch: fetch }          // mimetype if known, fetch from the authenticated session
+        );
+      } catch (error) {
+        console.log(error)
+      }
     });
   } catch (err) {
   }
-  return markers;
+  return markers.map(m => {
+    m.property = {
+      owns: true,
+      public: false
+    }
+    return m
+  });
 };
 
-export async function saveMarkerToPod(markers: IMarker[], webId?: string) {
-        let profileDocumentURI = webId?.split("profile")[0];
-        let targetFileURL = profileDocumentURI + 'private/LoMap/Markers.json';
-        let str = JSON.stringify(markers);
-        const bytes = new TextEncoder().encode(str);
-        const blob = new Blob([bytes], {
-            type: "application/json;charset=utf-8"
-        });
-        try {
-            await overwriteFile(
-                targetFileURL,                              // URL for the file.
-                blob,                                       // File
-                { contentType: blob.type, fetch: fetch }    // mimetype if known, fetch from the authenticated session
-            );
-        } catch (error) {
-        }
+export async function readMarkerFromPublic(webId?: string) {
+  let markers: IMarker[] = []
+  let profileDocumentURI = webId?.split("profile")[0];
+  let url = profileDocumentURI + 'public/LoMap/Markers.json'
+  try {
+    await getFile(
+      url,
+      { fetch: fetch },
+    ).then(async (file) => {
+      markers = JSON.parse(await file.text());
+    }).catch(async (err: any) => {
+      const blob = new Blob([], {
+        type: "application/json;charset=utf-8"
+      })
+      try {
+        await overwriteFile(
+          url, // URL for the file.
+          blob,                                             // File
+          { contentType: blob.type, fetch: fetch }          // mimetype if known, fetch from the authenticated session
+        );
+      } catch (error) {
+        console.log(error)
+      }
+    });
+  } catch (err) {
+    console.log(err);
+  }
+  return markers.map(m => {
+    m.property = {
+      owns: true,
+      public: true
+    }
+    return m
+  });
+};
+
+export function saveMarkersToPod(markers: IMarker[], webId?: string) {
+  const privateMarkers: object[]= []
+  const publicMarkers: object[] = []
+  markers.forEach(m => {
+    if (m.property.owns) {
+      let isPublic = m.property.public
+      const { property, ...m2 } = m
+      if (isPublic)
+        publicMarkers.push(m2)
+      else
+        privateMarkers.push(m2)
+    }
+  })
+  console.log([...privateMarkers, ...publicMarkers])
+  saveMarkersToPrivate(privateMarkers, webId)
+  saveMarkerToPublic(publicMarkers, webId)
+}
+
+export async function saveMarkersToPrivate(markers: object[], webId?: string) {
+  let profileDocumentURI = webId?.split("profile")[0];
+  let targetFileURL = profileDocumentURI + 'private/LoMap/Markers.json';
+  let str = JSON.stringify(markers);
+  const bytes = new TextEncoder().encode(str);
+  const blob = new Blob([bytes], {
+    type: "application/json;charset=utf-8"
+  });
+  try {
+    await overwriteFile(
+      targetFileURL,                              // URL for the file.
+      blob,                                       // File
+      { contentType: blob.type, fetch: fetch }    // mimetype if known, fetch from the authenticated session
+    );
+  } catch (error) {
+  }
+};
+
+export async function saveMarkerToPublic(markers: object[], webId?: string) {
+  let profileDocumentURI = webId?.split("profile")[0];
+  let targetFileURL = profileDocumentURI + 'public/LoMap/Markers.json';
+  let str = JSON.stringify(markers);
+  const bytes = new TextEncoder().encode(str);
+  const blob = new Blob([bytes], {
+    type: "application/json;charset=utf-8"
+  });
+  try {
+    await overwriteFile(
+      targetFileURL,                              // URL for the file.
+      blob,                                       // File
+      { contentType: blob.type, fetch: fetch }    // mimetype if known, fetch from the authenticated session
+    );
+  } catch (error) {
+  }
 };
 
 export async function getFriends(webId: string) {
@@ -109,7 +212,7 @@ export async function addFriend(webId: string,friend:string) {
   
   await saveSolidDatasetAt(webId, dataset, { fetch });
 
-  setPerms(webId,friend,true);
+  // setPerms(webId,friend,true);
 }
 
 export async function deleteFriend(webId: string,friend:string) {
@@ -122,7 +225,7 @@ export async function deleteFriend(webId: string,friend:string) {
   
   await saveSolidDatasetAt(webId, dataset, { fetch });
 
-  setPerms(webId,friend,false);
+  // setPerms(webId,friend,false);
 }
 
 async function setPerms(webId: string, friend: string, mode: boolean) {
@@ -130,8 +233,6 @@ async function setPerms(webId: string, friend: string, mode: boolean) {
   let profileDocumentURI = webId?.split("profile")[0];
   let targetFileURL = profileDocumentURI + 'public/LoMap/';
 
-  
-  
   const myDatasetWithAcl = await getSolidDatasetWithAcl(targetFileURL,{fetch :fetch});
   // Obtain the SolidDataset's own ACL, if available,
   // or initialise a new one, if possible:
@@ -160,7 +261,7 @@ async function setPerms(webId: string, friend: string, mode: boolean) {
   const updatedAcl = setAgentResourceAccess(
     resourceAcl,
     friend,
-    { read: mode, append: mode, write: mode, control: false },
+    { read: true, append: mode, write: mode, control: false },
   );
   
   // Now save the ACL:
@@ -169,91 +270,38 @@ async function setPerms(webId: string, friend: string, mode: boolean) {
 }
 
 export async function checkIfFriendsFile(webId?: string) {
-        let profileDocumentURI = webId?.split("profile")[0];
-        let targetFileURL = profileDocumentURI + 'public/LoMap/Markers.json';
+  let profileDocumentURI = webId?.split("profile")[0];
+  let targetFileURL = profileDocumentURI + 'public/LoMap/Markers.json';
 
-        const blob = new Blob(undefined, {
-            type: "application/json;charset=utf-8"
-        });
-        try {
-            await overwriteFile(
-                targetFileURL,                              // URL for the file.
-                blob,                                       // File
-                { contentType: blob.type, fetch: fetch }    // mimetype if known, fetch from the authenticated session
-            );
-        } catch (error) {
-        }
+  const blob = new Blob(undefined, {
+    type: "application/json;charset=utf-8"
+  });
+  try {
+    await overwriteFile(
+      targetFileURL,                              // URL for the file.
+      blob,                                       // File
+      { contentType: blob.type, fetch: fetch }    // mimetype if known, fetch from the authenticated session
+    );
+  } catch (error) {}
 };
 
-
 export async function readMarkerFromFriends(webId?: string) {
-    let markers: IMarker[] = []
-    let friends= await getFriends(webId!);
-    friends.forEach(async (friend) =>{
-        let profileDocumentURI = friend.webId.split("profile")[0];
+  let markers: IMarker[] = []
+  let friends= await getFriends(webId!);
+  for (let friend of friends){
+    let profileDocumentURI = friend.webId.split("profile")[0];
     try {
-      await getFile(
-        profileDocumentURI + 'public/LoMap/Markers.json',
-        { fetch: fetch },
-      ).then(async () => {
-        const file = await getFile(
-          profileDocumentURI + 'public/LoMap/Markers.json',
-          { fetch: fetch },
-        )
-        let aux = JSON.parse(await file.text());
-        aux.forEach((marker:any) => {
-            markers.push(marker);
-        });
-      }).catch(async (err: any) => {
-      });} catch (err) {}
-    });
-
-    
-    return markers;
-  };
-
-  export async function saveMarkerToPublic(marker:IMarker,webId?: string) {
-    let markers: IMarker[] = []
-    let profileDocumentURI = webId?.split("profile")[0];
-    try {
-      const file =await getFile(
+      const file = await getFile(
         profileDocumentURI + 'public/LoMap/Markers.json',
         { fetch: fetch },
       )
-      markers = JSON.parse(await file.text());
-      if(markers.length === undefined){
-        let aux: IMarker[] = [];
-        aux.push(marker);
-        markers=aux;
-      }else{
-        let exists=false;
-        markers.forEach((m) => {
-        if(m.id===marker.id){
-          exists=true;
-        }
-        })
-        if(!exists){
-          markers.push(marker);
-        }
-      }
-      let targetFileURL = profileDocumentURI + 'public/LoMap/Markers.json';
-      let str = JSON.stringify(markers);
-      const bytes = new TextEncoder().encode(str);
-      const blob = new Blob([bytes], {
-              type: "application/json;charset=utf-8"
+      let aux = JSON.parse(await file.text());
+      aux.forEach((marker:any) => {
+        markers.push({...marker, property: { owns: false, author: profileDocumentURI }});
       });
-      await overwriteFile(
-          targetFileURL,                              // URL for the file.
-          blob,                                       // File
-          { contentType: blob.type, fetch: fetch }    // mimetype if known, fetch from the authenticated session
-      );
     } catch (err) {
+      console.log(err)
     }
-  };
-  
-
-
-
-
-
-
+  }
+  return markers
+};

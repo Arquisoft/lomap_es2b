@@ -34,6 +34,11 @@ export const SidebarSection = styled.div`
   .search {
     display: flex;
     justify-content: center;
+    flex-direction: column;
+
+    div {
+      justify-content: center;
+    }
   }
 
   @media only screen and (max-width: 600px) {
@@ -64,7 +69,7 @@ export const Title = styled.h1`
 
 export const SearchBar = styled.input`
   position: relative; 
-  width: 85%;
+  width: calc(100% - 0.6em);
   border-radius: 0.3em;
   outline: none;
   border: none;
@@ -84,6 +89,11 @@ export const MarkerList = styled.div`
     overflow: auto;
     height: 100%;
 
+    .content {
+      position: relative;
+      height: auto;
+    }
+
     /* Scrollbar */
     scrollbar-color: #c2c2c2 #f8f8f8;
 
@@ -99,11 +109,6 @@ export const MarkerList = styled.div`
       background-color: #c2c2c2;
       border-radius: 1em;
       border: 0.15em solid #f8f8f8;
-    }
-
-    .content: {
-      position: relative;
-      height: auto;
     }
   }
 `
@@ -155,5 +160,11 @@ export const MarkerSection = styled.div`
 `;
 
 export const MarkerContent = styled.div`
-  flex-direction: column;
+  flex: 1;
+  
+  .shared {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+  }
 `

@@ -5,7 +5,7 @@ import { SessionProvider, useSession } from '@inrupt/solid-ui-react';
 import { useState } from 'react';
 
 import { MarkerContext } from './context/MarkersContext';
-import { getProfile,readMarkerFromPod } from './helpers/SolidHelper';
+import { getProfile, readMarkersFromPod } from './helpers/SolidHelper';
 import { Types } from './types/ContextActionTypes';
 import { UserContext } from './context/UserContext';
 
@@ -23,7 +23,7 @@ function App(): JSX.Element {
     setIsLoggedIn(true)
     const profile = await getProfile(session.info.webId || '')
     userDispatch({ type: Types.SET, payload: { user: profile }});
-    const markers = await readMarkerFromPod(session.info.webId)
+    const markers = await readMarkersFromPod(session.info.webId)
     markersDispatch({ type: Types.SET, payload: { markers }});
   })
 

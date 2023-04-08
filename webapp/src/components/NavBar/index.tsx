@@ -33,7 +33,6 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
   const [searchValue] = useState("");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [query, setQuery] = useState('');
-  const [showMarkers, setShowMarkers] = useState(false);
 
   const { state: user } = useContext(UserContext)
   
@@ -89,7 +88,6 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
   };
 
   const handleBarsClick = () => {
-    setShowMarkers(false);
     toggleSidebar(false);
   };
 
@@ -99,7 +97,6 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
   };
 
   const handlePopupOpen = () => {
-    setShowMarkers(false);
     setIsPopupOpen(true);
   };
 
