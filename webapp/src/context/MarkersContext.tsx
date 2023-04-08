@@ -1,8 +1,7 @@
-import { createContext, Dispatch, useEffect, useReducer, useState } from "react";
+import { createContext, Dispatch, useReducer } from "react";
 import { Types } from "../types/ContextActionTypes";
 import { IMarker } from '../types/IMarker';
-import { saveMarkerToPod } from "../helpers/SolidHelper";
-import { useSession } from "@inrupt/solid-ui-react";
+
 
 type MarkerActions = {
   type: Types.ADD
@@ -54,18 +53,7 @@ export const markerReducer = (state:IMarker[], action: MarkerActions) : IMarker[
 export const MarkerContextProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(markerReducer, [])
 
-  const [loaded,setLoaded] = useState(false);
-  const {session} = useSession();
   
-  useEffect(() => {
-    if(loaded){
-      console.log('guardando')
-      saveMarkerToPod(state, session.info.webId)
-    }else{
-      setLoaded(true)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state]) 
 
   return (
     <MarkerContext.Provider value={{state, dispatch}}>  

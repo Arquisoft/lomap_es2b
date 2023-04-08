@@ -7,6 +7,7 @@ import { IMarker } from "../../types/IMarker";
 import { MarkerList, MarkerSection, SearchBar, Title, TopSection, SidebarSection, CloseSection, MarkerContent } from "./Styles";
 import DeleteButton from "../DeleteButton";
 import { Category } from "../../types/Category";
+import ShareButton from "../ShareButton";
 
 type Props = {
   isOpen: boolean,

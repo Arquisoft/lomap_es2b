@@ -5,7 +5,7 @@ import { SessionProvider, useSession } from '@inrupt/solid-ui-react';
 import { useState } from 'react';
 
 import { MarkerContext } from './context/MarkersContext';
-import { getProfile, readMarkerFromPod } from './helpers/SolidHelper';
+import { getProfile,readMarkerFromPod } from './helpers/SolidHelper';
 import { Types } from './types/ContextActionTypes';
 import { UserContext } from './context/UserContext';
 

@@ -15,6 +15,7 @@ import { NavContainer} from './Styles'
 import { Category } from '../../types/Category';
 import AboutPopup from '../../components/AboutPopup';
 
+
 export enum Popups {
   NONE,
   ADD_MARKER,
