@@ -1,3 +1,5 @@
+import { Category } from "./Category"
+
 export interface IMarker {
   id: number
   name: string
@@ -7,7 +9,7 @@ export interface IMarker {
   date: Date
   images: string[] // Se guardan las URLs
   description?: string
-  category: string[]
+  category: Category[]
   comments: IComment[]
   score?: number
 }

@@ -4,25 +4,27 @@ import { useSession } from '@inrupt/solid-ui-react';
 import { FOAF, VCARD } from '@inrupt/vocab-common-rdf';
 import { Avatar, Box, Divider, IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import { FaSearch, FaBars, FaMapMarkerAlt } from "react-icons/fa";
+import {FcAbout, FcDataConfiguration} from "react-icons/fc"
 
 import { IMenuOption } from '../../types/IMenuOption';
 import { Popups } from '../../pages/MapPage';
 import { UserContext } from '../../context/UserContext';
 import { Title } from "../Sidebar/Styles";
 import NavPopup from "../NavPopup";
-import Sidebar from "../Sidebar";
 import { mapboxApiKey } from "../../config/constants";
 import { useMap } from "react-map-gl";
-import { Nav, SearchForm, SearchInput, SearchButton, TitleContainer, FormGroup } from './Styles';
+import { Nav, SearchForm, SearchInput, SearchButton, TitleContainer, FormGroup, Button } from './Styles';
 import { TextMenuItem } from './Styles';
 
 import DefaulPic from '../../assets/defaultPic.png'
+import AboutPopup from '../AboutPopup';
 
 type Props = {
+  toggleSidebar: (open: boolean | undefined) => void
   openPopup: (popup : Popups) => void
 }
 
-const Navbar = ({ openPopup } : Props) => {
+const Navbar = ({ openPopup, toggleSidebar } : Props) => {
   const { map  } = useMap()
   const { logout } = useSession()
 
@@ -32,11 +34,11 @@ const Navbar = ({ openPopup } : Props) => {
 
   const [searchValue] = useState("");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [showSidebar, setShowSidebar] = useState(false);
   const [query, setQuery] = useState('');
+  const [showMarkers, setShowMarkers] = useState(false);
 
-
-  const { state: user } = useContext(UserContext)
+  const { state: user } = useContext(UserContext);
+  const [isAboutPopupOpen, setIsAboutPopupOpen] = useState(false);
   
   useEffect(() => {
     if (user) {
@@ -86,7 +88,12 @@ const Navbar = ({ openPopup } : Props) => {
     const data = await response.json();
     const [lng, lat] = data.features[0].center;
     map?.flyTo({ center: { lat: lat, lng: lng }, zoom: 14})
-    console.log(data)
+    // console.log(data)
+  };
+
+  const handleBarsClick = () => {
+    setShowMarkers(false);
+    toggleSidebar(false);
   };
 
   const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -95,15 +102,12 @@ const Navbar = ({ openPopup } : Props) => {
   };
 
   const handlePopupOpen = () => {
+    setShowMarkers(false);
     setIsPopupOpen(true);
   };
 
   const handlePopupClose = () => {
     setIsPopupOpen(false);
-  };
-
-  const handleSidebarToggle = () => {
-    setShowSidebar(!showSidebar);
   };
 
   const handleConfigClick = () => {
@@ -112,47 +116,73 @@ const Navbar = ({ openPopup } : Props) => {
   };
 
   const handleAboutClick = () => {
-    // Aquí puedes agregar la lógica para navegar a la página de acerca de
+    setIsAboutPopupOpen(true);
     console.log("Acerca de");
   };
-  
 
   return (
     <Nav>
-       <IconButton onClick={handlePopupOpen}>
-        <FaBars />
-      </IconButton>
+      <Tooltip title="Open menu">
+        <IconButton onClick={() => {
+          handlePopupOpen()
+          handleBarsClick()
+        }}>
+          <FaBars/>
+        </IconButton>
+      </Tooltip>
 
       <Title>LoMap</Title>
       <SearchForm onSubmit={handleSearchSubmit}>
         <SearchInput
           type="text"
-          placeholder="Buscar lugares..."
+          placeholder="Find places..."
           value={query}
           onChange={e => setQuery(e.target.value)}
         />
+        <Tooltip title="Search">
         <SearchButton type="submit" onClick={handleSearch}>
           <FaSearch />
         </SearchButton>
+        </Tooltip>
       </SearchForm>
-        <IconButton onClick={handleSidebarToggle}>
+        <Tooltip title="Open markers">
+        <IconButton onClick={() => toggleSidebar(undefined)}>
           <FaMapMarkerAlt />
         </IconButton>
+        </Tooltip>
       {isPopupOpen && (
         <NavPopup isOpen={isPopupOpen} closePopup={handlePopupClose}>
           <TitleContainer>
-            <h2>Menú de Opciones</h2>
+            <h2>Options Menu</h2>
           </TitleContainer>
             <FormGroup>
-              <button onClick={handleConfigClick}>Configuraciones</button>
+              <Button onClick={handleConfigClick}>
+              <FcDataConfiguration />
+                Configurations 
+              </Button>
             </FormGroup>
             <FormGroup>
-              <button onClick={handleAboutClick}>Acerca de</button>
+              <Button onClick={handleAboutClick}>
+                <FcAbout />
+                About
+              </Button>
             </FormGroup>
         </NavPopup>
       )}
-      {showSidebar && <Sidebar />}
-      <Box sx={{ flexGrow: 0 }}>
+
+      {isAboutPopupOpen && (
+        <AboutPopup isOpen={isAboutPopupOpen} closePopup={() => setIsAboutPopupOpen(false)}>
+          <h1>About...</h1>
+          <p>This project is being developed by: </p>
+          <p> - Álvaro Dávila Sampedro-UO284548 </p> 
+          <p> - Adrián Martínez Rodríguez-UO284163 </p>
+          <p> - Hugo Roberto Pulido Pensado-UO282823 </p>   
+          <p> - Javier González Velázquez-UO276803 </p>   
+          <p> Our link to GitHub is:  <a href="https://github.com/Arquisoft/lomap_es2b">https://github.com/Arquisoft/lomap_es2b</a> </p>
+          
+      </AboutPopup>)} 
+        
+      {  <Box sx={{ flexGrow: 0 }}>
         <Tooltip title="Open settings">
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
             <Avatar alt="" src={profilePic} style={{ backgroundColor: 'white' }} />
@@ -184,7 +214,7 @@ const Navbar = ({ openPopup } : Props) => {
             </MenuItem>
           ))}
         </Menu>
-      </Box>
+      </Box> }
     </Nav>
   );
 };

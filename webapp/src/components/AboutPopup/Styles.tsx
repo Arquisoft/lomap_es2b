@@ -9,15 +9,13 @@ export const PopupContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: flex-start; /* Alinea el contenido a la izquierda */
+  justify-content: flex-start; 
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(5px);
 `
 
 export const PopupContent = styled.div`
   position: relative;
-  width: 15%;
+  width: 20%;
   height: 80%;
   background-color: #fff;
   border-radius: 10px;
