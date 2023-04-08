@@ -12,19 +12,23 @@ export const PopupContainer = styled.div`
   justify-content: flex-start; /* Alinea el contenido a la izquierda */
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(3px);
 `
 
 export const PopupContent = styled.div`
   position: relative;
   width: 15%;
   height: 80%;
+  min-height: fit-content;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
   overflow: auto;
-  padding: 1rem;
-  padding: 1rem;
+  padding: 1em;
+
+  @media only screen and (max-width: 600px) {
+    width: calc(100vw - 2em)
+  }
 `
 export const CloseButton = styled(AiFillCloseCircle)`
     float:right;

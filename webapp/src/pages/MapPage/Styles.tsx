@@ -12,8 +12,15 @@ export const NavContainer = styled.div`
   margin: 1em;
   margin-bottom: 0;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1000px) {
     flex-direction: column;
+    height: fit-content;
+    align-items: flex-start;
+    height: 16%;
+    min-height: 120px;
+  }
+
+  @media only screen and (max-width: 600px) {
     margin: 0;
     width: 100%;
   }

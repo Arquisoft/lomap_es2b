@@ -15,10 +15,11 @@ export const SidebarSection = styled.div`
   flex-direction: column;
   background-color: #f8f8f8;
   padding: 1em;
-  margin: 1.0em;
+  padding-right: 0.3em;
+  margin: 1em;
   flex-grow: 1;
   height: calc(100vh - 5em - 9%);
-  width: calc(100vw - 5em - 71%);
+  width: calc(100vw - 4.7em - 71%);
   min-width: 300px;
   position: absolute;
   z-index: 600;
@@ -30,15 +31,28 @@ export const SidebarSection = styled.div`
   -moz-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
   box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
   
-  
+  .sidebar-filters {
+    display: none;
+    overflow-y: hidden;
+    
+    > div {
+      height: fit-content;
+    }
+
+    @media only screen and (max-width: 600px) {
+      display: inline-block;
+      vertical-align: middle;
+      height: 3em;
+    }
+  }
 
   .markInfo{
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
     height: 100%;
-    width: auto;
     .backButton{
-      bottom: 0;
+      margin-bottom: 0.3em;
     }
     .addComment{
       margin-top: 1em;
@@ -58,12 +72,19 @@ export const SidebarSection = styled.div`
     }
   }
 
+  @media only screen and (max-width: 1000px) {
+    top: max(16%, 120px);
+    height: calc(min(84%, calc(100vh - 120px)) - 4em);
+  }
+
   @media only screen and (max-width: 600px) {
-    top: 10%;
-    width: calc(100% - 2em);
+    padding-top: 0.5em;
+    top: 10vh;
+    width: calc(100% - 1.3em);
     margin: 0;
-    height: calc(90% - 2em);
+    height: calc(90% - 1.5em);
     border-radius: 0;
+    min-width: 0;
   }
 `;
 
@@ -71,8 +92,11 @@ export const TopSection = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1em 0.5em;
   width: 95%;
+
+  @media only screen and (max-width: 600px) {
+    justify-content: end;
+  }
 `;
 
 export const Title = styled.h1`
@@ -98,8 +122,7 @@ export const SearchBar = styled.input`
 
 export const MarkerList = styled.div`
   overflow: hidden;
-  width: calc(100% - 1em); 
-  height: calc(100vh - 13em); 
+  width: calc(100% - 0.3em);
   padding: 0.5em 0.2em;
   .container {
     overflow-y: auto;
@@ -131,25 +154,8 @@ export const CloseSection = styled.div`
   display: flex;
   font-size: 1.8em;
   cursor: pointer;
-`;
-
-export const ClosedSidebar = styled.div`
-  display: flex;
-  justify-content: center;
-  font-size: 2em;
-  background-color: #f8f8f8;
-  top: 0;
-  position: absolute;
-  z-index: 100;
-  top: 0;
-  left: 0;
-  margin: 0;
-  margin-top: 2%;
-  padding: 0.1em;
-  border-radius: 0 0.2em 0.2em 0;
-  cursor: pointer;
   @media only screen and (max-width: 600px) {
-    top: 10%;
+    font-size: 1.3em;
   }
 `;
 

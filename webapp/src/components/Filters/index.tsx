@@ -10,6 +10,7 @@ type Props = {
   toggleSidebar: (open: boolean | undefined) => void;
   activeFilter: Category;
   setActiveFilter: (category: Category) => void;
+  className?: string
 }
 
 interface Location {
@@ -74,7 +75,7 @@ export const FilterComponent: React.FC<FilterProps> = ({ activeFilter, locations
   );
 };
 
-const Filter = ({ toggleSidebar, setActiveFilter, activeFilter } : Props) => {
+const Filter = ({ toggleSidebar, setActiveFilter, activeFilter, className } : Props) => {
 
   const locations: Location[] = [
     {
@@ -98,7 +99,7 @@ const Filter = ({ toggleSidebar, setActiveFilter, activeFilter } : Props) => {
   ];
 
   return (
-    <FilterWrapper>
+    <FilterWrapper className={className}>
         <FilterComponent activeFilter={activeFilter} locations={locations} setActiveFilter={setActiveFilter} toggleSidebar={toggleSidebar}/>
     </FilterWrapper>
   );
