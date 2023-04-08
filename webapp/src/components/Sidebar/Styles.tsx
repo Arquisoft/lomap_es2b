@@ -13,7 +13,6 @@ const toggleAnimation = keyframes`
 export const SidebarSection = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   background-color: #f8f8f8;
   padding: 1em;
   margin: 1.0em;
@@ -30,7 +29,24 @@ export const SidebarSection = styled.div`
   -moz-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
   box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
   
+  
 
+  .markInfo{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: auto;
+    .backButton{
+      bottom: 0;
+    }
+    .addComment{
+      margin-top: 1em;
+    }
+    p{
+      word-wrap:break-word;
+    }
+  }
+  
   .search {
     display: flex;
     justify-content: center;
@@ -84,9 +100,9 @@ export const MarkerList = styled.div`
   width: calc(100% - 1em); 
   height: calc(100vh - 13em); 
   padding: 0.5em 0.2em;
-
   .container {
-    overflow: auto;
+    overflow-y: auto;
+    /* overflow-x: hidden; */
     height: 100%;
 
     .content {
@@ -96,15 +112,12 @@ export const MarkerList = styled.div`
 
     /* Scrollbar */
     scrollbar-color: #c2c2c2 #f8f8f8;
-
     ::-webkit-scrollbar {
       width: 0.7em;
     }
-
     ::-webkit-scrollbar-track {
       background: #f8f8f8;
     }
-
     ::-webkit-scrollbar-thumb {
       background-color: #c2c2c2;
       border-radius: 1em;
@@ -134,7 +147,6 @@ export const ClosedSidebar = styled.div`
   padding: 0.1em;
   border-radius: 0 0.2em 0.2em 0;
   cursor: pointer;
-
   @media only screen and (max-width: 600px) {
     top: 10%;
   }
@@ -161,10 +173,14 @@ export const MarkerSection = styled.div`
 
 export const MarkerContent = styled.div`
   flex: 1;
-  
+  width: calc(90% - 20px);
   .shared {
     width: 100%;
     display: flex;
     justify-content: end;
+  }
+  p{
+    word-wrap: break-word;
+    width: 100%;
   }
 `

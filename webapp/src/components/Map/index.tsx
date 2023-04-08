@@ -19,29 +19,14 @@ interface Props{
 const MapComponent = ({ onClick }:Props) => {
   
   const { map } = useMap()
-  const {session} = useSession();
   
   const [isLoading , setIsLoading] = useState(true)
   const [infoVisible,setInfoVisible] = useState<IMarker|null>(null); 
-  const [comment,setComment] = useState<string>("");
 
-  const { state: markers, dispatch } = useContext(MarkerContext)
+  const { state: markers } = useContext(MarkerContext)
 
-  function addComment(id:string, comment:string){
-    var listComments = markers.find(marker => marker.id === id)?.comments;
-    if(!session.info.webId) return
-    listComments?.push({ comment, author: session.info.webId })
-    if(!infoVisible) return
-    dispatch({type: Types.UPDATE, payload:{id: infoVisible.id, marker:{comments:listComments}}});
-    setComment("");
-  }
 
-  function setScore(newScore:number | null){
-    if(!newScore || !infoVisible) return
-    
-    dispatch({ type: Types.UPDATE, payload:{ id: infoVisible.id, marker: { score: newScore } } });
-    setInfoVisible(markers.find(m => m.id === infoVisible.id) || infoVisible)
-  }
+
 
   const locateUser = () => {
     if ("geolocation" in navigator) {      
@@ -61,7 +46,7 @@ const MapComponent = ({ onClick }:Props) => {
   
   useEffect(locateUser,[map])
 
-  const [loaded,setLoaded] = useState(false);
+ 
 
   return (
     <>
@@ -92,6 +77,7 @@ const MapComponent = ({ onClick }:Props) => {
                 longitude={marker.lng}
                 latitude={marker.lat}
                 onClick={(e)=>{
+                  console.log(marker)
                   e.originalEvent.stopPropagation()
                   setInfoVisible(marker)
                 }}
@@ -104,27 +90,15 @@ const MapComponent = ({ onClick }:Props) => {
           <Popup 
             longitude={infoVisible.lng}
             latitude={infoVisible.lat}
-            onClose={()=>setInfoVisible(null)}
+            onClose={()=>{
+              setInfoVisible(null)
+            }}
             closeOnMove={false}
           >
             
             <p>{infoVisible.name}</p>
-            <TextField  label="Descripcion" defaultValue={infoVisible.description}
-            InputProps={{
-              readOnly: true,
-            }}
-            />
-            <label>Comentar</label>
-            <TextField value={comment} onChange={(e)=>setComment(e.target.value)} label={"Comenta aqui"} variant='standard' />
-            <Button onClick={()=>addComment(infoVisible.id,comment)} color='success' variant='contained'>Anadir</Button>       
-            <Typography component="legend">Puntuacion</Typography>
-            <Rating
-              name="simple-controlled"
-              value={infoVisible.score}
-              onChange={(event,newValue)=>{
-                setScore(newValue);
-              }}
-            />
+           
+           
           </Popup>
         )}
         

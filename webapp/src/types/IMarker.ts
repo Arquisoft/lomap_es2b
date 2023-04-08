@@ -9,7 +9,7 @@ export interface IMarker {
   date: Date
   images: string[] // Se guardan las URLs
   description?: string
-  category: Category[]
+  category: Category
   comments: IComment[]
   score?: number
   property: {

@@ -1,14 +1,15 @@
-import { TextField, Button } from '@mui/material'
+import { TextField, Button, Select, MenuItem } from '@mui/material'
 import { LngLat } from 'mapbox-gl';
 import { useState } from 'react';
 
 import Popup from '../PopUp';
 import { FormGroup } from "./Styles";
+import { Category } from '../../types/Category';
 
 interface Props{
     visible:boolean;
     lngLat:LngLat|undefined;
-    addMark:(name:string, lngLat:LngLat|undefined,description:string)=>void;
+    addMark:(name:string, lngLat:LngLat|undefined,description:string, category:Category)=>void;
     closePopup:()=>void;
 }
 
@@ -16,6 +17,7 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
 
   const[name,setName]=useState<string>("")
   const[description,setDescription]=useState<string>("")
+  const[ category, setCategory] = useState<Category>(Category.Others)
 
   function handleChangeName(name:string){
     setName(name)
@@ -28,7 +30,7 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
   function handleSubmit(e:React.FormEvent){
     e.preventDefault();
 
-    addMark(name, lngLat, description)
+    addMark(name, lngLat, description, category)
   }
 
   return(
@@ -42,6 +44,24 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
       <FormGroup>
         <label htmlFor="Descripcion">Descripcion:</label>
         <TextField className='field' id='Descripcion' label='Descripcion' variant='standard' multiline maxRows={4} onChange={(e)=>handleChangeDescription(e.target.value)}/>         
+      </FormGroup>
+      <FormGroup>
+      <label htmlFor="Category">Categoría:</label>
+      <Select
+        value={category}
+        label="Category"
+        onChange={(e) => setCategory(e.target.value as Category)}
+      >
+    
+       <MenuItem value={Category.Restaurant}>Restaurante</MenuItem>
+       <MenuItem value={Category.Hotel}>Hotel</MenuItem>
+       <MenuItem value={Category.Bar}>Bar</MenuItem>
+       <MenuItem value={Category.Landscapes}>Paisaje</MenuItem>
+       <MenuItem value={Category.Monuments}>Monumento</MenuItem>
+       <MenuItem value={Category.Shops}>Tienda</MenuItem>
+       <MenuItem value={Category.Others}>Otro</MenuItem>
+   
+  </Select>
       </FormGroup>
       <FormGroup>
         <label>Coordenadas(LngLat):</label>

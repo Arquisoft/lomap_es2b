@@ -47,7 +47,7 @@ const MapPage = () : JSX.Element => {
   }
 
 
-  function addMark(name:string, lngLat:LngLat|undefined,description:string){
+  function addMark(name:string, lngLat:LngLat|undefined,description:string, category:Category){
     if(lngLat===undefined){
       return
     }
@@ -60,9 +60,9 @@ const MapPage = () : JSX.Element => {
       date: new Date(),
       images: [],
       description: description,
-      category: [],
+      category,
       comments: [],
-      score: 10,
+      score: 0,
       property: {
         owns: true,
         public: false
