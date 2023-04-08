@@ -1,17 +1,20 @@
 import { useContext, useEffect, useState } from "react";
-import { useMap } from "react-map-gl";
-import {FaTimes } from "react-icons/fa";
+  import { useMap } from "react-map-gl";
+  import { FaTimes } from "react-icons/fa";
 
-import { MarkerContext} from "../../context/MarkersContext";
+import { MarkerContext } from "../../context/MarkersContext";
 import { IMarker } from "../../types/IMarker";
-import { MarkerList, MarkerSection, SearchBar, Title, TopSection, SidebarSection, CloseSection, MarkerContent } from "./Styles"
+import { MarkerList, MarkerSection, SearchBar, Title, TopSection, SidebarSection, CloseSection, MarkerContent } from "./Styles";
 import DeleteButton from "../DeleteButton";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { Types } from "../../types/ContextActionTypes";
+import { Category } from "../../types/Category";
+import ShareButton from "../ShareButton";
 
 type Props = {
   isOpen: boolean,
-  toggleSidebar: (open: boolean) => void
+  toggleSidebar: (open: boolean) => void,
+  selectedCategory: Category
 }
 
 enum Owner {
@@ -19,7 +22,7 @@ enum Owner {
   FRIENDS='FRIENDS'
 }
 
-const Sidebar = ({ isOpen, toggleSidebar } : Props) => {
+const Sidebar = ({ isOpen, toggleSidebar, selectedCategory  } : Props) => {
 
   const { map } = useMap()
 
@@ -30,8 +33,8 @@ const Sidebar = ({ isOpen, toggleSidebar } : Props) => {
   const [ finalList, setFinalList ] = useState<IMarker[]>([])
 
   const handleMarkerClick = (marker: IMarker) => {
-    map?.flyTo({ center: { lat: marker.lat, lng: marker.lng }, zoom: 16 })
-  }
+    map?.flyTo({ center: { lat: marker.lat, lng: marker.lng }, zoom: 16 });
+  };
 
   const changeShowing = (newValue: Owner) => {
     if (newValue)
@@ -68,18 +71,18 @@ const Sidebar = ({ isOpen, toggleSidebar } : Props) => {
     setFinalList(markers.filter((marker) => 
       marker.name.toLowerCase().includes(searchValue.toLowerCase())
         && (showing === Owner.USER ? marker.property.owns : !marker.property.owns)
-    ).sort(sortByNameAndDate))
+        && (selectedCategory === Category.All || marker.category.includes(selectedCategory)
+    )).sort(sortByNameAndDate))
   }, [markers, showing, searchValue])
 
   return (
     <>
-    {
-      isOpen ?
-      <SidebarSection>
-        <TopSection>
-            <Title>Puntos de interés</Title>
+      {isOpen && (
+        <SidebarSection>
+          <TopSection>
+            <Title>Points of interest</Title>
             <CloseSection>
-              <FaTimes onClick={() => toggleSidebar(false)}/>
+              <FaTimes onClick={() => toggleSidebar(false)} />
             </CloseSection>
           </TopSection>
           <div className="search">
@@ -105,10 +108,9 @@ const Sidebar = ({ isOpen, toggleSidebar } : Props) => {
               }
             </div>
           </div>
-        </MarkerList>
-      </SidebarSection>
-      : null
-    }
+          </MarkerList>
+        </SidebarSection>
+      )}
     </>
   )
 }
@@ -143,4 +145,4 @@ const Marker = ({ marker, onClick, changeVisibility }: MarkerProps) => {
   );
 };
 
-export default Sidebar
+export default Sidebar;

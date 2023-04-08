@@ -34,7 +34,7 @@ export const Nav = styled.nav`
 
   @media only screen and (max-width: 600px) {
     top: 0;
-    padding: 0.5rem
+    padding: 0.5rem;
     width: calc(100% - 1rem);
     margin: 0;
     height: calc(10% - 2rem - 1%);
@@ -170,7 +170,7 @@ export const SearchButton = styled.button`
 export const FormGroup = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: left;
+    justify-content: flex-start;
     margin:1em;
 
     @media (max-width: 600px) {
@@ -221,3 +221,19 @@ export const MapButtonContainer = styled.div`
   transform: translateY(-50%);
 `;
 
+export const Button = styled.button`
+  border: none;
+  background-color: #fff;
+  color: #000;
+  padding: 14px 28px;
+  font-size: 20px;
+  display: flex-end;
+
+  svg {
+    margin-right: 0.5em;
+  }
+
+  &:hover {
+    border: 2px solid #000;
+  }
+`;
