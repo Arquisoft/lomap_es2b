@@ -34,7 +34,6 @@ const MapComponent = ({ onClick }:Props) => {
     if(!infoVisible) return
     dispatch({type: Types.UPDATE, payload:{id: infoVisible.id, marker:{comments:listComments}}});
     setComment("");
-    console.log(markers.find(m => m.id === infoVisible.id));
   }
 
   function setScore(newScore:number | null){

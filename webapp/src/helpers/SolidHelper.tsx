@@ -53,12 +53,8 @@ export async function readMarkersFromPod(webId?: string) {
   settledPromises.forEach(promise => {
     if (promise.status === 'fulfilled') {
       markers = [...markers, ...promise.value]
-    } else {
-      console.log(promise.reason)
     }
   })
-  
-  console.log(markers)
   return markers
 }
 
@@ -82,7 +78,6 @@ export async function readMarkerFromPrivate(webId?: string) {
           { contentType: blob.type, fetch: fetch }          // mimetype if known, fetch from the authenticated session
         );
       } catch (error) {
-        console.log(error)
       }
     });
   } catch (err) {
@@ -117,11 +112,9 @@ export async function readMarkerFromPublic(webId?: string) {
           { contentType: blob.type, fetch: fetch }          // mimetype if known, fetch from the authenticated session
         );
       } catch (error) {
-        console.log(error)
       }
     });
   } catch (err) {
-    console.log(err);
   }
   return markers.map(m => {
     m.property = {
@@ -145,7 +138,6 @@ export function saveMarkersToPod(markers: IMarker[], webId?: string) {
         privateMarkers.push(m2)
     }
   })
-  console.log([...privateMarkers, ...publicMarkers])
   saveMarkersToPrivate(privateMarkers, webId)
   saveMarkerToPublic(publicMarkers, webId)
 }
@@ -300,7 +292,6 @@ export async function readMarkerFromFriends(webId?: string) {
         markers.push({...marker, property: { owns: false, author: profileDocumentURI }});
       });
     } catch (err) {
-      console.log(err)
     }
   }
   return markers

@@ -72,13 +72,10 @@ export const MarkerContextProvider: React.FC = ({ children }) => {
 
   const [ loaded, setLoaded ] = useState(false)
 
-  // useEffect(() => console.log(state))
-
   useEffect(() => {
     if(loaded){
       const hasChanged = state.length !== stateRef.current.length || state.some((item, index) => item !== stateRef.current[index]);
       if (hasChanged) {
-        console.log('Array modified: Saving...');
         saveMarkersToPod(state, session.info.webId)
       }
   

@@ -41,7 +41,6 @@ const Sidebar = ({ isOpen, toggleSidebar } : Props) => {
   const changeVisibility = (marker: IMarker) => {
     const { property } = marker
     if (property.owns) {
-      console.log('changing visibility')
       property.public = !property.public
       dispatch({ type:Types.UPDATE, payload: { id: marker.id, marker: { property } } })
     }
