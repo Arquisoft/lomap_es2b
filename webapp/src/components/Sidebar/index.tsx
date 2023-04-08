@@ -1,15 +1,17 @@
 import { useContext, useEffect, useState } from "react";
   import { useMap } from "react-map-gl";
   import { FaTimes } from "react-icons/fa";
+  import { Button, Rating, TextField, ToggleButtonGroup, Typography, ToggleButton } from "@mui/material";
+  import { useSession } from "@inrupt/solid-ui-react";
 
 import { MarkerContext } from "../../context/MarkersContext";
 import { IMarker } from "../../types/IMarker";
-import { MarkerList, MarkerSection, SearchBar, Title, TopSection, SidebarSection, CloseSection, MarkerContent } from "./Styles";
+import { MarkerList, MarkerSection, SearchBar, Title, TopSection, SidebarSection, CloseSection, MarkerContent } from "./Styles"
 import DeleteButton from "../DeleteButton";
-import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { Types } from "../../types/ContextActionTypes";
 import { Category } from "../../types/Category";
-import ShareButton from "../ShareButton";
+
+
 
 type Props = {
   isOpen: boolean,
@@ -21,20 +23,23 @@ enum Owner {
   USER='USER',
   FRIENDS='FRIENDS'
 }
-
+  
 const Sidebar = ({ isOpen, toggleSidebar, selectedCategory  } : Props) => {
 
+  const { state: markers, dispatch } = useContext(MarkerContext)
+  const {session} = useSession();
   const { map } = useMap()
 
-  const { state: markers, dispatch } = useContext(MarkerContext)
-
-  const [searchValue, setSearchValue] = useState("")
   const [showing, setShowing] = useState<Owner>(Owner.USER)
   const [ finalList, setFinalList ] = useState<IMarker[]>([])
+  const [searchValue, setSearchValue] = useState("")
+  const[markerToShow,setMarkerToShow] = useState<IMarker|null>(null)
+
 
   const handleMarkerClick = (marker: IMarker) => {
-    map?.flyTo({ center: { lat: marker.lat, lng: marker.lng }, zoom: 16 });
-  };
+    map?.flyTo({ center: { lat: marker.lat, lng: marker.lng }, zoom: 16 })
+    setMarkerToShow(marker)
+  }
 
   const changeShowing = (newValue: Owner) => {
     if (newValue)
@@ -56,7 +61,6 @@ const Sidebar = ({ isOpen, toggleSidebar, selectedCategory  } : Props) => {
     if (a.name > b.name) {
       return 1;
     }
-
     // if names are equal, sort by date (newest to oldest)
     if (a.date < b.date) {
       return 1;
@@ -73,44 +77,135 @@ const Sidebar = ({ isOpen, toggleSidebar, selectedCategory  } : Props) => {
         && (showing === Owner.USER ? marker.property.owns : !marker.property.owns)
         && (selectedCategory === Category.All || marker.category.includes(selectedCategory)
     )).sort(sortByNameAndDate))
-  }, [markers, showing, searchValue])
+  }, [markers, showing, searchValue, selectedCategory])
+
+  const showMarkerList = ()=>{
+    return(
+      <>
+        <TopSection>
+          <Title>Points of interest</Title>
+          <CloseSection>
+            <FaTimes onClick={() => toggleSidebar(false)} />
+          </CloseSection>
+        </TopSection>
+        <div className="search">
+          <SearchBar type="text" placeholder="Buscar" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
+          <ToggleButtonGroup
+            color="primary"
+            value={showing}
+            exclusive
+            onChange={(e, newValue: Owner) => {changeShowing(newValue)}}
+            aria-label="Marker Owner"
+          >
+            <ToggleButton value={Owner.USER} style={{ width: '40%' }}>Mios</ToggleButton>
+            <ToggleButton value={Owner.FRIENDS} style={{ width: '40%' }}>Amigos</ToggleButton>
+          </ToggleButtonGroup>
+        </div>
+        <MarkerList>
+          <div className="container">
+            <div className="list">
+              {
+              finalList.map((marker) => (
+                <Marker key={marker.id} marker={marker} onClick={handleMarkerClick} changeVisibility={changeVisibility} />
+              ))
+              }
+            </div>
+          </div>
+        </MarkerList>
+      </>
+    )
+  }  
 
   return (
     <>
-      {isOpen && (
+      {
+        isOpen ?
         <SidebarSection>
-          <TopSection>
-            <Title>Points of interest</Title>
-            <CloseSection>
-              <FaTimes onClick={() => toggleSidebar(false)} />
-            </CloseSection>
-          </TopSection>
-          <div className="search">
-            <SearchBar type="text" placeholder="Buscar" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
-            <ToggleButtonGroup
-              color="primary"
-              value={showing}
-              exclusive
-              onChange={(e, newValue: Owner) => {changeShowing(newValue)}}
-              aria-label="Marker Owner"
-            >
-              <ToggleButton value={Owner.USER} style={{ width: '40%' }}>Mios</ToggleButton>
-              <ToggleButton value={Owner.FRIENDS} style={{ width: '40%' }}>Amigos</ToggleButton>
-            </ToggleButtonGroup>
-          </div>
-          <MarkerList>
-            <div className="container">
-              <div className="list">
-                {
-                finalList.map((marker) => (
-                  <Marker key={marker.id} marker={marker} onClick={handleMarkerClick} changeVisibility={changeVisibility} />
-                ))
-                }
-              </div>
-            </div>
-          </MarkerList>
+          {markerToShow ? <MarkerInfo marker={markerToShow} close={() => setMarkerToShow(null)} /> : showMarkerList()} 
         </SidebarSection>
-      )}
+        : null
+      }
+    </>
+   
+  )
+}
+
+type InfoProps = {
+  marker: IMarker
+  close: () => void
+}
+
+const MarkerInfo = ({ marker, close }: InfoProps) => {
+
+  const { state: markers, dispatch } = useContext(MarkerContext)
+  const {session} = useSession();
+
+  const [comment,setComment] = useState<string>("");
+
+  function setScore(newScore:number | null){
+    if(!newScore) return
+    
+    marker.score = newScore
+
+    dispatch({ type: Types.UPDATE, payload:{ id: marker.id, marker: { score: newScore } } });
+  }
+
+  function addComment(id:string, comment:string){
+    var listComments = markers.find(marker => marker.id === id)?.comments;
+    if(!session.info.webId) return
+    listComments?.push({ comment, author: session.info.webId })
+    if(!marker) return
+    dispatch({type: Types.UPDATE, payload:{id: marker.id, marker:{comments:listComments}}});
+    setComment("");
+    console.log(markers.find(m => m.id === marker.id));
+  }
+
+  function showComments(){
+    var comments = marker?.comments;
+    return(
+      comments?.map((comment, index)=> 
+          <p key={index}>{comment.comment}</p>
+      )
+    )
+    
+  }
+
+  return (
+    <>
+      <div className="markInfo">
+        <h2>{marker.name}</h2>
+        <p>{marker.description}</p>
+        <Typography component="legend">Puntuacion</Typography>
+        <Rating
+          name="simple-controlled"
+          value={marker.score}
+          readOnly={!marker.property.owns}
+          onChange={(event,newValue)=>{
+            setScore(newValue);
+          }}
+        />
+        
+        {
+          marker.property.owns && 
+          <>
+          <h3>Comentar</h3>
+            <TextField value={comment} onChange={(e)=>setComment(e.target.value)} label={"Comenta aqui"} variant='standard' />
+            <Button className="addComment" onClick={()=>addComment(marker.id,comment)} color='success' variant='contained'>Anadir</Button>
+          </>
+        }
+      
+        <h3>Comentarios</h3>
+        <MarkerList>
+          <div className="container">
+            <div className="list">
+              {
+              showComments()
+              }
+            </div>
+          </div>
+        </MarkerList>
+        <Button className="backButton" onClick={close} color='success' variant='contained'>Volver</Button>  
+      </div>
     </>
   )
 }
@@ -123,14 +218,17 @@ interface MarkerProps {
 
 const Marker = ({ marker, onClick, changeVisibility }: MarkerProps) => {
   return (
-    <MarkerSection onClick={() => onClick(marker)} >
-      <MarkerContent>
+    <MarkerSection >
+      <MarkerContent onClick={() => onClick(marker)}>
         <h3>{marker.name}</h3>
         <p>{marker.description}</p>
         <div className="shared">
           {
             marker.property.owns ?
-            <button onClick={() => changeVisibility(marker)}>
+            <button onClick={(e) => {
+              e.stopPropagation()
+              changeVisibility(marker)
+            }}>
               <small>{marker.property.public ? 'Publico' : 'Privado' }</small>
             </button>
             : 

@@ -35,8 +35,11 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
   const [searchValue] = useState("");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [query, setQuery] = useState('');
+  const [showMarkers, setShowMarkers] = useState(false);
 
-  const { state: user } = useContext(UserContext);
+  const { state: user } = useContext(UserContext)
+
+
   const [isAboutPopupOpen, setIsAboutPopupOpen] = useState(false);
   
   useEffect(() => {
@@ -98,6 +101,7 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
   };
 
   const handlePopupOpen = () => {
+    setShowMarkers(false);
     setIsPopupOpen(true);
   };
 
@@ -214,3 +218,4 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
 };
 
 export default Navbar;
+
