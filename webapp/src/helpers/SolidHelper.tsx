@@ -26,9 +26,6 @@ import {
   saveAclFor,
   setAgentDefaultAccess,
 } from "@inrupt/solid-client";
-import { type } from "os";
-
-
 
 export async function getProfile(webId: string) {
   let profileDocumentURI = webId.split("#")[0];

@@ -9,11 +9,10 @@ import {FcAbout, FcDataConfiguration} from "react-icons/fc"
 import { IMenuOption } from '../../types/IMenuOption';
 import { Popups } from '../../pages/MapPage';
 import { UserContext } from '../../context/UserContext';
-import { Title } from "../Sidebar/Styles";
 import NavPopup from "../NavPopup";
 import { mapboxApiKey } from "../../config/constants";
 import { useMap } from "react-map-gl";
-import { Nav, SearchForm, SearchInput, SearchButton, TitleContainer, FormGroup, Button } from './Styles';
+import { Nav, SearchForm, SearchInput, SearchButton, TitleContainer, FormGroup, Button, Title } from './Styles';
 import { TextMenuItem } from './Styles';
 
 import DefaulPic from '../../assets/defaultPic.png'
