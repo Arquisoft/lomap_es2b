@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { CloseButton, PopupContainer, PopupContent } from './Styles';
 
 interface PopupProps {
@@ -6,7 +6,8 @@ interface PopupProps {
   closePopup: () => void;
 }
 
-const SidebarPopup: React.FC<PopupProps> = ({ isOpen, closePopup, children }) => {
+const AboutPopup: React.FC<PopupProps> = ({ isOpen, closePopup, children }) => {
+
   return isOpen ? (
     <PopupContainer>
       <PopupContent style={{ height: '100%', left: 0, right: 'unset' }}>
@@ -17,4 +18,4 @@ const SidebarPopup: React.FC<PopupProps> = ({ isOpen, closePopup, children }) =>
   ) : null;
 };
 
-export default SidebarPopup;
+export default AboutPopup;

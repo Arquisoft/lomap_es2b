@@ -34,6 +34,7 @@ const FriendsPopup = ({ isOpen, closePopup } : Props) => {
     if (user) {
       loadFriends()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[user])
 
   const addFriend = async () => {
@@ -102,7 +103,7 @@ const FriendCard = ({ friend, deleteFriend } : FriendCardProps) => {
     <FriendListItem>
       <div>
         <Avatar src={friend.profilePic} />
-        <a href={friend.webId} target='_blank'>{ friend.name || friend.webId }</a>
+        <a href={friend.webId} rel="noreferrer" target='_blank'>{ friend.name || friend.webId }</a>
       </div>
       <Button style={{ float: 'right' }} onClick={() => deleteFriend(friend.webId)}><MdDelete /></Button>
     </FriendListItem>

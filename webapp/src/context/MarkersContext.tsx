@@ -1,8 +1,9 @@
-import { createContext, Dispatch, useEffect, useReducer, useState } from "react";
+import { createContext, Dispatch, useEffect, useReducer, useState, useRef } from "react";
 import { Types } from "../types/ContextActionTypes";
 import { IMarker } from '../types/IMarker';
-import { saveMarkerToPod } from "../helpers/SolidHelper";
+import { saveMarkersToPod } from "../helpers/SolidHelper";
 import { useSession } from "@inrupt/solid-ui-react";
+
 
 type MarkerActions = {
   type: Types.ADD
@@ -15,14 +16,19 @@ type MarkerActions = {
       markers: IMarker[]
   }
 } | {
+  type: Types.ADD_ALL
+  payload: {
+      markers: IMarker[]
+  }
+} | {
   type: Types.DELETE
   payload: {
-      name: string
+      id: string
   }
 } | {
   type: Types.UPDATE
   payload: {
-      id: number
+      id: string
       marker: any
   }
 }
@@ -37,14 +43,21 @@ export const markerReducer = (state:IMarker[], action: MarkerActions) : IMarker[
     case Types.ADD:
       return [action.payload.marker, ...state]
 
+    case Types.ADD_ALL:
+      return [...state, ...action.payload.markers]
+
     case Types.UPDATE:
-      const index: number = state.findIndex(m => m.id === action.payload.id)
-      state[index] = { ...state[index], ...action.payload.marker}
-      // console.log('updating', state[index])
-      return state
+      let marker = state.find(m => m.id === action.payload.id)
+      if (marker) {
+        marker = { ...marker, ...action.payload.marker }
+        const newState = [...state.filter(m => m.id !== action.payload.id), marker as IMarker]
+        return newState
+      } else {
+        return state
+      }
 
     case Types.DELETE:
-      return state.filter(m => m.name !== action.payload.name)
+      return state.filter(m => m.id !== action.payload.id)
 
     default:
       return state
@@ -52,23 +65,30 @@ export const markerReducer = (state:IMarker[], action: MarkerActions) : IMarker[
 }
 
 export const MarkerContextProvider: React.FC = ({ children }) => {
-  const [state, dispatch] = useReducer(markerReducer, [])
-
-  const [loaded,setLoaded] = useState(false);
-  const {session} = useSession();
+  const { session } = useSession()
   
+  const [state, dispatch] = useReducer(markerReducer, [])
+  const stateRef = useRef(state);
+
+  const [ loaded, setLoaded ] = useState(false)
+
   useEffect(() => {
     if(loaded){
-      console.log('guardando')
-      saveMarkerToPod(state, session.info.webId)
+      const hasChanged = state.length !== stateRef.current.length || state.some((item, index) => item !== stateRef.current[index]);
+      if (hasChanged) {
+        saveMarkersToPod(state, session.info.webId)
+      }
+  
+      // Update the reference to the original array
+      stateRef.current = state;
     }else{
-      setLoaded(true)
+      setLoaded(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]) 
 
   return (
-    <MarkerContext.Provider value={{state, dispatch}}>  
+    <MarkerContext.Provider value={{state, dispatch}}>
       { children }
     </MarkerContext.Provider>
   )

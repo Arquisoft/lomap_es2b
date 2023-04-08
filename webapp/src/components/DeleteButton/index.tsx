@@ -5,10 +5,10 @@ import { useContext,useState} from "react";
 import { Types } from '../../types/ContextActionTypes';
 
 interface Props {
-    name: any;
+    id: string;
   }
 
-function DeleteButton( { name }: Props) 
+function DeleteButton( { id }: Props) 
  {
     const [open, setOpen] = useState(false);
     const { dispatch } = useContext(MarkerContext)
@@ -19,7 +19,7 @@ function DeleteButton( { name }: Props)
       };
     
       const handleCloseAccept = () => {
-        dispatch({ type: Types.DELETE, payload: { name: name } })
+        dispatch({ type: Types.DELETE, payload: { id } })
         setOpen(false);
       };
 

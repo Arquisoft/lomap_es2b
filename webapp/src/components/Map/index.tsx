@@ -10,6 +10,7 @@ import { MarkerContext } from '../../context/MarkersContext';
 import { IMarker } from '../../types/IMarker';
 import './Map.css'
 import { Types } from '../../types/ContextActionTypes';
+import { saveMarkersToPrivate } from '../../helpers/SolidHelper';
 
 interface Props{
     onClick:(lngLat:LngLat,visible:boolean)=>void;
@@ -25,7 +26,7 @@ const MapComponent = ({ onClick }:Props) => {
 
   const { state: markers, dispatch } = useContext(MarkerContext)
 
- 
+
   function setScore(newScore:number | null){
     if(!newScore || !infoVisible) return
     
@@ -46,8 +47,12 @@ const MapComponent = ({ onClick }:Props) => {
       setIsLoading(false)
     }
   }
+
+  
   
   useEffect(locateUser,[map])
+
+  const [loaded,setLoaded] = useState(false);
 
   return (
     <>
@@ -74,6 +79,7 @@ const MapComponent = ({ onClick }:Props) => {
             markers.map((marker)=>
               <Marker style={{cursor:"pointer"}} 
                 key={marker.id}
+                color={!marker.property.owns ? 'red' : ''}
                 longitude={marker.lng}
                 latitude={marker.lat}
                 onClick={(e)=>{
