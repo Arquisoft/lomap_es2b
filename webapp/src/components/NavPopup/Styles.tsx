@@ -12,39 +12,18 @@ export const PopupContainer = styled.div`
   justify-content: flex-start; /* Alinea el contenido a la izquierda */
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(3px);
 `
 
 export const PopupContent = styled.div`
   position: relative;
   width: 15%;
   height: 80%;
+  min-height: fit-content;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
   overflow: auto;
-  padding: 1rem;
-  align-items: left;
-
-  table {
-  border-collapse: collapse;
-  width: 100%;
-  margin-bottom: 1rem;
-}
-
-td, th {
-  border: 1px solid #ddd;
-  padding: 0.5rem;
-  text-align: left;
-}
-
-th {
-  background-color: #eee;
-}
-
-tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
 `
 export const CloseButton = styled(AiFillCloseCircle)`
     float:right;

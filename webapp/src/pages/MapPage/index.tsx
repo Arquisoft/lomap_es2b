@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { LngLat, MapProvider} from 'react-map-gl'
 import { v4 as uuid } from 'uuid'
 
@@ -85,7 +85,7 @@ const MapPage = () : JSX.Element => {
         <Navbar openPopup={openPopup} toggleSidebar={toggleSidebar} />
         <Filter toggleSidebar={toggleSidebar} activeFilter={selectedCategory} setActiveFilter={setSelectedCategory}/>
       </NavContainer>
-      <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} selectedCategory={selectedCategory} />
+      <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
       <Map onClick={showAddMarkerPopup} />
       <FocusOnUserButton />
       <AddMarkerPopup closePopup={closePopup} visible={popupVisible === Popups.ADD_MARKER} lngLat={lngLat} addMark={addMark}/>

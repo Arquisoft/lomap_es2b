@@ -24,10 +24,8 @@ import {
   getResourceAcl,
   setAgentResourceAccess,
   saveAclFor,
+  setAgentDefaultAccess,
 } from "@inrupt/solid-client";
-import { type } from "os";
-
-
 
 export async function getProfile(webId: string) {
   let profileDocumentURI = webId.split("#")[0];
@@ -205,7 +203,7 @@ export async function addFriend(webId: string,friend:string) {
   
   await saveSolidDatasetAt(webId, dataset, { fetch });
 
-  // setPerms(webId,friend,true);
+  setPerms(webId,friend,true);
 }
 
 export async function deleteFriend(webId: string,friend:string) {
@@ -218,7 +216,7 @@ export async function deleteFriend(webId: string,friend:string) {
   
   await saveSolidDatasetAt(webId, dataset, { fetch });
 
-  // setPerms(webId,friend,false);
+  setPerms(webId,friend,false);
 }
 
 async function setPerms(webId: string, friend: string, mode: boolean) {
@@ -251,11 +249,16 @@ async function setPerms(webId: string, friend: string, mode: boolean) {
   }
   
   // Give someone Control access to the given Resource:
-  const updatedAcl = setAgentResourceAccess(
+  let updatedAcl = setAgentResourceAccess(
     resourceAcl,
     friend,
     { read: true, append: mode, write: mode, control: false },
   );
+  updatedAcl = setAgentDefaultAccess(
+    updatedAcl,
+    friend,
+    { read: true, append: mode, write: mode,control:false }
+  )
   
   // Now save the ACL:
   await saveAclFor(myDatasetWithAcl, updatedAcl,{fetch :fetch});
@@ -265,16 +268,23 @@ async function setPerms(webId: string, friend: string, mode: boolean) {
 export async function checkIfFriendsFile(webId?: string) {
   let profileDocumentURI = webId?.split("profile")[0];
   let targetFileURL = profileDocumentURI + 'public/LoMap/Markers.json';
-
-  const blob = new Blob(undefined, {
-    type: "application/json;charset=utf-8"
-  });
   try {
-    await overwriteFile(
-      targetFileURL,                              // URL for the file.
-      blob,                                       // File
-      { contentType: blob.type, fetch: fetch }    // mimetype if known, fetch from the authenticated session
-    );
+    await getFile(
+      targetFileURL,
+      { fetch: fetch },
+    ).catch(async (err: any) => {
+      try {
+        const blob = new Blob(undefined, {
+          type: "application/json;charset=utf-8"
+        });
+        await overwriteFile(
+          targetFileURL, // URL for the file.
+          blob,                                             // File
+          { contentType: blob.type, fetch: fetch }          // mimetype if known, fetch from the authenticated session
+        );
+      } catch (error) {
+      }
+    });
   } catch (error) {}
 };
 
