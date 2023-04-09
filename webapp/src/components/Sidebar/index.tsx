@@ -140,7 +140,7 @@ type InfoProps = {
 
 const MarkerInfo = ({ marker, close }: InfoProps) => {
 
-  const { state: markers, dispatch } = useContext(MarkerContext)
+  const { dispatch } = useContext(MarkerContext)
   const {session} = useSession();
 
   const [comment,setComment] = useState<string>("");
@@ -153,11 +153,10 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
     dispatch({ type: Types.UPDATE, payload:{ id: marker.id, marker: { score: newScore } } });
   }
 
-  function addComment(id:string, comment:string){
-    var listComments = markers.find(marker => marker.id === id)?.comments;
+  function addComment(comment:string){
+    const listComments = marker.comments;
     if(!session.info.webId) return
-    listComments?.push({ comment, author: session.info.webId })
-    if(!marker) return
+    listComments.push({ comment, author: session.info.webId })
     dispatch({type: Types.UPDATE, payload:{id: marker.id, marker:{comments:listComments}}});
     setComment("");
   }
@@ -173,7 +172,7 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
           name="simple-controlled"
           value={marker.score}
           readOnly={!marker.property.owns}
-          onChange={(event,newValue)=>{
+          onChange={(_,newValue)=>{
             setScore(newValue);
           }}
         />
@@ -183,7 +182,7 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
           <>
           <h3>Comentar</h3>
             <TextField value={comment} onChange={(e)=>setComment(e.target.value)} label={"Comenta aqui"} variant='standard' />
-            <Button className="addComment" onClick={()=>addComment(marker.id,comment)} color='success' variant='contained'>Anadir</Button>
+            <Button className="addComment" onClick={()=>addComment(comment)} color='success' variant='contained'>Anadir</Button>
           </>
         }
       
@@ -191,7 +190,7 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
         <div>
           {
             marker.comments.map((comment, index) => (
-              <p key={index}>{comment.comment}</p>
+              <p key={`${index}-${comment.author}-${comment.comment}`}>{comment.comment}</p>
             ))
           }
         </div>

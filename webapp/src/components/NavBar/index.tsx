@@ -12,8 +12,7 @@ import { UserContext } from '../../context/UserContext';
 import NavPopup from "../NavPopup";
 import { mapboxApiKey } from "../../config/constants";
 import { useMap } from "react-map-gl";
-import { Nav, SearchForm, SearchInput, SearchButton, TitleContainer, FormGroup, Button, Title, GitHubIcon, Table, GitHubLink, GitHubText } from './Styles';
-import { TextMenuItem } from './Styles';
+import { Nav, SearchForm, SearchInput, SearchButton, TitleContainer, FormGroup, Button, Title, GitHubIcon, Table, GitHubLink, GitHubText, TextMenuItem } from './Styles';
 
 import DefaulPic from '../../assets/defaultPic.png'
 import AboutPopup from '../AboutPopup';

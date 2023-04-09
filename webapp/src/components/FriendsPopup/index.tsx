@@ -80,8 +80,8 @@ const FriendsPopup = ({ isOpen, closePopup } : Props) => {
             friends.length > 0 ?
             <FriendList>
               {
-                friends.map((friend, index) => (
-                  <FriendCard key={index} friend={friend} deleteFriend={deleteFriend}/>
+                friends.map((friend) => (
+                  <FriendCard key={friend.webId} friend={friend} deleteFriend={deleteFriend}/>
                 ))
               }
             </FriendList>

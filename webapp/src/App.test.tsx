@@ -4,7 +4,7 @@ import React from 'react';
 import Sidebar from './components/Sidebar';
 import { Category } from './types/Category';
 
-import { render, screen, fireEvent  } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from "@testing-library/user-event";
 import App from './App';
 import Navbar from './components/NavBar';
