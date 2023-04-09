@@ -10,13 +10,10 @@ export const Logo = styled.a`
   }
 `;
 
-export const NavLinks = styled.div``
-
 export const Nav = styled.nav`
   z-index: 100;
   display: flex;
   align-items: center;
-  justify-content: center;
   padding: 1em;
   background-color: #fff;
   box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
@@ -26,19 +23,20 @@ export const Nav = styled.nav`
   height: 4vh;
   min-height: fit-content;
   max-height: 7vh;
-  width: fit-content;
+  min-width: 35vw;
   border-radius: 0.5em;
   -webkit-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
   -moz-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
   box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
 
   @media only screen and (max-width: 600px) {
-    top: 0;
-    padding: 0.5rem;
-    width: calc(100% - 1rem);
+    padding: 0.5em;
+    width: calc(100% - 1em);
     margin: 0;
-    height: calc(10% - 2rem - 1%);
+    height: 10vh;
+    min-height: 60px;
     border-radius: 0;
+    max-width: none;
   }
 `;
 
@@ -54,22 +52,6 @@ export const MenuToggle = styled.button`
 
   &:hover {
     color: #000;
-  }
-`;
-
-export const SearchBar = styled.input`
-  position: relative; 
-  height: 1em;
-  margin: 0 auto; 
-  border-radius: 0.3em;
-  outline: none;
-  border: none;
-
-  background: #eaeaea;
-  font-size: 1em;
-  padding: 0.3em;
-  @media only screen and (max-width: 600px) {
-    margin: 0 1em;
   }
 `;
 
@@ -122,19 +104,22 @@ export const SearchForm = styled.form`
   display: flex;
   align-items: center;
   justify-content: center;
-
+  min-width: min-content;
+  max-width: 30vw;
   @media (max-width: 600px) {
-    flex-direction: column;
+    max-width: none;
   }
 `;
 
 export const SearchInput = styled.input`
+  flex: 1;
   padding: 0.5rem;
   font-size: 1rem;
   border: none;
   border-radius: 5px 0 0 5px;
   background-color: #f5f5f5;
   outline: none;
+  width: 100%;
 
   &:focus {
     background-color: #fff;
@@ -142,7 +127,6 @@ export const SearchInput = styled.input`
 
   @media (max-width: 600px) {
     border-radius: 5px;
-    margin-bottom: 1rem;
   }
 `;
 
@@ -153,7 +137,7 @@ export const SearchButton = styled.button`
   padding: 0.5rem;
   background-color: #333;
   color: #fff;
-  font-size: 1rem;
+  font-size: 1em;
   border: none;
   border-radius: 0 5px 5px 0;
   cursor: pointer;
@@ -170,7 +154,9 @@ export const SearchButton = styled.button`
 export const FormGroup = styled.div`
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: flex-start;
+    align-items: flex-start;
     margin:1em;
 
     @media (max-width: 600px) {
@@ -182,8 +168,12 @@ export const FormGroup = styled.div`
 export const Title = styled.h1`
   font-size: 1.5em;
   font-weight: bold;
-  margin: 0 1em;
+  padding: 0 0.3em;
   cursor: pointer;
+  
+  @media (max-width: 400px) {
+    display: none;
+  }
 `;
 
 export const IconButton = styled.button`
@@ -208,7 +198,7 @@ export const NavPopupButton = styled(IconButton)`
 
 export const TitleContainer = styled.div`
   display: flex;
-  justify-content: center;
+  align-items: center;
   margin-bottom: 1rem;
 `;
 
@@ -225,9 +215,13 @@ export const Button = styled.button`
   border: none;
   background-color: #fff;
   color: #000;
-  padding: 14px 28px;
-  font-size: 20px;
-  display: flex-end;
+  padding: 0.4vw 0.8vw;
+  font-size: 1.2vw;
+  display: flex;
+  justify-content: flex-start;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 
   svg {
     margin-right: 0.5em;
@@ -236,4 +230,45 @@ export const Button = styled.button`
   &:hover {
     border: 2px solid #000;
   }
+`;
+
+export const Table = styled.table`
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1rem;
+
+td, th {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+th {
+  background-color: #eee;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+`
+
+export const GitHubLink = styled.a`
+  display: flex;
+  align-items: center;
+  color: #fff;
+  text-decoration: none;
+
+  img {
+    margin-right: 0.5rem;
+  }
+`;
+
+export const GitHubIcon = styled.img`
+  height: 30px;
+  width: 30px;
+`;
+
+export const GitHubText = styled.span`
+  font-size: 1rem;
+  color: #000;
 `;

@@ -14,6 +14,7 @@ export const PopupContainer = styled.div`
 export const PopupContent = styled.div`
     z-index: 1050;
     position: absolute;
+    overflow: auto;
     max-height: 95vh;
     max-width: 95vh;
     top: 50%;
@@ -26,8 +27,8 @@ export const PopupContent = styled.div`
     -moz-box-shadow: 5px 5px 8px 0px rgba(0,0,0,0.75);
     box-shadow: 5px 5px 8px 0px rgba(0,0,0,0.75);
     @media only screen and (max-width: 550px) {
-        height: 90vh;
-        width: 90vw;
+        max-height: calc(90vh - 2em);
+        width: calc(90vw - 2em);
     }
 `
 export const CloseButton = styled(FaTimes)`

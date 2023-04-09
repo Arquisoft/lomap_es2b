@@ -10,6 +10,7 @@ type Props = {
   toggleSidebar: (open: boolean | undefined) => void;
   activeFilter: Category;
   setActiveFilter: (category: Category) => void;
+  className?: string
 }
 
 interface Location {
@@ -44,37 +45,37 @@ export const FilterComponent: React.FC<FilterProps> = ({ activeFilter, locations
     <FilterContainer>
       <FilterButton isActive={activeFilter === Category.Restaurant} onClick={() => handleFilterClick(Category.Restaurant)}>
         <BiRestaurant />
-        Restaurants
+        Restaurantes
       </FilterButton>
       <FilterButton isActive={activeFilter === Category.Hotel} onClick={() => handleFilterClick(Category.Hotel)}>
         <MdLocalHotel />
-        Hotels
+        Hoteles
       </FilterButton>
       <FilterButton isActive={activeFilter === Category.Monuments} onClick={() => handleFilterClick(Category.Monuments)}>
         <FaMonument />
-        Monuments
+        Monumentos
       </FilterButton>
       <FilterButton isActive={activeFilter === Category.Shops} onClick={() => handleFilterClick(Category.Shops)}>
         <FaShoppingCart />
-        Shops
+        Tiendas
       </FilterButton>
       <FilterButton isActive={activeFilter === Category.Bar} onClick={() => handleFilterClick(Category.Bar)}>
         <IoIosBeer />
-        Bar
+        Bares
       </FilterButton>
       <FilterButton isActive={activeFilter === Category.Landscapes} onClick={() => handleFilterClick(Category.Landscapes)}>
         <MdLandscape />
-        Landscapes
+        Paisajes
       </FilterButton>
       <FilterButton isActive={activeFilter === Category.Others} onClick={() => handleFilterClick(Category.Others)}>
         <MdOtherHouses />
-        Others
+        Otros
       </FilterButton>
     </FilterContainer>
   );
 };
 
-const Filter = ({ toggleSidebar, setActiveFilter, activeFilter } : Props) => {
+const Filter = ({ toggleSidebar, setActiveFilter, activeFilter, className } : Props) => {
 
   const locations: Location[] = [
     {
@@ -98,7 +99,7 @@ const Filter = ({ toggleSidebar, setActiveFilter, activeFilter } : Props) => {
   ];
 
   return (
-    <FilterWrapper>
+    <FilterWrapper className={className}>
         <FilterComponent activeFilter={activeFilter} locations={locations} setActiveFilter={setActiveFilter} toggleSidebar={toggleSidebar}/>
     </FilterWrapper>
   );

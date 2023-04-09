@@ -11,12 +11,17 @@ export const NavContainer = styled.div`
   align-items: center;
   margin: 1em;
   margin-bottom: 0;
-  grid-template-columns: 1fr, 2fr;
-  > nav {
-    grid-column: 1
+
+  @media only screen and (max-width: 1000px) {
+    flex-direction: column;
+    height: fit-content;
+    align-items: flex-start;
+    height: 16%;
+    min-height: 120px;
   }
 
-  > div {
-    grid-column: 2
+  @media only screen and (max-width: 600px) {
+    margin: 0;
+    width: 100%;
   }
 `

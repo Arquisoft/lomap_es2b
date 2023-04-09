@@ -1,8 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-  import { useMap } from "react-map-gl";
-  import { FaTimes } from "react-icons/fa";
-  import { Button, Rating, TextField, ToggleButtonGroup, Typography, ToggleButton } from "@mui/material";
-  import { useSession } from "@inrupt/solid-ui-react";
+import { useMap } from "react-map-gl";
+import { FaTimes } from "react-icons/fa";
+import { TbArrowBackUp } from "react-icons/tb";
+import { Button, Rating, TextField, ToggleButtonGroup, Typography, ToggleButton } from "@mui/material";
+import { useSession } from "@inrupt/solid-ui-react";
 
 import { MarkerContext } from "../../context/MarkersContext";
 import { IMarker } from "../../types/IMarker";
@@ -10,13 +11,15 @@ import { MarkerList, MarkerSection, SearchBar, Title, TopSection, SidebarSection
 import DeleteButton from "../DeleteButton";
 import { Types } from "../../types/ContextActionTypes";
 import { Category } from "../../types/Category";
+import Filter from "../Filters";
 
 
 
 type Props = {
   isOpen: boolean,
-  toggleSidebar: (open: boolean) => void,
-  selectedCategory: Category
+  toggleSidebar: (open?: boolean) => void,
+  selectedCategory: Category,
+  setSelectedCategory: (category: Category) => void
 }
 
 enum Owner {
@@ -24,7 +27,7 @@ enum Owner {
   FRIENDS='FRIENDS'
 }
   
-const Sidebar = ({ isOpen, toggleSidebar, selectedCategory  } : Props) => {
+const Sidebar = ({ isOpen, toggleSidebar, selectedCategory, setSelectedCategory  } : Props) => {
 
   const { state: markers, dispatch } = useContext(MarkerContext)
   const {session} = useSession();
@@ -82,12 +85,6 @@ const Sidebar = ({ isOpen, toggleSidebar, selectedCategory  } : Props) => {
   const showMarkerList = ()=>{
     return(
       <>
-        <TopSection>
-          <Title>Points of interest</Title>
-          <CloseSection>
-            <FaTimes onClick={() => toggleSidebar(false)} />
-          </CloseSection>
-        </TopSection>
         <div className="search">
           <SearchBar type="text" placeholder="Buscar" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
           <ToggleButtonGroup
@@ -97,8 +94,8 @@ const Sidebar = ({ isOpen, toggleSidebar, selectedCategory  } : Props) => {
             onChange={(e, newValue: Owner) => {changeShowing(newValue)}}
             aria-label="Marker Owner"
           >
-            <ToggleButton value={Owner.USER} style={{ width: '40%' }}>Mios</ToggleButton>
-            <ToggleButton value={Owner.FRIENDS} style={{ width: '40%' }}>Amigos</ToggleButton>
+            <ToggleButton value={Owner.USER} style={{ width: '45%' }}>Mios</ToggleButton>
+            <ToggleButton value={Owner.FRIENDS} style={{ width: '45%' }}>Amigos</ToggleButton>
           </ToggleButtonGroup>
         </div>
         <MarkerList>
@@ -121,6 +118,13 @@ const Sidebar = ({ isOpen, toggleSidebar, selectedCategory  } : Props) => {
       {
         isOpen ?
         <SidebarSection>
+          { !markerToShow && <Filter className="sidebar-filters" activeFilter={selectedCategory} setActiveFilter={setSelectedCategory} toggleSidebar={toggleSidebar} /> }
+          <TopSection>
+            <Title>{ !markerToShow ? 'Marcadores' : 'Marcador'}</Title>
+            <CloseSection>
+              <FaTimes onClick={() => toggleSidebar(false)} />
+            </CloseSection>
+          </TopSection>
           {markerToShow ? <MarkerInfo marker={markerToShow} close={() => setMarkerToShow(null)} /> : showMarkerList()} 
         </SidebarSection>
         : null
@@ -157,21 +161,11 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
     if(!marker) return
     dispatch({type: Types.UPDATE, payload:{id: marker.id, marker:{comments:listComments}}});
     setComment("");
-    console.log(markers.find(m => m.id === marker.id));
-  }
-
-  function showComments(){
-    var comments = marker?.comments;
-    return(
-      comments?.map((comment, index)=> 
-          <p key={index}>{comment.comment}</p>
-      )
-    )
-    
   }
 
   return (
     <>
+      <Button className="backButton" onClick={close} color='success' variant='contained'><TbArrowBackUp/> Volver</Button>  
       <div className="markInfo">
         <h2>{marker.name}</h2>
         <p>{marker.description}</p>
@@ -195,16 +189,13 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
         }
       
         <h3>Comentarios</h3>
-        <MarkerList>
-          <div className="container">
-            <div className="list">
-              {
-              showComments()
-              }
-            </div>
-          </div>
-        </MarkerList>
-        <Button className="backButton" onClick={close} color='success' variant='contained'>Volver</Button>  
+        <div>
+          {
+            marker.comments.map((comment, index) => (
+              <p key={index}>{comment.comment}</p>
+            ))
+          }
+        </div>
       </div>
     </>
   )
