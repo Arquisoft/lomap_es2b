@@ -473,6 +473,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#section-building-block-view">5. Building Block View</a>
 <ul class="sectlevel2">
 <li><a href="#_level_1_whitebox_of_the_overall_system">5.1. Level 1: Whitebox of the Overall System</a></li>
+<li><a href="#_level_2">5.2. Level 2</a></li>
 </ul>
 </li>
 <li><a href="#section-runtime-view">6. Runtime View</a>
@@ -480,6 +481,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_register">6.1. Register</a></li>
 <li><a href="#_log">6.2. Log</a></li>
 <li><a href="#_add_mark">6.3. Add mark</a></li>
+<li><a href="#_delete_mark">6.4. Delete mark</a></li>
+<li><a href="#_add_friend">6.5. Add friend</a></li>
+<li><a href="#_delete_friend">6.6. Delete friend</a></li>
+<li><a href="#_load_markers">6.7. Load markers</a></li>
+<li><a href="#_share_markers">6.8. Share markers</a></li>
+<li><a href="#_make_marker_private">6.9. Make marker private</a></li>
 </ul>
 </li>
 <li><a href="#section-deployment-view">7. Deployment View</a>
@@ -863,7 +870,8 @@ On the other hand, in this aplication the users can add locations in different c
 <div class="sect2">
 <h3 id="_technical_context">3.2. Technical Context</h3>
 <div class="paragraph">
-<p>To develop this aplication we are going to use SOLID architecture using PODs to store the user’s personal data. As programming lenguaje we are going to use TypeScript with REACT to create the inteface. We will use NodeJS as execution enviroment. On the other hand, we are going to use the NonSQL datebase MongoDB.</p>
+<p>To develop this aplication we are going to use SOLID architecture using PODs to store the user’s personal data. As programming lenguaje we are going to use TypeScript with REACT to create the inteface. We will use NodeJS as execution enviroment. On the other hand, we are going to use the NonSQL datebase MongoDB.
+For the restApi we will use the work express framework.Mapbox will be our map provider  and  we will rely on MUI library to make the graphic interface.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -894,8 +902,20 @@ On the other hand, in this aplication the users can add locations in different c
 <td class="tableblock halign-left valign-top"><p class="tableblock">The library to make the GUI</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mui</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provides components</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Node.js</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The execution enviroment</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Express</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Framework for the restapi</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mapbox</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Map api</p></td>
 </tr>
 </tbody>
 </table>
@@ -1076,6 +1096,57 @@ Refer to details in the following sections.</p>
 </tr>
 </tbody>
 </table>
+</div>
+<div class="sect2">
+<h3 id="_level_2">5.2. Level 2</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/05_Diagrama_Level_2.png" alt="05 Diagrama Level 2">
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Motivation</dt>
+<dd>
+<p>In this section the description is extended to provide more info on how it works.</p>
+</dd>
+<dt class="hdlist1">Contained Building Blocks</dt>
+</dl>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Log in</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Authenticates the user with their solid account</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Manage friend</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allows to add and delete friends</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add marker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allows you to add markers</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Delele marker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allows you to delete markers</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Share marker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allows you to share markers with friends</p></td>
+</tr>
+</tbody>
+</table>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -1115,6 +1186,72 @@ The pod returns the result of the login.</p>
 </div>
 <div class="paragraph">
 <p>The app ask for the data of the mark, when receives the data, the app create the mark and saves it on the pod.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_delete_mark">6.4. Delete mark</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/06_Diagrama_secuencia_delete.png" alt="06 Diagrama secuencia delete">
+</div>
+</div>
+<div class="paragraph">
+<p>The app delete the mark from the Pod.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_add_friend">6.5. Add friend</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/06_Diagrama_secuencia_addFriend.png" alt="06 Diagrama secuencia addFriend">
+</div>
+</div>
+<div class="paragraph">
+<p>To add a friend, the user is asked for a webID and the user with that webID is added to friends.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_delete_friend">6.6. Delete friend</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/06_Diagrama_secuencia_deleteFriend.png" alt="06 Diagrama secuencia deleteFriend">
+</div>
+</div>
+<div class="paragraph">
+<p>The user delete and confirm on the app and the app remove the friend from the POD.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_load_markers">6.7. Load markers</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/06_Diagrama_secuencia_loadMarkers.png" alt="06 Diagrama secuencia loadMarkers">
+</div>
+</div>
+<div class="paragraph">
+<p>The app first loads its own marks, then those of friends and finally shows them.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_share_markers">6.8. Share markers</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/06_Diagrama_secuencia_shareMark.png" alt="06 Diagrama secuencia shareMark">
+</div>
+</div>
+<div class="paragraph">
+<p>The app change the state of the marker and save it into the public folder of the POD.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_make_marker_private">6.9. Make marker private</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/06_Diagrama_secuencia_privateMark.png" alt="06 Diagrama secuencia privateMark">
+</div>
+</div>
+<div class="paragraph">
+<p>The app change the state of the marker and save it into the private folder of the POD.</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -1300,7 +1437,7 @@ when your infrastructure is more complex.</p>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">User</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Application user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Application user which is saved in SOLID</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Marker</p></td>
@@ -1625,7 +1762,7 @@ Created by Dr. Peter Hruschka &amp; Dr. Gernot Starke.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-04-03 18:09:58 +0200
+Last updated 2023-04-08 14:41:29 +0200
 </div>
 </div>
 </body>
