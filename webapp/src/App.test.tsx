@@ -1,4 +1,9 @@
 import React from 'react';
+
+
+import Sidebar from './components/Sidebar';
+import { Category } from './types/Category';
+
 import { render, screen, fireEvent  } from '@testing-library/react';
 import userEvent from "@testing-library/user-event";
 import App from './App';
@@ -7,11 +12,24 @@ import Navbar from './components/NavBar';
 const mockToggleSidebar = jest.fn();
 const mockOpenPopup = jest.fn();
 
+
 test('renders learn react link', () => {
   render(<App />);
   const linkElement = screen.getAllByText("LoMap")[0];
   expect(linkElement).toBeInTheDocument();
 });
+
+describe('sideBar', () => {
+test('sideBar render',() =>{
+  render(<Sidebar isOpen={true} toggleSidebar={()=>true} selectedCategory={Category.All}/>);
+  const mapElement = screen.getAllByText("Points of interest")[0];
+  expect(mapElement).toBeInTheDocument();
+  });
+)};
+
+
+ 
+
 
 describe('Navbar', () => {
   beforeEach(() => {

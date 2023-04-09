@@ -25,3 +25,39 @@ The pod returns the result of the login.
 :imagesdir: images/
 image::06_Diagrama_secuencia_anadir_mark.png[]
 The app ask for the data of the mark, when receives the data, the app create the mark and saves it on the pod.
+
+=== Delete mark
+
+:imagesdir: images/
+image::06_Diagrama_secuencia_delete.png[]
+The app delete the mark from the Pod.
+
+=== Add friend
+
+:imagesdir: images/
+image::06_Diagrama_secuencia_addFriend.png[]
+To add a friend, the user is asked for a webID and the user with that webID is added to friends.
+
+=== Delete friend
+
+:imagesdir: images/
+image::06_Diagrama_secuencia_deleteFriend.png[]
+The user delete and confirm on the app and the app remove the friend from the POD.
+
+=== Load markers
+
+:imagesdir: images/
+image::06_Diagrama_secuencia_loadMarkers.png[]
+The app first loads its own marks, then those of friends and finally shows them.
+
+=== Share markers
+
+:imagesdir: images/
+image::06_Diagrama_secuencia_shareMark.png[]
+The app change the state of the marker and save it into the public folder of the POD.
+
+=== Make marker private
+
+:imagesdir: images/
+image::06_Diagrama_secuencia_privateMark.png[]
+The app change the state of the marker and save it into the private folder of the POD.
