@@ -11,6 +11,7 @@ import Navbar from './components/NavBar';
 
 const mockToggleSidebar = jest.fn();
 const mockOpenPopup = jest.fn();
+const mocksetSelectedCategory= jest.fn();
 
 
 test('renders learn react link', () => {
@@ -20,12 +21,19 @@ test('renders learn react link', () => {
 });
 
 describe('sideBar', () => {
-test('sideBar render',() =>{
-  render(<Sidebar isOpen={true} toggleSidebar={()=>true} selectedCategory={Category.All}/>);
-  const mapElement = screen.getAllByText("Points of interest")[0];
-  expect(mapElement).toBeInTheDocument();
+
+  beforeEach(() => {
+    mockToggleSidebar.mockClear();
+    mocksetSelectedCategory.mockClear();
   });
-)};
+
+
+  test('sideBar render',() =>{
+    render(<Sidebar isOpen={true} toggleSidebar={mockToggleSidebar} selectedCategory={Category.All} setSelectedCategory={mocksetSelectedCategory}/>);
+    const mapElement = screen.getByText("Marcadores");
+    expect(mapElement).toBeInTheDocument();
+    });
+  });
 
 
  
