@@ -44,6 +44,7 @@ image::diagrama.png[]
 === Technical Context
 
 To develop this aplication we are going to use SOLID architecture using PODs to store the user’s personal data. As programming lenguaje we are going to use TypeScript with REACT to create the inteface. We will use NodeJS as execution enviroment. On the other hand, we are going to use the NonSQL datebase MongoDB.
+For the restApi we will use the work express framework.Mapbox will be our map provider  and  we will rely on MUI library to make the graphic interface.
 
 [options="header",cols="1,2"]
 |===
@@ -52,5 +53,9 @@ To develop this aplication we are going to use SOLID architecture using PODs to 
 | PODs    | Store the personal data
 | TYPESCRIPT     | Main programing lenguage
 | REACT     | The library to make the GUI
+| Mui   | Provides components
 | Node.js     | The execution enviroment
+| Express   | Framework for the restapi
+| Mapbox    | Map api
+
 |===

@@ -34,6 +34,7 @@ export const SidebarSection = styled.div`
   .markInfo{
     display: flex;
     flex-direction: column;
+    overflow: auto;
     height: 100%;
     width: auto;
     .backButton{
