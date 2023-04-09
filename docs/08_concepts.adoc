@@ -11,7 +11,7 @@ image::Modelo de dominio.png[]
 [options="header",cols="1,2"]
 |===
 | Entity | Description 
-| User | Application user
+| User | Application user which is saved in SOLID 
 | Marker | Location marker with the information
 |===
 
