@@ -119,7 +119,7 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
 
   return (
     <Nav>
-      <Tooltip title="Open menu">
+      <Tooltip title="Abrir menu">
         <IconButton onClick={() => {
           handlePopupOpen()
           handleBarsClick()
@@ -132,17 +132,17 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
       <SearchForm onSubmit={handleSearchSubmit}>
         <SearchInput
           type="text"
-          placeholder="Find places..."
+          placeholder="Buscar lugares..."
           value={query}
           onChange={e => setQuery(e.target.value)}
         />
-        <Tooltip title="Search">
+        <Tooltip title="Buscar">
         <SearchButton type="submit" onClick={handleSearch}>
           <FaSearch />
         </SearchButton>
         </Tooltip>
       </SearchForm>
-        <Tooltip title="Open markers">
+        <Tooltip title="Abrir marcadores">
         <IconButton onClick={() => toggleSidebar(undefined)}>
           <FaMapMarkerAlt />
         </IconButton>
@@ -150,18 +150,18 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
       {isPopupOpen && (
         <NavPopup isOpen={isPopupOpen} closePopup={handlePopupClose}>
           <TitleContainer>
-            <h2>Options Menu</h2>
+            <h2>Menu de opciones</h2>
           </TitleContainer>
             <FormGroup>
               <Button onClick={handleConfigClick}>
               <FcDataConfiguration />
-                Configurations 
+                Configuraciones 
               </Button>
             </FormGroup>
             <FormGroup>
               <Button onClick={handleAboutClick}>
                 <FcAbout />
-                About
+                Acerca de
               </Button>
             </FormGroup>
         </NavPopup>
@@ -169,18 +169,42 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
 
       {isAboutPopupOpen && (
         <AboutPopup isOpen={isAboutPopupOpen} closePopup={() => setIsAboutPopupOpen(false)}>
-          <h1>About...</h1>
-          <p>This project is being developed by: </p>
-          <p> - Álvaro Dávila Sampedro-UO284548 </p> 
-          <p> - Adrián Martínez Rodríguez-UO284163 </p>
-          <p> - Hugo Roberto Pulido Pensado-UO282823 </p>   
-          <p> - Javier González Velázquez-UO276803 </p>   
-          <p> Our link to GitHub is:  <a href="https://github.com/Arquisoft/lomap_es2b">https://github.com/Arquisoft/lomap_es2b</a> </p>
-          
+          <h1>Aecrca de...</h1>
+          <p>Este proyecto esta siendo desarrollado por: </p>
+          <Table>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>UO</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Álvaro Dávila Sampedro</td>
+                <td>UO284548</td>
+              </tr>
+              <tr>
+                <td>Adrián Martínez Rodríguez</td>
+                <td>UO284163</td>
+              </tr>
+              <tr>
+                <td>Hugo Roberto Pulido Pensado</td>
+                <td>UO282823</td>
+              </tr>
+              <tr>
+                <td>Javier González Velázquez</td>
+                <td>UO276803</td>
+              </tr>   
+            </tbody>
+        </Table>
+        <GitHubLink href="https://github.com/Arquisoft/lomap_es2b">
+          <GitHubIcon src="https://img.icons8.com/ios-glyphs/30/000000/github.png" />
+          <GitHubText>Lomap_es2b</GitHubText>
+        </GitHubLink>          
       </AboutPopup>)} 
         
       {  <Box sx={{ flexGrow: 0 }}>
-        <Tooltip title="Open settings">
+        <Tooltip title="Abrir configuracion">
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
             <Avatar alt="" src={profilePic} style={{ backgroundColor: 'white' }} />
           </IconButton>
