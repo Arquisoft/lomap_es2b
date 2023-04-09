@@ -20,12 +20,12 @@ test('renders learn react link', () => {
 });
 
 describe('sideBar', () => {
-test('sideBar render',() =>{
-  render(<Sidebar isOpen={true} toggleSidebar={()=>true} selectedCategory={Category.All}/>);
-  const mapElement = screen.getAllByText("Points of interest")[0];
-  expect(mapElement).toBeInTheDocument();
+  test('sideBar render',() =>{
+    render(<Sidebar isOpen={true} toggleSidebar={()=>true} selectedCategory={Category.All} setSelectedCategory={() => {}}/>);
+    const mapElement = screen.getAllByText("Points of interest")[0];
+    expect(mapElement).toBeInTheDocument();
+    });
   });
-)};
 
 
  
