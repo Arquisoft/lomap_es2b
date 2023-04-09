@@ -12,7 +12,7 @@ import { UserContext } from '../../context/UserContext';
 import NavPopup from "../NavPopup";
 import { mapboxApiKey } from "../../config/constants";
 import { useMap } from "react-map-gl";
-import { Nav, SearchForm, SearchInput, SearchButton, TitleContainer, FormGroup, Button, Title } from './Styles';
+import { Nav, SearchForm, SearchInput, SearchButton, TitleContainer, FormGroup, Button, Title, GitHubIcon, Table, GitHubLink, GitHubText } from './Styles';
 import { TextMenuItem } from './Styles';
 
 import DefaulPic from '../../assets/defaultPic.png'
@@ -31,10 +31,8 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
   const [ username, setUsername ] = useState<string>('')
   const [ profilePic, setProfilePic ] = useState<string>(DefaulPic)
 
-  const [searchValue] = useState("");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [query, setQuery] = useState('');
-  const [showMarkers, setShowMarkers] = useState(false);
 
   const { state: user } = useContext(UserContext)
 
@@ -100,7 +98,6 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
   };
 
   const handlePopupOpen = () => {
-    setShowMarkers(false);
     setIsPopupOpen(true);
   };
 
@@ -169,7 +166,7 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
 
       {isAboutPopupOpen && (
         <AboutPopup isOpen={isAboutPopupOpen} closePopup={() => setIsAboutPopupOpen(false)}>
-          <h1>Aecrca de...</h1>
+          <h1>Acerca de...</h1>
           <p>Este proyecto esta siendo desarrollado por: </p>
           <Table>
             <thead>

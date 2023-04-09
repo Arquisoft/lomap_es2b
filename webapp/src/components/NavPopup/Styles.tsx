@@ -3,7 +3,7 @@ import {AiFillCloseCircle} from "react-icons/ai"
 
 export const PopupContainer = styled.div`
   position: fixed;
-  z-index: 1000;
+  z-index: 600;
   top: 0;
   left: 0;
   width: 100%;
@@ -16,6 +16,7 @@ export const PopupContainer = styled.div`
 `
 
 export const PopupContent = styled.div`
+  z-index: 601;
   position: relative;
   width: 15%;
   height: 80%;
@@ -24,6 +25,13 @@ export const PopupContent = styled.div`
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
   overflow: auto;
+  padding: 0.5em;
+  min-width: 210px;
+
+  @media only screen and (max-width: 600px) {
+    width: calc(100vw - 1em);
+    border-radius: 0;
+  }
 `
 export const CloseButton = styled(AiFillCloseCircle)`
     float:right;

@@ -30,7 +30,6 @@ enum Owner {
 const Sidebar = ({ isOpen, toggleSidebar, selectedCategory, setSelectedCategory  } : Props) => {
 
   const { state: markers, dispatch } = useContext(MarkerContext)
-  const {session} = useSession();
   const { map } = useMap()
 
   const [showing, setShowing] = useState<Owner>(Owner.USER)
@@ -223,7 +222,7 @@ const Marker = ({ marker, onClick, changeVisibility }: MarkerProps) => {
               <small>{marker.property.public ? 'Publico' : 'Privado' }</small>
             </button>
             : 
-            <a href={marker.property.author} target="_blank"><small>{marker.property.author}</small></a>
+            <a href={marker.property.author} target="_blank" rel="noopener noreferrer"><small>{marker.property.author}</small></a>
           }
         </div>
       </MarkerContent>

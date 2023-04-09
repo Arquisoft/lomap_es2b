@@ -1,16 +1,13 @@
 import { useContext, useEffect, useState } from 'react'
-import { Button, CircularProgress,Rating,TextField, Typography } from '@mui/material'
+import { CircularProgress } from '@mui/material'
 import Map, { LngLat, Marker, useMap,Popup} from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { useSession } from '@inrupt/solid-ui-react';
 
 import { mapboxApiKey } from '../../config/constants'
 
 import { MarkerContext } from '../../context/MarkersContext';
 import { IMarker } from '../../types/IMarker';
 import './Map.css'
-import { Types } from '../../types/ContextActionTypes';
-import { saveMarkersToPrivate } from '../../helpers/SolidHelper';
 
 interface Props{
     onClick:(lngLat:LngLat,visible:boolean)=>void;

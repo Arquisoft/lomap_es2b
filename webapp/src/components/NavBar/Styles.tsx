@@ -216,7 +216,7 @@ export const Button = styled.button`
   background-color: #fff;
   color: #000;
   padding: 0.4vw 0.8vw;
-  font-size: 1.2vw;
+  font-size: 1.2em;
   display: flex;
   justify-content: flex-start;
   white-space: nowrap;
