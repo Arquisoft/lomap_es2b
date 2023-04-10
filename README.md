@@ -15,7 +15,7 @@
 <p>
 This will be the logo that we will use in the application
 </p>
-<img src="https://github.com/Arquisoft/lomap_es2b/blob/login-page/webapp/src/assets/img/logo-color.svg" height="400">
+<img src="https://github.com/Arquisoft/lomap_es2b/blob/master/webapp/src/assets/img/logo-color.svg" height="400">
 
 # Overview
 LoMap system, an application in which citizens can have personalized maps of places and local businesses in the city.
