@@ -222,6 +222,7 @@ export const Button = styled.button`
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  border: 2px solid #00000000;
 
   svg {
     margin-right: 0.5em;

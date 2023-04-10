@@ -18,14 +18,13 @@ export const PopupContainer = styled.div`
 export const PopupContent = styled.div`
   z-index: 601;
   position: relative;
-  width: 15%;
-  height: 80%;
+  width: 20%;
   min-height: fit-content;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
   overflow: auto;
-  padding: 0.5em;
+  padding: 1em;
   min-width: 210px;
 
   @media only screen and (max-width: 600px) {

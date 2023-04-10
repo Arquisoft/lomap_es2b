@@ -53,7 +53,6 @@ export async function readMarkersFromPod(webId?: string) {
       markers = [...markers, ...promise.value]
     }
   })
-  console.log(markers)
   return markers
 }
 

@@ -15,13 +15,12 @@ export const PopupContainer = styled.div`
 
 export const PopupContent = styled.div`
   position: relative;
-  width: 20%;
-  height: 80%;
+  width: 21%;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
   overflow: auto;
-  padding: 1rem;
+  padding: 1em;
   @media only screen and (max-width: 600px) {
     width: calc(100vw - 2em)
   }
