@@ -1,5 +1,7 @@
+import { Category } from "./Category"
+
 export interface IMarker {
-  id: number
+  id: string
   name: string
   address?: string
   lat: number
@@ -7,7 +9,15 @@ export interface IMarker {
   date: Date
   images: string[] // Se guardan las URLs
   description?: string
-  category: string[]
-  comments: string[]
-  score: number
+  category: Category
+  comments: IComment[]
+  score?: number
+  property: {
+    owns: boolean
+  } & ({ owns: true, public: boolean } | { owns: false, author: string })
+}
+
+export interface IComment {
+  author: string
+  comment: string
 }

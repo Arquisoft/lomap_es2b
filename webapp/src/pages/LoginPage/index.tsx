@@ -1,0 +1,90 @@
+import React, { useState} from 'react'
+
+import { Select, InputLabel, FormControl, Divider, Box, MenuItem, FormHelperText } from '@mui/material'
+import { login } from "@inrupt/solid-client-authn-browser";
+import { Button } from '@mui/material';
+
+import { Container, Form } from './Styles'
+
+const Login = () : JSX.Element => {
+
+  const [identity, setIdentity] = useState<string>('')
+  const [error, setError] = React.useState(false);
+  const [errorText, setErrorText] = React.useState('');
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>)=>{
+    event.preventDefault()
+    
+    if (identity) {
+      setError(false)
+      setErrorText('')
+      login({
+        redirectUrl: window.location.href,
+        oidcIssuer: identity,
+        clientName: "LOMAP",
+      });
+    } else {
+      setError(true)
+      setErrorText('Debes elegir un proveedor')
+    }
+
+  };
+  
+  return (
+    <Container>
+      {/* Div imagenes(izquierda) */}
+      <div className='column'>
+        <h1 className='title'>LoMap</h1>
+        <h2 className='subtitle'>¡Guarda tus sitios favoritos y compartelos!</h2>
+        {/* <img className='image' src={Logo} alt=""/> */}
+      </div>
+      <Box
+        display = "flex"
+        flexDirection= "column"
+        justifyContent="center"
+        alignContent="center"
+        height="80%"
+      >
+        <Divider className='divider' orientation='vertical' variant='middle'/>
+      </Box>
+      {/* Div formulario(derecha) */}
+      <div className='column'>
+        <h1 className='title'>LoMap</h1>
+        <Form onSubmit={handleSubmit}>
+          <h2>Elige un proveedor</h2>
+          <FormControl>
+            <InputLabel id="provider-select-label">Proveedor</InputLabel>
+            <Select
+              labelId='provider-select-label'
+              label='Proveedor'
+              value={identity}
+              onChange={(e) => setIdentity(e.target.value)}
+            >
+              {
+                providers.map((provider, index) => (
+                  <MenuItem value={provider.url} key={index}>{ provider.label }</MenuItem>
+                ))
+              }
+            </Select>
+            {
+              error && <FormHelperText className='error' error={error}>{errorText}</FormHelperText>
+            }
+          </FormControl>
+          <Button type="submit" variant="contained">Entrar</Button>
+        </Form> 
+      </div>
+    </Container>
+  )
+}
+
+interface ProviderOption {
+  label: string,
+  url: string
+}
+
+const providers : ProviderOption[] = [
+  {label: 'SOLID', url: 'https://solidcommunity.net/'},
+  {label: 'INRUPT', url: 'https://inrupt.net/'}
+]
+
+export default Login

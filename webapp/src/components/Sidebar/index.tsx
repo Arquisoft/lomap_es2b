@@ -1,173 +1,235 @@
-import React, { useContext, useState } from "react";
-import {FaBars, FaTimes} from "react-icons/fa"
+import { useContext, useEffect, useState } from "react";
 import { useMap } from "react-map-gl";
+import { FaTimes } from "react-icons/fa";
+import { TbArrowBackUp } from "react-icons/tb";
+import { Button, Rating, TextField, ToggleButtonGroup, Typography, ToggleButton } from "@mui/material";
+import { useSession } from "@inrupt/solid-ui-react";
+
 import { MarkerContext } from "../../context/MarkersContext";
 import { IMarker } from "../../types/IMarker";
-import styled from 'styled-components'
+import { MarkerList, MarkerSection, SearchBar, Title, TopSection, SidebarSection, CloseSection, MarkerContent } from "./Styles"
+import DeleteButton from "../DeleteButton";
+import { Types } from "../../types/ContextActionTypes";
+import { Category } from "../../types/Category";
+import Filter from "../Filters";
 
 
-const Sidebar = () => {
 
-  const { map  } = useMap()
+type Props = {
+  isOpen: boolean,
+  toggleSidebar: (open?: boolean) => void,
+  selectedCategory: Category,
+  setSelectedCategory: (category: Category) => void
+}
 
-  const { state: markers } = useContext(MarkerContext)
+enum Owner {
+  USER='USER',
+  FRIENDS='FRIENDS'
+}
+  
+const Sidebar = ({ isOpen, toggleSidebar, selectedCategory, setSelectedCategory  } : Props) => {
 
-  const [isOpen, setIsOpen] = useState(false) // Nuevo estado para controlar la apertura/cierre de la barra lateral
+  const { state: markers, dispatch } = useContext(MarkerContext)
+  const { map } = useMap()
+
+  const [showing, setShowing] = useState<Owner>(Owner.USER)
+  const [ finalList, setFinalList ] = useState<IMarker[]>([])
   const [searchValue, setSearchValue] = useState("")
+  const[markerToShow,setMarkerToShow] = useState<IMarker|null>(null)
+
 
   const handleMarkerClick = (marker: IMarker) => {
     map?.flyTo({ center: { lat: marker.lat, lng: marker.lng }, zoom: 16 })
+    setMarkerToShow(marker)
   }
 
-  const toggleSidebar = () => { // Nueva función para cambiar el estado de la barra lateral
-    setIsOpen(!isOpen)
+  const changeShowing = (newValue: Owner) => {
+    if (newValue)
+      setShowing(newValue)
   }
 
-  const sideBarOpen = () =>{
-    setIsOpen(!isOpen)
+  const changeVisibility = (marker: IMarker) => {
+    const { property } = marker
+    if (property.owns) {
+      property.public = !property.public
+      dispatch({ type:Types.UPDATE, payload: { id: marker.id, marker: { property } } })
+    }
   }
 
-  const filteredMarkers = markers.filter((marker) => {
-    return marker.name.toLowerCase().includes(searchValue.toLowerCase())
-  })
+  function sortByNameAndDate(a: IMarker, b: IMarker): number {
+    if (a.name < b.name) {
+      return -1;
+    }
+    if (a.name > b.name) {
+      return 1;
+    }
+    // if names are equal, sort by date (newest to oldest)
+    if (a.date < b.date) {
+      return 1;
+    }
+    if (a.date > b.date) {
+      return -1;
+    }
+    return 0
+  }
+
+  useEffect(() => {
+    setFinalList(markers.filter((marker) => 
+      marker.name.toLowerCase().includes(searchValue.toLowerCase())
+        && (showing === Owner.USER ? marker.property.owns : !marker.property.owns)
+        && (selectedCategory === Category.All || marker.category.includes(selectedCategory)
+    )).sort(sortByNameAndDate))
+  }, [markers, showing, searchValue, selectedCategory])
+
+  const showMarkerList = ()=>{
+    return(
+      <>
+        <div className="search">
+          <SearchBar type="text" placeholder="Buscar" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
+          <ToggleButtonGroup
+            color="primary"
+            value={showing}
+            exclusive
+            onChange={(e, newValue: Owner) => {changeShowing(newValue)}}
+            aria-label="Marker Owner"
+          >
+            <ToggleButton value={Owner.USER} style={{ width: '45%' }}>Mios</ToggleButton>
+            <ToggleButton value={Owner.FRIENDS} style={{ width: '45%' }}>Amigos</ToggleButton>
+          </ToggleButtonGroup>
+        </div>
+        <MarkerList>
+          <div className="container">
+            <div className="list">
+              {
+              finalList.map((marker) => (
+                <Marker key={marker.id} marker={marker} onClick={handleMarkerClick} changeVisibility={changeVisibility} />
+              ))
+              }
+            </div>
+          </div>
+        </MarkerList>
+      </>
+    )
+  }  
 
   return (
-    <SidebarSection isOpen={isOpen} className={isOpen ? "open" : "closed"}>
-      <TopSection>
-        {!isOpen && (
-          <Bars >
-            <FaBars onClick={toggleSidebar}/>
-          </Bars>
-        )}
-        { isOpen ? <Title>Puntos de interés</Title> : null }
-      </TopSection>
-      <div>
-          <SearchBar isOpen={isOpen} type="text" placeholder="Buscar" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
-      </div> 
-      { isOpen && (
-        <CloseSection>
-          <FaTimes onClick={toggleSidebar}/>
-        </CloseSection>
-      )}
-      {filteredMarkers.map((marker) => (
-        <Marker key={marker.id} marker={marker} onClick={handleMarkerClick} />
-      ))}
-    </SidebarSection>
+    <>
+      {
+        isOpen ?
+        <SidebarSection>
+          { !markerToShow && <Filter className="sidebar-filters" activeFilter={selectedCategory} setActiveFilter={setSelectedCategory} toggleSidebar={toggleSidebar} /> }
+          <TopSection>
+            <Title>{ !markerToShow ? 'Marcadores' : 'Marcador'}</Title>
+            <CloseSection>
+              <FaTimes onClick={() => toggleSidebar(false)} />
+            </CloseSection>
+          </TopSection>
+          {markerToShow ? <MarkerInfo marker={markerToShow} close={() => setMarkerToShow(null)} /> : showMarkerList()} 
+        </SidebarSection>
+        : null
+      }
+    </>
+   
+  )
+}
+
+type InfoProps = {
+  marker: IMarker
+  close: () => void
+}
+
+const MarkerInfo = ({ marker, close }: InfoProps) => {
+
+  const { dispatch } = useContext(MarkerContext)
+  const {session} = useSession();
+
+  const [comment,setComment] = useState<string>("");
+
+  function setScore(newScore:number | null){
+    if(!newScore) return
+    
+    marker.score = newScore
+
+    dispatch({ type: Types.UPDATE, payload:{ id: marker.id, marker: { score: newScore } } });
+  }
+
+  function addComment(comment:string){
+    const listComments = marker.comments;
+    if(!session.info.webId) return
+    listComments.push({ comment, author: session.info.webId })
+    dispatch({type: Types.UPDATE, payload:{id: marker.id, marker:{comments:listComments}}});
+    setComment("");
+  }
+
+  return (
+    <>
+      <Button className="backButton" onClick={close} color='success' variant='contained'><TbArrowBackUp/> Volver</Button>  
+      <div className="markInfo">
+        <h2>{marker.name}</h2>
+        <p>{marker.description}</p>
+        <Typography component="legend">Puntuacion</Typography>
+        <Rating
+          name="simple-controlled"
+          value={marker.score}
+          readOnly={!marker.property.owns}
+          onChange={(_,newValue)=>{
+            setScore(newValue);
+          }}
+        />
+        
+        {
+          marker.property.owns && 
+          <>
+          <h3>Comentar</h3>
+            <TextField value={comment} onChange={(e)=>setComment(e.target.value)} label={"Comenta aqui"} variant='standard' />
+            <Button className="addComment" onClick={()=>addComment(comment)} color='success' variant='contained'>Anadir</Button>
+          </>
+        }
+      
+        <h3>Comentarios</h3>
+        <div>
+          {
+            marker.comments.map((comment, index) => (
+              <p key={`${index}-${comment.author}-${comment.comment}`}>{comment.comment}</p>
+            ))
+          }
+        </div>
+      </div>
+    </>
   )
 }
 
 interface MarkerProps {
   marker: IMarker
   onClick: (marker: IMarker) => void
+  changeVisibility: (marker: IMarker) => void
 }
 
-const Marker = ({ marker, onClick }: MarkerProps) => {
-
+const Marker = ({ marker, onClick, changeVisibility }: MarkerProps) => {
   return (
-    <MarkerHover>
-      <MarkerSection onClick={() => onClick(marker)} >
+    <MarkerSection >
+      <MarkerContent onClick={() => onClick(marker)}>
         <h3>{marker.name}</h3>
         <p>{marker.description}</p>
-      </MarkerSection>
-    </MarkerHover>
+        <div className="shared">
+          {
+            marker.property.owns ?
+            <button onClick={(e) => {
+              e.stopPropagation()
+              changeVisibility(marker)
+            }}>
+              <small>{marker.property.public ? 'Publico' : 'Privado' }</small>
+            </button>
+            : 
+            <a href={marker.property.author} target="_blank" rel="noopener noreferrer"><small>{marker.property.author}</small></a>
+          }
+        </div>
+      </MarkerContent>
+      {
+        marker.property.owns && <DeleteButton id={marker.id} />
+      }
+    </MarkerSection>
   );
 };
 
-const SidebarSection = styled.div<{ isOpen: boolean }>`
-  &.open {
-    background-color: #f8f8f8;
-    height: calc(100vh - 3em);
-    width: 25%;
-    position: absolute;
-    z-index: 100;
-    top: 0;
-    left: 0;
-    margin: 1.0em;
-    border-radius: 0.5em;
-    transition: transform 0.3s ease-in-out;
-    -webkit-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
-    -moz-box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
-    box-shadow: 4px 4px 8px 0px rgba(34,2,0,0.27);
-  }
-  &.closed {
-    background-color: #f8f8f8;
-    right: -10px;
-    height: calc(100vh - 3em);
-    width: 10%;
-    top: 0;
-    position: absolute;
-    z-index: 100;
-    top: 0;
-    left: 0;
-    margin: 1.0em;
-    border-radius: 0.5em;
-    transition: transform 0.3s ease-in-out;
-  }
-`;
-
-const TopSection = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 10px;
-`;
-
-const Title = styled.h1`
-  width: 100%;
-  font-size: 24px;
-  font-weight: bold;
-  padding: 10px;
-  margin: 0;
-  text-align: center;
-`;
-
-const Bars = styled.div`
-  font-size: 25px;
-  margin-top: 10px;
-`;
-
-const SearchBar = styled.input<{ isOpen: boolean }>`
-  display: ${({ isOpen }) => isOpen ? "block" : "none"};
-  position: relative; 
-  width: 300px; 
-  height: 20px;
-  margin: 0 auto; 
-  border-radius: 0.3em;
-  outline: none;
-  border: none;
-  width: 90%;
-  background: #eaeaea;
-  font-size: 1em;
-  padding: 0.3em;
-`;
-
-const CloseSection = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 20px;
-  font-size: 25px;
-  cursor: pointer;
-`;
-
-const MarkerSection = styled.div`
-  cursor: pointer;
-  margin-bottom: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #fff;
-  transition: background-color 0.2s ease-in-out;
-  top: 0;
-  left: 0;
-  margin: 0.5em;
-  border-radius: 0.5em;
-`;
-
-const MarkerHover = styled.div`
-background-color: #f8f8f8;
-  background-size: auto;
-  border-radius: 0.3em;
-`;
-
-export default Sidebar
+export default Sidebar;

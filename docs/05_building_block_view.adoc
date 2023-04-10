@@ -36,3 +36,22 @@ Contained Building Blocks::
 |Database
 |Saves the data tha the pod does not
 |===
+
+=== Level 2
+
+:imagesdir: images/
+image::05_Diagrama_Level_2.png[]
+
+Motivation::
+In this section the description is extended to provide more info on how it works.
+
+Contained Building Blocks::
+[options="header",cols="1,2"]
+|===
+|Name| Description
+|Log in|Authenticates the user with their solid account
+|Manage friend| Allows to add and delete friends
+|Add marker| Allows you to add markers
+|Delele marker| Allows you to delete markers
+|Share marker| Allows you to share markers with friends
+|===
