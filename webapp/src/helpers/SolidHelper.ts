@@ -180,7 +180,8 @@ export async function getFriends(webId: string) {
   let dataset = await getSolidDataset(webId);
   let aux= getThing(dataset,webId) as Thing;
   let friends= getUrlAll(aux, FOAF.knows);
-
+  console.log(friends);
+  
   const list: ISolidUser[] = []
   for (let id of friends) {
     const friend = await getFriendData(id)
@@ -193,16 +194,21 @@ export async function getFriends(webId: string) {
 
 
 export async function addFriend(webId: string,friend:string) {
-  let dataset = await getSolidDataset(webId);
-  let friends= getThing(dataset,webId) as Thing;
+  try {
+    let dataset = await getSolidDataset(webId);
+    let friends= getThing(dataset,webId) as Thing;
+    await getProfile(friend)
+    friends = buildThing(friends).addUrl(FOAF.knows, friend).build();
+    
+    dataset = setThing(dataset, friends);
+    
+    await saveSolidDatasetAt(webId, dataset, { fetch });
   
-  friends = buildThing(friends).addUrl(FOAF.knows, friend).build();
-  
-  dataset = setThing(dataset, friends);
-  
-  await saveSolidDatasetAt(webId, dataset, { fetch });
+    setPerms(webId,friend,true);
+  } catch(err) {
+    throw err
+  }
 
-  setPerms(webId,friend,true);
 }
 
 export async function deleteFriend(webId: string,friend:string) {
@@ -261,7 +267,6 @@ async function setPerms(webId: string, friend: string, mode: boolean) {
   
   // Now save the ACL:
   await saveAclFor(myDatasetWithAcl, updatedAcl,{fetch :fetch});
-    
 }
 
 export async function checkIfFriendsFile(webId?: string) {
