@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { Button, TextField, CircularProgress, Avatar } from '@mui/material'
+import { Button, TextField, CircularProgress, Avatar, Alert, IconButton, Collapse } from '@mui/material'
 import { MdDelete } from 'react-icons/md'
 
 import { UserContext } from '../../context/UserContext'
@@ -7,6 +7,7 @@ import { getFriends, addFriend as addFriendToSolid, deleteFriend as removeFriend
 import { ISolidUser } from '../../types/ISolidUser'
 import Popup from '../PopUp'
 import { AddFriend, CustomDivider, FriendList, FriendListItem, LoaderContainer, DeleteButtons, DeletePopup } from './Styles'
+import { FaTimes } from 'react-icons/fa'
 
 type Props = {
   isOpen: boolean
@@ -20,14 +21,22 @@ const FriendsPopup = ({ isOpen, closePopup } : Props) => {
   const [ isLoading, setIsLoading ] = useState(false)
   const [ deleteOpen, setDeleteOpen ] = useState(false)
   const [ friendToDelete, setFriendToDelete ] = useState('')
+  const [ isError, setIsError ] = useState(false)
+  const [ error, setError ] = useState('')
 
   const { state: user } = useContext(UserContext)
   
   const loadFriends = async () => {
     if (!user) return
-    setIsLoading(true)
-    setFriends(await getFriends(user.url))
-    setIsLoading(false)
+    try {
+      setIsLoading(true)
+      setFriends(await getFriends(user.url))
+    } catch(err) {
+      setError('Error al cargar los amigos')
+      setIsError(true)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   useEffect(() => {
@@ -39,11 +48,21 @@ const FriendsPopup = ({ isOpen, closePopup } : Props) => {
 
   const addFriend = async () => {
     if (newFriendId && user?.url) {
-      setFriends(friends => [...friends, { webId: newFriendId }])
-      setIsLoading(true)
-      setNewFriendId('')
-      await addFriendToSolid(user.url, newFriendId)
-      loadFriends()
+      if (!newFriendId.endsWith('/'))
+        setNewFriendId(friendId => friendId+'/')
+
+      try {
+        setIsLoading(true)
+        setNewFriendId('')
+        await addFriendToSolid(user.url, newFriendId)
+        await loadFriends()
+        setIsError(false)
+      } catch(err) {
+        setError('No se pudo añadir al amigo')
+        setIsError(true)
+      } finally {
+        setIsLoading(false)
+      }
     }
   }
 
@@ -55,9 +74,16 @@ const FriendsPopup = ({ isOpen, closePopup } : Props) => {
   const deleteResult = async (result: boolean) => {
     setDeleteOpen(false)
     if (result && user?.url) {
-      setIsLoading(true)
-      await removeFriendFromSolid(user.url, friendToDelete)
-      loadFriends()
+      try {
+        setIsLoading(true)
+        await removeFriendFromSolid(user.url, friendToDelete)
+        await loadFriends()
+      } catch(err) {
+        setError('Error al eliminar los amigos')
+        setIsError(true)
+      } finally {
+        setIsLoading(false)
+      }
     }
     setFriendToDelete('')
   }
@@ -66,6 +92,20 @@ const FriendsPopup = ({ isOpen, closePopup } : Props) => {
     <>
       <Popup isOpen={isOpen} closePopup={closePopup}>
         <h2>Mis Amigos</h2>
+        <Collapse in={isError}>
+          <Alert action={
+            <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setIsError(false);
+                }}
+              >
+                <FaTimes fontSize="inherit" />
+              </IconButton>
+            } severity="error">{ error }</Alert>
+        </Collapse>
         <AddFriend>
           <TextField label="WebId del nuevo amigo" variant="standard" value={newFriendId} onChange={ e => setNewFriendId(e.target.value.trim()) } />
           <Button variant='contained' onClick={addFriend}>Añadir</Button>
