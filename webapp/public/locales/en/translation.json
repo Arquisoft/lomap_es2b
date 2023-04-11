@@ -7,5 +7,23 @@
       "provider": "Provider",
       "login": "Login"
     }
+  },
+  "navbar": {
+    "user": {
+      "greeting": "Hi, {{name}}!",
+      "greetingNoName": "Hello!",
+      "friends": "Friends",
+      "about": "About...",
+      "logout": "Logout"
+    },
+    "search": {
+      "placeholder": "Search places..."
+    },
+    "tooltips": {
+      "menu": "Options",
+      "search": "Search",
+      "markers": "Markers",
+      "user": "User Menu"
+    }
   }
 }

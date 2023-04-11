@@ -7,5 +7,23 @@
       "provider": "Proveedor",
       "login": "Entrar"
     }
+  },
+  "navbar": {
+    "user": {
+      "greeting": "¡Hola, {{name}}!",
+      "greetingNoName": "¡Hola!",
+      "friends": "Amigos",
+      "about": "Acerca de...",
+      "logout": "Cerrar sesión"
+    },
+    "search": {
+      "placeholder": "Buscar lugares..."
+    },
+    "tooltips": {
+      "menu": "Opciones",
+      "search": "Buscar",
+      "markers": "Ver marcadores",
+      "user": "Menú de Usuario"
+    }
   }
 }

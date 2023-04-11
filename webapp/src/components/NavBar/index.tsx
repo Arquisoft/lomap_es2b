@@ -16,6 +16,7 @@ import { Nav, SearchForm, SearchInput, SearchButton, TitleContainer, FormGroup, 
 
 import DefaulPic from '../../assets/defaultPic.png'
 import AboutPopup from '../AboutPopup';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   toggleSidebar: (open: boolean | undefined) => void
@@ -25,6 +26,7 @@ type Props = {
 const Navbar = ({ openPopup, toggleSidebar } : Props) => {
   const { map  } = useMap()
   const { logout } = useSession()
+  const { t } = useTranslation()
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [ username, setUsername ] = useState<string>('')
@@ -52,20 +54,22 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
 
   const options : IMenuOption[] = [
     {
-      label: 'Amigos',
+      label: t('navbar.user.friends'),
       onClick: () => {
         handleCloseUserMenu()
         openPopup(Popups.FRIENDS)
       }
     },
     {
-      label: "About",
+      label: t('navbar.user.about'),
       onClick: () => {
         handleCloseUserMenu()
+        toggleSidebar(false)
+        setIsAboutPopupOpen(true)
       }
     },
     {
-      label: "Logout",
+      label: t('navbar.user.logout'),
       onClick: () => {
         handleCloseUserMenu()
         logout()
@@ -110,130 +114,151 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
 
   const handleAboutClick = () => {
     setIsAboutPopupOpen(true);
-    console.log("Acerca de");
   };
 
   return (
-    <Nav>
-      <Tooltip title="Abrir menu">
-        <IconButton onClick={() => {
-          handlePopupOpen()
-          handleBarsClick()
-        }}>
-          <FaBars/>
-        </IconButton>
-      </Tooltip>
-
-      <Title>LoMap</Title>
-      <SearchForm onSubmit={handleSearchSubmit}>
-        <SearchInput
-          type="text"
-          placeholder="Buscar lugares..."
-          value={query}
-          onChange={e => setQuery(e.target.value)}
-        />
-        <Tooltip title="Buscar">
-        <SearchButton type="submit" onClick={handleSearch}>
-          <FaSearch />
-        </SearchButton>
-        </Tooltip>
-      </SearchForm>
-        <Tooltip title="Abrir marcadores">
-        <IconButton onClick={() => toggleSidebar(undefined)}>
-          <FaMapMarkerAlt />
-        </IconButton>
-        </Tooltip>
-      {isPopupOpen && (
-        <NavPopup isOpen={isPopupOpen} closePopup={handlePopupClose}>
-          <TitleContainer>
-            <h2>Menu de opciones</h2>
-          </TitleContainer>
-            <FormGroup>
-              <Button onClick={handleConfigClick}>
-              <FcDataConfiguration />
-                Configuraciones 
-              </Button>
-            </FormGroup>
-            <FormGroup>
-              <Button onClick={handleAboutClick}>
-                <FcAbout />
-                Acerca de
-              </Button>
-            </FormGroup>
-        </NavPopup>
-      )}
-
-      {isAboutPopupOpen && (
-        <AboutPopup isOpen={isAboutPopupOpen} closePopup={() => setIsAboutPopupOpen(false)}>
-          <h1>Acerca de...</h1>
-          <p>Este proyecto esta siendo desarrollado por: </p>
-          <Table>
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>UO</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Álvaro Dávila Sampedro</td>
-                <td>UO284548</td>
-              </tr>
-              <tr>
-                <td>Adrián Martínez Rodríguez</td>
-                <td>UO284163</td>
-              </tr>
-              <tr>
-                <td>Hugo Roberto Pulido Pensado</td>
-                <td>UO282823</td>
-              </tr>
-              <tr>
-                <td>Javier González Velázquez</td>
-                <td>UO276803</td>
-              </tr>   
-            </tbody>
-        </Table>
-        <GitHubLink href="https://github.com/Arquisoft/lomap_es2b">
-          <GitHubIcon src="https://img.icons8.com/ios-glyphs/30/000000/github.png" />
-          <GitHubText>Lomap_es2b</GitHubText>
-        </GitHubLink>          
-      </AboutPopup>)} 
-      <Box sx={{ flexGrow: 0 }}>
-        <Tooltip title="Abrir configuracion">
-          <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-            <Avatar alt="" src={profilePic} style={{ backgroundColor: 'white' }} />
+    <>
+      <Nav>
+        <Tooltip title={t('navbar.tooltips.menu')}>
+          <IconButton onClick={() => {
+            handlePopupOpen()
+            handleBarsClick()
+          }}>
+            <FaBars/>
           </IconButton>
         </Tooltip>
-        <Menu
-          sx={{ mt: '45px' }}
-          id="menu-appbar"
-          anchorEl={anchorElUser}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          keepMounted
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          open={Boolean(anchorElUser)}
-          onClose={handleCloseUserMenu}
-        >
-          <TextMenuItem>
-            <Typography textAlign="center">{ username ? `Hola, ${username}!` : 'Hola!' }</Typography>
-          </TextMenuItem>
-          <Divider />
-          {options.map(({ label, onClick }) => (
-            <MenuItem key={ label } onClick={ onClick }>
-              <Typography textAlign="center">{ label }</Typography>
-            </MenuItem>
-          ))}
-        </Menu>
-      </Box>
-    </Nav>
+
+        <Title>LoMap</Title>
+        <SearchForm onSubmit={handleSearchSubmit}>
+          <SearchInput
+            type="text"
+            placeholder={t('navbar.search.placeholder').toString()}
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+          />
+          <Tooltip title={t('navbar.tooltips.search')}>
+          <SearchButton type="submit" onClick={handleSearch}>
+            <FaSearch />
+          </SearchButton>
+          </Tooltip>
+        </SearchForm>
+        <Tooltip title={t('navbar.tooltips.markers')}>
+          <IconButton onClick={() => toggleSidebar(undefined)}>
+            <FaMapMarkerAlt />
+          </IconButton>
+        </Tooltip>
+        <Box sx={{ flexGrow: 0 }}>
+          <Tooltip title={t('navbar.tooltips.user')}>
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <Avatar alt="" src={profilePic} style={{ backgroundColor: 'white' }} />
+            </IconButton>
+          </Tooltip>
+          <Menu
+            sx={{ mt: '45px' }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={handleCloseUserMenu}
+          >
+            <TextMenuItem>
+              <Typography textAlign="center">{ username ? t('navbar.user.greeting', { name: username }) : t('navbar.user.greetingNoName') }</Typography>
+            </TextMenuItem>
+            <Divider />
+            {options.map(({ label, onClick }) => (
+              <MenuItem key={ label } onClick={ onClick }>
+                <Typography textAlign="center">{ label }</Typography>
+              </MenuItem>
+            ))}
+          </Menu>
+        </Box>
+      </Nav>
+      <NavAboutPopup isOpen={isAboutPopupOpen} close={() => setIsAboutPopupOpen(false)} />
+      <NavOptionsPopup isOpen={isPopupOpen} close={handlePopupClose} clickConfig={handleConfigClick} clickAbout={handleAboutClick} />
+    </>
   );
 };
+
+type AboutProps = {
+  isOpen: boolean
+  close: () => void 
+}
+
+const NavAboutPopup = ({ isOpen, close }: AboutProps) => {
+  return (
+    <AboutPopup isOpen={isOpen} closePopup={close}>
+      <h1>Acerca de...</h1>
+      <p>Este proyecto esta siendo desarrollado por: </p>
+      <Table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>UO</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Álvaro Dávila Sampedro</td>
+            <td>UO284548</td>
+          </tr>
+          <tr>
+            <td>Adrián Martínez Rodríguez</td>
+            <td>UO284163</td>
+          </tr>
+          <tr>
+            <td>Hugo Roberto Pulido Pensado</td>
+            <td>UO282823</td>
+          </tr>
+          <tr>
+            <td>Javier González Velázquez</td>
+            <td>UO276803</td>
+          </tr>   
+        </tbody>
+      </Table>
+      <GitHubLink href="https://github.com/Arquisoft/lomap_es2b">
+        <GitHubIcon src="https://img.icons8.com/ios-glyphs/30/000000/github.png" />
+        <GitHubText>Lomap_es2b</GitHubText>
+      </GitHubLink>          
+    </AboutPopup>
+  )
+}
+
+type NavProps = {
+  isOpen: boolean
+  close: () => void
+  clickConfig: () => void
+  clickAbout: () => void
+}
+
+const NavOptionsPopup = ({ isOpen, close, clickConfig, clickAbout } : NavProps) => {
+  return (
+    <NavPopup isOpen={isOpen} closePopup={close}>
+      <TitleContainer>
+        <h2>Menu de opciones</h2>
+      </TitleContainer>
+        <FormGroup>
+          <Button onClick={clickConfig}>
+          <FcDataConfiguration />
+            Configuraciones 
+          </Button>
+        </FormGroup>
+        <FormGroup>
+          <Button onClick={clickAbout}>
+            <FcAbout />
+            Acerca de
+          </Button>
+        </FormGroup>
+    </NavPopup>
+  )
+}
 
 export default Navbar;
 
