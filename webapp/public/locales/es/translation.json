@@ -1,0 +1,11 @@
+{
+  "language": "Idioma",
+  "login": {
+    "subtitle": "¡Guarda tus sitios favoritos y compartelos!",
+    "loginForm": {
+      "title": "Elige un proveedor",
+      "provider": "Proveedor",
+      "login": "Entrar"
+    }
+  }
+}

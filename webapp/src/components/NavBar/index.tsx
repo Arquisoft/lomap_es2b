@@ -198,8 +198,7 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
           <GitHubText>Lomap_es2b</GitHubText>
         </GitHubLink>          
       </AboutPopup>)} 
-        
-      {  <Box sx={{ flexGrow: 0 }}>
+      <Box sx={{ flexGrow: 0 }}>
         <Tooltip title="Abrir configuracion">
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
             <Avatar alt="" src={profilePic} style={{ backgroundColor: 'white' }} />
@@ -231,7 +230,7 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
             </MenuItem>
           ))}
         </Menu>
-      </Box> }
+      </Box>
     </Nav>
   );
 };

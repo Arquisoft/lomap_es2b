@@ -1,0 +1,11 @@
+{
+  "language": "Language",
+  "login": {
+    "subtitle": "Save your favourite places and share them!",
+    "loginForm": {
+      "title": "Pick a provider",
+      "provider": "Provider",
+      "login": "Login"
+    }
+  }
+}

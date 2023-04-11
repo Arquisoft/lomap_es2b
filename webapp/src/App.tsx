@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { Suspense, useContext } from 'react'
 import Login from './pages/LoginPage';
 import Map from './pages/MapPage';
 import { SessionProvider, useSession } from '@inrupt/solid-ui-react';
@@ -8,6 +8,7 @@ import { MarkerContext } from './context/MarkersContext';
 import { getProfile, readMarkersFromPod } from './helpers/SolidHelper';
 import { Types } from './types/ContextActionTypes';
 import { UserContext } from './context/UserContext';
+import Loader from './components/Loader';
 
 function App(): JSX.Element {
 
@@ -36,7 +37,9 @@ function App(): JSX.Element {
 
   return (
     <SessionProvider sessionId="log-in-example">
-      {(!isLoggedIn) ? <Login/> : <Map/>}
+      <Suspense fallback={<Loader />}>
+        {(!isLoggedIn) ? <Login/> : <Map/>}
+      </Suspense>
     </SessionProvider>
   );
 }
