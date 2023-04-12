@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, FormEvent } from 'react';
+import { useContext, useEffect, useState, FormEvent, useRef } from 'react';
 import { getStringNoLocale, getNamedNodeAll } from "@inrupt/solid-client";
 import { useSession } from '@inrupt/solid-ui-react';
 import { FOAF, VCARD } from '@inrupt/vocab-common-rdf';
@@ -15,28 +15,35 @@ import { useMap } from "react-map-gl";
 import { Nav, SearchForm, SearchInput, SearchButton, TitleContainer, FormGroup, Button, Title, GitHubIcon, Table, GitHubLink, GitHubText, TextMenuItem } from './Styles';
 
 import DefaulPic from '../../assets/defaultPic.png'
-import AboutPopup from '../AboutPopup';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
+  isSidebarOpen: boolean
   toggleSidebar: (open: boolean | undefined) => void
   openPopup: (popup : Popups) => void
 }
 
-const Navbar = ({ openPopup, toggleSidebar } : Props) => {
+const Navbar = ({ openPopup, isSidebarOpen, toggleSidebar } : Props) => {
   const { map  } = useMap()
   const { logout } = useSession()
+  const { t } = useTranslation()
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [ username, setUsername ] = useState<string>('')
   const [ profilePic, setProfilePic ] = useState<string>(DefaulPic)
 
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isMenuPopupOpen, setIsMenuPopupOpen] = useState(false);
+  const [isConfigPopupOpen, setIsConfigPopupOpen] = useState(false);
+  const [isAboutPopupOpen, setIsAboutPopupOpen] = useState(false);
+
+  const wasSidebarOpen = useRef(isSidebarOpen)
+  const wasMenuOpen = useRef(false)
+
   const [query, setQuery] = useState('');
 
   const { state: user } = useContext(UserContext)
 
 
-  const [isAboutPopupOpen, setIsAboutPopupOpen] = useState(false);
   
   useEffect(() => {
     if (user) {
@@ -52,20 +59,21 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
 
   const options : IMenuOption[] = [
     {
-      label: 'Amigos',
+      label: t('navbar.user.friends'),
       onClick: () => {
         handleCloseUserMenu()
         openPopup(Popups.FRIENDS)
       }
     },
     {
-      label: "About",
+      label: t('navbar.user.about'),
       onClick: () => {
         handleCloseUserMenu()
+        openAboutPopup()
       }
     },
     {
-      label: "Logout",
+      label: t('navbar.user.logout'),
       onClick: () => {
         handleCloseUserMenu()
         logout()
@@ -88,153 +96,198 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
     map?.flyTo({ center: { lat: lat, lng: lng }, zoom: 14})
   };
 
-  const handleBarsClick = () => {
-    toggleSidebar(false);
-  };
-
   const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   };
 
-  const handlePopupOpen = () => {
-    setIsPopupOpen(true);
-  };
+  const openMenuPopup = () => {
+    wasSidebarOpen.current = isSidebarOpen
+    toggleSidebar(false)
+    setIsMenuPopupOpen(true)
+  }
 
-  const handlePopupClose = () => {
-    setIsPopupOpen(false);
-  };
+  const closeMenuPopup = () => {
+    setIsMenuPopupOpen(false)
+    toggleSidebar(wasSidebarOpen.current)
+  }
 
-  const handleConfigClick = () => {
-    // Aquí puedes agregar la lógica para navegar a la página de configuraciones
-  };
+  const openConfigPopup = () => {
+    !isMenuPopupOpen && (wasSidebarOpen.current = isSidebarOpen)
+    wasMenuOpen.current = isMenuPopupOpen
+    toggleSidebar(false)
+    setIsMenuPopupOpen(false)
+    setIsConfigPopupOpen(true)
+  }
 
-  const handleAboutClick = () => {
-    setIsAboutPopupOpen(true);
-    console.log("Acerca de");
-  };
+  const closeConfigPopup = () => {
+    setIsConfigPopupOpen(false)
+    setIsMenuPopupOpen(wasMenuOpen.current)
+    toggleSidebar(!wasMenuOpen.current && wasSidebarOpen.current)
+  }
+
+  const openAboutPopup = () => {
+    !isMenuPopupOpen && (wasSidebarOpen.current = isSidebarOpen)
+    wasMenuOpen.current = isMenuPopupOpen
+    toggleSidebar(false)
+    setIsMenuPopupOpen(false)
+    setIsAboutPopupOpen(true)
+  }
+
+  const closeAboutPopup = () => {
+    setIsAboutPopupOpen(false)
+    setIsMenuPopupOpen(wasMenuOpen.current)
+    toggleSidebar(!wasMenuOpen.current && wasSidebarOpen.current)
+  }
 
   return (
-    <Nav>
-      <Tooltip title="Abrir menu">
-        <IconButton onClick={() => {
-          handlePopupOpen()
-          handleBarsClick()
-        }}>
-          <FaBars/>
-        </IconButton>
-      </Tooltip>
-
-      <Title>LoMap</Title>
-      <SearchForm onSubmit={handleSearchSubmit}>
-        <SearchInput
-          type="text"
-          placeholder="Buscar lugares..."
-          value={query}
-          onChange={e => setQuery(e.target.value)}
-        />
-        <Tooltip title="Buscar">
-        <SearchButton type="submit" onClick={handleSearch}>
-          <FaSearch />
-        </SearchButton>
-        </Tooltip>
-      </SearchForm>
-        <Tooltip title="Abrir marcadores">
-        <IconButton onClick={() => toggleSidebar(undefined)}>
-          <FaMapMarkerAlt />
-        </IconButton>
-        </Tooltip>
-      {isPopupOpen && (
-        <NavPopup isOpen={isPopupOpen} closePopup={handlePopupClose}>
-          <TitleContainer>
-            <h2>Menu de opciones</h2>
-          </TitleContainer>
-            <FormGroup>
-              <Button onClick={handleConfigClick}>
-              <FcDataConfiguration />
-                Configuraciones 
-              </Button>
-            </FormGroup>
-            <FormGroup>
-              <Button onClick={handleAboutClick}>
-                <FcAbout />
-                Acerca de
-              </Button>
-            </FormGroup>
-        </NavPopup>
-      )}
-
-      {isAboutPopupOpen && (
-        <AboutPopup isOpen={isAboutPopupOpen} closePopup={() => setIsAboutPopupOpen(false)}>
-          <h1>Acerca de...</h1>
-          <p>Este proyecto esta siendo desarrollado por: </p>
-          <Table>
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>UO</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Álvaro Dávila Sampedro</td>
-                <td>UO284548</td>
-              </tr>
-              <tr>
-                <td>Adrián Martínez Rodríguez</td>
-                <td>UO284163</td>
-              </tr>
-              <tr>
-                <td>Hugo Roberto Pulido Pensado</td>
-                <td>UO282823</td>
-              </tr>
-              <tr>
-                <td>Javier González Velázquez</td>
-                <td>UO276803</td>
-              </tr>   
-            </tbody>
-        </Table>
-        <GitHubLink href="https://github.com/Arquisoft/lomap_es2b">
-          <GitHubIcon src="https://img.icons8.com/ios-glyphs/30/000000/github.png" />
-          <GitHubText>Lomap_es2b</GitHubText>
-        </GitHubLink>          
-      </AboutPopup>)} 
-        
-      {  <Box sx={{ flexGrow: 0 }}>
-        <Tooltip title="Abrir configuracion">
-          <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-            <Avatar alt="" src={profilePic} style={{ backgroundColor: 'white' }} />
+    <>
+      <Nav>
+        <Tooltip title={t('navbar.tooltips.menu')}>
+          <IconButton onClick={openMenuPopup}>
+            <FaBars/>
           </IconButton>
         </Tooltip>
-        <Menu
-          sx={{ mt: '45px' }}
-          id="menu-appbar"
-          anchorEl={anchorElUser}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          keepMounted
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          open={Boolean(anchorElUser)}
-          onClose={handleCloseUserMenu}
-        >
-          <TextMenuItem>
-            <Typography textAlign="center">{ username ? `Hola, ${username}!` : 'Hola!' }</Typography>
-          </TextMenuItem>
-          <Divider />
-          {options.map(({ label, onClick }) => (
-            <MenuItem key={ label } onClick={ onClick }>
-              <Typography textAlign="center">{ label }</Typography>
-            </MenuItem>
-          ))}
-        </Menu>
-      </Box> }
-    </Nav>
+
+        <Title>LoMap</Title>
+        <SearchForm onSubmit={handleSearchSubmit}>
+          <SearchInput
+            type="text"
+            placeholder={t('navbar.search.placeholder').toString()}
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+          />
+          <Tooltip title={t('navbar.tooltips.search')}>
+          <SearchButton type="submit" onClick={handleSearch}>
+            <FaSearch />
+          </SearchButton>
+          </Tooltip>
+        </SearchForm>
+        <Tooltip title={t('navbar.tooltips.markers')}>
+          <IconButton onClick={() => toggleSidebar(undefined)}>
+            <FaMapMarkerAlt />
+          </IconButton>
+        </Tooltip>
+        <Box sx={{ flexGrow: 0 }}>
+          <Tooltip title={t('navbar.tooltips.user')}>
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <Avatar alt="" src={profilePic} style={{ backgroundColor: 'white' }} />
+            </IconButton>
+          </Tooltip>
+          <Menu
+            sx={{ mt: '45px' }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={handleCloseUserMenu}
+          >
+            <TextMenuItem>
+              <Typography textAlign="center">{ username ? t('navbar.user.greeting', { name: username }) : t('navbar.user.greetingNoName') }</Typography>
+            </TextMenuItem>
+            <Divider />
+            {options.map(({ label, onClick }) => (
+              <MenuItem key={ label } onClick={ onClick }>
+                <Typography textAlign="center">{ label }</Typography>
+              </MenuItem>
+            ))}
+          </Menu>
+        </Box>
+      </Nav>
+      <NavMenuPopup isOpen={isMenuPopupOpen} close={closeMenuPopup} clickConfig={openConfigPopup} clickAbout={openAboutPopup} />
+      <NavConfigPopup isOpen={isConfigPopupOpen} close={closeConfigPopup} />
+      <NavAboutPopup isOpen={isAboutPopupOpen} close={closeAboutPopup} />
+    </>
   );
 };
+
+type NavProps = {
+  isOpen: boolean
+  close: () => void
+  clickConfig: () => void
+  clickAbout: () => void
+}
+
+const NavMenuPopup = ({ isOpen, close, clickConfig, clickAbout } : NavProps) => {
+  return (
+    <NavPopup isOpen={isOpen} closePopup={close}>
+      <TitleContainer>
+        <h2>Menu de opciones</h2>
+      </TitleContainer>
+        <FormGroup>
+          <Button onClick={clickConfig}>
+          <FcDataConfiguration />
+            Configuraciones 
+          </Button>
+        </FormGroup>
+        <FormGroup>
+          <Button onClick={clickAbout}>
+            <FcAbout />
+            Acerca de
+          </Button>
+        </FormGroup>
+    </NavPopup>
+  )
+}
+
+type PopupProps = {
+  isOpen: boolean
+  close: () => void 
+}
+
+const NavAboutPopup = ({ isOpen, close }: PopupProps) => {
+  return (
+    <NavPopup isOpen={isOpen} closePopup={close}>
+      <h1>Acerca de...</h1>
+      <p>Este proyecto esta siendo desarrollado por: </p>
+      <Table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>UO</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Álvaro Dávila Sampedro</td>
+            <td>UO284548</td>
+          </tr>
+          <tr>
+            <td>Adrián Martínez Rodríguez</td>
+            <td>UO284163</td>
+          </tr>
+          <tr>
+            <td>Hugo Roberto Pulido Pensado</td>
+            <td>UO282823</td>
+          </tr>
+          <tr>
+            <td>Javier González Velázquez</td>
+            <td>UO276803</td>
+          </tr>   
+        </tbody>
+      </Table>
+      <GitHubLink href="https://github.com/Arquisoft/lomap_es2b" target="_blank" rel="noopener noreferrer">
+        <GitHubIcon src="https://img.icons8.com/ios-glyphs/30/000000/github.png" />
+        <GitHubText>Lomap_es2b</GitHubText>
+      </GitHubLink>          
+    </NavPopup>
+  )
+}
+
+const NavConfigPopup = ({ isOpen, close }: PopupProps) => {
+  return (
+    <NavPopup isOpen={isOpen} closePopup={close}>
+      <h3>Opciones</h3>
+    </NavPopup>
+    )
+  }
 
 export default Navbar;
 

@@ -14,8 +14,6 @@ import Navbar from '../../components/NavBar';
 import Filter from '../../components/Filters';
 import { NavContainer} from './Styles'
 import { Category } from '../../types/Category';
-import AboutPopup from '../../components/AboutPopup';
-
 
 export enum Popups {
   NONE,
@@ -82,15 +80,14 @@ const MapPage = () : JSX.Element => {
   return (
     <MapProvider>
       <NavContainer>
-        <Navbar openPopup={openPopup} toggleSidebar={toggleSidebar} />
-        <Filter toggleSidebar={toggleSidebar} activeFilter={selectedCategory} setActiveFilter={setSelectedCategory}/>
+        <Navbar openPopup={openPopup} isSidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+        <Filter toggleSidebar={toggleSidebar} activeFilter={selectedCategory} setActiveFilter={setSelectedCategory} />
       </NavContainer>
       <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
       <Map onClick={showAddMarkerPopup} />
       <FocusOnUserButton />
-      <AddMarkerPopup closePopup={closePopup} visible={popupVisible === Popups.ADD_MARKER} lngLat={lngLat} addMark={addMark}/>
+      <AddMarkerPopup closePopup={closePopup} visible={popupVisible === Popups.ADD_MARKER} lngLat={lngLat} addMark={addMark} />
       <FriendsPopup closePopup={closePopup} isOpen={popupVisible === Popups.FRIENDS} />
-      <AboutPopup closePopup={closePopup} isOpen={popupVisible === Popups.ABOUT}/>
     </MapProvider> 
   )
 }

@@ -5,6 +5,7 @@ import { FaMonument, FaShoppingCart } from 'react-icons/fa';
 import {IoIosBeer} from 'react-icons/io';
 import { FilterButton, FilterContainer, FilterWrapper } from './Styles';
 import { Category } from '../../types/Category';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   toggleSidebar: (open: boolean | undefined) => void;
@@ -13,24 +14,15 @@ type Props = {
   className?: string
 }
 
-interface Location {
-  name: string;
-  address: string;
-  category: Category;
-  coordinates: {
-    lat: number;
-    lng: number;
-  };
-}
-
 interface FilterProps {
-  locations: Location[];
   activeFilter: Category;
   setActiveFilter: (category: Category) => void;
   toggleSidebar: (open: boolean | undefined) => void;
 }
 
-export const FilterComponent: React.FC<FilterProps> = ({ activeFilter, locations, setActiveFilter, toggleSidebar }) => {
+export const FilterComponent: React.FC<FilterProps> = ({ activeFilter, setActiveFilter, toggleSidebar }) => {
+
+  const { t } = useTranslation()
 
   const handleFilterClick = (category: Category) => {
     if (activeFilter === category) {
@@ -45,31 +37,31 @@ export const FilterComponent: React.FC<FilterProps> = ({ activeFilter, locations
     <FilterContainer>
       <FilterButton isActive={activeFilter === Category.Restaurant} onClick={() => handleFilterClick(Category.Restaurant)}>
         <BiRestaurant />
-        Restaurantes
+        { t('markerCategories.restaurants') }
       </FilterButton>
       <FilterButton isActive={activeFilter === Category.Hotel} onClick={() => handleFilterClick(Category.Hotel)}>
         <MdLocalHotel />
-        Hoteles
+        { t('markerCategories.hotels') }
       </FilterButton>
       <FilterButton isActive={activeFilter === Category.Monuments} onClick={() => handleFilterClick(Category.Monuments)}>
         <FaMonument />
-        Monumentos
+        { t('markerCategories.monuments') }
       </FilterButton>
       <FilterButton isActive={activeFilter === Category.Shops} onClick={() => handleFilterClick(Category.Shops)}>
         <FaShoppingCart />
-        Tiendas
+        { t('markerCategories.shops') }
       </FilterButton>
       <FilterButton isActive={activeFilter === Category.Bar} onClick={() => handleFilterClick(Category.Bar)}>
         <IoIosBeer />
-        Bares
+        { t('markerCategories.bars') }
       </FilterButton>
       <FilterButton isActive={activeFilter === Category.Landscapes} onClick={() => handleFilterClick(Category.Landscapes)}>
         <MdLandscape />
-        Paisajes
+        { t('markerCategories.landscapes') }
       </FilterButton>
       <FilterButton isActive={activeFilter === Category.Others} onClick={() => handleFilterClick(Category.Others)}>
         <MdOtherHouses />
-        Otros
+        { t('markerCategories.others') }
       </FilterButton>
     </FilterContainer>
   );
@@ -77,30 +69,9 @@ export const FilterComponent: React.FC<FilterProps> = ({ activeFilter, locations
 
 const Filter = ({ toggleSidebar, setActiveFilter, activeFilter, className } : Props) => {
 
-  const locations: Location[] = [
-    {
-      name: 'McDonalds',
-      address: '123 Main St.',
-      category: Category.Restaurant,
-      coordinates: { lat: 0, lng: 0 },
-    },
-    {
-      name: 'Hilton',
-      address: '456 Maple Ave.',
-      category: Category.Hotel,
-      coordinates: { lat: 0, lng: 0 },
-    },
-    {
-      name: 'Museum of Modern Art',
-      address: '789 Elm St.',
-      category: Category.Monuments,
-      coordinates: { lat: 0, lng: 0 },
-    },
-  ];
-
   return (
     <FilterWrapper className={className}>
-        <FilterComponent activeFilter={activeFilter} locations={locations} setActiveFilter={setActiveFilter} toggleSidebar={toggleSidebar}/>
+        <FilterComponent activeFilter={activeFilter} setActiveFilter={setActiveFilter} toggleSidebar={toggleSidebar}/>
     </FilterWrapper>
   );
 };

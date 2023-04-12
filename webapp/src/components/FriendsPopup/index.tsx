@@ -8,6 +8,8 @@ import { ISolidUser } from '../../types/ISolidUser'
 import Popup from '../PopUp'
 import { AddFriend, CustomDivider, FriendList, FriendListItem, LoaderContainer, DeleteButtons, DeletePopup } from './Styles'
 import { FaTimes } from 'react-icons/fa'
+import { useTranslation } from 'react-i18next'
+import { t } from 'i18next'
 
 type Props = {
   isOpen: boolean
@@ -15,6 +17,8 @@ type Props = {
 }
 
 const FriendsPopup = ({ isOpen, closePopup } : Props) => {
+
+  const { t } = useTranslation()
 
   const [ friends, setFriends ] = useState<ISolidUser[]>([])
   const [ newFriendId, setNewFriendId ] = useState('')
@@ -32,7 +36,7 @@ const FriendsPopup = ({ isOpen, closePopup } : Props) => {
       setIsLoading(true)
       setFriends(await getFriends(user.url))
     } catch(err) {
-      setError('Error al cargar los amigos')
+      setError('friends.list.error')
       setIsError(true)
     } finally {
       setIsLoading(false)
@@ -58,7 +62,7 @@ const FriendsPopup = ({ isOpen, closePopup } : Props) => {
         await loadFriends()
         setIsError(false)
       } catch(err) {
-        setError('No se pudo añadir al amigo')
+        setError('friends.new.error')
         setIsError(true)
       } finally {
         setIsLoading(false)
@@ -79,7 +83,7 @@ const FriendsPopup = ({ isOpen, closePopup } : Props) => {
         await removeFriendFromSolid(user.url, friendToDelete)
         await loadFriends()
       } catch(err) {
-        setError('Error al eliminar los amigos')
+        setError('friends.delete.error')
         setIsError(true)
       } finally {
         setIsLoading(false)
@@ -91,24 +95,26 @@ const FriendsPopup = ({ isOpen, closePopup } : Props) => {
   return (
     <>
       <Popup isOpen={isOpen} closePopup={closePopup}>
-        <h2>Mis Amigos</h2>
+        <h2>{ t('friends.title') }</h2>
         <Collapse in={isError}>
           <Alert action={
             <IconButton
-                aria-label="close"
-                color="inherit"
-                size="small"
-                onClick={() => {
-                  setIsError(false);
-                }}
-              >
-                <FaTimes fontSize="inherit" />
-              </IconButton>
-            } severity="error">{ error }</Alert>
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setIsError(false);
+              }}
+            >
+              <FaTimes fontSize="inherit" />
+            </IconButton>
+          } severity="error">
+            { t(error) }
+          </Alert>
         </Collapse>
         <AddFriend>
-          <TextField label="WebId del nuevo amigo" variant="standard" value={newFriendId} onChange={ e => setNewFriendId(e.target.value.trim()) } />
-          <Button variant='contained' onClick={addFriend}>Añadir</Button>
+          <TextField label={ t('friends.new.placeholder') } variant="standard" value={newFriendId} onChange={ e => setNewFriendId(e.target.value.trim()) } />
+          <Button variant='contained' onClick={addFriend}>{ t('friends.new.add') }</Button>
         </AddFriend>
         <CustomDivider />
         {
@@ -126,7 +132,7 @@ const FriendsPopup = ({ isOpen, closePopup } : Props) => {
               }
             </FriendList>
             :
-            <div>Aun no tienes amigos</div>
+            <div>{ t('friends.list.empty') }</div>
         }
       </Popup>
       <ConfirmPopup isOpen={deleteOpen} closePopup={() => deleteResult(false)} friend={friendToDelete} result={deleteResult} />
@@ -159,13 +165,13 @@ type PopupProps = {
 const ConfirmPopup = ({ isOpen, closePopup, friend, result }: PopupProps) => {
   return (
     <DeletePopup isOpen={isOpen} closePopup={closePopup}>
-      <h4>Eliminar amigo</h4>
+      <h4>{ t('friends.delete.confirm.title') }</h4>
       <div>
-        ¿Seguro que quieres eliminar a {friend} de tu lista de amigos?
+      { t('friends.delete.confirm.body', { friend }) }
       </div>
       <DeleteButtons>
-        <Button color='error' onClick={() => result(true)}>Eliminar</Button>
-        <Button color='info' onClick={() => result(false)}>Cancelar</Button>
+        <Button color='error' onClick={() => result(true)}>{ t('friends.delete.confirm.yes') }</Button>
+        <Button color='info' onClick={() => result(false)}>{ t('friends.delete.confirm.no') }</Button>
       </DeleteButtons>
     </DeletePopup>
   )

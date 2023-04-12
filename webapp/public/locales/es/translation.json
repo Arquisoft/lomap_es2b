@@ -1,0 +1,116 @@
+{
+  "language": "Idioma",
+  "popup": {
+    "close": "Cerrar"
+  },
+  "markerCategories": {
+    "restaurant": "Restaurante",
+    "restaurants": "Restaurantes",
+    "hotel": "Hotel",
+    "hotels": "Hoteles",
+    "monument": "Monumento",
+    "monuments": "Monumentos",
+    "shop":"Tienda",
+    "shops": "Tiendas",
+    "bar": "Bar",
+    "bars": "Bares",
+    "landscape": "Paisaje",
+    "landscapes": "Paisajes",
+    "other": "Otro",
+    "others": "Otros"
+  },
+  "login": {
+    "subtitle": "¡Guarda tus sitios favoritos y compartelos!",
+    "loginForm": {
+      "title": "Elige un proveedor",
+      "provider": "Proveedor",
+      "login": "Entrar"
+    }
+  },
+  "navbar": {
+    "user": {
+      "greeting": "¡Hola, {{name}}!",
+      "greetingNoName": "¡Hola!",
+      "friends": "Amigos",
+      "about": "Acerca de...",
+      "logout": "Cerrar sesión"
+    },
+    "search": {
+      "placeholder": "Buscar lugares..."
+    },
+    "tooltips": {
+      "menu": "Opciones",
+      "search": "Buscar",
+      "markers": "Ver marcadores",
+      "user": "Menú de Usuario"
+    }
+  },
+  "friends": {
+    "title": "Mis Amigos",
+    "new": {
+      "placeholder": "WebId del nuevo amigo",
+      "add": "Añadir",
+      "error": "No se pudo añadir al amigo"
+    },
+    "list": {
+      "error": "No se pudo cargar los amigos",
+      "empty": "Aun no tienes amigos"
+    },
+    "delete": {
+      "error": "Error al eliminar el amigo",
+      "confirm": {
+        "title": "Eliminar amigo",
+        "body": "¿Seguro que quieres eliminar a {{friend}} de tu lista de amigos?",
+        "yes": "Eliminar",
+        "no": "Cancelar"
+      }
+    }
+  },
+  "sidebar": {
+    "list": {
+      "title": "Marcadores",
+      "search": "Buscar",
+      "owner": {
+        "mine": "Mios",
+        "friends": "Amigos",
+        "public": "Publicos"
+      },
+      "mode": {
+        "public": "Publico",
+        "private": "Privado"
+      },
+      "delete": {
+        "tooltip": "Eliminar",
+        "confirm": {
+          "title": "¿Está seguro de que quiere borrar el marcador?",
+          "body": "Una vez borrado el marcador no habrá forma de recuperar la información.",
+          "yes": "Eliminar",
+          "no": "Cancelar"
+        }
+      }
+    },
+    "details": {
+      "title": "Marcador",
+      "back": "Volver a la Lista",
+      "rating": "Puntuación",
+      "comment": "Comentar",
+      "comment_placeholder": "Escribe un comentario",
+      "add_comment": "Añadir",
+      "comments": "Comentarios"
+    }
+  },
+  "addMarker": {
+    "title": "Crear un Nuevo Marcador",
+    "name": {
+      "label": "Nombre",
+      "placeholder": "Nombre"
+    },
+    "description": {
+      "label": "Descripción",
+      "placeholder": "Descripción"
+    },
+    "category": "Categoría",
+    "coordinates": "Coordenadas (Lat-Lng)",
+    "save": "Guardar"
+  }
+}

@@ -5,6 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import AppContext from './context/AppContext';
 
+import './i18n'
+
 ReactDOM.render(
   // <React.StrictMode>
   <AppContext>

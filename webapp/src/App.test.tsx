@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 import Sidebar from './components/Sidebar';
 import { Category } from './types/Category';
 
@@ -10,6 +9,7 @@ import App from './App';
 import Navbar from './components/NavBar';
 
 const mockToggleSidebar = jest.fn();
+const mockIsSidebarOpen = false;
 const mockOpenPopup = jest.fn();
 const mocksetSelectedCategory= jest.fn();
 
@@ -45,19 +45,19 @@ describe('Navbar', () => {
   });
 
   it('should render Navbar component', () => {
-    const { getByText } = render(<Navbar toggleSidebar={mockToggleSidebar} openPopup={mockOpenPopup} />);
+    const { getByText } = render(<Navbar toggleSidebar={mockToggleSidebar} isSidebarOpen={mockIsSidebarOpen} openPopup={mockOpenPopup} />);
     expect(getByText('LoMap')).toBeInTheDocument();
   });
 
   it("opens the user menu when clicking on the user avatar", () => {
-    render(<Navbar toggleSidebar={mockToggleSidebar} openPopup={mockOpenPopup} />);
+    render(<Navbar toggleSidebar={mockToggleSidebar} isSidebarOpen={mockIsSidebarOpen} openPopup={mockOpenPopup} />);
     const userAvatar = screen.getByRole("img");
     userEvent.click(userAvatar);
     expect(screen.getByText("Logout")).toBeInTheDocument();
   });
 
   it("opens the search form when clicking on the search button", () => {
-    render(<Navbar toggleSidebar={mockToggleSidebar} openPopup={mockOpenPopup} />);
+    render(<Navbar toggleSidebar={mockToggleSidebar} isSidebarOpen={mockIsSidebarOpen} openPopup={mockOpenPopup} />);
     const searchButton = screen.getByRole("button", { name: "Buscar" });
     userEvent.click(searchButton);
     expect(screen.getByPlaceholderText("Buscar lugares...")).toBeInTheDocument();
