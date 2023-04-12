@@ -12,6 +12,7 @@ import { Types } from "../../types/ContextActionTypes";
 import { Category } from "../../types/Category";
 import Filter from "../Filters";
 import CloseButton from "../CloseButton";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   isOpen: boolean,
@@ -29,6 +30,7 @@ const Sidebar = ({ isOpen, toggleSidebar, selectedCategory, setSelectedCategory 
 
   const { state: markers, dispatch } = useContext(MarkerContext)
   const { map } = useMap()
+  const { t } = useTranslation()
 
   const [showing, setShowing] = useState<Owner>(Owner.USER)
   const [ finalList, setFinalList ] = useState<IMarker[]>([])
@@ -83,7 +85,7 @@ const Sidebar = ({ isOpen, toggleSidebar, selectedCategory, setSelectedCategory 
     return(
       <>
         <div className="search">
-          <SearchBar type="text" placeholder="Buscar" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
+          <SearchBar type="text" placeholder={t('sidebar.list.search').toString()} value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
           <ToggleButtonGroup
             color="primary"
             value={showing}
@@ -91,8 +93,8 @@ const Sidebar = ({ isOpen, toggleSidebar, selectedCategory, setSelectedCategory 
             onChange={(e, newValue: Owner) => {changeShowing(newValue)}}
             aria-label="Marker Owner"
           >
-            <ToggleButton value={Owner.USER} style={{ width: '45%' }}>Mios</ToggleButton>
-            <ToggleButton value={Owner.FRIENDS} style={{ width: '45%' }}>Amigos</ToggleButton>
+            <ToggleButton value={Owner.USER} style={{ width: '45%' }}>{ t('sidebar.list.owner.mine') }</ToggleButton>
+            <ToggleButton value={Owner.FRIENDS} style={{ width: '45%' }}>{ t('sidebar.list.owner.friends') }</ToggleButton>
           </ToggleButtonGroup>
         </div>
         <MarkerList>
@@ -117,7 +119,7 @@ const Sidebar = ({ isOpen, toggleSidebar, selectedCategory, setSelectedCategory 
         <SidebarSection>
           { !markerToShow && <Filter className="sidebar-filters" activeFilter={selectedCategory} setActiveFilter={setSelectedCategory} toggleSidebar={toggleSidebar} /> }
           <TopSection>
-            <Title>{ !markerToShow ? 'Marcadores' : 'Marcador'}</Title>
+            <Title>{ !markerToShow ? t('sidebar.list.title') : t('sidebar.details.title') }</Title>
             <CloseButton onClick={() => toggleSidebar(false)} />
           </TopSection>
           {markerToShow ? <MarkerInfo marker={markerToShow} close={() => setMarkerToShow(null)} /> : showMarkerList()} 
@@ -138,11 +140,13 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
 
   const { dispatch } = useContext(MarkerContext)
   const {session} = useSession();
+  const { t } = useTranslation()
 
   const [comment,setComment] = useState<string>("");
 
   function setScore(newScore:number | null){
     if(!newScore) return
+    if(!marker.property.owns) return
     
     marker.score = newScore
 
@@ -159,11 +163,11 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
 
   return (
     <>
-      <Button className="backButton" onClick={close} color='success' variant='contained'><TbArrowBackUp/> Volver</Button>  
+      <Button className="backButton" onClick={close} color='success' variant='contained'><TbArrowBackUp/>{ t('sidebar.details.back') }</Button>  
       <div className="markInfo">
         <h2>{marker.name}</h2>
         <p>{marker.description}</p>
-        <Typography component="legend">Puntuacion</Typography>
+        <Typography component="legend">{ t('sidebar.details.rating') }</Typography>
         <Rating
           name="simple-controlled"
           value={marker.score}
@@ -176,13 +180,13 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
         {
           marker.property.owns && 
           <>
-          <h3>Comentar</h3>
-            <TextField value={comment} onChange={(e)=>setComment(e.target.value)} label={"Comenta aqui"} variant='standard' />
-            <Button className="addComment" onClick={()=>addComment(comment)} color='success' variant='contained'>Anadir</Button>
+          <h3>{ t('sidebar.details.comment') }</h3>
+            <TextField value={comment} onChange={(e)=>setComment(e.target.value)} label={t('sidebar.details.comment_placeholder')} variant='standard' />
+            <Button className="addComment" onClick={()=>addComment(comment)} color='success' variant='contained'>{ t('sidebar.details.add_comment') }</Button>
           </>
         }
       
-        <h3>Comentarios</h3>
+        <h3>{ t('sidebar.details.comments') }</h3>
         <div>
           {
             marker.comments.map((comment, index) => (
@@ -202,6 +206,8 @@ interface MarkerProps {
 }
 
 const Marker = ({ marker, onClick, changeVisibility }: MarkerProps) => {
+  const { t } = useTranslation()
+
   return (
     <MarkerSection >
       <MarkerContent onClick={() => onClick(marker)}>
@@ -214,7 +220,7 @@ const Marker = ({ marker, onClick, changeVisibility }: MarkerProps) => {
               e.stopPropagation()
               changeVisibility(marker)
             }}>
-              <small>{marker.property.public ? 'Publico' : 'Privado' }</small>
+              <small>{marker.property.public ? t('sidebar.list.mode.public') : t('sidebar.list.mode.private') }</small>
             </button>
             : 
             <a href={marker.property.author} target="_blank" rel="noopener noreferrer"><small>{marker.property.author}</small></a>

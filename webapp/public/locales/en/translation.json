@@ -3,6 +3,22 @@
   "popup": {
     "close": "Close"
   },
+  "markerCategories": {
+    "restaurant": "Restaurant",
+    "restaurants": "Restaurants",
+    "hotel": "Hotel",
+    "hotels": "Hotels",
+    "monument": "Monument",
+    "monuments": "Monuments",
+    "shop":"Shop",
+    "shops": "Shops",
+    "bar": "Bar",
+    "bars": "Bares",
+    "landscape": "Landscape",
+    "landscapes": "Landscapes",
+    "other": "Other",
+    "others": "Others"
+  },
   "login": {
     "subtitle": "Save your favourite places and share them!",
     "loginForm": {
@@ -48,6 +64,39 @@
         "yes": "Delete",
         "no": "Cancel"
       }
+    }
+  },
+  "sidebar": {
+    "list": {
+      "title": "Markers",
+      "search": "Search",
+      "owner": {
+        "mine": "Mine",
+        "friends": "Friends",
+        "public": "Public"
+      },
+      "mode": {
+        "public": "Public",
+        "private": "Private"
+      },
+      "delete": {
+        "tooltip": "Delete",
+        "confirm": {
+          "title": "Do you really want to delete the marker?",
+          "body": "Once deleted, the marker cannot be recovered.",
+          "yes": "Delete",
+          "no": "Cancel"
+        }
+      }
+    },
+    "details": {
+      "title": "Marker",
+      "back": "Back to List",
+      "rating": "Rating",
+      "comment": "Comment",
+      "comment_placeholder": "Write a Comment",
+      "add_comment": "Add comment",
+      "comments": "Comments"
     }
   }
 }

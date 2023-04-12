@@ -49,7 +49,7 @@ const MapComponent = ({ onClick }:Props) => {
     <>
       {
         isLoading ?
-        <CircularProgress className='loader' color='primary' />
+        <CircularProgress className='loader' color='secondary' />
         : 
         <Map id='map' initialViewState={{
           latitude: 43.3602900, 

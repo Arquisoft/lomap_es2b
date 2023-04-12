@@ -273,7 +273,7 @@ const NavAboutPopup = ({ isOpen, close }: PopupProps) => {
           </tr>   
         </tbody>
       </Table>
-      <GitHubLink href="https://github.com/Arquisoft/lomap_es2b">
+      <GitHubLink href="https://github.com/Arquisoft/lomap_es2b" target="_blank" rel="noopener noreferrer">
         <GitHubIcon src="https://img.icons8.com/ios-glyphs/30/000000/github.png" />
         <GitHubText>Lomap_es2b</GitHubText>
       </GitHubLink>          

@@ -31,6 +31,9 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
     e.preventDefault();
 
     addMark(name, lngLat, description, category)
+    setName('')
+    setDescription('')
+    setCategory(Category.Others)
   }
 
   return(
@@ -39,11 +42,11 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
       <h2>Introduce los datos del nuevo marcador</h2>
       <FormGroup>
         <label htmlFor="Nombre">Nombre:</label>
-        <TextField className='field' id='Nombre' label='Nombre' variant='standard' onChange={(e)=>handleChangeName(e.target.value)}/>
+        <TextField className='field' id='Nombre' label='Nombre' variant='standard' onChange={(e)=>handleChangeName(e.target.value)} value={name}/>
       </FormGroup>
       <FormGroup>
         <label htmlFor="Descripcion">Descripcion:</label>
-        <TextField className='field' id='Descripcion' label='Descripcion' variant='standard' multiline maxRows={4} onChange={(e)=>handleChangeDescription(e.target.value)}/>         
+        <TextField className='field' id='Descripcion' label='Descripcion' variant='standard' multiline maxRows={4} onChange={(e)=>handleChangeDescription(e.target.value)} value={description}/>         
       </FormGroup>
       <FormGroup>
       <label htmlFor="Category">Categoría:</label>
