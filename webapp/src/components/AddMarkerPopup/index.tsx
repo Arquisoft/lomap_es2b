@@ -5,11 +5,12 @@ import { useEffect, useState } from 'react';
 import Popup from '../PopUp';
 import { FormGroup, Error } from "./Styles";
 import { Category } from '../../types/Category';
+import { mapboxApiKey } from '../../config/constants';
 
 interface Props{
     visible:boolean;
     lngLat:LngLat|undefined;
-    addMark:(name:string, lngLat:LngLat|undefined,description:string, category:Category)=>void;
+    addMark:(name:string, lngLat:LngLat|undefined,description:string, category:Category,direction:string)=>void;
     closePopup:()=>void;
 }
 
@@ -23,6 +24,13 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
   const longMaxName = 20;
   const longMaxDesc = 50;
 
+  async function getDirection(){
+    const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lngLat?.lng},${lngLat?.lat}.json?access_token=${mapboxApiKey}`);
+    const data = await response.json();
+    const direction = data.features[0].text;
+    return direction;
+  }
+
   function handleChangeName(name:string){
     setName(name)
   }
@@ -31,9 +39,10 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
     setDescription(description)
   }
 
-  function handleSubmit(e:React.FormEvent){
+  async function handleSubmit(e:React.FormEvent){
     e.preventDefault();
     setError(null);
+    getDirection();
     if(!validaVacio(name)){
       setError("Introduce un nombre para el marcador")
     }else if(!validaLong(name,longMaxName)){
@@ -41,7 +50,7 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
     }else if(!validaLong(description,longMaxDesc)){
       setError("Longitud maxima descripcion: "+longMaxDesc)
     }else{
-      addMark(name, lngLat, description, category)
+      addMark(name, lngLat, description, category, await getDirection())
       setError(null);
     }
     

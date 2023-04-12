@@ -47,14 +47,14 @@ const MapPage = () : JSX.Element => {
   }
 
 
-  function addMark(name:string, lngLat:LngLat|undefined,description:string, category:Category){
+  function addMark(name:string, lngLat:LngLat|undefined,description:string, category:Category,direction:string){
     if(lngLat===undefined){
       return
     }
     var newMarker:IMarker = {
       id: uuid(),
       name: name,
-      address: "Value 1",
+      address: direction,
       lat: lngLat.lat,
       lng: lngLat.lng,
       date: new Date(),

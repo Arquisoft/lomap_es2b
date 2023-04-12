@@ -167,6 +167,7 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
       <div className="markInfo">
         <h2>{marker.name}</h2>
         <p>{marker.description}</p>
+        <p>{marker.address}</p>
         <Typography component="legend">Puntuacion</Typography>
         <Rating
           name="simple-controlled"
