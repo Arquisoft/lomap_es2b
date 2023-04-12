@@ -135,7 +135,7 @@ const ChangeLanguageMenu = () => {
           onClose={handleCloseUserMenu}
         >
           {languages.map(({ label, code }) => (
-            <MenuItem key={ code } onClick={ () => changeLanguage(code) }>
+            <MenuItem key={ code } onClick={ () => changeLanguage(code) } selected={i18n.language === code}>
               <Typography textAlign="center">{ label }</Typography>
             </MenuItem>
           ))}

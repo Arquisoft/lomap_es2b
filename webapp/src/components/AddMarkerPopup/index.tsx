@@ -5,6 +5,7 @@ import { useState } from 'react';
 import Popup from '../PopUp';
 import { FormGroup } from "./Styles";
 import { Category } from '../../types/Category';
+import { useTranslation } from 'react-i18next';
 
 interface Props{
     visible:boolean;
@@ -14,6 +15,8 @@ interface Props{
 }
 
 function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
+
+  const { t } = useTranslation()
 
   const[name,setName]=useState<string>("")
   const[description,setDescription]=useState<string>("")
@@ -36,46 +39,44 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
     setCategory(Category.Others)
   }
 
-  return(
-  <Popup isOpen={visible} closePopup={closePopup}>
-    <form onSubmit={(e)=>handleSubmit(e)}>  
-      <h2>Introduce los datos del nuevo marcador</h2>
-      <FormGroup>
-        <label htmlFor="Nombre">Nombre:</label>
-        <TextField className='field' id='Nombre' label='Nombre' variant='standard' onChange={(e)=>handleChangeName(e.target.value)} value={name}/>
-      </FormGroup>
-      <FormGroup>
-        <label htmlFor="Descripcion">Descripcion:</label>
-        <TextField className='field' id='Descripcion' label='Descripcion' variant='standard' multiline maxRows={4} onChange={(e)=>handleChangeDescription(e.target.value)} value={description}/>         
-      </FormGroup>
-      <FormGroup>
-      <label htmlFor="Category">Categoría:</label>
-      <Select
-        value={category}
-        label="Category"
-        onChange={(e) => setCategory(e.target.value as Category)}
-      >
-    
-       <MenuItem value={Category.Restaurant}>Restaurante</MenuItem>
-       <MenuItem value={Category.Hotel}>Hotel</MenuItem>
-       <MenuItem value={Category.Bar}>Bar</MenuItem>
-       <MenuItem value={Category.Landscapes}>Paisaje</MenuItem>
-       <MenuItem value={Category.Monuments}>Monumento</MenuItem>
-       <MenuItem value={Category.Shops}>Tienda</MenuItem>
-       <MenuItem value={Category.Others}>Otro</MenuItem>
-   
-  </Select>
-      </FormGroup>
-      <FormGroup>
-        <label>Coordenadas(LngLat):</label>
-        <TextField disabled label={lngLat?.lng} variant='standard' />
-        <TextField disabled label={lngLat?.lat} variant='standard' />
-      </FormGroup>
-      <p>
-        <Button style={{float:'right'}} type='submit' color='success' variant='contained'>Anadir</Button>
-      </p>
-    </form>
-  </Popup>         
+  return (
+    <Popup isOpen={visible} closePopup={closePopup}>
+      <form onSubmit={(e)=>handleSubmit(e)}>  
+        <h2>{ t('addMarker.title') }</h2>
+        <FormGroup>
+          <label htmlFor="Nombre">{ t('addMarker.name.label') }:</label>
+          <TextField className='field' id='Nombre' label={ t('addMarker.name.placeholder') } variant='standard' onChange={(e)=>handleChangeName(e.target.value)} value={name}/>
+        </FormGroup>
+        <FormGroup>
+          <label htmlFor="Descripcion">{ t('addMarker.description.label') }:</label>
+          <TextField className='field' id='Descripcion' label={ t('addMarker.description.placeholder') } variant='standard' multiline maxRows={4} onChange={(e)=>handleChangeDescription(e.target.value)} value={description}/>         
+        </FormGroup>
+        <FormGroup>
+          <label htmlFor="Category">{ t('addMarker.category') }:</label>
+          <Select
+            value={category}
+            label="Category"
+            onChange={(e) => setCategory(e.target.value as Category)}
+          >
+            <MenuItem value={Category.Restaurant}>{ t('markerCategories.restaurant') }</MenuItem>
+            <MenuItem value={Category.Hotel}>{ t('markerCategories.hotel') }</MenuItem>
+            <MenuItem value={Category.Monuments}>{ t('markerCategories.monument') }</MenuItem>
+            <MenuItem value={Category.Shops}>{ t('markerCategories.shop') }</MenuItem>
+            <MenuItem value={Category.Bar}>{ t('markerCategories.bar') }</MenuItem>
+            <MenuItem value={Category.Landscapes}>{ t('markerCategories.landscape') }</MenuItem>
+            <MenuItem value={Category.Others}>{ t('markerCategories.other') }</MenuItem>
+          </Select>
+        </FormGroup>
+        <FormGroup>
+          <label>{ t('addMarker.coordinates') }:</label>
+          <TextField disabled label={lngLat?.lat} variant='standard' />
+          <TextField disabled label={lngLat?.lng} variant='standard' />
+        </FormGroup>
+        <p>
+          <Button style={{float:'right'}} type='submit' color='success' variant='contained'>{ t('addMarker.save') }</Button>
+        </p>
+      </form>
+    </Popup>
   )
 
 }

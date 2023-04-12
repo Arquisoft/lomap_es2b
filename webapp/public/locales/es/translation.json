@@ -98,5 +98,19 @@
       "add_comment": "Añadir",
       "comments": "Comentarios"
     }
+  },
+  "addMarker": {
+    "title": "Crear un Nuevo Marcador",
+    "name": {
+      "label": "Nombre",
+      "placeholder": "Nombre"
+    },
+    "description": {
+      "label": "Descripción",
+      "placeholder": "Descripción"
+    },
+    "category": "Categoría",
+    "coordinates": "Coordenadas (Lat-Lng)",
+    "save": "Guardar"
   }
 }
