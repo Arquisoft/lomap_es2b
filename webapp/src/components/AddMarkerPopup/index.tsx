@@ -1,9 +1,9 @@
 import { TextField, Button, Select, MenuItem } from '@mui/material'
 import { LngLat } from 'mapbox-gl';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Popup from '../PopUp';
-import { FormGroup } from "./Styles";
+import { FormGroup, Error } from "./Styles";
 import { Category } from '../../types/Category';
 
 interface Props{
@@ -18,6 +18,10 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
   const[name,setName]=useState<string>("")
   const[description,setDescription]=useState<string>("")
   const[ category, setCategory] = useState<Category>(Category.Others)
+  const[error, setError] = useState<string|null>(null)
+
+  const longMaxName = 20;
+  const longMaxDesc = 50;
 
   function handleChangeName(name:string){
     setName(name)
@@ -29,12 +33,35 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
 
   function handleSubmit(e:React.FormEvent){
     e.preventDefault();
+    setError(null);
+    if(!validaVacio(name)){
+      setError("Introduce un nombre para el marcador")
+    }else if(!validaLong(name,longMaxName)){
+      setError("Longitud maxima nombre: "+longMaxName)
+    }else if(!validaLong(description,longMaxDesc)){
+      setError("Longitud maxima descripcion: "+longMaxDesc)
+    }else{
+      addMark(name, lngLat, description, category)
+      setError(null);
+    }
+    
+  }
 
-    addMark(name, lngLat, description, category)
+  function validaLong(intput:String,maxLong:number){
+    return intput.length<maxLong;
+  }
+  
+
+  function validaVacio(intput:String){
+    return (intput!=null) && (intput.trim().length!=0);
   }
 
   return(
-  <Popup isOpen={visible} closePopup={closePopup}>
+  <Popup isOpen={visible} closePopup={()=>{
+    setError(null)
+    setDescription("")
+    setName("")
+    closePopup()}}>
     <form onSubmit={(e)=>handleSubmit(e)}>  
       <h2>Introduce los datos del nuevo marcador</h2>
       <FormGroup>
@@ -43,7 +70,7 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
       </FormGroup>
       <FormGroup>
         <label htmlFor="Descripcion">Descripcion:</label>
-        <TextField className='field' id='Descripcion' label='Descripcion' variant='standard' multiline maxRows={4} onChange={(e)=>handleChangeDescription(e.target.value)}/>         
+        <TextField className='field' id='Descripcion' label='Descripcion' variant='standard'multiline maxRows={4} onChange={(e)=>handleChangeDescription(e.target.value)}/>         
       </FormGroup>
       <FormGroup>
       <label htmlFor="Category">Categoría:</label>
@@ -62,7 +89,9 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
        <MenuItem value={Category.Others}>Otro</MenuItem>
    
   </Select>
+  
       </FormGroup>
+      {error !== null ? <Error>{error}</Error> : null}
       <FormGroup>
         <label>Coordenadas(LngLat):</label>
         <TextField disabled label={lngLat?.lng} variant='standard' />
