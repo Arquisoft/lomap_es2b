@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, FormEvent } from 'react';
+import { useContext, useEffect, useState, FormEvent, useRef } from 'react';
 import { getStringNoLocale, getNamedNodeAll } from "@inrupt/solid-client";
 import { useSession } from '@inrupt/solid-ui-react';
 import { FOAF, VCARD } from '@inrupt/vocab-common-rdf';
@@ -15,15 +15,15 @@ import { useMap } from "react-map-gl";
 import { Nav, SearchForm, SearchInput, SearchButton, TitleContainer, FormGroup, Button, Title, GitHubIcon, Table, GitHubLink, GitHubText, TextMenuItem } from './Styles';
 
 import DefaulPic from '../../assets/defaultPic.png'
-import AboutPopup from '../AboutPopup';
 import { useTranslation } from 'react-i18next';
 
 type Props = {
+  isSidebarOpen: boolean
   toggleSidebar: (open: boolean | undefined) => void
   openPopup: (popup : Popups) => void
 }
 
-const Navbar = ({ openPopup, toggleSidebar } : Props) => {
+const Navbar = ({ openPopup, isSidebarOpen, toggleSidebar } : Props) => {
   const { map  } = useMap()
   const { logout } = useSession()
   const { t } = useTranslation()
@@ -32,13 +32,18 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
   const [ username, setUsername ] = useState<string>('')
   const [ profilePic, setProfilePic ] = useState<string>(DefaulPic)
 
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isMenuPopupOpen, setIsMenuPopupOpen] = useState(false);
+  const [isConfigPopupOpen, setIsConfigPopupOpen] = useState(false);
+  const [isAboutPopupOpen, setIsAboutPopupOpen] = useState(false);
+
+  const wasSidebarOpen = useRef(isSidebarOpen)
+  const wasMenuOpen = useRef(false)
+
   const [query, setQuery] = useState('');
 
   const { state: user } = useContext(UserContext)
 
 
-  const [isAboutPopupOpen, setIsAboutPopupOpen] = useState(false);
   
   useEffect(() => {
     if (user) {
@@ -64,8 +69,7 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
       label: t('navbar.user.about'),
       onClick: () => {
         handleCloseUserMenu()
-        toggleSidebar(false)
-        setIsAboutPopupOpen(true)
+        openAboutPopup()
       }
     },
     {
@@ -92,38 +96,54 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
     map?.flyTo({ center: { lat: lat, lng: lng }, zoom: 14})
   };
 
-  const handleBarsClick = () => {
-    toggleSidebar(false);
-  };
-
   const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   };
 
-  const handlePopupOpen = () => {
-    setIsPopupOpen(true);
-  };
+  const openMenuPopup = () => {
+    wasSidebarOpen.current = isSidebarOpen
+    toggleSidebar(false)
+    setIsMenuPopupOpen(true)
+  }
 
-  const handlePopupClose = () => {
-    setIsPopupOpen(false);
-  };
+  const closeMenuPopup = () => {
+    setIsMenuPopupOpen(false)
+    toggleSidebar(wasSidebarOpen.current)
+  }
 
-  const handleConfigClick = () => {
-    // Aquí puedes agregar la lógica para navegar a la página de configuraciones
-  };
+  const openConfigPopup = () => {
+    !isMenuPopupOpen && (wasSidebarOpen.current = isSidebarOpen)
+    wasMenuOpen.current = isMenuPopupOpen
+    toggleSidebar(false)
+    setIsMenuPopupOpen(false)
+    setIsConfigPopupOpen(true)
+  }
 
-  const handleAboutClick = () => {
-    setIsAboutPopupOpen(true);
-  };
+  const closeConfigPopup = () => {
+    setIsConfigPopupOpen(false)
+    setIsMenuPopupOpen(wasMenuOpen.current)
+    toggleSidebar(!wasMenuOpen.current && wasSidebarOpen.current)
+  }
+
+  const openAboutPopup = () => {
+    !isMenuPopupOpen && (wasSidebarOpen.current = isSidebarOpen)
+    wasMenuOpen.current = isMenuPopupOpen
+    toggleSidebar(false)
+    setIsMenuPopupOpen(false)
+    setIsAboutPopupOpen(true)
+  }
+
+  const closeAboutPopup = () => {
+    setIsAboutPopupOpen(false)
+    setIsMenuPopupOpen(wasMenuOpen.current)
+    toggleSidebar(!wasMenuOpen.current && wasSidebarOpen.current)
+  }
 
   return (
     <>
       <Nav>
         <Tooltip title={t('navbar.tooltips.menu')}>
-          <IconButton onClick={() => {
-            handlePopupOpen()
-            handleBarsClick()
-          }}>
+          <IconButton onClick={openMenuPopup}>
             <FaBars/>
           </IconButton>
         </Tooltip>
@@ -181,20 +201,50 @@ const Navbar = ({ openPopup, toggleSidebar } : Props) => {
           </Menu>
         </Box>
       </Nav>
-      <NavAboutPopup isOpen={isAboutPopupOpen} close={() => setIsAboutPopupOpen(false)} />
-      <NavOptionsPopup isOpen={isPopupOpen} close={handlePopupClose} clickConfig={handleConfigClick} clickAbout={handleAboutClick} />
+      <NavMenuPopup isOpen={isMenuPopupOpen} close={closeMenuPopup} clickConfig={openConfigPopup} clickAbout={openAboutPopup} />
+      <NavConfigPopup isOpen={isConfigPopupOpen} close={closeConfigPopup} />
+      <NavAboutPopup isOpen={isAboutPopupOpen} close={closeAboutPopup} />
     </>
   );
 };
 
-type AboutProps = {
+type NavProps = {
+  isOpen: boolean
+  close: () => void
+  clickConfig: () => void
+  clickAbout: () => void
+}
+
+const NavMenuPopup = ({ isOpen, close, clickConfig, clickAbout } : NavProps) => {
+  return (
+    <NavPopup isOpen={isOpen} closePopup={close}>
+      <TitleContainer>
+        <h2>Menu de opciones</h2>
+      </TitleContainer>
+        <FormGroup>
+          <Button onClick={clickConfig}>
+          <FcDataConfiguration />
+            Configuraciones 
+          </Button>
+        </FormGroup>
+        <FormGroup>
+          <Button onClick={clickAbout}>
+            <FcAbout />
+            Acerca de
+          </Button>
+        </FormGroup>
+    </NavPopup>
+  )
+}
+
+type PopupProps = {
   isOpen: boolean
   close: () => void 
 }
 
-const NavAboutPopup = ({ isOpen, close }: AboutProps) => {
+const NavAboutPopup = ({ isOpen, close }: PopupProps) => {
   return (
-    <AboutPopup isOpen={isOpen} closePopup={close}>
+    <NavPopup isOpen={isOpen} closePopup={close}>
       <h1>Acerca de...</h1>
       <p>Este proyecto esta siendo desarrollado por: </p>
       <Table>
@@ -227,38 +277,17 @@ const NavAboutPopup = ({ isOpen, close }: AboutProps) => {
         <GitHubIcon src="https://img.icons8.com/ios-glyphs/30/000000/github.png" />
         <GitHubText>Lomap_es2b</GitHubText>
       </GitHubLink>          
-    </AboutPopup>
-  )
-}
-
-type NavProps = {
-  isOpen: boolean
-  close: () => void
-  clickConfig: () => void
-  clickAbout: () => void
-}
-
-const NavOptionsPopup = ({ isOpen, close, clickConfig, clickAbout } : NavProps) => {
-  return (
-    <NavPopup isOpen={isOpen} closePopup={close}>
-      <TitleContainer>
-        <h2>Menu de opciones</h2>
-      </TitleContainer>
-        <FormGroup>
-          <Button onClick={clickConfig}>
-          <FcDataConfiguration />
-            Configuraciones 
-          </Button>
-        </FormGroup>
-        <FormGroup>
-          <Button onClick={clickAbout}>
-            <FcAbout />
-            Acerca de
-          </Button>
-        </FormGroup>
     </NavPopup>
   )
 }
+
+const NavConfigPopup = ({ isOpen, close }: PopupProps) => {
+  return (
+    <NavPopup isOpen={isOpen} closePopup={close}>
+      <h3>Opciones</h3>
+    </NavPopup>
+    )
+  }
 
 export default Navbar;
 

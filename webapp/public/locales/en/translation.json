@@ -1,5 +1,8 @@
 {
   "language": "Language",
+  "popup": {
+    "close": "Close"
+  },
   "login": {
     "subtitle": "Save your favourite places and share them!",
     "loginForm": {
@@ -24,6 +27,27 @@
       "search": "Search",
       "markers": "Markers",
       "user": "User Menu"
+    }
+  },
+  "friends": {
+    "title": "My Friends",
+    "new": {
+      "placeholder": "New friend's WebId",
+      "add": "Ad Friend",
+      "error": "Friend could not be added"
+    },
+    "list": {
+      "error": "Error while loading friends",
+      "empty": "You have no friends yet"
+    },
+    "delete": {
+      "error": "Error while deleting friend",
+      "confirm": {
+        "title": "Delete friend",
+        "body": "Do you really want to delete {{friend}} from your friends list?",
+        "yes": "Delete",
+        "no": "Cancel"
+      }
     }
   }
 }

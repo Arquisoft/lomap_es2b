@@ -1,19 +1,17 @@
 import { useContext, useEffect, useState } from "react";
 import { useMap } from "react-map-gl";
-import { FaTimes } from "react-icons/fa";
 import { TbArrowBackUp } from "react-icons/tb";
 import { Button, Rating, TextField, ToggleButtonGroup, Typography, ToggleButton } from "@mui/material";
 import { useSession } from "@inrupt/solid-ui-react";
 
 import { MarkerContext } from "../../context/MarkersContext";
 import { IMarker } from "../../types/IMarker";
-import { MarkerList, MarkerSection, SearchBar, Title, TopSection, SidebarSection, CloseSection, MarkerContent } from "./Styles"
+import { MarkerList, MarkerSection, SearchBar, Title, TopSection, SidebarSection, MarkerContent } from "./Styles"
 import DeleteButton from "../DeleteButton";
 import { Types } from "../../types/ContextActionTypes";
 import { Category } from "../../types/Category";
 import Filter from "../Filters";
-
-
+import CloseButton from "../CloseButton";
 
 type Props = {
   isOpen: boolean,
@@ -81,7 +79,7 @@ const Sidebar = ({ isOpen, toggleSidebar, selectedCategory, setSelectedCategory 
     )).sort(sortByNameAndDate))
   }, [markers, showing, searchValue, selectedCategory])
 
-  const showMarkerList = ()=>{
+  const showMarkerList = () =>{
     return(
       <>
         <div className="search">
@@ -120,9 +118,7 @@ const Sidebar = ({ isOpen, toggleSidebar, selectedCategory, setSelectedCategory 
           { !markerToShow && <Filter className="sidebar-filters" activeFilter={selectedCategory} setActiveFilter={setSelectedCategory} toggleSidebar={toggleSidebar} /> }
           <TopSection>
             <Title>{ !markerToShow ? 'Marcadores' : 'Marcador'}</Title>
-            <CloseSection>
-              <FaTimes onClick={() => toggleSidebar(false)} />
-            </CloseSection>
+            <CloseButton onClick={() => toggleSidebar(false)} />
           </TopSection>
           {markerToShow ? <MarkerInfo marker={markerToShow} close={() => setMarkerToShow(null)} /> : showMarkerList()} 
         </SidebarSection>
