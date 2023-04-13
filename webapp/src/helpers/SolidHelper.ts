@@ -22,9 +22,9 @@ import {
   hasAccessibleAcl,
   createAclFromFallbackAcl,
   getResourceAcl,
-  setAgentResourceAccess,
+  setPublicResourceAccess,
   saveAclFor,
-  setAgentDefaultAccess,
+  setPublicDefaultAccess,
 } from "@inrupt/solid-client";
 
 export async function getProfile(webId: string) {
@@ -126,6 +126,7 @@ export async function readMarkerFromPublic(webId?: string) {
 export function saveMarkersToPod(markers: IMarker[], webId?: string) {
   const privateMarkers: object[]= []
   const publicMarkers: object[] = []
+  const otherMarkers: IMarker[] = []
   markers.forEach(m => {
     if (m.property.owns) {
       let isPublic = m.property.public
@@ -134,10 +135,13 @@ export function saveMarkersToPod(markers: IMarker[], webId?: string) {
         publicMarkers.push(m2)
       else
         privateMarkers.push(m2)
+    } else{
+      otherMarkers.push(m);
     }
   })
   saveMarkersToPrivate(privateMarkers, webId)
   saveMarkerToPublic(publicMarkers, webId)
+  saveMarkerToFriends(otherMarkers,webId);
 }
 
 export async function saveMarkersToPrivate(markers: object[], webId?: string) {
@@ -176,6 +180,34 @@ export async function saveMarkerToPublic(markers: object[], webId?: string) {
   }
 };
 
+
+export async function saveMarkerToFriends(markers: IMarker[], webId?: string) {
+  let friends= await getFriends(webId!);
+  for (let friend of friends){
+    let profileDocumentURI = friend.webId.split("profile")[0];
+    let targetFileURL = profileDocumentURI + 'public/LoMap/Markers.json';
+    let aux= markers.filter((m)=>m.property.owns === false && m.property.author === profileDocumentURI);
+    const save: object[]= [];
+    aux.forEach(m =>{
+      const { property, ...m2 } = m
+      save.push(m2);
+    })
+    let str = JSON.stringify(save);
+    const bytes = new TextEncoder().encode(str);
+    const blob = new Blob([bytes], {
+      type: "application/json;charset=utf-8"
+    });
+    try {
+      await overwriteFile(
+        targetFileURL,                              // URL for the file.
+        blob,                                       // File
+        { contentType: blob.type, fetch: fetch }    // mimetype if known, fetch from the authenticated session
+      );
+    } catch (error) {}
+  }
+  return markers
+};
+
 export async function getFriends(webId: string) {
   let dataset = await getSolidDataset(webId);
   let aux= getThing(dataset,webId) as Thing;
@@ -203,7 +235,7 @@ export async function addFriend(webId: string,friend:string) {
     
     await saveSolidDatasetAt(webId, dataset, { fetch });
   
-    setPerms(webId,friend,true);
+    setPerms(webId,true);
   } catch(err) {
     throw err
   }
@@ -220,10 +252,9 @@ export async function deleteFriend(webId: string,friend:string) {
   
   await saveSolidDatasetAt(webId, dataset, { fetch });
 
-  setPerms(webId,friend,false);
 }
 
-async function setPerms(webId: string, friend: string, mode: boolean) {
+async function setPerms(webId: string, mode: boolean) {
   await checkIfFriendsFile(webId);
   let profileDocumentURI = webId?.split("profile")[0];
   let targetFileURL = profileDocumentURI + 'public/LoMap/';
@@ -253,14 +284,12 @@ async function setPerms(webId: string, friend: string, mode: boolean) {
   }
   
   // Give someone Control access to the given Resource:
-  let updatedAcl = setAgentResourceAccess(
+  let updatedAcl = setPublicResourceAccess(
     resourceAcl,
-    friend,
     { read: true, append: mode, write: mode, control: false },
   );
-  updatedAcl = setAgentDefaultAccess(
+  updatedAcl = setPublicDefaultAccess(
     updatedAcl,
-    friend,
     { read: true, append: mode, write: mode,control:false }
   )
   

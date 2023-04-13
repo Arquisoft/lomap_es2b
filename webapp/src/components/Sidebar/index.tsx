@@ -178,7 +178,6 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
         />
         
         {
-          marker.property.owns && 
           <>
           <h3>{ t('sidebar.details.comment') }</h3>
             <TextField value={comment} onChange={(e)=>setComment(e.target.value)} label={t('sidebar.details.comment_placeholder')} variant='standard' />
