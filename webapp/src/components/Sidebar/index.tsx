@@ -189,7 +189,8 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
         <div>
           {
             marker.comments.map((comment, index) => (
-              <p key={`${index}-${comment.author}-${comment.comment}`}>{comment.comment}</p>
+              <p key={`${index}-${comment.author}-${comment.comment}`}> <strong>{comment.author.split(".")[0].split("//")[1]}:</strong> {comment.comment}</p>
+              
             ))
           }
         </div>
