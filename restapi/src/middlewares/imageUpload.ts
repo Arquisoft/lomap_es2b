@@ -30,15 +30,11 @@ const upload = multer({
 
     // Check if the uploaded file is allowed
     if (!array_of_allowed_files.includes(file_extension) || !array_of_allowed_file_types.includes(file.mimetype)) {
-        callback(new HttpException(400, 'Invalid file type'))
-        return
-    }
-
-    if ((file.size / (1024 * 1024)) > allowed_file_size) {
-       callback(new HttpException(400, 'File too big'))
-       return
-    }
-    callback(null, true);
+      callback(new HttpException(400, 'Invalid file type'))
+    } else if ((file.size / (1024 * 1024)) > allowed_file_size) {
+      callback(new HttpException(400, 'File too big'))
+    } else
+      callback(null, true);
   },
 });
 
