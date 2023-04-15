@@ -28,7 +28,7 @@ const Login = () : JSX.Element => {
       });
     } else {
       setError(true)
-      setErrorText('Debes elegir un proveedor')
+      setErrorText('login.loginForm.error')
     }
 
   };
@@ -71,7 +71,7 @@ const Login = () : JSX.Element => {
                 }
               </Select>
               {
-                error && <FormHelperText className='error' error={error}>{errorText}</FormHelperText>
+                error && <FormHelperText className='error' error={error}>{t(errorText)}</FormHelperText>
               }
             </FormControl>
             <Button type="submit" variant="contained">{ t('login.loginForm.login') }</Button>
