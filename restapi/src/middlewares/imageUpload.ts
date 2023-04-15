@@ -10,7 +10,7 @@ const upload = multer({
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
       if (!existsSync(imgUploadPath))
-        mkdirSync(imgUploadPath)
+        mkdirSync(imgUploadPath, { recursive: true, mode: 0o766 })
 
       cb(null, imgUploadPath);
     },

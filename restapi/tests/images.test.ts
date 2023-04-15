@@ -51,15 +51,16 @@ describe('POST /api/image/upload', () => {
   })
 
   afterEach(() => {
-    readdir(imgUploadPath, (err, files) => {
-      if (err) throw err;
-    
-      for (const file of files) {
-        unlink(join(imgUploadPath, file), (err) => {
-          if (err) throw err;
-        });
-      }
-    });
+    if (existsSync(imgUploadPath))
+      readdir(imgUploadPath, (err, files) => {
+        if (err) throw err;
+      
+        for (const file of files) {
+          unlink(join(imgUploadPath, file), (err) => {
+            if (err) throw err;
+          });
+        }
+      });
   })
 
 })
@@ -85,15 +86,16 @@ describe('GET /api/image/get/:id', () => {
   })
 
   afterEach(() => {
-    readdir(imgUploadPath, (err, files) => {
-      if (err) throw err;
-    
-      for (const file of files) {
-        unlink(join(imgUploadPath, file), (err) => {
-          if (err) throw err;
-        });
-      }
-    });
+    if (existsSync(imgUploadPath))
+      readdir(imgUploadPath, (err, files) => {
+        if (err) throw err;
+      
+        for (const file of files) {
+          unlink(join(imgUploadPath, file), (err) => {
+            if (err) throw err;
+          });
+        }
+      });
   })
 
 })
