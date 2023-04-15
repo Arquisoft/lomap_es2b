@@ -1,4 +1,4 @@
-import express, { Application, Request, Response } from "express"
+import express, { Application } from "express"
 import cors from 'cors'
 
 import getConfig from "./config"
@@ -6,6 +6,8 @@ import routes from './routes'
 import errorHandler from "./middlewares/errorHandler"
 
 const app: Application = express()
+
+app.disable('x-powered-by')
 
 app.set('port', getConfig().port)
 

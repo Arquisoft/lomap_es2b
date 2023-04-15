@@ -2,7 +2,7 @@ import request from 'supertest'
 import { join } from 'path'
 
 import app from '../src/app'
-import { existsSync, readdir, rmdirSync, unlink } from 'fs'
+import { existsSync, readdir, unlink } from 'fs'
 import { imgUploadPath } from '../src/constants'
 
 const assetsPath = join(__dirname, 'testAssets')

@@ -4,9 +4,12 @@ import multer from 'multer'
 import { v4 as uuid } from 'uuid'
 
 import HttpException from '../util/HttpException';
-import { imgUploadPath } from '../constants';
+import { imageMaxSize, imgUploadPath } from '../constants';
 
 const upload = multer({
+  limits: {
+    fileSize: imageMaxSize
+  },
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
       if (!existsSync(imgUploadPath))
@@ -22,7 +25,7 @@ const upload = multer({
     const array_of_allowed_files = ['png', 'jpeg', 'jpg'];
     const array_of_allowed_file_types = ['image/png', 'image/jpeg', 'image/jpg'];
     // Allowed file size in mb
-    const allowed_file_size = 2;
+    const allowed_file_size = 4;
     // Get the extension of the uploaded file
     const file_extension = file.originalname.slice(
         ((file.originalname.lastIndexOf('.') - 1) >>> 0) + 2
