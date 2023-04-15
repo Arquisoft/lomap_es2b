@@ -47,7 +47,7 @@ export async function getNameFromPod(webId: string) {
 export async function readMarkersFromPod(webId?: string) {
   let markers: IMarker[] = []
 
-  const settledPromises = await Promise.allSettled([readMarkerFromPrivate(webId), readMarkerFromPublic(webId), readMarkerFromFriends(webId)])
+  const settledPromises = await Promise.allSettled([readMarkerFromPrivate(webId), readMarkerFromPublic(webId), readMarkerFromFriends(webId),readMarkerFromLoMap()])
   settledPromises.forEach(promise => {
     if (promise.status === 'fulfilled') {
       markers = [...markers, ...promise.value]
@@ -127,6 +127,7 @@ export function saveMarkersToPod(markers: IMarker[], webId?: string) {
   const privateMarkers: object[]= []
   const publicMarkers: object[] = []
   const otherMarkers: IMarker[] = []
+  const lomapMarkers: IMarker[] = []
   markers.forEach(m => {
     if (m.property.owns) {
       let isPublic = m.property.public
@@ -136,12 +137,17 @@ export function saveMarkersToPod(markers: IMarker[], webId?: string) {
       else
         privateMarkers.push(m2)
     } else{
-      otherMarkers.push(m);
+      if(m.property.author === "https://lomapes2b.inrupt.net/"){
+        lomapMarkers.push(m);
+      }else{
+        otherMarkers.push(m);
+      }
     }
   })
   saveMarkersToPrivate(privateMarkers, webId)
   saveMarkerToPublic(publicMarkers, webId)
   saveMarkerToFriends(otherMarkers,webId);
+  saveMarkerToLomap(lomapMarkers);
 }
 
 export async function saveMarkersToPrivate(markers: object[], webId?: string) {
@@ -206,6 +212,29 @@ export async function saveMarkerToFriends(markers: IMarker[], webId?: string) {
     } catch (error) {}
   }
   return markers
+};
+
+
+export async function saveMarkerToLomap(markers: IMarker[]) {
+    let profileDocumentURI = "https://lomapes2b.inrupt.net/";
+    let targetFileURL = profileDocumentURI + 'public/LoMap/Markers.json';
+    const save: object[]= [];
+    markers.forEach(m =>{
+      const { property, ...m2 } = m
+      save.push(m2);
+    })
+    let str = JSON.stringify(save);
+    const bytes = new TextEncoder().encode(str);
+    const blob = new Blob([bytes], {
+      type: "application/json;charset=utf-8"
+    });
+    try {
+      await overwriteFile(
+        targetFileURL,                              // URL for the file.
+        blob,                                       // File
+        { contentType: blob.type, fetch: fetch }    // mimetype if known, fetch from the authenticated session
+      );
+    } catch (error) {}
 };
 
 export async function getFriends(webId: string) {
@@ -337,5 +366,24 @@ export async function readMarkerFromFriends(webId?: string) {
     } catch (err) {
     }
   }
+  return markers
+};
+
+export async function readMarkerFromLoMap() {
+  let markers: IMarker[] = []
+  
+    let profileDocumentURI = "https://lomapes2b.inrupt.net/";
+    try {
+      const file = await getFile(
+        profileDocumentURI + 'public/LoMap/Markers.json',
+        { fetch: fetch },
+      )
+      let aux = JSON.parse(await file.text());
+      aux.forEach((marker:any) => {
+        markers.push({...marker, property: { owns: false, author: profileDocumentURI }});
+      });
+    } catch (err) {
+    }
+  
   return markers
 };

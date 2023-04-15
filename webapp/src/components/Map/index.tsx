@@ -70,7 +70,7 @@ const MapComponent = ({ onClick }:Props) => {
             markers.map((marker)=>
               <Marker style={{cursor:"pointer"}} 
                 key={marker.id}
-                color={!marker.property.owns ? 'red' : ''}
+                color={marker.property.owns ? '' : (marker.property.author !== "https://lomapes2b.inrupt.net/" ? 'red' : 'green')}
                 longitude={marker.lng}
                 latitude={marker.lat}
                 onClick={(e)=>{

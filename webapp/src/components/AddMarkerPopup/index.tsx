@@ -1,4 +1,4 @@
-import { TextField, Button, Select, MenuItem } from '@mui/material'
+import { TextField, Button, Select, MenuItem, ToggleButtonGroup, ToggleButton } from '@mui/material'
 import { LngLat } from 'mapbox-gl';
 import { useState } from 'react';
 
@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 interface Props{
     visible:boolean;
     lngLat:LngLat|undefined;
-    addMark:(name:string, lngLat:LngLat|undefined,description:string, category:Category)=>void;
+    addMark:(name:string, lngLat:LngLat|undefined,description:string, category:Category, shared:boolean)=>void;
     closePopup:()=>void;
 }
 
@@ -20,6 +20,7 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
 
   const[name,setName]=useState<string>("")
   const[description,setDescription]=useState<string>("")
+  const[shared,setShared]=useState<boolean>(false)
   const[ category, setCategory] = useState<Category>(Category.Others)
 
   function handleChangeName(name:string){
@@ -33,9 +34,10 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
   function handleSubmit(e:React.FormEvent){
     e.preventDefault();
 
-    addMark(name, lngLat, description, category)
+    addMark(name, lngLat, description, category, shared)
     setName('')
     setDescription('')
+    setShared(false)
     setCategory(Category.Others)
   }
 
@@ -72,6 +74,16 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
           <TextField disabled label={lngLat?.lat} variant='standard' />
           <TextField disabled label={lngLat?.lng} variant='standard' />
         </FormGroup>
+        <ToggleButtonGroup
+            color="primary"
+            value={shared}
+            exclusive
+            onChange={(e, newValue:boolean) => setShared(newValue)}
+            aria-label="Marker Owner"
+          >
+            <ToggleButton value={false} style={{ width: '45%' }}>{ t('sidebar.list.owner.mine') }</ToggleButton>
+            <ToggleButton value={true} style={{ width: '45%' }}>{ t('sidebar.list.owner.public') }</ToggleButton>
+          </ToggleButtonGroup>
         <p>
           <Button style={{float:'right'}} type='submit' color='success' variant='contained'>{ t('addMarker.save') }</Button>
         </p>

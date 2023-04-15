@@ -23,7 +23,8 @@ type Props = {
 
 enum Owner {
   USER='USER',
-  FRIENDS='FRIENDS'
+  FRIENDS='FRIENDS',
+  ALL='ALL'
 }
   
 const Sidebar = ({ isOpen, toggleSidebar, selectedCategory, setSelectedCategory  } : Props) => {
@@ -76,7 +77,8 @@ const Sidebar = ({ isOpen, toggleSidebar, selectedCategory, setSelectedCategory 
   useEffect(() => {
     setFinalList(markers.filter((marker) => 
       marker.name.toLowerCase().includes(searchValue.toLowerCase())
-        && (showing === Owner.USER ? marker.property.owns : !marker.property.owns)
+        && (showing === Owner.USER ? marker.property.owns : (showing === Owner.FRIENDS ? (!marker.property.owns && marker.property.author !== "https://lomapes2b.inrupt.net/") : 
+        (!marker.property.owns && marker.property.author === "https://lomapes2b.inrupt.net/")))
         && (selectedCategory === Category.All || marker.category.includes(selectedCategory)
     )).sort(sortByNameAndDate))
   }, [markers, showing, searchValue, selectedCategory])
@@ -95,6 +97,7 @@ const Sidebar = ({ isOpen, toggleSidebar, selectedCategory, setSelectedCategory 
           >
             <ToggleButton value={Owner.USER} style={{ width: '45%' }}>{ t('sidebar.list.owner.mine') }</ToggleButton>
             <ToggleButton value={Owner.FRIENDS} style={{ width: '45%' }}>{ t('sidebar.list.owner.friends') }</ToggleButton>
+            <ToggleButton value={Owner.ALL} style={{ width: '45%' }}>{ t('sidebar.list.owner.public') }</ToggleButton>
           </ToggleButtonGroup>
         </div>
         <MarkerList>
@@ -222,8 +225,10 @@ const Marker = ({ marker, onClick, changeVisibility }: MarkerProps) => {
             }}>
               <small>{marker.property.public ? t('sidebar.list.mode.public') : t('sidebar.list.mode.private') }</small>
             </button>
-            : 
+            : (marker.property.author !== "https://lomapes2b.inrupt.net/" ? 
             <a href={marker.property.author} target="_blank" rel="noopener noreferrer"><small>{marker.property.author}</small></a>
+            :<></>)
+            
           }
         </div>
       </MarkerContent>
