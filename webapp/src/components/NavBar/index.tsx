@@ -90,6 +90,7 @@ const Navbar = ({ openPopup, isSidebarOpen, toggleSidebar } : Props) => {
   }
 
   const handleSearch = async () => {
+    if (!query) return
     const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?access_token=${mapboxApiKey}`);
     const data = await response.json();
     const [lng, lat] = data.features[0].center;
@@ -216,23 +217,22 @@ type NavProps = {
 }
 
 const NavMenuPopup = ({ isOpen, close, clickConfig, clickAbout } : NavProps) => {
+  const { t } = useTranslation()
   return (
     <NavPopup isOpen={isOpen} closePopup={close}>
       <TitleContainer>
-        <h2>Menu de opciones</h2>
+        <h2>{ t('options.title') }</h2>
       </TitleContainer>
-        <FormGroup>
-          <Button onClick={clickConfig}>
-          <FcDataConfiguration />
-            Configuraciones 
-          </Button>
-        </FormGroup>
-        <FormGroup>
-          <Button onClick={clickAbout}>
-            <FcAbout />
-            Acerca de
-          </Button>
-        </FormGroup>
+      <FormGroup>
+        <Button onClick={clickConfig}>
+          <FcDataConfiguration />{ t('options.config') }
+        </Button>
+      </FormGroup>
+      <FormGroup>
+        <Button onClick={clickAbout}>
+          <FcAbout /> { t('options.about') } 
+        </Button>
+      </FormGroup>
     </NavPopup>
   )
 }
@@ -243,14 +243,15 @@ type PopupProps = {
 }
 
 const NavAboutPopup = ({ isOpen, close }: PopupProps) => {
+  const { t } = useTranslation()
   return (
     <NavPopup isOpen={isOpen} closePopup={close}>
-      <h1>Acerca de...</h1>
-      <p>Este proyecto esta siendo desarrollado por: </p>
+      <h1>{ t('aboutPopup.title') }</h1>
+      <p>{ t('aboutPopup.subtitle') }</p>
       <Table>
         <thead>
           <tr>
-            <th>Nombre</th>
+            <th>{ t('aboutPopup.table_header.name') }</th>
             <th>UO</th>
           </tr>
         </thead>
@@ -282,9 +283,11 @@ const NavAboutPopup = ({ isOpen, close }: PopupProps) => {
 }
 
 const NavConfigPopup = ({ isOpen, close }: PopupProps) => {
+  const { t } = useTranslation()
+
   return (
     <NavPopup isOpen={isOpen} closePopup={close}>
-      <h3>Opciones</h3>
+      <h3>{ t('configPopup.title') }</h3>
     </NavPopup>
     )
   }
