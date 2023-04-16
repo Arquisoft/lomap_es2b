@@ -115,6 +115,15 @@ describe('Navbar', () => {
     mockOpenPopup.mockClear();
   });
 
+  let isSideBarOpen = true;
+
+  const toggleSidebar = (open: boolean | undefined) => {
+    if (open !== undefined) 
+      isSideBarOpen = open;
+    else 
+      isSideBarOpen = !isSideBarOpen;
+  }
+
   it('should render Navbar component', () => {
     render(
       <I18nextProvider i18n={i18n}>
@@ -184,32 +193,40 @@ describe('Navbar', () => {
     expect(screen.getByText('aboutPopup.title')).toBeInTheDocument()
   });
 
-  // it("opens the options menu and the about popup and closes it", async () => {
-  //   render(
-  //     <I18nextProvider i18n={i18n}>
-  //       <Suspense fallback={<Loader />}>
-  //         <Navbar
-  //           toggleSidebar={mockToggleSidebar}
-  //           isSidebarOpen={mockIsSidebarOpen}
-  //           openPopup={mockOpenPopup}
-  //         />
-  //       </Suspense>
-  //     </I18nextProvider>
-  //   );
+   it("opens the options menu and the about popup and closes it", async () => {
+     render(
+       <I18nextProvider i18n={i18n}>
+         <Suspense fallback={<Loader />}>
+           <Navbar
+             toggleSidebar={toggleSidebar}
+             isSidebarOpen={mockIsSidebarOpen}
+             openPopup={mockOpenPopup}
+           />
+         </Suspense>
+       </I18nextProvider>
+     );
     
-  //   // Espera a que el botón esté presente en la pantalla
-  //   await waitFor(() =>
-  //     expect(
-  //       screen.getByRole("button", { name: "navbar.tooltips.markers" })
-  //     ).toBeInTheDocument()
-  //   );
+     // Espera a que el botón esté presente en la pantalla
+     await waitFor(() =>
+       expect(
+         screen.getByRole("button", { name: "navbar.tooltips.markers" })
+       ).toBeInTheDocument()
+     );
   
-  //   // Simula un clic en el botón
-  //   userEvent.click(
-  //     screen.getByRole("button", { name: "navbar.tooltips.markers" })
-  //   );
+     // Simula un clic en el botón
+     userEvent.click(
+       screen.getByRole("button", { name: "navbar.tooltips.markers" })
+     );
   
-  //   // Espera a que la barra lateral se cierre
-  //   await waitFor(() => expect(mockIsSidebarOpen).toBe(false));
-  // });
+     // Espera a que la barra lateral se cierre
+     await waitFor(() => expect(isSideBarOpen).toBe(false));
+
+      // Simula un clic en el botón
+     userEvent.click(
+       screen.getByRole("button", { name: "navbar.tooltips.markers" })
+     );
+  
+     // Espera a que la barra lateral se abra
+     await waitFor(() => expect(isSideBarOpen).toBe(true));
+   });
 });
