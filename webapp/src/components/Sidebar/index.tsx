@@ -77,7 +77,7 @@ const Sidebar = ({ isOpen, toggleSidebar, selectedCategory, setSelectedCategory 
     setFinalList(markers.filter((marker) => 
       marker.name.toLowerCase().includes(searchValue.toLowerCase())
         && (showing === Owner.USER ? marker.property.owns : !marker.property.owns)
-        && (selectedCategory === Category.All || marker.category.includes(selectedCategory)
+        && (selectedCategory === Category.All || marker.category === selectedCategory || (!Object.values(Category).includes(marker.category) && selectedCategory === Category.Others)
     )).sort(sortByNameAndDate))
   }, [markers, showing, searchValue, selectedCategory])
 
