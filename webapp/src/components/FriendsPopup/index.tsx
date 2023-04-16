@@ -46,7 +46,7 @@ const FriendsPopup = ({ isOpen, closePopup, solidManager: { getFriends, addFrien
 
   useEffect(() => {
     if (user) {
-      loadFriends().then(() => console.log(friends))
+      loadFriends()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[user])
@@ -152,7 +152,7 @@ const FriendCard = ({ friend, deleteFriend } : FriendCardProps) => {
         <Avatar src={friend.profilePic} />
         <a href={friend.webId} rel="noreferrer" target='_blank'>{ friend.name || friend.webId }</a>
       </div>
-      <Button style={{ float: 'right' }} onClick={() => deleteFriend(friend.webId)}><MdDelete /></Button>
+      <Button style={{ float: 'right' }} data-testid={`delete-${friend.webId}`} onClick={() => deleteFriend(friend.webId)}><MdDelete /></Button>
     </FriendListItem>
   )
 }
