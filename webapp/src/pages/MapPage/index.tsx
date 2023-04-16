@@ -14,6 +14,7 @@ import Navbar from '../../components/NavBar';
 import Filter from '../../components/Filters';
 import { NavContainer} from './Styles'
 import { Category } from '../../types/Category';
+import solidHelper from '../../helpers/SolidHelper'
 
 export enum Popups {
   NONE,
@@ -87,7 +88,7 @@ const MapPage = () : JSX.Element => {
       <Map onClick={showAddMarkerPopup} />
       <FocusOnUserButton />
       <AddMarkerPopup closePopup={closePopup} visible={popupVisible === Popups.ADD_MARKER} lngLat={lngLat} addMark={addMark} />
-      <FriendsPopup closePopup={closePopup} isOpen={popupVisible === Popups.FRIENDS} />
+      <FriendsPopup closePopup={closePopup} isOpen={popupVisible === Popups.FRIENDS} solidManager={solidHelper} />
     </MapProvider> 
   )
 }

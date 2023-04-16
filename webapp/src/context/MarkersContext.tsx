@@ -1,7 +1,6 @@
-import { createContext, Dispatch, useEffect, useReducer, useState, useRef } from "react";
+import React, { createContext, Dispatch, useEffect, useReducer, useState, useRef } from "react";
 import { Types } from "../types/ContextActionTypes";
 import { IMarker } from '../types/IMarker';
-import { saveMarkersToPod } from "../helpers/SolidHelper";
 import { useSession } from "@inrupt/solid-ui-react";
 
 
@@ -64,7 +63,11 @@ export const markerReducer = (state:IMarker[], action: MarkerActions) : IMarker[
   }
 }
 
-export const MarkerContextProvider: React.FC = ({ children }) => {
+type ProviderProps =  React.PropsWithChildren<{
+  saveFunction: (markers: IMarker[], webId?: string) => void
+}>
+
+export const MarkerContextProvider = ({ children, saveFunction }: ProviderProps) => {
   const { session } = useSession()
   
   const [state, dispatch] = useReducer(markerReducer, [])
@@ -76,7 +79,7 @@ export const MarkerContextProvider: React.FC = ({ children }) => {
     if(loaded){
       const hasChanged = state.length !== stateRef.current.length || state.some((item, index) => item !== stateRef.current[index]);
       if (hasChanged) {
-        saveMarkersToPod(state, session.info.webId)
+        saveFunction(state, session.info.webId)
       }
   
       // Update the reference to the original array
