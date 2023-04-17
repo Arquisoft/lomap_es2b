@@ -26,6 +26,7 @@ import {
   saveAclFor,
   setPublicDefaultAccess,
 } from "@inrupt/solid-client";
+import { ISolidManager } from "../types/ISolidManager";
 
 export async function getProfile(webId: string) {
   let profileDocumentURI = webId.split("#")[0];
@@ -56,7 +57,7 @@ export async function readMarkersFromPod(webId?: string) {
   return markers
 }
 
-export async function readMarkerFromPrivate(webId?: string) {
+async function readMarkerFromPrivate(webId?: string) {
   let markers: IMarker[] = []
   let profileDocumentURI = webId?.split("profile")[0];
   try {
@@ -89,7 +90,7 @@ export async function readMarkerFromPrivate(webId?: string) {
   });
 };
 
-export async function readMarkerFromPublic(webId?: string) {
+async function readMarkerFromPublic(webId?: string) {
   let markers: IMarker[] = []
   let profileDocumentURI = webId?.split("profile")[0];
   let url = profileDocumentURI + 'public/LoMap/Markers.json'
@@ -150,7 +151,7 @@ export function saveMarkersToPod(markers: IMarker[], webId?: string) {
   saveMarkerToLomap(lomapMarkers);
 }
 
-export async function saveMarkersToPrivate(markers: object[], webId?: string) {
+async function saveMarkersToPrivate(markers: object[], webId?: string) {
   let profileDocumentURI = webId?.split("profile")[0];
   let targetFileURL = profileDocumentURI + 'private/LoMap/Markers.json';
   let str = JSON.stringify(markers);
@@ -168,7 +169,7 @@ export async function saveMarkersToPrivate(markers: object[], webId?: string) {
   }
 };
 
-export async function saveMarkerToPublic(markers: object[], webId?: string) {
+async function saveMarkerToPublic(markers: object[], webId?: string) {
   let profileDocumentURI = webId?.split("profile")[0];
   let targetFileURL = profileDocumentURI + 'public/LoMap/Markers.json';
   let str = JSON.stringify(markers);
@@ -244,9 +245,11 @@ export async function getFriends(webId: string) {
   
   const list: ISolidUser[] = []
   for (let id of friends) {
-    const friend = await getFriendData(id)
-    if (friend)
-      list.push(friend)
+    try {
+      const friend = await getFriendData(id)
+      if (friend)
+        list.push(friend)
+    } catch(err) {}
   }
 
   return list;
@@ -326,7 +329,7 @@ async function setPerms(webId: string, mode: boolean) {
   await saveAclFor(myDatasetWithAcl, updatedAcl,{fetch :fetch});
 }
 
-export async function checkIfFriendsFile(webId?: string) {
+async function checkIfFriendsFile(webId?: string) {
   let profileDocumentURI = webId?.split("profile")[0];
   let targetFileURL = profileDocumentURI + 'public/LoMap/Markers.json';
   try {
@@ -349,7 +352,7 @@ export async function checkIfFriendsFile(webId?: string) {
   } catch (error) {}
 };
 
-export async function readMarkerFromFriends(webId?: string) {
+async function readMarkerFromFriends(webId?: string) {
   let markers: IMarker[] = []
   let friends= await getFriends(webId!);
   for (let friend of friends){
@@ -387,3 +390,14 @@ export async function readMarkerFromLoMap() {
   
   return markers
 };
+
+const solidHelper: ISolidManager = {
+  getProfile,
+  readMarkersFromPod,
+  saveMarkersToPod,
+  getFriends,
+  addFriend,
+  deleteFriend
+}
+
+export default solidHelper

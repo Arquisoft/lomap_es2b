@@ -3,20 +3,21 @@ import { Button, TextField, CircularProgress, Avatar, Alert, IconButton, Collaps
 import { MdDelete } from 'react-icons/md'
 
 import { UserContext } from '../../context/UserContext'
-import { getFriends, addFriend as addFriendToSolid, deleteFriend as removeFriendFromSolid } from '../../helpers/SolidHelper'
 import { ISolidUser } from '../../types/ISolidUser'
 import Popup from '../PopUp'
 import { AddFriend, CustomDivider, FriendList, FriendListItem, LoaderContainer, DeleteButtons, DeletePopup } from './Styles'
 import { FaTimes } from 'react-icons/fa'
 import { useTranslation } from 'react-i18next'
 import { t } from 'i18next'
+import { ISolidManager } from '../../types/ISolidManager'
 
 type Props = {
   isOpen: boolean
   closePopup: () => void
+  solidManager: ISolidManager
 }
 
-const FriendsPopup = ({ isOpen, closePopup } : Props) => {
+const FriendsPopup = ({ isOpen, closePopup, solidManager: { getFriends, addFriend: addFriendToSolid, deleteFriend: removeFriendFromSolid } } : Props) => {
 
   const { t } = useTranslation()
 
@@ -151,7 +152,7 @@ const FriendCard = ({ friend, deleteFriend } : FriendCardProps) => {
         <Avatar src={friend.profilePic} />
         <a href={friend.webId} rel="noreferrer" target='_blank'>{ friend.name || friend.webId }</a>
       </div>
-      <Button style={{ float: 'right' }} onClick={() => deleteFriend(friend.webId)}><MdDelete /></Button>
+      <Button style={{ float: 'right' }} data-testid={`delete-${friend.webId}`} onClick={() => deleteFriend(friend.webId)}><MdDelete /></Button>
     </FriendListItem>
   )
 }

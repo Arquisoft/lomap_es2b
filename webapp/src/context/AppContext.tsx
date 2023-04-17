@@ -1,12 +1,17 @@
-import React, { FC } from "react";
+import React from "react";
 
 import { MarkerContextProvider } from './MarkersContext';
 import { UserContextProvider } from './UserContext';
+import { IMarker } from "../types/IMarker";
 
-const AppContext: FC = ({ children }) => {
+type ProviderProps =  React.PropsWithChildren<{
+  saveFunction: (markers: IMarker[], webId?: string) => void
+}>
+
+const AppContext = ({ children, saveFunction }: ProviderProps) => {
   return (
     <UserContextProvider>
-      <MarkerContextProvider>
+      <MarkerContextProvider saveFunction={saveFunction}>
         { children }
       </MarkerContextProvider>
     </UserContextProvider>
