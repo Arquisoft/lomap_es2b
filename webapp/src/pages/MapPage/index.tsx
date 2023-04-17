@@ -84,7 +84,7 @@ const MapPage = () : JSX.Element => {
         <Filter toggleSidebar={toggleSidebar} activeFilter={selectedCategory} setActiveFilter={setSelectedCategory} />
       </NavContainer>
       <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
-      <Map onClick={showAddMarkerPopup} />
+      <Map onClick={showAddMarkerPopup} filterType={selectedCategory} />
       <FocusOnUserButton />
       <AddMarkerPopup closePopup={closePopup} visible={popupVisible === Popups.ADD_MARKER} lngLat={lngLat} addMark={addMark} />
       <FriendsPopup closePopup={closePopup} isOpen={popupVisible === Popups.FRIENDS} />
