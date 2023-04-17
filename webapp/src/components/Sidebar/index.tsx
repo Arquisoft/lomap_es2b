@@ -79,7 +79,7 @@ const Sidebar = ({ isOpen, toggleSidebar, selectedCategory, setSelectedCategory 
       marker.name.toLowerCase().includes(searchValue.toLowerCase())
         && (showing === Owner.USER ? marker.property.owns : (showing === Owner.FRIENDS ? (!marker.property.owns && marker.property.author !== "https://lomapes2b.inrupt.net/") : 
         (!marker.property.owns && marker.property.author === "https://lomapes2b.inrupt.net/")))
-        && (selectedCategory === Category.All || marker.category.includes(selectedCategory)
+        && (selectedCategory === Category.All || marker.category === selectedCategory || (!Object.values(Category).includes(marker.category) && selectedCategory === Category.Others)
     )).sort(sortByNameAndDate))
   }, [markers, showing, searchValue, selectedCategory])
 
@@ -170,7 +170,11 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
       <div className="markInfo">
         <h2>{marker.name}</h2>
         <p>{marker.description}</p>
+
+        <p>{marker.address}</p>
+
         <Typography component="legend">{ t('sidebar.details.rating') }</Typography>
+
         <Rating
           name="simple-controlled"
           value={marker.score}

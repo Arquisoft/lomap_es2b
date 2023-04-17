@@ -45,7 +45,8 @@ const MapPage = () : JSX.Element => {
   }
 
 
-  function addMark(name:string, lngLat:LngLat|undefined,description:string, category:Category, shared:boolean){
+
+  function addMark(name:string, lngLat:LngLat|undefined,description:string, category:Category, shared:boolean,direction:string ){
     if(lngLat===undefined){
       return
     }
@@ -53,7 +54,7 @@ const MapPage = () : JSX.Element => {
       var newMarker:IMarker = {
         id: uuid(),
         name: name,
-        address: "Value 1",
+        address: direction,
         lat: lngLat.lat,
         lng: lngLat.lng,
         date: new Date(),
@@ -71,7 +72,7 @@ const MapPage = () : JSX.Element => {
       var newMarker:IMarker = {
         id: uuid(),
         name: name,
-        address: "Value 1",
+        address: direction,
         lat: lngLat.lat,
         lng: lngLat.lng,
         date: new Date(),
@@ -105,7 +106,7 @@ const MapPage = () : JSX.Element => {
         <Filter toggleSidebar={toggleSidebar} activeFilter={selectedCategory} setActiveFilter={setSelectedCategory} />
       </NavContainer>
       <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
-      <Map onClick={showAddMarkerPopup} />
+      <Map onClick={showAddMarkerPopup} filterType={selectedCategory} />
       <FocusOnUserButton />
       <AddMarkerPopup closePopup={closePopup} visible={popupVisible === Popups.ADD_MARKER} lngLat={lngLat} addMark={addMark} />
       <FriendsPopup closePopup={closePopup} isOpen={popupVisible === Popups.FRIENDS} />

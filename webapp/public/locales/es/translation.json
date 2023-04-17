@@ -24,7 +24,8 @@
     "loginForm": {
       "title": "Elige un proveedor",
       "provider": "Proveedor",
-      "login": "Entrar"
+      "login": "Entrar",
+      "error": "Debes elegir un proveedor"
     }
   },
   "navbar": {
@@ -112,5 +113,20 @@
     "category": "Categoría",
     "coordinates": "Coordenadas (Lat-Lng)",
     "save": "Guardar"
+  },
+  "options": {
+    "title": "Menú de Opciones",
+    "config": "Configuración",
+    "about": "Sobre esta página"
+  },
+  "configPopup": {
+    "title": "Opciones"
+  },
+  "aboutPopup": {
+    "title": "Acerca de LoMap",
+    "subtitle": "Este proyecto esta siendo desarrollado por:",
+    "table_header": {
+      "name": "Nombre"
+    } 
   }
 }

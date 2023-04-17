@@ -24,7 +24,8 @@
     "loginForm": {
       "title": "Pick a provider",
       "provider": "Provider",
-      "login": "Login"
+      "login": "Login",
+      "error": "You must choose a provider"
     }
   },
   "navbar": {
@@ -112,5 +113,20 @@
     "category": "Category",
     "coordinates": "Coordinates (Lat-Lng)",
     "save": "Save"
+  },
+  "options": {
+    "title": "Options menu",
+    "config": "Configuration",
+    "about": "About this site"
+  },
+  "configPopup": {
+    "title": "Options"
+  },
+  "aboutPopup": {
+    "title": "About LoMap",
+    "subtitle": "This project is being developed by:",
+    "table_header": {
+      "name": "Name"
+    } 
   }
 }
