@@ -7,3 +7,7 @@ export const FormGroup = styled.div`
     margin:1em;
     padding-bottom: 0.5em;
 `
+
+export const Error = styled.p`
+    color: red;
+`
