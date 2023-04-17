@@ -105,7 +105,7 @@ export const SearchForm = styled.form`
   align-items: center;
   justify-content: center;
   min-width: min-content;
-  max-width: 30vw;
+  width: 100%;
   @media (max-width: 600px) {
     max-width: none;
   }

@@ -8,12 +8,14 @@ import { mapboxApiKey } from '../../config/constants'
 import { MarkerContext } from '../../context/MarkersContext';
 import { IMarker } from '../../types/IMarker';
 import './Map.css'
+import { Category } from '../../types/Category';
 
 interface Props{
     onClick:(lngLat:LngLat,visible:boolean)=>void;
+    filterType: Category;
 }
 
-const MapComponent = ({ onClick }:Props) => {
+const MapComponent = ({ onClick, filterType }:Props) => {
   
   const { map } = useMap()
   
@@ -67,19 +69,22 @@ const MapComponent = ({ onClick }:Props) => {
         }>
        
           {
-            markers.map((marker)=>
-              <Marker style={{cursor:"pointer"}} 
+            markers
+            .filter((marker) => filterType === Category.All || filterType === marker.category)
+            .map((marker) => (
+              <Marker
                 key={marker.id}
-                color={!marker.property.owns ? 'red' : ''}
+                style={{ cursor: "pointer" }}
+                color={marker.property.owns ? '' : (marker.property.author !== "https://lomapes2b.inrupt.net/" ? 'red' : 'green')}
                 longitude={marker.lng}
                 latitude={marker.lat}
-                onClick={(e)=>{
-                  console.log(marker)
-                  e.originalEvent.stopPropagation()
-                  setInfoVisible(marker)
+                onClick={(e) => {
+                  console.log(marker);
+                  e.originalEvent.stopPropagation();
+                  setInfoVisible(marker);
                 }}
               />
-            )
+            ))
           }
 
 

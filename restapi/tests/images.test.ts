@@ -72,7 +72,7 @@ describe('GET /api/image/get/:id', () => {
   it('tries to get a non existing image', async () => {
     const response = await supertest.get('/api/image/get/not_found')
     expect(response.status).toBe(404)
-    expect(response.body).toEqual({ success: false, error: { message: 'Image not found' } })
+    expect(response.body).toEqual({ success: false, error: { message: 'Not Found' } })
   })
   
   it('uploads an image and tries to get it back', async () => {
