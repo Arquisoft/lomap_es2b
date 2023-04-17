@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import i18n from 'i18next'
 import { I18nextProvider, initReactI18next } from 'react-i18next'
 import userEvent from '@testing-library/user-event'
@@ -76,7 +76,7 @@ describe('Friends Popup', () => {
     userEvent.type(addInput, 'https://newfriend.solidtest.net')
     const addButton = screen.getByRole('button', { name: 'friends.new.add' })
     expect(addButton).toBeInTheDocument()
-    userEvent.click(addButton)
+    await act( async () => userEvent.click(addButton))
 
     // The new friend should appear on the list
     await waitFor(() => expect(screen.getByText('https://newfriend.solidtest.net')).toBeInTheDocument())
@@ -107,7 +107,7 @@ describe('Friends Popup', () => {
     expect(screen.getByText('friends.delete.confirm.title'))
     
     //Confirm delete
-    userEvent.click(screen.getByText('friends.delete.confirm.yes'))
+    await act( async () => userEvent.click(screen.getByText('friends.delete.confirm.yes')))
 
     expect(screen.queryByText(friend.webId)).not.toBeInTheDocument()
   })
@@ -135,7 +135,7 @@ describe('Friends Popup', () => {
     userEvent.type(addInput, 'https://invalid_friend.solidtest.error')
     const addButton = screen.getByRole('button', { name: 'friends.new.add' })
     expect(addButton).toBeInTheDocument()
-    userEvent.click(addButton)
+    await act( async () => userEvent.click(addButton))
 
     // An error message should appear
     await waitFor(() => expect(screen.getByText('friends.new.error')).toBeInTheDocument())
@@ -168,7 +168,8 @@ describe('Friends Popup', () => {
     expect(screen.getByText('friends.delete.confirm.title'))
     
     //Confirm delete
-    userEvent.click(screen.getByText('friends.delete.confirm.yes'))
+    
+    await act( async () => userEvent.click(screen.getByText('friends.delete.confirm.yes')))
 
     // An error message should appear
     await waitFor(() => expect(screen.getByText('friends.delete.error')).toBeInTheDocument())
