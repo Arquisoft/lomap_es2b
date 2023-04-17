@@ -23,7 +23,8 @@ type Props = {
 
 enum Owner {
   USER='USER',
-  FRIENDS='FRIENDS'
+  FRIENDS='FRIENDS',
+  ALL='ALL'
 }
   
 const Sidebar = ({ isOpen, toggleSidebar, selectedCategory, setSelectedCategory  } : Props) => {
@@ -76,7 +77,8 @@ const Sidebar = ({ isOpen, toggleSidebar, selectedCategory, setSelectedCategory 
   useEffect(() => {
     setFinalList(markers.filter((marker) => 
       marker.name.toLowerCase().includes(searchValue.toLowerCase())
-        && (showing === Owner.USER ? marker.property.owns : !marker.property.owns)
+        && (showing === Owner.USER ? marker.property.owns : (showing === Owner.FRIENDS ? (!marker.property.owns && marker.property.author !== "https://lomapes2b.inrupt.net/") : 
+        (!marker.property.owns && marker.property.author === "https://lomapes2b.inrupt.net/")))
         && (selectedCategory === Category.All || marker.category === selectedCategory || (!Object.values(Category).includes(marker.category) && selectedCategory === Category.Others)
     )).sort(sortByNameAndDate))
   }, [markers, showing, searchValue, selectedCategory])
@@ -95,6 +97,7 @@ const Sidebar = ({ isOpen, toggleSidebar, selectedCategory, setSelectedCategory 
           >
             <ToggleButton value={Owner.USER} style={{ width: '45%' }}>{ t('sidebar.list.owner.mine') }</ToggleButton>
             <ToggleButton value={Owner.FRIENDS} style={{ width: '45%' }}>{ t('sidebar.list.owner.friends') }</ToggleButton>
+            <ToggleButton value={Owner.ALL} style={{ width: '45%' }}>{ t('sidebar.list.owner.public') }</ToggleButton>
           </ToggleButtonGroup>
         </div>
         <MarkerList>
@@ -182,7 +185,6 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
         />
         
         {
-          marker.property.owns && 
           <>
           <h3>{ t('sidebar.details.comment') }</h3>
             <TextField value={comment} onChange={(e)=>setComment(e.target.value)} label={t('sidebar.details.comment_placeholder')} variant='standard' />
@@ -194,7 +196,8 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
         <div>
           {
             marker.comments.map((comment, index) => (
-              <p key={`${index}-${comment.author}-${comment.comment}`}>{comment.comment}</p>
+              <p key={`${index}-${comment.author}-${comment.comment}`}> <strong>{comment.author.split(".")[0].split("//")[1]}:</strong> {comment.comment}</p>
+              
             ))
           }
         </div>
@@ -226,8 +229,10 @@ const Marker = ({ marker, onClick, changeVisibility }: MarkerProps) => {
             }}>
               <small>{marker.property.public ? t('sidebar.list.mode.public') : t('sidebar.list.mode.private') }</small>
             </button>
-            : 
+            : (marker.property.author !== "https://lomapes2b.inrupt.net/" ? 
             <a href={marker.property.author} target="_blank" rel="noopener noreferrer"><small>{marker.property.author}</small></a>
+            :<></>)
+            
           }
         </div>
       </MarkerContent>

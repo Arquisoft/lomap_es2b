@@ -45,27 +45,49 @@ const MapPage = () : JSX.Element => {
   }
 
 
-  function addMark(name:string, lngLat:LngLat|undefined,description:string, category:Category,direction:string){
+
+  function addMark(name:string, lngLat:LngLat|undefined,description:string, category:Category, shared:boolean,direction:string ){
     if(lngLat===undefined){
       return
     }
-    var newMarker:IMarker = {
-      id: uuid(),
-      name: name,
-      address: direction,
-      lat: lngLat.lat,
-      lng: lngLat.lng,
-      date: new Date(),
-      images: [],
-      description: description,
-      category,
-      comments: [],
-      score: 0,
-      property: {
-        owns: true,
-        public: false
+    if(shared === false){
+      var newMarker:IMarker = {
+        id: uuid(),
+        name: name,
+        address: direction,
+        lat: lngLat.lat,
+        lng: lngLat.lng,
+        date: new Date(),
+        images: [],
+        description: description,
+        category,
+        comments: [],
+        score: 0,
+        property: {
+          owns: true,
+          public: false
+        }
+      }
+    }else{
+      var newMarker:IMarker = {
+        id: uuid(),
+        name: name,
+        address: direction,
+        lat: lngLat.lat,
+        lng: lngLat.lng,
+        date: new Date(),
+        images: [],
+        description: description,
+        category,
+        comments: [],
+        score: 0,
+        property: {
+          owns: false,
+          author : "https://lomapes2b.inrupt.net/"
+        }
       }
     }
+    
     dispatch({ type: Types.ADD, payload: { marker: newMarker } })
     closePopup()
   }

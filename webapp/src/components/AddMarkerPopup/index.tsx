@@ -1,4 +1,4 @@
-import { TextField, Button, Select, MenuItem } from '@mui/material'
+import { TextField, Button, Select, MenuItem, ToggleButtonGroup, ToggleButton } from '@mui/material'
 import { LngLat } from 'mapbox-gl';
 import { useEffect, useState } from 'react';
 
@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 interface Props{
     visible:boolean;
     lngLat:LngLat|undefined;
-    addMark:(name:string, lngLat:LngLat|undefined,description:string, category:Category,direction:string)=>void;
+    addMark:(name:string, lngLat:LngLat|undefined,description:string, category:Category, shared:boolean,direction:string)=>void;
     closePopup:()=>void;
 }
 
@@ -24,6 +24,7 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
 
   const[name,setName]=useState<string>("")
   const[description,setDescription]=useState<string>("")
+  const[shared,setShared]=useState<boolean>(false)
   const[ category, setCategory] = useState<Category>(Category.Others)
   const[error, setError] = useState<string|null>(null)
 
@@ -56,7 +57,7 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
     }else if(!validaLong(description,longMaxDesc)){
       setError("Longitud maxima descripcion: "+longMaxDesc)
     }else{
-      addMark(name, lngLat, description, category, await getDirection())
+      addMark(name, lngLat, description, category, shared, await getDirection())
       setError(null);
     }
     
@@ -66,6 +67,7 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
     return intput.length<maxLong;
   }
   
+
 
 
   function validaVacio(intput:String){
@@ -112,6 +114,16 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
           <TextField disabled label={lngLat?.lat} variant='standard' />
           <TextField disabled label={lngLat?.lng} variant='standard' />
         </FormGroup>
+        <ToggleButtonGroup
+            color="primary"
+            value={shared}
+            exclusive
+            onChange={(e, newValue:boolean) => setShared(newValue)}
+            aria-label="Marker Owner"
+          >
+            <ToggleButton value={false} style={{ width: '45%' }}>{ t('sidebar.list.owner.mine') }</ToggleButton>
+            <ToggleButton value={true} style={{ width: '45%' }}>{ t('sidebar.list.owner.public') }</ToggleButton>
+          </ToggleButtonGroup>
         <p>
           <Button style={{float:'right'}} type='submit' color='success' variant='contained'>{ t('addMarker.save') }</Button>
         </p>
