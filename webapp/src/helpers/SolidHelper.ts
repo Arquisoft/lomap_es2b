@@ -180,7 +180,6 @@ export async function getFriends(webId: string) {
   let dataset = await getSolidDataset(webId);
   let aux= getThing(dataset,webId) as Thing;
   let friends= getUrlAll(aux, FOAF.knows);
-  console.log(friends);
   
   const list: ISolidUser[] = []
   for (let id of friends) {

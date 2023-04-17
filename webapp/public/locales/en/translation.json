@@ -1,0 +1,132 @@
+{
+  "language": "Language",
+  "popup": {
+    "close": "Close"
+  },
+  "markerCategories": {
+    "restaurant": "Restaurant",
+    "restaurants": "Restaurants",
+    "hotel": "Hotel",
+    "hotels": "Hotels",
+    "monument": "Monument",
+    "monuments": "Monuments",
+    "shop":"Shop",
+    "shops": "Shops",
+    "bar": "Bar",
+    "bars": "Bares",
+    "landscape": "Landscape",
+    "landscapes": "Landscapes",
+    "other": "Other",
+    "others": "Others"
+  },
+  "login": {
+    "subtitle": "Save your favourite places and share them!",
+    "loginForm": {
+      "title": "Pick a provider",
+      "provider": "Provider",
+      "login": "Login",
+      "error": "You must choose a provider"
+    }
+  },
+  "navbar": {
+    "user": {
+      "greeting": "Hi, {{name}}!",
+      "greetingNoName": "Hello!",
+      "friends": "Friends",
+      "about": "About...",
+      "logout": "Logout"
+    },
+    "search": {
+      "placeholder": "Search places..."
+    },
+    "tooltips": {
+      "menu": "Options",
+      "search": "Search",
+      "markers": "Markers",
+      "user": "User Menu"
+    }
+  },
+  "friends": {
+    "title": "My Friends",
+    "new": {
+      "placeholder": "New friend's WebId",
+      "add": "Ad Friend",
+      "error": "Friend could not be added"
+    },
+    "list": {
+      "error": "Error while loading friends",
+      "empty": "You have no friends yet"
+    },
+    "delete": {
+      "error": "Error while deleting friend",
+      "confirm": {
+        "title": "Delete friend",
+        "body": "Do you really want to delete {{friend}} from your friends list?",
+        "yes": "Delete",
+        "no": "Cancel"
+      }
+    }
+  },
+  "sidebar": {
+    "list": {
+      "title": "Markers",
+      "search": "Search",
+      "owner": {
+        "mine": "Mine",
+        "friends": "Friends",
+        "public": "Public"
+      },
+      "mode": {
+        "public": "Public",
+        "private": "Private"
+      },
+      "delete": {
+        "tooltip": "Delete",
+        "confirm": {
+          "title": "Do you really want to delete the marker?",
+          "body": "Once deleted, the marker cannot be recovered.",
+          "yes": "Delete",
+          "no": "Cancel"
+        }
+      }
+    },
+    "details": {
+      "title": "Marker",
+      "back": "Back to List",
+      "rating": "Rating",
+      "comment": "Comment",
+      "comment_placeholder": "Write a Comment",
+      "add_comment": "Add comment",
+      "comments": "Comments"
+    }
+  },
+  "addMarker": {
+    "title": "Create a New Marker",
+    "name": {
+      "label": "Name",
+      "placeholder": "Name"
+    },
+    "description": {
+      "label": "Description",
+      "placeholder": "Description"
+    },
+    "category": "Category",
+    "coordinates": "Coordinates (Lat-Lng)",
+    "save": "Save"
+  },
+  "options": {
+    "title": "Options menu",
+    "config": "Configuration",
+    "about": "About this site"
+  },
+  "configPopup": {
+    "title": "Options"
+  },
+  "aboutPopup": {
+    "title": "About LoMap",
+    "subtitle": "This project is being developed by:",
+    "table_header": {
+      "name": "Name"
+    } 
+  }
+}

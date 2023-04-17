@@ -1,4 +1,6 @@
 import styled from "styled-components"
+import { styled as MUIStyled } from '@mui/material/styles'
+import { IconButton as MUIIconButton } from '@mui/material'
 
 export const Container = styled.div`
   padding: 0.5em;
@@ -89,5 +91,22 @@ export const Form = styled.form`
   .error {
     margin: 0;
     padding: 0.5em;
+  }
+`
+
+export const LanguageMenu = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+`
+
+export const IconButton = MUIStyled(MUIIconButton)`
+  padding: 0.3em;
+  background-color: #ebebeb;
+  margin: 0.2em;
+
+  &:hover {
+    background-color: #aeaeae;
+    color: #505050;
   }
 `
