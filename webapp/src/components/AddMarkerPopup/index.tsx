@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 interface Props{
     visible:boolean;
     lngLat:LngLat|undefined;
-    addMark:(name:string, lngLat:LngLat|undefined,description:string, category:Category, shared:boolean,direction:string)=>void;
+    addMark:(name:string, lngLat:LngLat, description:string, category:Category, shared:boolean, direction:string)=>void;
     closePopup:()=>void;
 }
 
@@ -50,13 +50,15 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
     e.preventDefault();
     setError(null);
     getDirection();
-    if(!validaVacio(name)){
+    if(!validaVacio(name)) {
       setError("Introduce un nombre para el marcador")
-    }else if(!validaLong(name,longMaxName)){
+    } else if (!validaLong(name,longMaxName)) {
       setError("Longitud maxima nombre: "+longMaxName)
-    }else if(!validaLong(description,longMaxDesc)){
+    } else if (!validaLong(description,longMaxDesc)) {
       setError("Longitud maxima descripcion: "+longMaxDesc)
-    }else{
+    } else if (!lngLat) {
+      return
+    } else {
       addMark(name, lngLat, description, category, shared, await getDirection())
       setError(null);
     }
@@ -66,15 +68,10 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
   function validaLong(intput:String,maxLong:number){
     return intput.length<maxLong;
   }
-  
-
-
 
   function validaVacio(input:String){
     return (input!==null) && (input.trim().length!==0);
   }
-
-
 
   return (
     <Popup isOpen={visible} closePopup={()=>{
