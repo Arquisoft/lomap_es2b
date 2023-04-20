@@ -7,5 +7,5 @@ export default {
     moduleNameMapper:{"^uuid$": "uuid"},
     preset: "jest-puppeteer",
     passWithNoTests: true,
-    testTimeout: 30000
+    testTimeout: 30000,
 }
