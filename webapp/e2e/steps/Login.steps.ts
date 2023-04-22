@@ -15,10 +15,14 @@ defineFeature(feature, test => {
       : await puppeteer.launch({ headless: false, slowMo: 50 });
     page = await browser.newPage();
 
-    await page.goto('http://localhost:3000', {
-      waitUntil: 'networkidle0'
-    })
-      .catch(() => {})
+
+    try {
+        await page.goto(`http://localhost:3000`, { waitUntil: 'load' });
+        console.log("SUCCESS!!");
+    } catch (e) {
+        console.log(e);
+        await browser.close();
+    }
   })
 
   jest.setTimeout(60000)
