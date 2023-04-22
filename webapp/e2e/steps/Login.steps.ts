@@ -21,6 +21,8 @@ defineFeature(feature, test => {
       .catch(() => {})
   })
 
+  jest.setTimeout(60000)
+
   test('The user has a SolidCommunity account and is entering the site', ({ given, when, and, then }) => {
 
     let webId: string
