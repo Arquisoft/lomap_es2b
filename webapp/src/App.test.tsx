@@ -13,6 +13,7 @@ import Navbar from './components/NavBar';
 import Loader from './components/Loader';
 import { MarkerContext } from './context/MarkersContext';
 import { IMarker } from './types/IMarker';
+import Filter, { FilterComponent } from './components/Filters';
 
 const mockToggleSidebar = jest.fn();
 const mockIsSidebarOpen = false;
@@ -229,4 +230,101 @@ describe('Navbar', () => {
      // Espera a que la barra lateral se abra
      await waitFor(() => expect(isSideBarOpen).toBe(true));
    });
+});
+
+
+const setActiveFilter = jest.fn();
+
+describe('Filter', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test('should render filter buttons with correct icons and labels', () => {
+    render(
+      <I18nextProvider i18n={i18n}>
+        <Suspense fallback={<Loader />}>
+          <FilterComponent
+            activeFilter={Category.Restaurant}
+            setActiveFilter={setActiveFilter}
+            toggleSidebar={mockToggleSidebar}
+          />
+        </Suspense>
+      </I18nextProvider>
+    );
+
+    const restaurantButton = screen.getByTestId('restaurant-button');
+    expect(restaurantButton).toBeInTheDocument();
+    expect(restaurantButton.querySelector('svg')).toHaveClass('BiRestaurant');
+    expect(restaurantButton.textContent).toBe('Restaurants');
+
+    const hotelButton = screen.getByTestId('hotel-button');
+    expect(hotelButton).toBeInTheDocument();
+    expect(hotelButton.querySelector('svg')).toHaveClass('MdLocalHotel');
+    expect(hotelButton.textContent).toBe('Hotels');
+
+    // Agrega aserciones similares para otros botones de filtro
+  });
+
+  test('should call setActiveFilter and toggleSidebar when a filter button is clicked', () => {
+    render(
+      <I18nextProvider i18n={i18n}>
+        <Suspense fallback={<Loader />}>
+          <FilterComponent
+            activeFilter={Category.Restaurant}
+            setActiveFilter={setActiveFilter}
+            toggleSidebar={mockToggleSidebar}
+          />
+        </Suspense>
+      </I18nextProvider>
+    );
+
+    const monumentButton = screen.getByTestId('monuments-button');
+    fireEvent.click(monumentButton);
+
+    expect(setActiveFilter).toHaveBeenCalledWith(Category.Monuments);
+    expect(mockToggleSidebar).toHaveBeenCalledWith(true);
+  });
+
+  test('should reset active filter when clicking on the active filter button', () => {
+    render(
+      <I18nextProvider i18n={i18n}>
+        <Suspense fallback={<Loader />}>
+          <FilterComponent
+            activeFilter={Category.Restaurant}
+            setActiveFilter={setActiveFilter}
+            toggleSidebar={mockToggleSidebar}
+          />
+        </Suspense>
+      </I18nextProvider>
+    );
+
+    const restaurantButton = screen.getByTestId('restaurant-button');
+    fireEvent.click(restaurantButton);
+
+    expect(setActiveFilter).toHaveBeenCalledWith(Category.All);
+    expect(mockToggleSidebar).toHaveBeenCalledWith(true);
+  });
+
+  test('should pass correct props to FilterComponent', () => {
+    render(
+      <I18nextProvider i18n={i18n}>
+        <Suspense fallback={<Loader />}>
+          <Filter
+            activeFilter={Category.Restaurant}
+            setActiveFilter={setActiveFilter}
+            toggleSidebar={mockToggleSidebar}
+            className="custom-class"
+          />
+        </Suspense>
+      </I18nextProvider>
+    );
+
+    const filterComponent = screen.getByTestId('filter-component');
+
+    expect(filterComponent).toHaveAttribute('activeFilter', Category.Restaurant);
+    expect(filterComponent).toHaveAttribute('setActiveFilter', setActiveFilter);
+    expect(filterComponent).toHaveAttribute('toggleSidebar', mockToggleSidebar);
+    expect(filterComponent).toHaveAttribute('className', 'custom-class');
+  });
 });
