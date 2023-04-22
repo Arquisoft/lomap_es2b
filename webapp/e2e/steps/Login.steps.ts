@@ -40,7 +40,7 @@ defineFeature(feature, test => {
     when('I select SolidCommunity as my login provider and click login', async () => {
       await expect(page).toClick('#root > div:nth-child(1) > div:nth-child(3) > form > div')
       await expect(page).toClick('#menu- > div:nth-child(3) > ul > li:nth-child(1)')
-      const navigationPromise = page.waitForNavigation()
+      const navigationPromise = page.waitForNavigation({waitUntil: 'load', timeout: 60000})
       await expect(page).toClick('#root > div:nth-child(1) > div:nth-child(3) > form > button')
       await navigationPromise
     })
@@ -50,7 +50,7 @@ defineFeature(feature, test => {
         username: webId,
         password: password
       }, { timeout: 1000 })
-      const navigationPromise = page.waitForNavigation()
+      const navigationPromise = page.waitForNavigation({waitUntil: 'load', timeout: 60000})
       await expect(page).toClick('button', { text: 'Log In' })
       await navigationPromise
     })
