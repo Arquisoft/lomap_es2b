@@ -64,9 +64,29 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
     }else if(!validaLong(description,longMaxDesc)){
       setError("Longitud maxima descripcion: "+longMaxDesc)
     }else{
+      uploadImage();
       addMark(name, lngLat, description, category, shared, await getDirection())
       setError(null);
     }
+    
+  }
+
+   function uploadImage(){
+    if(filepreview===null){
+      return;
+    }
+    let formData = new FormData();
+    formData.append('image',filepreview);
+    fetch('http://localhost:5000/api/image/upload',{
+      method:"POST",
+      body: formData
+    }).then(response =>{
+       return response.json();
+    }).then(data =>{
+      console.log(data)
+    }).catch(error=>{
+      console.log("Se ha producido un error: " + error)
+    })
     
   }
 
