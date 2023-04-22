@@ -28,6 +28,8 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
   const[ category, setCategory] = useState<Category>(Category.Others)
   const[error, setError] = useState<string|null>(null)
 
+  const[filepreview, setFilepreview] = useState<File|null>(null)
+
   const longMaxName = 20;
   const longMaxDesc = 50;
 
@@ -44,6 +46,11 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
 
   function handleChangeDescription(description:string){
     setDescription(description)
+  }
+
+  function handleChangeImage(event: React.ChangeEvent<HTMLInputElement>){
+   if(!event.target.files) return;
+   setFilepreview(event.target.files[0]);
   }
 
   async function handleSubmit(e:React.FormEvent){
@@ -109,6 +116,11 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
           </Select>
         </FormGroup>
          {error !== null ? <Error>{error}</Error> : null}
+         <FormGroup>
+          <label htmlFor='image'>Subir imagen del sitio</label>
+          <input type="file" id='image' onChange={handleChangeImage}/>
+          <img src={filepreview === null ? "" : URL.createObjectURL(filepreview)} alt='Previsualización'/>
+         </FormGroup>
         <FormGroup>
           <label>{ t('addMarker.coordinates') }:</label>
           <TextField disabled label={lngLat?.lat} variant='standard' />
