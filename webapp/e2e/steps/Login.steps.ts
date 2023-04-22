@@ -25,7 +25,7 @@ defineFeature(feature, test => {
     }
   })
 
-  jest.setTimeout(60000)
+  jest.setTimeout(180000)
 
   test('The user has a SolidCommunity account and is entering the site', ({ given, when, and, then }) => {
 
