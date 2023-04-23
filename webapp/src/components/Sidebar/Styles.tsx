@@ -60,6 +60,12 @@ export const SidebarSection = styled.div`
     p{
       word-wrap:break-word;
     }
+
+    img{
+      max-width: 100%;
+      max-height: 100%;
+      margin: auto;
+    }
   }
   
   .search {

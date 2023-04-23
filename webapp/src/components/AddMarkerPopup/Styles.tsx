@@ -10,7 +10,6 @@ export const FormGroup = styled.div`
     img{
         max-width: 100%;
         max-height: 100%;
-        display: block;
         margin: auto;
     }
 `

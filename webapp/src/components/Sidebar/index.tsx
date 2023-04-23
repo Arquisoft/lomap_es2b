@@ -200,7 +200,7 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
    
       <Button className="backButton" onClick={close} color='success' variant='contained'><TbArrowBackUp/>{ t('sidebar.details.back') }</Button>  
       <div className="markInfo">
-        <img src={imageToShow===null ? "" : URL.createObjectURL(imageToShow)} alt="Imagen del sitio" />
+       {imageToShow!==null ? <img src={imageToShow===null ? "" : URL.createObjectURL(imageToShow)} alt="Imagen del sitio" /> : null} 
         <h2>{marker.name}</h2>
         <p>{marker.description}</p>
 
