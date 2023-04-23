@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 interface Props{
     visible:boolean;
     lngLat:LngLat|undefined;
-    addMark:(name:string, lngLat:LngLat|undefined,description:string, category:Category, shared:boolean,direction:string)=>void;
+    addMark:(name:string, lngLat:LngLat|undefined,description:string, category:Category, shared:boolean,direction:string,image:string)=>void;
     closePopup:()=>void;
 }
 
@@ -65,10 +65,17 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
       setError("Longitud maxima descripcion: "+longMaxDesc)
     }else{
       uploadImage();
-      addMark(name, lngLat, description, category, shared, await getDirection())
-      setError(null);
+      cleanForm()
     }
     
+    
+  }
+
+  function cleanForm(){
+    setError("")
+    setName("")
+    setDescription("")
+    setFilepreview(null)
   }
 
    function uploadImage(){
@@ -82,8 +89,12 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
       body: formData
     }).then(response =>{
        return response.json();
-    }).then(data =>{
-      console.log(data)
+    }).then(async data =>{
+      if(data.data.filename==null){
+        addMark(name, lngLat, description, category, shared, await getDirection(),"")
+      }else{
+        addMark(name, lngLat, description, category, shared, await getDirection(),data.data.filename)
+      }
     }).catch(error=>{
       console.log("Se ha producido un error: " + error)
     })
@@ -105,9 +116,7 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
 
   return (
     <Popup isOpen={visible} closePopup={()=>{
-    setError(null)
-    setDescription("")
-    setName("")
+    cleanForm()
     closePopup()}}>
       <form onSubmit={(e)=>handleSubmit(e)}>  
         <h2>{ t('addMarker.title') }</h2>
@@ -138,7 +147,7 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
          {error !== null ? <Error>{error}</Error> : null}
          <FormGroup>
           <label htmlFor='image'>Subir imagen del sitio</label>
-          <input type="file" id='image' onChange={handleChangeImage}/>
+          <input type="file" id='image'  onChange={handleChangeImage}/>
           <img src={filepreview === null ? "" : URL.createObjectURL(filepreview)} alt='Previsualización'/>
          </FormGroup>
         <FormGroup>
