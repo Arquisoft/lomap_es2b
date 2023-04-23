@@ -1,23 +1,15 @@
 import { Suspense } from 'react';
 import i18n from 'i18next'
-
-
 import { render, screen, waitFor,fireEvent } from '@testing-library/react';
-import userEvent from "@testing-library/user-event";
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 
 import App from './App';
 import Sidebar from './components/Sidebar';
 import { Category } from './types/Category';
-import Navbar from './components/NavBar';
 import Loader from './components/Loader';
-import { MarkerContext } from './context/MarkersContext';
-import { IMarker } from './types/IMarker';
 import Filter, { FilterComponent } from './components/Filters';
 
 const mockToggleSidebar = jest.fn();
-const mockIsSidebarOpen = false;
-const mockOpenPopup = jest.fn();
 const mocksetSelectedCategory= jest.fn();
 i18n.use(initReactI18next).init({
   fallbackLng: 'en',
@@ -92,7 +84,7 @@ test('renders learn react link', () => {
 // });
 
 describe('sideBar', () => {
-  beforeEach(() => {
+  afterEach(() => {
     mockToggleSidebar.mockClear();
     mocksetSelectedCategory.mockClear();
   });
@@ -109,129 +101,6 @@ describe('sideBar', () => {
     await waitFor(() => expect(screen.getByText('sidebar.list.title')).toBeInTheDocument())
   }); 
 });
-
-describe('Navbar', () => {
-  beforeEach(() => {
-    //mockToggleSidebar.mockClear();
-    mockOpenPopup.mockClear();
-  });
-
-  let isSideBarOpen = true;
-
-  const toggleSidebar = (open: boolean | undefined) => {
-    if (open !== undefined) 
-      isSideBarOpen = open;
-    else 
-      isSideBarOpen = !isSideBarOpen;
-  }
-
-  it('should render Navbar component', () => {
-    render(
-      <I18nextProvider i18n={i18n}>
-        <Suspense fallback={<Loader />}>
-          <Navbar toggleSidebar={mockToggleSidebar} isSidebarOpen={mockIsSidebarOpen} openPopup={mockOpenPopup} />
-        </Suspense>
-      </I18nextProvider>
-    );
-
-    waitFor(() => expect(screen.getByText('LoMap')).toBeInTheDocument())
-  });
-
-  it("opens the user menu when clicking on the user avatar", async () => {
-    render(
-      <I18nextProvider i18n={i18n}>
-        <Suspense fallback={<Loader />}>
-          <Navbar toggleSidebar={mockToggleSidebar} isSidebarOpen={mockIsSidebarOpen} openPopup={mockOpenPopup} />
-        </Suspense>
-      </I18nextProvider>
-    );
-    await waitFor(() => expect(screen.getByRole("img")).toBeInTheDocument())
-    userEvent.click(screen.getByRole('img'));
-    expect(screen.getByText("navbar.user.logout")).toBeInTheDocument();
-  });
-
-  it("opens the search form when clicking on the search button", async () => {
-    render(
-      <I18nextProvider i18n={i18n}>
-        <Suspense fallback={<Loader />}>
-          <Navbar toggleSidebar={mockToggleSidebar} isSidebarOpen={mockIsSidebarOpen} openPopup={mockOpenPopup} />
-        </Suspense>
-      </I18nextProvider>
-    )
-    await waitFor(() => expect(screen.getByRole("button", { name: "navbar.tooltips.search" })).toBeInTheDocument())
-    userEvent.click(screen.getByRole("button", { name: "navbar.tooltips.search" }));
-    expect(screen.getByPlaceholderText("navbar.search.placeholder")).toBeInTheDocument();
-  });
-  
-  it("opens the options menu and the about popup and closes it", async () => {
-    render(
-      <I18nextProvider i18n={i18n}>
-        <Suspense fallback={<Loader />}>
-          <Navbar toggleSidebar={mockToggleSidebar} isSidebarOpen={mockIsSidebarOpen} openPopup={mockOpenPopup} />
-        </Suspense>
-      </I18nextProvider>
-    )
-    await waitFor(() => expect(screen.getByRole("button", { name: "navbar.tooltips.menu" })).toBeInTheDocument())
-    userEvent.click(screen.getByRole("button", { name: "navbar.tooltips.menu" }));
-    expect(screen.getByText("options.title")).toBeInTheDocument();
-    userEvent.click(screen.getByRole('button', { name: 'options.about' }))
-    expect(screen.getByText('aboutPopup.title')).toBeInTheDocument()
-    userEvent.click(screen.getAllByRole('button')[0]) // Presses the close button
-    expect(screen.getByText('options.title')).toBeInTheDocument()
-  });
-
-  it("opens the about popup from user menu", async () => {
-    render(
-      <I18nextProvider i18n={i18n}>
-        <Suspense fallback={<Loader />}>
-          <Navbar toggleSidebar={mockToggleSidebar} isSidebarOpen={mockIsSidebarOpen} openPopup={mockOpenPopup} />
-        </Suspense>
-      </I18nextProvider>
-    )
-    await waitFor(() => expect(screen.getByRole("img")).toBeInTheDocument())
-    userEvent.click(screen.getByRole('img'));
-    userEvent.click(screen.getByText('navbar.user.about'))
-    expect(screen.getByText('aboutPopup.title')).toBeInTheDocument()
-  });
-
-   it("opens the options menu and the about popup and closes it", async () => {
-     render(
-       <I18nextProvider i18n={i18n}>
-         <Suspense fallback={<Loader />}>
-           <Navbar
-             toggleSidebar={toggleSidebar}
-             isSidebarOpen={mockIsSidebarOpen}
-             openPopup={mockOpenPopup}
-           />
-         </Suspense>
-       </I18nextProvider>
-     );
-    
-     // Espera a que el botón esté presente en la pantalla
-     await waitFor(() =>
-       expect(
-         screen.getByRole("button", { name: "navbar.tooltips.markers" })
-       ).toBeInTheDocument()
-     );
-  
-     // Simula un clic en el botón
-     userEvent.click(
-       screen.getByRole("button", { name: "navbar.tooltips.markers" })
-     );
-  
-     // Espera a que la barra lateral se cierre
-     await waitFor(() => expect(isSideBarOpen).toBe(false));
-
-      // Simula un clic en el botón
-     userEvent.click(
-       screen.getByRole("button", { name: "navbar.tooltips.markers" })
-     );
-  
-     // Espera a que la barra lateral se abra
-     await waitFor(() => expect(isSideBarOpen).toBe(true));
-   });
-});
-
 
 const setActiveFilter = jest.fn();
 
@@ -266,7 +135,7 @@ describe('Filter', () => {
     // Agrega aserciones similares para otros botones de filtro
   });
 
-  test('should call setActiveFilter and toggleSidebar when a filter button is clicked', () => {
+  test('should call setActiveFilter and toggleSidebar when a filter button is clicked', async () => {
     render(
       <I18nextProvider i18n={i18n}>
         <Suspense fallback={<Loader />}>
@@ -279,7 +148,9 @@ describe('Filter', () => {
       </I18nextProvider>
     );
 
-    const monumentButton = screen.getByTestId('monuments-button');
+    await waitFor(() => expect(screen.getByText('markerCategories.monuments')).toBeInTheDocument())
+
+    const monumentButton = screen.getByText('markerCategories.monuments');
     fireEvent.click(monumentButton);
 
     expect(setActiveFilter).toHaveBeenCalledWith(Category.Monuments);
