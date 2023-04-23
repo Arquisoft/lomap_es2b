@@ -65,7 +65,7 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
       setError("Longitud maxima descripcion: "+longMaxDesc)
     }else{
       uploadImage();
-      cleanForm()
+      
     }
     
     
@@ -95,6 +95,7 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
       }else{
         addMark(name, lngLat, description, category, shared, await getDirection(),data.data.filename)
       }
+      cleanForm()
     }).catch(error=>{
       console.log("Se ha producido un error: " + error)
     })
@@ -147,8 +148,9 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
          {error !== null ? <Error>{error}</Error> : null}
          <FormGroup>
           <label htmlFor='image'>Subir imagen del sitio</label>
-          <input type="file" id='image'  onChange={handleChangeImage}/>
-          <img src={filepreview === null ? "" : URL.createObjectURL(filepreview)} alt='Previsualización'/>
+          <input type="file" id='image'  onChange={handleChangeImage} />
+          {filepreview !== null ? <img src={filepreview === null ? "" : URL.createObjectURL(filepreview)} alt='Previsualización'/> : null}
+         
          </FormGroup>
         <FormGroup>
           <label>{ t('addMarker.coordinates') }:</label>
