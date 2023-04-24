@@ -77,7 +77,7 @@ const MapPage = () : JSX.Element => {
         lat: lngLat.lat,
         lng: lngLat.lng,
         date: new Date(),
-        images: [],
+        images: [image],
         description: description,
         category,
         comments: [],
