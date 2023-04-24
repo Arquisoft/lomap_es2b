@@ -21,6 +21,7 @@ const MapComponent = ({ onClick, filterType }:Props) => {
   
   const [isLoading , setIsLoading] = useState(true)
   const [infoVisible,setInfoVisible] = useState<IMarker|null>(null); 
+  const[imageToShow,setImageToShow] = useState<Blob|null>(null)
 
   const { state: markers } = useContext(MarkerContext)
 
@@ -41,7 +42,28 @@ const MapComponent = ({ onClick, filterType }:Props) => {
     }
   }
 
-  
+  useEffect(() => {
+    getMarkImage()
+  }, [infoVisible]);
+
+  async function getMarkImage(){
+    try{
+      if(!infoVisible) return
+      let response = await fetch('http://localhost:5000/api/image/get/'+infoVisible.images[0]);
+      if(response!=null){
+        let blob = await response.blob()
+       setImageToShow(blob);
+       console.log(blob)
+      }else{
+        setImageToShow(null)
+      }
+      
+    }catch(err){
+      console.log("Ha ocurrido un error: "+err)
+      setImageToShow(null);
+    }
+   
+  }
   
   useEffect(locateUser,[map])
 
@@ -97,8 +119,9 @@ const MapComponent = ({ onClick, filterType }:Props) => {
             }}
             closeOnMove={false}
           >
-            
+            {imageToShow!==null ? <img className='popupImage' src={imageToShow===null ? "" : URL.createObjectURL(imageToShow)} alt="Imagen del sitio" /> : null} 
             <p>{infoVisible.name}</p>
+            <p>{infoVisible.address}</p>
            
            
           </Popup>

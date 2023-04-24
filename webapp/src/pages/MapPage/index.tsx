@@ -47,7 +47,7 @@ const MapPage = () : JSX.Element => {
 
 
 
-  function addMark(name:string, lngLat:LngLat|undefined,description:string, category:Category, shared:boolean,direction:string ){
+  function addMark(name:string, lngLat:LngLat|undefined,description:string, category:Category, shared:boolean,direction:string,image:string ){
     if(lngLat===undefined){
       return
     }
@@ -59,7 +59,7 @@ const MapPage = () : JSX.Element => {
         lat: lngLat.lat,
         lng: lngLat.lng,
         date: new Date(),
-        images: [],
+        images: [image],
         description: description,
         category,
         comments: [],
@@ -88,7 +88,7 @@ const MapPage = () : JSX.Element => {
         }
       }
     }
-    
+    console.log(newMarker)
     dispatch({ type: Types.ADD, payload: { marker: newMarker } })
     closePopup()
   }
