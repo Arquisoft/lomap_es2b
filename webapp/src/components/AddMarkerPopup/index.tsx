@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 interface Props{
     visible:boolean;
     lngLat:LngLat|undefined;
-    addMark:(name:string, lngLat:LngLat, description:string, category:Category, shared:boolean, direction:string)=>void;
+    addMark:(name:string, lngLat:LngLat|undefined,description:string, category:Category, shared:boolean,direction:string,image:string)=>void;
     closePopup:()=>void;
 }
 
@@ -27,6 +27,8 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
   const[shared,setShared]=useState<boolean>(false)
   const[ category, setCategory] = useState<Category>(Category.Others)
   const[error, setError] = useState<string|null>(null)
+
+  const[filepreview, setFilepreview] = useState<File|null>(null)
 
   const longMaxName = 20;
   const longMaxDesc = 50;
@@ -46,6 +48,11 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
     setDescription(description)
   }
 
+  function handleChangeImage(event: React.ChangeEvent<HTMLInputElement>){
+   if(!event.target.files) return;
+   setFilepreview(event.target.files[0]);
+  }
+
   async function handleSubmit(e:React.FormEvent){
     e.preventDefault();
     setError(null);
@@ -56,12 +63,42 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
       setError("Longitud maxima nombre: "+longMaxName)
     } else if (!validaLong(description,longMaxDesc)) {
       setError("Longitud maxima descripcion: "+longMaxDesc)
-    } else if (!lngLat) {
-      return
-    } else {
-      addMark(name, lngLat, description, category, shared, await getDirection())
-      setError(null);
+    }else{
+      uploadImage();
+      
     }
+    
+    
+  }
+
+  function cleanForm(){
+    setError("")
+    setName("")
+    setDescription("")
+    setFilepreview(null)
+  }
+
+  function uploadImage(){
+    if(filepreview===null){
+      return;
+    }
+    let formData = new FormData();
+    formData.append('image',filepreview);
+    fetch('http://localhost:5000/api/image/upload',{
+      method:"POST",
+      body: formData
+    }).then(response =>{
+       return response.json();
+    }).then(async data =>{
+      if(data.data.filename==null){
+        addMark(name, lngLat, description, category, shared, await getDirection(),"")
+      }else{
+        addMark(name, lngLat, description, category, shared, await getDirection(),data.data.filename)
+      }
+      cleanForm()
+    }).catch(error=>{
+      console.log("Se ha producido un error: " + error)
+    })
     
   }
 
@@ -69,15 +106,13 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
     return intput.length<maxLong;
   }
 
-  function validaVacio(input:String){
-    return (input!==null) && (input.trim().length!==0);
+  function validaVacio(intput:String){
+    return (intput!==null) && (intput.trim().length!==0);
   }
 
   return (
     <Popup isOpen={visible} closePopup={()=>{
-    setError(null)
-    setDescription("")
-    setName("")
+    cleanForm()
     closePopup()}}>
       <form onSubmit={(e)=>handleSubmit(e)}>  
         <h2>{ t('addMarker.title') }</h2>
@@ -106,6 +141,12 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
           </Select>
         </FormGroup>
          {error !== null ? <Error>{error}</Error> : null}
+         <FormGroup>
+          <label htmlFor='image'>Subir imagen del sitio</label>
+          <input type="file" id='image'  onChange={handleChangeImage} />
+          {filepreview !== null ? <img src={filepreview === null ? "" : URL.createObjectURL(filepreview)} alt='Previsualización'/> : null}
+         
+         </FormGroup>
         <FormGroup>
           <label>{ t('addMarker.coordinates') }:</label>
           <TextField disabled label={lngLat?.lat} variant='standard' />
