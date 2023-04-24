@@ -51,7 +51,7 @@ defineFeature(feature, test => {
 
     when('I select SolidCommunity as my login provider and click login', async () => {
       await expect(page).toClick('#root > div:nth-child(1) > div:nth-child(3) > form > div')
-      await expect(page).toClick('#menu- > div:nth-child(3) > ul > li:nth-child(1)')
+      await expect(page).toClick('#menu- > div:nth-child(3) > ul > li:nth-child(2)')
       const navigationPromise = page.waitForNavigation({waitUntil: 'load', timeout: 60000})
       await expect(page).toClick('#root > div:nth-child(1) > div:nth-child(3) > form > button')
       await navigationPromise
