@@ -26,6 +26,7 @@ import {
   saveAclFor,
   setPublicDefaultAccess,
 } from "@inrupt/solid-client";
+import { INews } from "../types/INews";
 
 export async function getProfile(webId: string) {
   let profileDocumentURI = webId.split("#")[0];
@@ -386,4 +387,40 @@ export async function readMarkerFromLoMap() {
     }
   
   return markers
+};
+
+export async function readNewsFromLoMap() {
+  let newsList: INews[] = []
+  
+    let profileDocumentURI = "https://lomapes2b.inrupt.net/";
+    try {
+      const file = await getFile(
+        profileDocumentURI + 'public/LoMap/News.json',
+        { fetch: fetch },
+      )
+      let aux = JSON.parse(await file.text());
+      aux.forEach((news:any) => {
+        newsList.push({...news, property: { owns: false, author: profileDocumentURI }});
+      });
+    } catch (err) {
+    }
+  
+  return newsList
+};
+
+export async function saveNewsToLomap(newsList: INews[]) {
+  let profileDocumentURI = "https://lomapes2b.inrupt.net/";
+  let targetFileURL = profileDocumentURI + 'public/LoMap/News.json';
+  let str = JSON.stringify(newsList);
+  const bytes = new TextEncoder().encode(str);
+  const blob = new Blob([bytes], {
+    type: "application/json;charset=utf-8"
+  });
+  try {
+    await overwriteFile(
+      targetFileURL,                              // URL for the file.
+      blob,                                       // File
+      { contentType: blob.type, fetch: fetch }    // mimetype if known, fetch from the authenticated session
+    );
+  } catch (error) {}
 };
