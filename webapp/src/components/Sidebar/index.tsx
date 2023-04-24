@@ -37,6 +37,7 @@ const Sidebar = ({ isOpen, toggleSidebar, selectedCategory, setSelectedCategory 
   const [ finalList, setFinalList ] = useState<IMarker[]>([])
   const [searchValue, setSearchValue] = useState("")
   const[markerToShow,setMarkerToShow] = useState<IMarker|null>(null)
+  
 
 
   const handleMarkerClick = (marker: IMarker) => {
@@ -141,11 +142,15 @@ type InfoProps = {
 
 const MarkerInfo = ({ marker, close }: InfoProps) => {
 
+
   const { dispatch } = useContext(MarkerContext)
   const {session} = useSession();
   const { t } = useTranslation()
 
+  
+
   const [comment,setComment] = useState<string>("");
+  const[imageToShow,setImageToShow] = useState<Blob|null>(null)
 
   function setScore(newScore:number | null){
     if(!newScore) return
@@ -164,10 +169,38 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
     setComment("");
   }
 
+   async function getMarkImage(){
+    try{
+      let response = await fetch('http://localhost:5000/api/image/get/'+marker.images[0]);
+      if(response!=null){
+        let blob = await response.blob()
+       setImageToShow(blob);
+       console.log(blob)
+      }else{
+        setImageToShow(null)
+      }
+      
+    }catch(err){
+      console.log("Ha ocurrido un error: "+err)
+      setImageToShow(null);
+    }
+   
+  }
+
+  
+ 
+  useEffect(() => {
+    getMarkImage()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  
+
   return (
     <>
+   
       <Button className="backButton" onClick={close} color='success' variant='contained'><TbArrowBackUp/>{ t('sidebar.details.back') }</Button>  
       <div className="markInfo">
+       {imageToShow!==null ? <img src={imageToShow===null ? "" : URL.createObjectURL(imageToShow)} alt="Imagen del sitio" /> : null} 
         <h2>{marker.name}</h2>
         <p>{marker.description}</p>
 
