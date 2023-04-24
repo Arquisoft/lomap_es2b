@@ -1,6 +1,6 @@
 import { TextField, Button, Select, MenuItem, ToggleButtonGroup, ToggleButton } from '@mui/material'
 import { LngLat } from 'mapbox-gl';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import Popup from '../PopUp';
 import { FormGroup, Error } from "./Styles";
@@ -110,7 +110,7 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
 
 
   function validaVacio(intput:String){
-    return (intput!=null) && (intput.trim().length!=0);
+    return (intput!==null) && (intput.trim().length!==0);
   }
 
 

@@ -44,6 +44,7 @@ const MapComponent = ({ onClick, filterType }:Props) => {
 
   useEffect(() => {
     getMarkImage()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [infoVisible]);
 
   async function getMarkImage(){

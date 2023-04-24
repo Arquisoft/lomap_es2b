@@ -13,7 +13,6 @@ import { Category } from "../../types/Category";
 import Filter from "../Filters";
 import CloseButton from "../CloseButton";
 import { useTranslation } from "react-i18next";
-import { url } from "inspector";
 
 type Props = {
   isOpen: boolean,
@@ -192,6 +191,7 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
  
   useEffect(() => {
     getMarkImage()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
 

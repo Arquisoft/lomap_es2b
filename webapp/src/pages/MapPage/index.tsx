@@ -70,7 +70,7 @@ const MapPage = () : JSX.Element => {
         }
       }
     }else{
-      var newMarker:IMarker = {
+      newMarker = {
         id: uuid(),
         name: name,
         address: direction,
