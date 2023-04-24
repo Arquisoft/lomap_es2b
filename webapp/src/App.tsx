@@ -5,10 +5,11 @@ import { SessionProvider, useSession } from '@inrupt/solid-ui-react';
 import { useState } from 'react';
 
 import { MarkerContext } from './context/MarkersContext';
-import { getProfile, readMarkersFromPod } from './helpers/SolidHelper';
+import { getProfile, readMarkersFromPod, readNewsFromLoMap } from './helpers/SolidHelper';
 import { Types } from './types/ContextActionTypes';
 import { UserContext } from './context/UserContext';
 import Loader from './components/Loader';
+import { NewsContext } from './context/NewsContext';
 
 function App(): JSX.Element {
 
@@ -19,6 +20,7 @@ function App(): JSX.Element {
 
   const { dispatch: markersDispatch } = useContext(MarkerContext)
   const { dispatch: userDispatch } = useContext(UserContext)
+  const { dispatch: newsDispatch } = useContext(NewsContext)
 
   session.onLogin(async () => {
     setIsLoggedIn(true)
@@ -26,6 +28,9 @@ function App(): JSX.Element {
     userDispatch({ type: Types.SET, payload: { user: profile }});
     const markers = await readMarkersFromPod(session.info.webId)
     markersDispatch({ type: Types.SET, payload: { markers }});
+    const newsList = await readNewsFromLoMap();
+    newsDispatch({ type: Types.SET, payload: { newsList }});
+
   })
 
   //We have logged out
