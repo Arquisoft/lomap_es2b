@@ -25,9 +25,6 @@ const MapComponent = ({ onClick, filterType }:Props) => {
 
   const { state: markers } = useContext(MarkerContext)
 
-
-
-
   const locateUser = () => {
     if ("geolocation" in navigator) {      
         navigator.geolocation.getCurrentPosition((position) => {
@@ -51,11 +48,11 @@ const MapComponent = ({ onClick, filterType }:Props) => {
     try{
       if(!infoVisible) return
       let response = await fetch('http://localhost:5000/api/image/get/'+infoVisible.images[0]);
-      if(response!=null){
+      if(response!=null) {
         let blob = await response.blob()
        setImageToShow(blob);
        console.log(blob)
-      }else{
+      } else {
         setImageToShow(null)
       }
       
