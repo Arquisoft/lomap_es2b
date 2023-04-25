@@ -2,7 +2,7 @@ import { createContext, Dispatch, useEffect, useReducer, useState, useRef } from
 import { Types } from "../types/ContextActionTypes";
 import { INews } from '../types/INews';
 import { saveNewsToLomap } from "../helpers/SolidHelper";
-import { useSession } from "@inrupt/solid-ui-react";
+// import { useSession } from "@inrupt/solid-ui-react";
 
 
 type NewsActions = {
