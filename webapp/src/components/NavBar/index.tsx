@@ -4,10 +4,11 @@ import { useSession } from '@inrupt/solid-ui-react';
 import { FOAF, VCARD } from '@inrupt/vocab-common-rdf';
 import { Avatar, Box, Divider, IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import { FaSearch, FaBars, FaMapMarkerAlt } from "react-icons/fa";
-import {FcAbout, FcDataConfiguration} from "react-icons/fc"
+import {FcAbout, FcDataConfiguration} from "react-icons/fc"; 
+import {MdOutlineAltRoute} from "react-icons/md"; 
 
 import { IMenuOption } from '../../types/IMenuOption';
-import { Popups } from '../../pages/MapPage';
+import { Popups, SidebarView } from '../../pages/MapPage';
 import { UserContext } from '../../context/UserContext';
 import NavPopup from "../NavPopup";
 import { mapboxApiKey } from "../../config/constants";
@@ -19,11 +20,12 @@ import { useTranslation } from 'react-i18next';
 
 type Props = {
   isSidebarOpen: boolean
-  toggleSidebar: (open: boolean | undefined) => void
+  sidebarView: SidebarView
+  toggleSidebar: (open: boolean | undefined, view: SidebarView) => void
   openPopup: (popup : Popups) => void
 }
 
-const Navbar = ({ openPopup, isSidebarOpen, toggleSidebar } : Props) => {
+const Navbar = ({ openPopup, isSidebarOpen, sidebarView, toggleSidebar } : Props) => {
   const { map  } = useMap()
   const { logout } = useSession()
   const { t } = useTranslation()
@@ -103,19 +105,19 @@ const Navbar = ({ openPopup, isSidebarOpen, toggleSidebar } : Props) => {
 
   const openMenuPopup = () => {
     wasSidebarOpen.current = isSidebarOpen
-    toggleSidebar(false)
+    toggleSidebar(false, sidebarView)
     setIsMenuPopupOpen(true)
   }
 
   const closeMenuPopup = () => {
     setIsMenuPopupOpen(false)
-    toggleSidebar(wasSidebarOpen.current)
+    toggleSidebar(wasSidebarOpen.current, sidebarView)
   }
 
   const openConfigPopup = () => {
     !isMenuPopupOpen && (wasSidebarOpen.current = isSidebarOpen)
     wasMenuOpen.current = isMenuPopupOpen
-    toggleSidebar(false)
+    toggleSidebar(false, sidebarView)
     setIsMenuPopupOpen(false)
     setIsConfigPopupOpen(true)
   }
@@ -123,13 +125,13 @@ const Navbar = ({ openPopup, isSidebarOpen, toggleSidebar } : Props) => {
   const closeConfigPopup = () => {
     setIsConfigPopupOpen(false)
     setIsMenuPopupOpen(wasMenuOpen.current)
-    toggleSidebar(!wasMenuOpen.current && wasSidebarOpen.current)
+    toggleSidebar(!wasMenuOpen.current && wasSidebarOpen.current, sidebarView)
   }
 
   const openAboutPopup = () => {
     !isMenuPopupOpen && (wasSidebarOpen.current = isSidebarOpen)
     wasMenuOpen.current = isMenuPopupOpen
-    toggleSidebar(false)
+    toggleSidebar(false, sidebarView)
     setIsMenuPopupOpen(false)
     setIsAboutPopupOpen(true)
   }
@@ -137,7 +139,7 @@ const Navbar = ({ openPopup, isSidebarOpen, toggleSidebar } : Props) => {
   const closeAboutPopup = () => {
     setIsAboutPopupOpen(false)
     setIsMenuPopupOpen(wasMenuOpen.current)
-    toggleSidebar(!wasMenuOpen.current && wasSidebarOpen.current)
+    toggleSidebar(!wasMenuOpen.current && wasSidebarOpen.current, sidebarView)
   }
 
   return (
@@ -164,8 +166,13 @@ const Navbar = ({ openPopup, isSidebarOpen, toggleSidebar } : Props) => {
           </Tooltip>
         </SearchForm>
         <Tooltip title={t('navbar.tooltips.markers')}>
-          <IconButton onClick={() => toggleSidebar(undefined)}>
+          <IconButton onClick={() => toggleSidebar(undefined, SidebarView.MARKERS)}>
             <FaMapMarkerAlt />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title={t('navbar.tooltips.routes')}>
+          <IconButton onClick={() => toggleSidebar(undefined, SidebarView.ROUTES)}>
+            <MdOutlineAltRoute />
           </IconButton>
         </Tooltip>
         <Box sx={{ flexGrow: 0 }}>

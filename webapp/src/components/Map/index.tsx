@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import { CircularProgress } from '@mui/material'
-import Map, { LngLat, Marker, useMap,Popup} from 'react-map-gl'
+import Map, { LngLat, Marker, useMap,Popup, Source, Layer } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import { mapboxApiKey } from '../../config/constants'
@@ -9,6 +9,7 @@ import { MarkerContext } from '../../context/MarkersContext';
 import { IMarker } from '../../types/IMarker';
 import './Map.css'
 import { Category } from '../../types/Category';
+import { IRoute } from '../../types/IRoute';
 
 interface Props{
     onClick:(lngLat:LngLat,visible:boolean)=>void;
@@ -25,8 +26,23 @@ const MapComponent = ({ onClick, filterType }:Props) => {
 
   const { state: markers } = useContext(MarkerContext)
 
+  const routes:IRoute[] = []
 
-
+  const basicGeoJson : {
+    type: 'Feature',
+    properties: any,
+    geometry: {
+      type: 'LineString',
+      coordinates: number[][]
+    }
+  } = {
+    type: 'Feature',
+    properties: {},
+    geometry: {
+      type: 'LineString',
+      coordinates: []
+    }
+  } 
 
   const locateUser = () => {
     if ("geolocation" in navigator) {      
@@ -68,8 +84,6 @@ const MapComponent = ({ onClick, filterType }:Props) => {
   
   useEffect(locateUser,[map])
 
- 
-
   return (
     <>
       {
@@ -90,7 +104,6 @@ const MapComponent = ({ onClick, filterType }:Props) => {
           }
           
         }>
-       
           {
             markers
             .filter((marker) => filterType === Category.All || filterType === marker.category)
@@ -110,6 +123,17 @@ const MapComponent = ({ onClick, filterType }:Props) => {
             ))
           }
 
+          {
+            routes.map(route => {
+              const json = basicGeoJson
+              json.geometry.coordinates = route.points.map(m => [m.lat, m.lng])
+              return (
+                <Source key={`${route.name}-${route.created_at}`} id={`${route.name}-${route.created_at}`} type='geojson' data={json}>
+                  <Layer type='line' paint={{ "line-color": 'blue' }} />
+                </Source>
+              )
+            })
+          }
 
           {infoVisible && (
           <Popup 

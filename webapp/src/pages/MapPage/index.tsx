@@ -23,9 +23,15 @@ export enum Popups {
   ABOUT
 }
 
+export enum SidebarView {
+  MARKERS = 'markers',
+  ROUTES = 'routes',
+}
+
 const MapPage = () : JSX.Element => {
 
   const [ sidebarOpen, setSidebarOpen ] = useState(true)
+  const [ sidebarView, setSidebarView ] = useState<SidebarView>(SidebarView.MARKERS)
   const[popupVisible,setPopupVisible] = useState<Popups>(Popups.NONE)
   const [lngLat, setLngLat] = useState<LngLat>()  
 
@@ -93,20 +99,33 @@ const MapPage = () : JSX.Element => {
     closePopup()
   }
 
-  const toggleSidebar = (open: boolean | undefined) => {
-    if (open !== undefined) 
-      setSidebarOpen(open)
-    else 
-      setSidebarOpen(!sidebarOpen)
+  const toggleSidebar = (open: boolean | undefined, view?: SidebarView) => {
+    let changes = false
+    console.log(view)
+    if (view) {
+      if (view !== sidebarView) {
+        changes = true
+      }
+      setSidebarView(view)
+    }
+
+    if (changes) {
+      setSidebarOpen(true)
+    } else {
+      if (open !== undefined) 
+        setSidebarOpen(open)
+      else 
+        setSidebarOpen(!sidebarOpen)
+    }
   }
   
   return (
     <MapProvider>
       <NavContainer>
-        <Navbar openPopup={openPopup} isSidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+        <Navbar openPopup={openPopup} sidebarView={sidebarView} isSidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
         <Filter toggleSidebar={toggleSidebar} activeFilter={selectedCategory} setActiveFilter={setSelectedCategory} />
       </NavContainer>
-      <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
+      <Sidebar isOpen={sidebarOpen} view={sidebarView} toggleSidebar={toggleSidebar} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
       <Map onClick={showAddMarkerPopup} filterType={selectedCategory} />
       <FocusOnUserButton />
       <AddMarkerPopup closePopup={closePopup} visible={popupVisible === Popups.ADD_MARKER} lngLat={lngLat} addMark={addMark} />
