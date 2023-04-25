@@ -163,6 +163,11 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
 
    async function getMarkImage(){
     try{
+      if (!marker.images[0]) {
+        setImageToShow(null)
+        return
+      }
+
       let response = await fetch('http://localhost:5000/api/image/get/'+marker.images[0]);
       if(response!=null){
         let blob = await response.blob()
