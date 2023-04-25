@@ -33,7 +33,7 @@ export const newsReducer = (state:INews[], action: NewsActions) : INews[] => {
 }
 
 export const NewsContextProvider: React.FC = ({ children }) => {
-  const { session } = useSession()
+  // const { session } = useSession()
   
   const [state, dispatch] = useReducer(newsReducer, [])
   const stateRef = useRef(state);
