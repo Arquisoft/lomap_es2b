@@ -10,19 +10,22 @@ defineFeature(feature, test => {
   
   beforeAll(async () => {
     browser = process.env.GITHUB_ACTIONS
-      ? await puppeteer.launch({ args: ['--lang=es-ES'] })
-      : await puppeteer.launch({ headless: false, slowMo: 50, args: ['--lang=es-ES'] });
+      ? await puppeteer.launch({ args: ['--lang="es-ES"'] })
+      : await puppeteer.launch({ headless: false, slowMo: 50, args: ['--lang="es-ES"'] });
     page = await browser.newPage();
 
 
     try {
-        await page.goto(`http://localhost:3000`, { waitUntil: 'networkidle0' });
-        page.on('request', request => {
-          console.log(request.url())
-        })
+      await page.setExtraHTTPHeaders({
+        'Accept-Language': 'es'
+      });
+      await page.goto(`http://localhost:3000`, { waitUntil: 'networkidle0' });
+      page.on('request', request => {
+        console.log(request.url())
+      })
     } catch (e) {
-        console.log(e);
-        await browser.close();
+      console.log(e);
+      await browser.close();
     }
   })
 
