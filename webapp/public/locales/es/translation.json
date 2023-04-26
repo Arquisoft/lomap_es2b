@@ -104,13 +104,19 @@
     "title": "Crear un Nuevo Marcador",
     "name": {
       "label": "Nombre",
-      "placeholder": "Nombre"
+      "placeholder": "Nombre",
+      "error": "Introduce un nombre para el marcador"
     },
     "description": {
       "label": "Descripción",
       "placeholder": "Descripción"
     },
     "category": "Categoría",
+    "image": {
+        "label": "Subir imagen del sitio",
+        "button": "Añadir imagen",
+        "error": "Introduce una imagen"
+    },
     "coordinates": "Coordenadas (Lat-Lng)",
     "save": "Guardar"
   },

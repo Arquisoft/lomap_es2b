@@ -12,6 +12,35 @@ export const FormGroup = styled.div`
         max-height: 100%;
         margin: auto;
     }
+
+    input#image{
+        position:absolute;
+	    top:0px;
+	    left:0px;
+	    right:0px;
+	    bottom:0px;
+	    width:100%;
+	    height:100%;
+	    opacity: 0;
+    }
+
+    div#div_file{
+	position:relative;
+	margin-bottom:1em;
+	padding:auto;
+	width:100%;
+	background-color: #2499e3;
+	-webkit-border-radius:5px;
+	-webkit-box-shadow:0px 3px 0px #1a71a9;
+    cursor: pointer;
+    
+    }
+
+
+    p#texto{
+	text-align: center;
+	color:white;
+    }
 `
 
 export const Error = styled.p`

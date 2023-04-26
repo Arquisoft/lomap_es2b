@@ -27,6 +27,7 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
   const[shared,setShared]=useState<boolean>(false)
   const[ category, setCategory] = useState<Category>(Category.Others)
   const[error, setError] = useState<string|null>(null)
+  const[errorImage,isErrorImage] = useState<boolean>(false)
 
   const[filepreview, setFilepreview] = useState<File|null>(null)
 
@@ -56,6 +57,7 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
 
   function handleChangeImage(event: React.ChangeEvent<HTMLInputElement>){
    if(!event.target.files) return;
+   isErrorImage(false);
    setFilepreview(event.target.files[0]);
   }
 
@@ -63,17 +65,22 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
     e.preventDefault();
     setError(null);
     getDirection();
-    if(!validaVacio(name)) {
-      setError("Introduce un nombre para el marcador")
-    } else{
-      uploadImage();
-      
+    if(filepreview == null){
+      isErrorImage(true);
+      return;
     }
+    if(!validaVacio(name)) {
+      setError(t('addMarker.name.error'))
+      return;
+    }
+    uploadImage();
+      
     
-    
+     
   }
 
   function cleanForm(){
+    isErrorImage(false);
     setError("")
     setName("")
     setDescription("")
@@ -120,6 +127,7 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
           <label htmlFor="Nombre">{ t('addMarker.name.label') }:</label>
           <TextField className='field' helperText={name.length+'/'+longMaxName} id='Nombre' label={ t('addMarker.name.placeholder') } variant='standard' onChange={(e)=>handleChangeName(e.target.value)} value={name}/>
         </FormGroup>
+        {error !== null ? <Error>{error}</Error> : null}
         <FormGroup>
           <label htmlFor="Descripcion">{ t('addMarker.description.label') }:</label>
           <TextField className='field'  helperText={description.length+'/'+longMaxDesc} id='Descripcion' label={ t('addMarker.description.placeholder') } variant='standard' multiline maxRows={4} onChange={(e)=>handleChangeDescription(e.target.value)} value={description}/>         
@@ -140,12 +148,15 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
             <MenuItem value={Category.Others}>{ t('markerCategories.other') }</MenuItem>
           </Select>
         </FormGroup>
-         {error !== null ? <Error>{error}</Error> : null}
-         <FormGroup>
-          <label htmlFor='image'>Subir imagen del sitio</label>
-          <input type="file" id='image'  onChange={handleChangeImage} />
-          {filepreview !== null ? <img src={filepreview === null ? "" : URL.createObjectURL(filepreview)} alt='Previsualización'/> : null}
          
+         <FormGroup>
+          <label htmlFor='image'>{t('addMarker.image.label')}</label>
+          <div id="div_file">
+            <p id="texto">{t('addMarker.image.button')}</p>
+            <input type="file" id="image" onChange={handleChangeImage}/>
+          </div>
+          {filepreview !== null ? <img src={filepreview === null ? "" : URL.createObjectURL(filepreview)} alt='Previsualización'/> : null}
+          {errorImage ? <Error>{t('addMarker.image.error')}</Error> : null}
          </FormGroup>
         <FormGroup>
           <label>{ t('addMarker.coordinates') }:</label>
