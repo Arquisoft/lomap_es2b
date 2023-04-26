@@ -15,9 +15,9 @@ import CloseButton from "../CloseButton";
 import { useTranslation } from "react-i18next";
 import { IRoute } from "../../types/IRoute";
 import DeleteButton from "../DeleteButton";
-import { Button } from "@mui/material";
+import { Button, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
 import { AiFillPlusCircle } from "react-icons/ai";
-import { TbArrowBackUp } from "react-icons/tb";
+import { TbArrowBackUp, TbRoute } from "react-icons/tb";
 import { v4 as uuid } from "uuid";
 import { Popups } from "../../pages/MapPage";
 import { RoutesContext } from "../../context/RoutesContext";
@@ -167,6 +167,7 @@ const RouteInfo = ({ route, close }: InfoProps) => {
   const [finalList, setFinalList] = useState<IMarker[]>([]);
   const { state: markers, dispatch } = useContext(MarkerContext);
   const [searchValue, setSearchValue] = useState("");
+  const [showMenu, setShowMenu] = useState(false);
 
   // Función para manejar el evento de seleccionar un marcador
   const handleMarkerSelect = (marker: IMarker) => {
@@ -195,6 +196,7 @@ const RouteInfo = ({ route, close }: InfoProps) => {
   }, [markers, searchValue]);
   
   const handleAddMarkerClick = () => {
+    setShowMenu(true);
     console.log("Añadir marcador");
   };
 
@@ -248,10 +250,7 @@ const RouteInfo = ({ route, close }: InfoProps) => {
             </div>
           </div>
         </MarkerList>
-        <CreateButton onClick={handleAddMarkerClick}>
-        <AiFillPlusCircle />
-        {t("sidebar.routes.addMarker")}
-      </CreateButton>
+        <SelectRouteMenu addMarkerToRoute={(route) => {}} />
       </div>
     </>
   );
@@ -272,5 +271,71 @@ const Marker = ({ marker, onClick }: MarkerProps) => {
     </MarkerSection>
   );
 };
+
+type MenuProps = {
+  addMarkerToRoute: (route: IRoute) => void
+}
+
+const SelectRouteMenu = ({addMarkerToRoute}: MenuProps) => {
+  
+  const { t } = useTranslation()
+  const { state: routes } = useContext(RoutesContext)
+  const [searchValue, setSearchValue] = useState("")
+
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  }
+  
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  }
+
+  const addToRoute = (route: IRoute) => {
+    addMarkerToRoute(route)
+    handleCloseUserMenu()
+  }
+
+  return (  
+    <div>
+      <Tooltip title={ t('sidebar.details.add_to_route') }>
+      <CreateButton onClick={handleOpenUserMenu}>
+        <AiFillPlusCircle />
+        {t("sidebar.routes.addMarker")}
+      </CreateButton>
+      </Tooltip>
+      <Menu
+        sx={{ mt: '1.5em' }}
+        id="menu-appbar"
+        anchorEl={anchorElUser}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        keepMounted
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        open={Boolean(anchorElUser)}
+        onClose={handleCloseUserMenu}
+      > 
+        <input placeholder={'Busca una ruta'} value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
+        {
+          routes.length === 0 ?
+          <MenuItem>
+            <Typography textAlign="center">{ t('sidebar.details.route_list_empty') }</Typography>
+          </MenuItem>
+          :
+          routes.filter(r => r.name.toLowerCase().includes(searchValue.toLowerCase())).map(r => (
+            <MenuItem key={ r.id } onClick={ () => addToRoute(r) }>
+              <Typography textAlign="center">{ r.name }</Typography>
+            </MenuItem>
+          ))
+        }
+      </Menu>
+    </div>
+  )
+}
 
 export default RoutesSidebar;
