@@ -14,6 +14,8 @@ i18n.use(initReactI18next).init({
 
 const setSelectedCategoryMock = jest.fn()
 const toggleSidebarMock = jest.fn()
+const setAddRoutes = jest.fn()
+const openPopup = jest.fn()
 
 let idCounter = 1
 
@@ -27,7 +29,7 @@ const SidebarTest = ({ isOpen, view } : SidebarTestsProps) => {
   return (
     <I18nextProvider i18n={i18n}>
       <Suspense fallback={ <Loader /> }>
-        <Sidebar isOpen={isOpen} view={view} toggleSidebar={toggleSidebarMock} selectedCategory={Category.All} setSelectedCategory={setSelectedCategoryMock} />
+        <Sidebar isOpen={isOpen} view={view} toggleSidebar={toggleSidebarMock} selectedCategory={Category.All} setSelectedCategory={setSelectedCategoryMock} setAddRoute={setAddRoutes} openPopup={openPopup} />
         <span data-testid="instance-id">{id.current}</span>
       </Suspense>
     </I18nextProvider>

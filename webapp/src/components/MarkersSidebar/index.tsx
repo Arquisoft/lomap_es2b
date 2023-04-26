@@ -1,18 +1,20 @@
 import { useContext, useEffect, useState } from "react";
 import { useMap } from "react-map-gl";
-import { TbArrowBackUp } from "react-icons/tb";
-import { Button, Rating, TextField, ToggleButtonGroup, Typography, ToggleButton } from "@mui/material";
+import { TbArrowBackUp, TbRoute } from "react-icons/tb";
+import { Button, Rating, TextField, ToggleButtonGroup, Typography, ToggleButton, Tooltip, Menu, MenuItem } from "@mui/material";
 import { useSession } from "@inrupt/solid-ui-react";
+import { useTranslation } from "react-i18next";
 
 import { MarkerContext } from "../../context/MarkersContext";
 import { IMarker } from "../../types/IMarker";
-import { MarkerList, MarkerSection, SearchBar, Title, TopSection, MarkerContent } from "./Styles"
+import { MarkerList, MarkerSection, SearchBar, Title, TopSection, MarkerContent, MarkerImage, MarkerHeader, IconButton } from "./Styles"
 import DeleteButton from "../DeleteButton";
 import { Types } from "../../types/ContextActionTypes";
 import { Category } from "../../types/Category";
 import Filter from "../Filters";
 import CloseButton from "../CloseButton";
-import { useTranslation } from "react-i18next";
+import { RoutesContext } from "../../context/RoutesContext";
+import { IRoute } from "../../types/IRoute";
 
 type Props = {
   toggleSidebar: (open?: boolean) => void,
@@ -172,13 +174,11 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
       if(response!=null){
         let blob = await response.blob()
        setImageToShow(blob);
-       console.log(blob)
       }else{
         setImageToShow(null)
       }
       
     }catch(err){
-      console.log("Ha ocurrido un error: "+err)
       setImageToShow(null);
     }
    
@@ -197,8 +197,11 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
    
       <Button className="backButton" onClick={close} color='success' variant='contained'><TbArrowBackUp/>{ t('sidebar.details.back') }</Button>  
       <div className="markInfo">
-       {imageToShow ? <img src={imageToShow===null ? "" : URL.createObjectURL(imageToShow)} alt="Imagen del sitio" /> : null} 
-        <h2>{marker.name}</h2>
+       {imageToShow ? <MarkerImage src={imageToShow===null ? "" : URL.createObjectURL(imageToShow)} alt="Imagen del sitio" /> : null}
+        <MarkerHeader>
+          <h2>{marker.name}</h2>
+          <SelectRouteMenu addMarkerToRoute={(route) => {}} />
+        </MarkerHeader>
         <p>{marker.description}</p>
 
         <p>{marker.address}</p>
@@ -227,12 +230,76 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
           {
             marker.comments.map((comment, index) => (
               <p key={`${index}-${comment.author}-${comment.comment}`}> <strong>{comment.author.split(".")[0].split("//")[1]}:</strong> {comment.comment}</p>
-              
             ))
           }
         </div>
       </div>
     </>
+  )
+}
+
+type MenuProps = {
+  addMarkerToRoute: (route: IRoute) => void
+}
+
+const SelectRouteMenu = ({addMarkerToRoute}: MenuProps) => {
+  
+  const { t } = useTranslation()
+  const { state: routes } = useContext(RoutesContext)
+  const [searchValue, setSearchValue] = useState("")
+
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  }
+  
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  }
+
+  const addToRoute = (route: IRoute) => {
+    addMarkerToRoute(route)
+    handleCloseUserMenu()
+  }
+
+  return (  
+    <div>
+      <Tooltip title={ t('sidebar.details.add_to_route') }>
+        <IconButton onClick={handleOpenUserMenu} size='large'>
+          <TbRoute />
+        </IconButton>
+      </Tooltip>
+      <Menu
+        sx={{ mt: '1.5em' }}
+        id="menu-appbar"
+        anchorEl={anchorElUser}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        keepMounted
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        open={Boolean(anchorElUser)}
+        onClose={handleCloseUserMenu}
+      > 
+        <input placeholder={'Busca una ruta'} value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
+        {
+          routes.length === 0 ?
+          <MenuItem>
+            <Typography textAlign="center">{ t('sidebar.details.route_list_empty') }</Typography>
+          </MenuItem>
+          :
+          routes.filter(r => r.name.toLowerCase().includes(searchValue.toLowerCase())).map(r => (
+            <MenuItem key={ r.id } onClick={ () => addToRoute(r) }>
+              <Typography textAlign="center">{ r.name }</Typography>
+            </MenuItem>
+          ))
+        }
+      </Menu>
+    </div>
   )
 }
 

@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { styled as MUIStyled } from '@mui/material/styles'
+import { IconButton as MUIIconButton } from '@mui/material'
 
 export const TopSection = styled.div`
   display: flex;
@@ -101,5 +103,24 @@ export const MarkerContent = styled.div`
   p{
     word-wrap: break-word;
     width: 100%;
+  }
+`
+
+export const MarkerImage = styled.img`
+  height: auto;
+`
+
+export const MarkerHeader = styled.div`
+
+`
+
+export const IconButton = MUIStyled(MUIIconButton)`
+  padding: 0.3em;
+  background-color: #ebebeb;
+  margin: 0.2em;
+
+  &:hover {
+    background-color: #aeaeae;
+    color: #505050;
   }
 `

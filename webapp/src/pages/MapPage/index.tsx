@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useRef } from 'react';
 import { LngLat, MapProvider} from 'react-map-gl'
 import { v4 as uuid } from 'uuid'
 
@@ -15,12 +15,14 @@ import Filter from '../../components/Filters';
 import { NavContainer} from './Styles'
 import { Category } from '../../types/Category';
 import solidHelper from '../../helpers/SolidHelper'
+import RoutesPopUp from '../../components/RoutesPopUp';
 
 export enum Popups {
   NONE,
   ADD_MARKER,
   FRIENDS,
-  ABOUT
+  ABOUT,
+  ADD_ROUTE,
 }
 
 export enum SidebarView {
@@ -33,7 +35,9 @@ const MapPage = () : JSX.Element => {
   const [ sidebarOpen, setSidebarOpen ] = useState(true)
   const [ sidebarView, setSidebarView ] = useState<SidebarView>(SidebarView.MARKERS)
   const[popupVisible,setPopupVisible] = useState<Popups>(Popups.NONE)
-  const [lngLat, setLngLat] = useState<LngLat>()  
+  const [lngLat, setLngLat] = useState<LngLat>()
+
+  const addRoute = useRef((name:string, description?: string) => {})
 
   const { dispatch } = useContext(MarkerContext)
   const [ selectedCategory, setSelectedCategory ] = useState<Category>(Category.All);
@@ -101,7 +105,6 @@ const MapPage = () : JSX.Element => {
 
   const toggleSidebar = (open: boolean | undefined, view?: SidebarView) => {
     let changes = false
-    console.log(view)
     if (view) {
       if (view !== sidebarView) {
         changes = true
@@ -118,6 +121,10 @@ const MapPage = () : JSX.Element => {
         setSidebarOpen(!sidebarOpen)
     }
   }
+
+  const handleAddRoute = (addRouteF: (name:string, description?:string) => void) => {
+    addRoute.current = addRouteF
+  }
   
   return (
     <MapProvider>
@@ -125,11 +132,12 @@ const MapPage = () : JSX.Element => {
         <Navbar openPopup={openPopup} sidebarView={sidebarView} isSidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
         <Filter toggleSidebar={toggleSidebar} activeFilter={selectedCategory} setActiveFilter={setSelectedCategory} />
       </NavContainer>
-      <Sidebar isOpen={sidebarOpen} view={sidebarView} toggleSidebar={toggleSidebar} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
+      <Sidebar isOpen={sidebarOpen} view={sidebarView} toggleSidebar={toggleSidebar} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} setAddRoute={handleAddRoute} openPopup={openPopup} />
       <Map onClick={showAddMarkerPopup} filterType={selectedCategory} />
       <FocusOnUserButton />
       <AddMarkerPopup closePopup={closePopup} visible={popupVisible === Popups.ADD_MARKER} lngLat={lngLat} addMark={addMark} />
       <FriendsPopup closePopup={closePopup} isOpen={popupVisible === Popups.FRIENDS} solidManager={solidHelper} />
+      <RoutesPopUp closePopup={closePopup} visible={popupVisible === Popups.ADD_ROUTE}  addRoute={addRoute.current}/>
     </MapProvider> 
   )
 }

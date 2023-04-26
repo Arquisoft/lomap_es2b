@@ -85,7 +85,7 @@
         "tooltip": "Eliminar",
         "confirm": {
           "title": "¿Está seguro de que quiere borrar el marcador?",
-          "body": "Una vez borrado el marcador no habrá forma de recuperar la información.",
+          "body": "Una vez borrado el marcador no habrá forma de recuperar la información. Si el marcador pertenece a alguna ruta, sera eliminado de esta",
           "yes": "Eliminar",
           "no": "Cancelar"
         }
@@ -98,10 +98,14 @@
       "comment": "Comentar",
       "comment_placeholder": "Escribe un comentario",
       "add_comment": "Añadir",
-      "comments": "Comentarios"
+      "comments": "Comentarios",
+      "markers": "Marcadores de la ruta",
+      "routes": "Detalles de la ruta"
     }, 
     "routes": {
-      "title": "Rutas"
+      "title": "Rutas", 
+      "newRoute": "Nueva ruta",
+      "addMarker": "Añade nuevo marcador a la ruta"
     }
   },
   "addMarker": {
@@ -117,6 +121,18 @@
     "category": "Categoría",
     "coordinates": "Coordenadas (Lat-Lng)",
     "save": "Guardar"
+  },
+  "addRoutes": {
+    "title": "Crear nueva ruta",
+    "name": {
+      "label": "Nombre",
+      "placeholder": "Nombre"
+    },
+    "description": {
+      "label": "Descripción",
+      "placeholder": "Descripción"
+    },
+    "create": "Crear"
   },
   "options": {
     "title": "Menú de Opciones",

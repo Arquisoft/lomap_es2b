@@ -113,34 +113,34 @@ const ChangeLanguageMenu = () => {
 
   return (
     <LanguageMenu>
-        <Tooltip title={ t('language') }>
-          <IconButton onClick={handleOpenUserMenu} size='large'>
-            <IoLanguageOutline />
-          </IconButton>
-        </Tooltip>
-        <Menu
-          sx={{ mt: '1.5em' }}
-          id="menu-appbar"
-          anchorEl={anchorElUser}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          keepMounted
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          open={Boolean(anchorElUser)}
-          onClose={handleCloseUserMenu}
-        >
-          {languages.map(({ label, code }) => (
-            <MenuItem key={ code } onClick={ () => changeLanguage(code) } selected={i18n.language === code}>
-              <Typography textAlign="center">{ label }</Typography>
-            </MenuItem>
-          ))}
-        </Menu>
-      </LanguageMenu>
+      <Tooltip title={ t('language') }>
+        <IconButton onClick={handleOpenUserMenu} size='large'>
+          <IoLanguageOutline />
+        </IconButton>
+      </Tooltip>
+      <Menu
+        sx={{ mt: '1.5em' }}
+        id="menu-appbar"
+        anchorEl={anchorElUser}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        keepMounted
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        open={Boolean(anchorElUser)}
+        onClose={handleCloseUserMenu}
+      >
+        {languages.map(({ label, code }) => (
+          <MenuItem key={ code } onClick={ () => changeLanguage(code) } selected={i18n.language === code}>
+            <Typography textAlign="center">{ label }</Typography>
+          </MenuItem>
+        ))}
+      </Menu>
+    </LanguageMenu>
   )
 
 }
