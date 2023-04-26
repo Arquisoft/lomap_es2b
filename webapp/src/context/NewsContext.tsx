@@ -2,7 +2,7 @@ import { createContext, Dispatch, useEffect, useReducer, useState, useRef } from
 import { Types } from "../types/ContextActionTypes";
 import { INews } from '../types/INews';
 import { saveNewsToLomap } from "../helpers/SolidHelper";
-import { useSession } from "@inrupt/solid-ui-react";
+// import { useSession } from "@inrupt/solid-ui-react";
 
 
 type NewsActions = {
@@ -33,7 +33,7 @@ export const newsReducer = (state:INews[], action: NewsActions) : INews[] => {
 }
 
 export const NewsContextProvider: React.FC = ({ children }) => {
-  const { session } = useSession()
+  // const { session } = useSession()
   
   const [state, dispatch] = useReducer(newsReducer, [])
   const stateRef = useRef(state);

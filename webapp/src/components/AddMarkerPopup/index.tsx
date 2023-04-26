@@ -57,11 +57,11 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
     e.preventDefault();
     setError(null);
     getDirection();
-    if(!validaVacio(name)){
+    if(!validaVacio(name)) {
       setError("Introduce un nombre para el marcador")
-    }else if(!validaLong(name,longMaxName)){
+    } else if (!validaLong(name,longMaxName)) {
       setError("Longitud maxima nombre: "+longMaxName)
-    }else if(!validaLong(description,longMaxDesc)){
+    } else if (!validaLong(description,longMaxDesc)) {
       setError("Longitud maxima descripcion: "+longMaxDesc)
     }else{
       uploadImage();
@@ -78,7 +78,7 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
     setFilepreview(null)
   }
 
-   function uploadImage(){
+  function uploadImage(){
     if(filepreview===null){
       return;
     }
@@ -105,15 +105,10 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
   function validaLong(intput:String,maxLong:number){
     return intput.length<maxLong;
   }
-  
-
-
 
   function validaVacio(intput:String){
     return (intput!==null) && (intput.trim().length!==0);
   }
-
-
 
   return (
     <Popup isOpen={visible} closePopup={()=>{

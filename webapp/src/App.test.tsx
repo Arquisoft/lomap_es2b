@@ -16,14 +16,14 @@ i18n.use(initReactI18next).init({
 })
 
 
-// test('renders learn react link', () => {
-//   render(
-//     <I18nextProvider i18n={i18n}>
-//       <App />
-//     </I18nextProvider>
-//   );
-//   waitFor(() => expect(screen.getAllByText("LoMap")[0]).toBeInTheDocument())
-// });
+test('renders learn react link', () => {
+  render(
+    <I18nextProvider i18n={i18n}>
+      <App />
+    </I18nextProvider>
+  );
+  waitFor(() => expect(screen.getAllByText("LoMap")[0]).toBeInTheDocument())
+});
 
 // // describe('Sidebar component', () => {
 // //   const mockMarkers: IMarker[] = [

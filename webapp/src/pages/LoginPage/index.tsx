@@ -3,17 +3,21 @@ import React, { useState} from 'react'
 import { Select, InputLabel, FormControl, Divider, Box, MenuItem, FormHelperText, Tooltip, Menu, Typography, Button } from '@mui/material'
 import { login } from "@inrupt/solid-client-authn-browser";
 import { IoLanguageOutline } from 'react-icons/io5'
+import { BsInfo } from 'react-icons/bs'
 
-import { Container, Form, IconButton, LanguageMenu } from './Styles'
+import { AboutButton, Container, Form, IconButton, LanguageMenu } from './Styles'
 import { useTranslation } from 'react-i18next';
+import AboutPopup from '../../components/NavBar/AboutPopup';
 
 const Login = () : JSX.Element => {
 
   const { t } = useTranslation()
 
   const [identity, setIdentity] = useState<string>('')
-  const [error, setError] = React.useState(false);
-  const [errorText, setErrorText] = React.useState('');
+  const [error, setError] = useState(false);
+  const [errorText, setErrorText] = useState('');
+
+  const [ isAboutOpen, setIsAboutOpen ] = useState(false)
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>)=>{
     event.preventDefault()
@@ -79,6 +83,14 @@ const Login = () : JSX.Element => {
         </div>
       </Container>
       <ChangeLanguageMenu />
+      <AboutButton>
+        <Tooltip title={t('navbar.user.about')}>
+          <IconButton onClick={() => setIsAboutOpen(true)} size='large'>
+            <BsInfo />
+          </IconButton>
+        </Tooltip>
+      </AboutButton>
+      <AboutPopup isOpen={isAboutOpen} close={() => setIsAboutOpen(false)} />
     </>
   )
 }
@@ -113,34 +125,34 @@ const ChangeLanguageMenu = () => {
 
   return (
     <LanguageMenu>
-        <Tooltip title={ t('language') }>
-          <IconButton onClick={handleOpenUserMenu} size='large'>
-            <IoLanguageOutline />
-          </IconButton>
-        </Tooltip>
-        <Menu
-          sx={{ mt: '1.5em' }}
-          id="menu-appbar"
-          anchorEl={anchorElUser}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          keepMounted
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          open={Boolean(anchorElUser)}
-          onClose={handleCloseUserMenu}
-        >
-          {languages.map(({ label, code }) => (
-            <MenuItem key={ code } onClick={ () => changeLanguage(code) } selected={i18n.language === code}>
-              <Typography textAlign="center">{ label }</Typography>
-            </MenuItem>
-          ))}
-        </Menu>
-      </LanguageMenu>
+      <Tooltip title={ t('language') }>
+        <IconButton onClick={handleOpenUserMenu} size='large'>
+          <IoLanguageOutline />
+        </IconButton>
+      </Tooltip>
+      <Menu
+        sx={{ mt: '1.5em' }}
+        id="menu-appbar"
+        anchorEl={anchorElUser}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        keepMounted
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        open={Boolean(anchorElUser)}
+        onClose={handleCloseUserMenu}
+      >
+        {languages.map(({ label, code }) => (
+          <MenuItem key={ code } onClick={ () => changeLanguage(code) } selected={i18n.language === code}>
+            <Typography textAlign="center">{ label }</Typography>
+          </MenuItem>
+        ))}
+      </Menu>
+    </LanguageMenu>
   )
 
 }
