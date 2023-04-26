@@ -27,11 +27,12 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
   const[shared,setShared]=useState<boolean>(false)
   const[ category, setCategory] = useState<Category>(Category.Others)
   const[error, setError] = useState<string|null>(null)
+  const[errorImage,isErrorImage] = useState<boolean>(false)
 
   const[filepreview, setFilepreview] = useState<File|null>(null)
 
   const longMaxName = 20;
-  const longMaxDesc = 50;
+  const longMaxDesc = 300;
 
   async function getDirection(){
     const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lngLat?.lng},${lngLat?.lat}.json?access_token=${mapboxApiKey}`);
@@ -41,15 +42,22 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
   }
 
   function handleChangeName(name:string){
+    if(name.length>longMaxName){
+      return;
+    }
     setName(name)
   }
 
   function handleChangeDescription(description:string){
+    if(description.length>longMaxDesc){
+      return;
+    }
     setDescription(description)
   }
 
   function handleChangeImage(event: React.ChangeEvent<HTMLInputElement>){
    if(!event.target.files) return;
+   isErrorImage(false);
    setFilepreview(event.target.files[0]);
   }
 
@@ -57,21 +65,22 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
     e.preventDefault();
     setError(null);
     getDirection();
-    if(!validaVacio(name)) {
-      setError("Introduce un nombre para el marcador")
-    } else if (!validaLong(name,longMaxName)) {
-      setError("Longitud maxima nombre: "+longMaxName)
-    } else if (!validaLong(description,longMaxDesc)) {
-      setError("Longitud maxima descripcion: "+longMaxDesc)
-    }else{
-      uploadImage();
-      
+    if(filepreview == null){
+      isErrorImage(true);
+      return;
     }
+    if(!validaVacio(name)) {
+      setError(t('addMarker.name.error'))
+      return;
+    }
+    uploadImage();
+      
     
-    
+     
   }
 
   function cleanForm(){
+    isErrorImage(false);
     setError("")
     setName("")
     setDescription("")
@@ -102,9 +111,7 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
     
   }
 
-  function validaLong(intput:String,maxLong:number){
-    return intput.length<maxLong;
-  }
+  
 
   function validaVacio(intput:String){
     return (intput!==null) && (intput.trim().length!==0);
@@ -118,11 +125,12 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
         <h2>{ t('addMarker.title') }</h2>
         <FormGroup>
           <label htmlFor="Nombre">{ t('addMarker.name.label') }:</label>
-          <TextField className='field' id='Nombre' label={ t('addMarker.name.placeholder') } variant='standard' onChange={(e)=>handleChangeName(e.target.value)} value={name}/>
+          <TextField className='field' helperText={name.length+'/'+longMaxName} id='Nombre' label={ t('addMarker.name.placeholder') } variant='standard' onChange={(e)=>handleChangeName(e.target.value)} value={name}/>
         </FormGroup>
+        {error !== null ? <Error>{error}</Error> : null}
         <FormGroup>
           <label htmlFor="Descripcion">{ t('addMarker.description.label') }:</label>
-          <TextField className='field' id='Descripcion' label={ t('addMarker.description.placeholder') } variant='standard' multiline maxRows={4} onChange={(e)=>handleChangeDescription(e.target.value)} value={description}/>         
+          <TextField className='field'  helperText={description.length+'/'+longMaxDesc} id='Descripcion' label={ t('addMarker.description.placeholder') } variant='standard' multiline maxRows={4} onChange={(e)=>handleChangeDescription(e.target.value)} value={description}/>         
         </FormGroup>
         <FormGroup>
           <label htmlFor="Category">{ t('addMarker.category') }:</label>
@@ -140,12 +148,15 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
             <MenuItem value={Category.Others}>{ t('markerCategories.other') }</MenuItem>
           </Select>
         </FormGroup>
-         {error !== null ? <Error>{error}</Error> : null}
-         <FormGroup>
-          <label htmlFor='image'>Subir imagen del sitio</label>
-          <input type="file" id='image'  onChange={handleChangeImage} />
-          {filepreview !== null ? <img src={filepreview === null ? "" : URL.createObjectURL(filepreview)} alt='Previsualización'/> : null}
          
+         <FormGroup>
+          <label htmlFor='image'>{t('addMarker.image.label')}</label>
+          <div id="div_file">
+            <p id="texto">{t('addMarker.image.button')}</p>
+            <input type="file" id="image" onChange={handleChangeImage}/>
+          </div>
+          {filepreview !== null ? <img src={filepreview === null ? "" : URL.createObjectURL(filepreview)} alt='Previsualización'/> : null}
+          {errorImage ? <Error>{t('addMarker.image.error')}</Error> : null}
          </FormGroup>
         <FormGroup>
           <label>{ t('addMarker.coordinates') }:</label>
