@@ -20,26 +20,18 @@ defineFeature(feature, test => {
         'Accept-Language': 'es'
       });
       await page.goto(`http://localhost:3000`, { waitUntil: 'networkidle0' });
-      page.on('request', request => {
-        console.log(request.url())
-      })
+      // page.on('request', request => {
+      //   console.log(request.url())
+      // })
     } catch (e) {
       console.log(e);
       await browser.close();
     }
   })
 
-  jest.setTimeout(60000)
-
-  test('A user enter the page and tries to change the language', ({ when, and, then }) => {
-
-    when('I enter the site and it is in Spanish', async () => {
-      console.log(await page.content())
-      await page.waitForXPath('//*[contains(text(), "¡Guarda tus sitios favoritos y compártelos!")]')
-      await page.waitForXPath('//*[contains(text(), "¡Guarda tus sitios favoritos y compártelos!")]')
-    })
+  test('A user enter the page and tries to change the language to English', ({ when, then }) => {
     
-    and('I change the language of the site to English', async () => {
+    when('I change the language of the site to English', async () => {
       await expect(page).toClick('#root > div:nth-child(2) > button')
       await expect(page).toClick('#menu-appbar > div:nth-child(3) > ul > li:nth-child(2)')
     })
@@ -47,6 +39,20 @@ defineFeature(feature, test => {
     then('the text should change to English', async () => {
       await page.waitForXPath('//*[contains(text(), "Save your favourite places and share them!")]')
       await page.waitForXPath('//*[contains(text(), "Pick a provider")]')
+    })
+
+  })
+
+  test('A user enter the page and tries to change the language to Spanish', ({ when, then }) => {
+    
+    when('I change the language of the site to Spanish', async () => {
+      await expect(page).toClick('#root > div:nth-child(2) > button')
+      await expect(page).toClick('#menu-appbar > div:nth-child(3) > ul > li:nth-child(1)')
+    })
+
+    then('the text should change to Spanish', async () => {
+      await page.waitForXPath('//*[contains(text(), "¡Guarda tus sitios favoritos y compártelos!")]')
+      await page.waitForXPath('//*[contains(text(), "¡Guarda tus sitios favoritos y compártelos!")]')
     })
 
   })

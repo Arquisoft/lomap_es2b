@@ -35,7 +35,10 @@ defineFeature(feature, test => {
     })
 
     then('the about popup should show up', async () => {
-      await page.waitForXPath('//*[contains(text(), "Acerca de LoMap")]')
+      await page.waitForXPath('//*[contains(text(), "UO284548")]')
+      await page.waitForXPath('//*[contains(text(), "UO284163")]')
+      await page.waitForXPath('//*[contains(text(), "UO282823")]')
+      await page.waitForXPath('//*[contains(text(), "UO276803")]')
     })
 
   })
