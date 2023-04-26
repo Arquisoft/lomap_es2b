@@ -17,6 +17,9 @@ defineFeature(feature, test => {
 
     try {
         await page.goto(`http://localhost:3000`, { waitUntil: 'networkidle0' });
+        page.on('request', request => {
+          console.log(request.url())
+        })
     } catch (e) {
         console.log(e);
         await browser.close();
@@ -28,6 +31,7 @@ defineFeature(feature, test => {
   test('A user enter the page and tries to change the language', ({ when, and, then }) => {
 
     when('I enter the site and it is in Spanish', async () => {
+      console.log(await page.content())
       await page.waitForXPath('//*[contains(text(), "¡Guarda tus sitios favoritos y compártelos!")]')
       await page.waitForXPath('//*[contains(text(), "¡Guarda tus sitios favoritos y compártelos!")]')
     })
