@@ -1,4 +1,4 @@
-Feature: Loging in with a SolidCommunity user
+Feature: User wants to change the site's language
 
 Scenario: A user enter the page and tries to change the language
   When I enter the site and it is in Spanish

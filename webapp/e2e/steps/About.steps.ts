@@ -10,8 +10,8 @@ defineFeature(feature, test => {
   
   beforeAll(async () => {
     browser = process.env.GITHUB_ACTIONS
-      ? await puppeteer.launch()
-      : await puppeteer.launch({ headless: false, slowMo: 50 });
+      ? await puppeteer.launch({ args: ['--lang=es-ES'] })
+      : await puppeteer.launch({ headless: false, slowMo: 50, args: ['--lang=es-ES'] });
     page = await browser.newPage();
 
 
