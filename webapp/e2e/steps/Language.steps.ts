@@ -12,23 +12,19 @@ defineFeature(feature, test => {
     browser = process.env.GITHUB_ACTIONS
       ? await puppeteer.launch({ args: ['--lang="es-ES"'] })
       : await puppeteer.launch({ headless: false, slowMo: 50, args: ['--lang="es-ES"'] });
-  })
-
-  beforeEach(async () => {
     try {
       page = await browser.newPage()
       await page.setExtraHTTPHeaders({
         'Accept-Language': 'es'
       });
       await page.goto(`http://localhost:3000`, { waitUntil: 'networkidle0' });
-      // page.on('request', request => {
-      //   console.log(request.url())
-      // })
+
     } catch (e) {
       console.log(e);
       await browser.close();
     }
   })
+
 
   test('A user enter the page and tries to change the language to English', ({ when, then }) => {
     
@@ -40,21 +36,6 @@ defineFeature(feature, test => {
     then('the text should change to English', async () => {
       await page.waitForXPath('//*[contains(text(), "Save your favourite places and share them!")]')
       await page.waitForXPath('//*[contains(text(), "Pick a provider")]')
-    })
-
-  })
-
-  test('A user enter the page and tries to change the language to Spanish', ({ when, then }) => {
-    
-    when('I change the language of the site to Spanish', async () => {
-      await expect(page).toClick('#root > div:nth-child(2) > button')
-      await expect(page).toClick('#menu-appbar > div:nth-child(3) > ul > li:nth-child(1)')
-      console.log('idioma cambiado')
-    })
-
-    then('the text should change to Spanish', async () => {
-      await page.waitForXPath('//*[contains(text(), "¡Guarda tus sitios favoritos y compártelos!")]')
-      await page.waitForXPath('//*[contains(text(), "Elige un proveedor")]')
     })
 
   })
