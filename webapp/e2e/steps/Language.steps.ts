@@ -12,10 +12,11 @@ defineFeature(feature, test => {
     browser = process.env.GITHUB_ACTIONS
       ? await puppeteer.launch({ args: ['--lang="es-ES"'] })
       : await puppeteer.launch({ headless: false, slowMo: 50, args: ['--lang="es-ES"'] });
-    page = await browser.newPage();
+  })
 
-
+  beforeEach(async () => {
     try {
+      page = await browser.newPage()
       await page.setExtraHTTPHeaders({
         'Accept-Language': 'es'
       });
@@ -48,11 +49,12 @@ defineFeature(feature, test => {
     when('I change the language of the site to Spanish', async () => {
       await expect(page).toClick('#root > div:nth-child(2) > button')
       await expect(page).toClick('#menu-appbar > div:nth-child(3) > ul > li:nth-child(1)')
+      console.log('idioma cambiado')
     })
 
     then('the text should change to Spanish', async () => {
       await page.waitForXPath('//*[contains(text(), "¡Guarda tus sitios favoritos y compártelos!")]')
-      await page.waitForXPath('//*[contains(text(), "¡Guarda tus sitios favoritos y compártelos!")]')
+      await page.waitForXPath('//*[contains(text(), "Elige un proveedor")]')
     })
 
   })
