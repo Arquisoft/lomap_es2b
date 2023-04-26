@@ -99,6 +99,9 @@
       "comment_placeholder": "Escribe un comentario",
       "add_comment": "Añadir",
       "comments": "Comentarios"
+    }, 
+    "routes": {
+      "title": "Rutas"
     }
   },
   "addMarker": {
