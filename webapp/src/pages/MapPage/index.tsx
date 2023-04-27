@@ -55,45 +55,28 @@ const MapPage = () : JSX.Element => {
     setPopupVisible(Popups.NONE)
   }
 
-  function addMark(name:string, lngLat:LngLat|undefined,description:string, category:Category, shared:boolean,direction:string,image:string ){
-    if(lngLat===undefined){
+  function addMark(name:string, lngLat:LngLat|undefined,description:string, category:Category, shared:boolean,direction:string,image?:string ){
+    if(!lngLat){
       return
     }
-    if(shared === false){
-      var newMarker:IMarker = {
-        id: uuid(),
-        name: name,
-        address: direction,
-        lat: lngLat.lat,
-        lng: lngLat.lng,
-        date: new Date(),
-        images: [image],
-        description: description,
-        category,
-        comments: [],
-        score: 0,
-        property: {
-          owns: true,
-          public: false
-        }
-      }
-    }else{
-      newMarker = {
-        id: uuid(),
-        name: name,
-        address: direction,
-        lat: lngLat.lat,
-        lng: lngLat.lng,
-        date: new Date(),
-        images: [image],
-        description: description,
-        category,
-        comments: [],
-        score: 0,
-        property: {
-          owns: false,
-          author : "https://lomapes2b.inrupt.net/"
-        }
+    var newMarker:IMarker = {
+      id: uuid(),
+      name: name,
+      address: direction,
+      lat: lngLat.lat,
+      lng: lngLat.lng,
+      date: new Date(),
+      images: image ? [image] : [],
+      description: description,
+      category,
+      comments: [],
+      score: 0,
+      property: shared ? {
+        owns: false,
+        author : "https://lomapes2b.inrupt.net/"
+      } : {
+        owns: true,
+        public: false
       }
     }
     console.log(newMarker)

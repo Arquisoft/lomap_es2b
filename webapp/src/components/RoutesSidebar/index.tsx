@@ -46,7 +46,6 @@ const RoutesSidebar = ({ toggleSidebar, setAddRoute, openPopup }: Props) => {
 
   const handleCreateRouteClick = () => {
     openPopup(Popups.ADD_ROUTE);
-    console.log("Crear nueva ruta");
   };
 
   const closePopup = () => {
@@ -164,28 +163,11 @@ type InfoProps = {
 
 const RouteInfo = ({ route, close }: InfoProps) => {
   const { t } = useTranslation();
-  const [selectedMarker, setSelectedMarker] = useState<IMarker | null>(null);
   const { dispatch: rDispatch } = useContext(RoutesContext)
 
-  // Función para manejar el evento de seleccionar un marcador
-  const handleMarkerSelect = (marker: IMarker) => {
-    setSelectedMarker(marker);
-  };
-
-  // Función para mover el marcador seleccionado al principio de la lista
-  const moveMarkerToTop = () => {
-    if (selectedMarker) {
-      const index = route.points.indexOf(selectedMarker);
-      if (index > -1) {
-        route.points.splice(index, 1);
-        route.points.unshift(selectedMarker);
-        setSelectedMarker(null);
-      }
-    }
-  };
-
   const addMarkerToRoute = (marker: IMarker) => {
-    rDispatch({ type: Types.UPDATE, payload: { id: route.id, route: {points: [...route.points, marker]} } })
+    route.points = [...route.points, marker]
+    rDispatch({ type: Types.UPDATE, payload: { id: route.id, route: { points: [...route.points] } } })
   }
 
   // Drag and Drop logic
@@ -203,6 +185,7 @@ const RouteInfo = ({ route, close }: InfoProps) => {
     // switch the position
     markers.splice(dragOverMarker.current, 0, draggedMarkerContent)
 
+    route.points = [...markers]
     rDispatch({ type: Types.UPDATE, payload: { id: route.id, route: { points: [...markers]} } })
 
     // reset the position ref

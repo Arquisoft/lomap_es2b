@@ -5,32 +5,29 @@ import { SessionProvider, useSession } from '@inrupt/solid-ui-react';
 import { useState } from 'react';
 
 import { MarkerContext } from './context/MarkersContext';
-import { getProfile, readMarkersFromPod, readNewsFromLoMap } from './helpers/SolidHelper';
+import { getProfile, readMarkersFromPod, readNewsFromLoMap, readRoutesFromPod } from './helpers/SolidHelper';
 import { Types } from './types/ContextActionTypes';
 import { UserContext } from './context/UserContext';
 import Loader from './components/Loader';
 import { NewsContext } from './context/NewsContext';
+import { RoutesContext } from './context/RoutesContext';
 
 function App(): JSX.Element {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { session } = useSession();
   
-
-
   const { dispatch: markersDispatch } = useContext(MarkerContext)
   const { dispatch: userDispatch } = useContext(UserContext)
   const { dispatch: newsDispatch } = useContext(NewsContext)
+  const { dispatch: routesDispatch } = useContext(RoutesContext)
 
-  session.onLogin(async () => {
+  session.onLogin(() => {
     setIsLoggedIn(true)
-    const profile = await getProfile(session.info.webId || '')
-    userDispatch({ type: Types.SET, payload: { user: profile }});
-    const markers = await readMarkersFromPod(session.info.webId)
-    markersDispatch({ type: Types.SET, payload: { markers }});
-    const newsList = await readNewsFromLoMap();
-    newsDispatch({ type: Types.SET, payload: { newsList }});
-
+    getProfile(session.info.webId || '').then(profile => userDispatch({ type: Types.SET, payload: { user: profile }}))
+    readMarkersFromPod(session.info.webId).then(markersList => markersDispatch({ type: Types.SET, payload: { markers: markersList }}))
+    readNewsFromLoMap().then(newsList => newsDispatch({ type: Types.SET, payload: { newsList }}))
+    readRoutesFromPod(session.info.webId).then(routesList => routesDispatch({ type: Types.SET, payload: { routes: routesList }}))
   })
 
   //We have logged out
@@ -38,6 +35,8 @@ function App(): JSX.Element {
     setIsLoggedIn(false)
     // Al cerrar sesion elimina los marcadores del usuario de la memoria
     markersDispatch({ type: Types.SET, payload: { markers: [] } })
+    newsDispatch({ type: Types.SET, payload: { newsList: [] } })
+    routesDispatch({ type: Types.SET, payload: { routes: [] } })
   })
 
   return (

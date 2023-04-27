@@ -60,43 +60,13 @@ const MapComponent = ({ onClick, filterType }:Props) => {
       }
       
     }catch(err){
-      console.log("Ha ocurrido un error: "+err)
+      console.error("Ha ocurrido un error al cargar la imagen")
       setImageToShow(null);
     }
    
   }
   
   useEffect(locateUser,[map])
-
-  const RouteMap = () => {
-    const routeSources = routes.map((route) => {
-      const source = {
-        type: 'geojson',
-        data: {
-          type: 'Feature',
-          properties: {},
-          geometry: {
-            type: 'LineString',
-            coordinates: route.points.map(m => [m.lng, m.lat])
-          }
-        }
-      }
-      console.log(source)
-      return (
-        <Source key={`${route.name}-${route.created_at}`} id={`${route.name}-${route.created_at}`} type='geojson' data={{
-          type: 'Feature',
-          properties: {},
-          geometry: {
-            type: 'LineString',
-            coordinates: route.points.map(m => [m.lng, m.lat])
-          }
-        }}>
-          <Layer type='line' paint={{ 'line-color': 'blue', 'line-width': 3 }} />
-        </Source>
-      );
-    })
-    return <>{routeSources}</>;
-  };
 
   return (
     <>
@@ -129,7 +99,6 @@ const MapComponent = ({ onClick, filterType }:Props) => {
                 longitude={marker.lng}
                 latitude={marker.lat}
                 onClick={(e) => {
-                  console.log(marker);
                   e.originalEvent.stopPropagation();
                   setInfoVisible(marker);
                 }}
@@ -138,16 +107,21 @@ const MapComponent = ({ onClick, filterType }:Props) => {
           }
 
           {
-            // routes.map(route => {
-            //   const json = basicGeoJson
-            //   json.geometry.coordinates = route.points.map(m => [m.lat, m.lng])
-            //   return (
-            //     <Source key={`${route.name}-${route.created_at}`} id={`${route.name}-${route.created_at}`} type='geojson' data={json}>
-            //       <Layer type='line' paint={{ "line-color": 'blue' }} />
-            //     </Source>
-            //   )
-            // })
-            <RouteMap />
+            routes.map((route) => {
+              return (
+                <Source key={`${route.name}-${route.created_at}`} id={`${route.name}-${route.created_at}`} type='geojson' data={{
+                  type: 'Feature',
+                  properties: {},
+                  geometry: {
+                    type: 'LineString',
+                    coordinates: route.points.map(m => {
+                      return [m.lng, m.lat]})
+                  }
+                }}>
+                  <Layer type='line' paint={{ 'line-color': 'blue', 'line-width': 3 }} />
+                </Source>
+              );
+            })
           }
 
           {infoVisible && (

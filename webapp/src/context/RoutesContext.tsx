@@ -116,7 +116,6 @@ export const RoutesContextProvider = ({ children, saveFunction }: ProviderProps)
       const hasChanged = state.length !== stateRef.current.length || state.some((item, index) => item !== stateRef.current[index]);
       if (hasChanged) {
         saveFunction(state, session.info.webId)
-        console.log(state)
       }
   
       // Update the reference to the original array

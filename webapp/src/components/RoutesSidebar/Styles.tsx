@@ -92,6 +92,9 @@ export const RoutesContent = styled.div`
 `;
 
 export const CreateButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #5ECC7C;
   color: #FFFFFF;
   padding: 0.8em 1em;

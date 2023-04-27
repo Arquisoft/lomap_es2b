@@ -4,16 +4,18 @@ import { MarkerContextProvider } from './MarkersContext';
 import { UserContextProvider } from './UserContext';
 import { IMarker } from "../types/IMarker";
 import { RoutesContextProvider } from "./RoutesContext";
+import { IRoute } from "../types/IRoute";
 
 type ProviderProps =  React.PropsWithChildren<{
-  saveFunction: (markers: IMarker[], webId?: string) => void
+  markersSaveFunction: (markers: IMarker[], webId?: string) => void
+  routesSaveFunction: (markers: IRoute[], webId?: string) => void
 }>
 
-const AppContext = ({ children, saveFunction }: ProviderProps) => {
+const AppContext = ({ children, markersSaveFunction, routesSaveFunction }: ProviderProps) => {
   return (
     <UserContextProvider>
-      <MarkerContextProvider saveFunction={saveFunction}>
-        <RoutesContextProvider saveFunction={(routes) => {}}>
+      <MarkerContextProvider saveFunction={markersSaveFunction}>
+        <RoutesContextProvider saveFunction={routesSaveFunction}>
           { children }
         </RoutesContextProvider>
       </MarkerContextProvider>
