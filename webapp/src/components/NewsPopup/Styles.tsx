@@ -4,8 +4,9 @@ export const Container= styled.div`
     .new{
         background-color: #FFFFFF;
         color: #000000;
-        border: 1px solid #6D6D6D;
+        border: 0.1em solid #000;
         padding: 1em;
-        border-radius: 13px;
+        border-radius: 0.7em;
+        margin-bottom:1em;
     }
 `

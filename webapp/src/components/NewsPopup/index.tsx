@@ -11,20 +11,22 @@ interface Props{
 
 function NewsPopup({isNewsOpen, toggleNews } : Props){
 
-    const {state: news} = useContext(NewsContext);
+    const {state: news, dispatch} = useContext(NewsContext);
     const pruebaNews:INews[]=[{id:"1",text:"prueba1",author:"autor1S"},
     {id:"1",text:"prueba1",author:"autor1S"},
     {id:"1",text:"prueba1",author:"autor1S"},
     {id:"1",text:"prueba1",author:"autor1S"},
-    {id:"1",text:"prueba1",author:"autor1S"}]
+    {id:"1",text:"pruecsdddddddccddcsdcsdcrgtehryhtegfwefcrthgyreeargtraergeargerfba1",author:"autor1S"}]
 
 
     function showNews(){
         return(
             <>
-            {pruebaNews.map((n,index)=>(
+            {pruebaNews.length!==0 ? 
+            pruebaNews.map((n,index)=>(
                 <New key={index} {...n} />
-            ))}
+            )):
+            <p>Aquí se mostrarán las noticias</p> }
         </>
         )
     }
@@ -38,7 +40,6 @@ function NewsPopup({isNewsOpen, toggleNews } : Props){
             {showNews()}
             </Container>
          </Popup>
-            
         : null}
         </> 
     )
@@ -48,10 +49,12 @@ function NewsPopup({isNewsOpen, toggleNews } : Props){
 const New = (inew:INews)=>{
     return(
         <div className="new">
-            <p>{inew.author}</p>
+            <p><strong>Autor: </strong>{inew.author.split(".")[0].split("//")[1]}</p>
             <p>{inew.text}</p>
         </div>
     )
 }
+
+
 
 export default  NewsPopup;

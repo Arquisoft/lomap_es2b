@@ -102,10 +102,14 @@ const MapPage = () : JSX.Element => {
   }
 
   const toggleNews = (open:boolean | undefined)=>{
-    if (open !== undefined) 
+    
+    if (open !== undefined) {
       setNewsOPen(open)
-    else 
-      setNewsOPen(!sidebarOpen)
+    }
+    else{
+      setNewsOPen(!newsOpen)
+    } 
+     
   }
   
   return (
