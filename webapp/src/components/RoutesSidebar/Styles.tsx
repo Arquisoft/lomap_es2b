@@ -105,6 +105,8 @@ export const CreateButton = styled.button`
   cursor: pointer;
   transition: background-color 0.3s ease;
   gap: 5%;
+  size: "large";
+  width: 100%;
 
   &:hover {
     background-color: #4CA169;
