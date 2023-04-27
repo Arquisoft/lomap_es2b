@@ -15,6 +15,7 @@ import Filter from '../../components/Filters';
 import { NavContainer} from './Styles'
 import { Category } from '../../types/Category';
 import solidHelper from '../../helpers/SolidHelper'
+import NewsPopup from '../../components/NewsPopup'
 
 export enum Popups {
   NONE,
@@ -31,6 +32,8 @@ const MapPage = () : JSX.Element => {
 
   const { dispatch } = useContext(MarkerContext)
   const [ selectedCategory, setSelectedCategory ] = useState<Category>(Category.All);
+
+  const[newsOpen, setNewsOPen] = useState<boolean>(false)
 
   function showAddMarkerPopup(lngLat: LngLat): void{
     setPopupVisible(Popups.ADD_MARKER)
@@ -97,16 +100,24 @@ const MapPage = () : JSX.Element => {
     else 
       setSidebarOpen(!sidebarOpen)
   }
+
+  const toggleNews = (open:boolean | undefined)=>{
+    if (open !== undefined) 
+      setNewsOPen(open)
+    else 
+      setNewsOPen(!sidebarOpen)
+  }
   
   return (
     <MapProvider>
       <NavContainer>
-        <Navbar openPopup={openPopup} isSidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+        <Navbar openPopup={openPopup} isSidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} toggleNews={toggleNews}/>
         <Filter toggleSidebar={toggleSidebar} activeFilter={selectedCategory} setActiveFilter={setSelectedCategory} />
       </NavContainer>
       <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
       <Map onClick={showAddMarkerPopup} filterType={selectedCategory} />
       <FocusOnUserButton />
+      <NewsPopup  toggleNews={toggleNews} isNewsOpen={newsOpen}/>
       <AddMarkerPopup closePopup={closePopup} visible={popupVisible === Popups.ADD_MARKER} lngLat={lngLat} addMark={addMark} />
       <FriendsPopup closePopup={closePopup} isOpen={popupVisible === Popups.FRIENDS} solidManager={solidHelper} />
     </MapProvider> 

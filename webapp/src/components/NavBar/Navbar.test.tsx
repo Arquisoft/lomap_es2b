@@ -8,6 +8,7 @@ import Loader from '../Loader';
 
 const mockOpenPopup = jest.fn();
 const mockToggleSidebar = jest.fn();
+const mockToggleNews = jest.fn();
 const mockIsSidebarOpen = false;
 
 i18n.use(initReactI18next).init({
@@ -32,7 +33,7 @@ describe('Navbar', () => {
     render(
       <I18nextProvider i18n={i18n}>
         <Suspense fallback={<Loader />}>
-          <Navbar toggleSidebar={mockToggleSidebar} isSidebarOpen={mockIsSidebarOpen} openPopup={mockOpenPopup} />
+          <Navbar toggleNews={mockToggleNews} toggleSidebar={mockToggleSidebar} isSidebarOpen={mockIsSidebarOpen} openPopup={mockOpenPopup} />
         </Suspense>
       </I18nextProvider>
     );
@@ -44,7 +45,7 @@ describe('Navbar', () => {
     render(
       <I18nextProvider i18n={i18n}>
         <Suspense fallback={<Loader />}>
-          <Navbar toggleSidebar={mockToggleSidebar} isSidebarOpen={mockIsSidebarOpen} openPopup={mockOpenPopup} />
+          <Navbar toggleNews={mockToggleNews} toggleSidebar={mockToggleSidebar} isSidebarOpen={mockIsSidebarOpen} openPopup={mockOpenPopup} />
         </Suspense>
       </I18nextProvider>
     );
@@ -57,7 +58,7 @@ describe('Navbar', () => {
     render(
       <I18nextProvider i18n={i18n}>
         <Suspense fallback={<Loader />}>
-          <Navbar toggleSidebar={mockToggleSidebar} isSidebarOpen={mockIsSidebarOpen} openPopup={mockOpenPopup} />
+          <Navbar toggleNews={mockToggleNews} toggleSidebar={mockToggleSidebar} isSidebarOpen={mockIsSidebarOpen} openPopup={mockOpenPopup} />
         </Suspense>
       </I18nextProvider>
     )
@@ -70,7 +71,7 @@ describe('Navbar', () => {
     render(
       <I18nextProvider i18n={i18n}>
         <Suspense fallback={<Loader />}>
-          <Navbar toggleSidebar={mockToggleSidebar} isSidebarOpen={mockIsSidebarOpen} openPopup={mockOpenPopup} />
+          <Navbar toggleNews={mockToggleNews} toggleSidebar={mockToggleSidebar} isSidebarOpen={mockIsSidebarOpen} openPopup={mockOpenPopup} />
         </Suspense>
       </I18nextProvider>
     )
@@ -87,7 +88,7 @@ describe('Navbar', () => {
     render(
       <I18nextProvider i18n={i18n}>
         <Suspense fallback={<Loader />}>
-          <Navbar toggleSidebar={mockToggleSidebar} isSidebarOpen={mockIsSidebarOpen} openPopup={mockOpenPopup} />
+          <Navbar toggleNews={mockToggleNews} toggleSidebar={mockToggleSidebar} isSidebarOpen={mockIsSidebarOpen} openPopup={mockOpenPopup} />
         </Suspense>
       </I18nextProvider>
     )
@@ -105,6 +106,7 @@ describe('Navbar', () => {
              toggleSidebar={toggleSidebar}
              isSidebarOpen={mockIsSidebarOpen}
              openPopup={mockOpenPopup}
+             toggleNews={mockToggleNews}
            />
          </Suspense>
        </I18nextProvider>
