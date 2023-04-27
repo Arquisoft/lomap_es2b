@@ -75,9 +75,6 @@ export const RoutesSection = styled.li`
   left: 0;
   margin: 0.5em;
   border-radius: 0.5em;
-  :hover {
-    background-color: #f8f8f8;
-  }
 `;
 
 export const RoutesContent = styled.div`
@@ -106,7 +103,7 @@ export const CreateButton = styled.button`
   transition: background-color 0.3s ease;
   gap: 5%;
   size: "large";
-  width: 100%;
+  width: 95%;
 
   &:hover {
     background-color: #4CA169;
@@ -147,7 +144,7 @@ export const MarkerSection = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  cursor: pointer;
+  cursor: move;
   margin-bottom: 10px;
   padding: 10px;
   border: 1px solid #ccc;
@@ -156,7 +153,6 @@ export const MarkerSection = styled.div`
   top: 0;
   left: 0;
   margin: 0.5em;
-  border-radius: 0.5em;
   :hover {
     background-color: #f8f8f8;
   }
@@ -175,3 +171,7 @@ export const MarkerContent = styled.div`
     width: 100%;
   }
 `;
+
+export const SearchMenuItem = styled.div`
+  padding: 0.3em;
+`

@@ -100,7 +100,10 @@
       "add_comment": "Add comment",
       "comments": "Comments", 
       "markers": "Route markers", 
-      "routes": "Routes details"
+      "routes": "Routes details",
+      "add_to_route": "Add to Route",
+      "route_list_empty": "There are no routes yet",
+      "route_list_search": "Search markers"
     },
     "routes": {
       "title": "Routes",

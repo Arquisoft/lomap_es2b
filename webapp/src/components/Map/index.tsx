@@ -9,7 +9,7 @@ import { MarkerContext } from '../../context/MarkersContext';
 import { IMarker } from '../../types/IMarker';
 import './Map.css'
 import { Category } from '../../types/Category';
-import { IRoute } from '../../types/IRoute';
+import { RoutesContext } from '../../context/RoutesContext';
 
 interface Props{
     onClick:(lngLat:LngLat,visible:boolean)=>void;
@@ -26,23 +26,7 @@ const MapComponent = ({ onClick, filterType }:Props) => {
 
   const { state: markers } = useContext(MarkerContext)
 
-  const routes:IRoute[] = []
-
-  const basicGeoJson : {
-    type: 'Feature',
-    properties: any,
-    geometry: {
-      type: 'LineString',
-      coordinates: number[][]
-    }
-  } = {
-    type: 'Feature',
-    properties: {},
-    geometry: {
-      type: 'LineString',
-      coordinates: []
-    }
-  } 
+  const { state: routes } = useContext(RoutesContext)
 
   const locateUser = () => {
     if ("geolocation" in navigator) {      
@@ -84,6 +68,36 @@ const MapComponent = ({ onClick, filterType }:Props) => {
   
   useEffect(locateUser,[map])
 
+  const RouteMap = () => {
+    const routeSources = routes.map((route) => {
+      const source = {
+        type: 'geojson',
+        data: {
+          type: 'Feature',
+          properties: {},
+          geometry: {
+            type: 'LineString',
+            coordinates: route.points.map(m => [m.lng, m.lat])
+          }
+        }
+      }
+      console.log(source)
+      return (
+        <Source key={`${route.name}-${route.created_at}`} id={`${route.name}-${route.created_at}`} type='geojson' data={{
+          type: 'Feature',
+          properties: {},
+          geometry: {
+            type: 'LineString',
+            coordinates: route.points.map(m => [m.lng, m.lat])
+          }
+        }}>
+          <Layer type='line' paint={{ 'line-color': 'blue', 'line-width': 3 }} />
+        </Source>
+      );
+    })
+    return <>{routeSources}</>;
+  };
+
   return (
     <>
       {
@@ -124,15 +138,16 @@ const MapComponent = ({ onClick, filterType }:Props) => {
           }
 
           {
-            routes.map(route => {
-              const json = basicGeoJson
-              json.geometry.coordinates = route.points.map(m => [m.lat, m.lng])
-              return (
-                <Source key={`${route.name}-${route.created_at}`} id={`${route.name}-${route.created_at}`} type='geojson' data={json}>
-                  <Layer type='line' paint={{ "line-color": 'blue' }} />
-                </Source>
-              )
-            })
+            // routes.map(route => {
+            //   const json = basicGeoJson
+            //   json.geometry.coordinates = route.points.map(m => [m.lat, m.lng])
+            //   return (
+            //     <Source key={`${route.name}-${route.created_at}`} id={`${route.name}-${route.created_at}`} type='geojson' data={json}>
+            //       <Layer type='line' paint={{ "line-color": 'blue' }} />
+            //     </Source>
+            //   )
+            // })
+            <RouteMap />
           }
 
           {infoVisible && (
@@ -157,5 +172,6 @@ const MapComponent = ({ onClick, filterType }:Props) => {
     </>
   )
 }
+
 
 export default MapComponent

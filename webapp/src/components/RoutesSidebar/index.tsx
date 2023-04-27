@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import {
   SearchBar,
   Title,
@@ -10,6 +10,7 @@ import {
   MarkerContent,
   RoutesContent,
   RoutesSection,
+  SearchMenuItem,
 } from "./Styles";
 import CloseButton from "../CloseButton";
 import { useTranslation } from "react-i18next";
@@ -17,14 +18,13 @@ import { IRoute } from "../../types/IRoute";
 import DeleteButton from "../DeleteButton";
 import { Box, Button, Divider, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
 import { AiFillPlusCircle } from "react-icons/ai";
-import { TbArrowBackUp, TbRoute } from "react-icons/tb";
+import { TbArrowBackUp } from "react-icons/tb";
 import { v4 as uuid } from "uuid";
 import { Popups } from "../../pages/MapPage";
 import { RoutesContext } from "../../context/RoutesContext";
 import { IMarker } from "../../types/IMarker";
 import { Types } from "../../types/ContextActionTypes";
 import { MarkerContext } from "../../context/MarkersContext";
-import { TextMenuItem } from "../NavBar/Styles";
 
 type Props = {
   toggleSidebar: (open?: boolean) => void;
@@ -123,6 +123,10 @@ const RoutesList = ({
           onChange={(e) => setSearchValue(e.target.value)}
         />
       </div>
+      <CreateButton onClick={handleCreateRouteClick}>
+        <AiFillPlusCircle />
+        {t("sidebar.routes.newRoute")}
+      </CreateButton>
       <RoutesListDiv>
         <div className="container">
           <div className="list">
@@ -132,10 +136,6 @@ const RoutesList = ({
           </div>
         </div>
       </RoutesListDiv>
-      <CreateButton onClick={handleCreateRouteClick}>
-        <AiFillPlusCircle />
-        {t("sidebar.routes.newRoute")}
-      </CreateButton>
     </>
   );
 };
@@ -165,10 +165,7 @@ type InfoProps = {
 const RouteInfo = ({ route, close }: InfoProps) => {
   const { t } = useTranslation();
   const [selectedMarker, setSelectedMarker] = useState<IMarker | null>(null);
-  const [finalList, setFinalList] = useState<IMarker[]>([]);
-  const { state: markers, dispatch } = useContext(MarkerContext);
-  const [searchValue, setSearchValue] = useState("");
-  const [showMenu, setShowMenu] = useState(false);
+  const { dispatch: rDispatch } = useContext(RoutesContext)
 
   // Función para manejar el evento de seleccionar un marcador
   const handleMarkerSelect = (marker: IMarker) => {
@@ -187,19 +184,31 @@ const RouteInfo = ({ route, close }: InfoProps) => {
     }
   };
 
-  useEffect(() => {
-    const filteredMarkers = markers.filter(
-      (marker) =>
-        marker.name.toLowerCase().includes(searchValue.toLowerCase()) &&
-        marker.property.owns
-    );
-    setFinalList(filteredMarkers);
-  }, [markers, searchValue]);
+  const addMarkerToRoute = (marker: IMarker) => {
+    rDispatch({ type: Types.UPDATE, payload: { id: route.id, route: {points: [...route.points, marker]} } })
+  }
 
-  const handleAddMarkerClick = () => {
-    setShowMenu(true);
-    console.log("Añadir marcador");
-  };
+  // Drag and Drop logic
+  
+  const dragMarker = useRef<any>(null)
+  const dragOverMarker = useRef<any>(null)
+
+  const handleSort = () => {
+    // duplicate items
+    let markers = [...route.points]
+
+    // remove and save the dragged item content
+    const draggedMarkerContent = markers.splice(dragMarker.current, 1)[0]
+
+    // switch the position
+    markers.splice(dragOverMarker.current, 0, draggedMarkerContent)
+
+    rDispatch({ type: Types.UPDATE, payload: { id: route.id, route: { points: [...markers]} } })
+
+    // reset the position ref
+    dragMarker.current = null
+    dragOverMarker.current = null
+  }
 
   return (
     <>
@@ -212,7 +221,7 @@ const RouteInfo = ({ route, close }: InfoProps) => {
         <TbArrowBackUp />
         {t("sidebar.details.back")}
       </Button>
-      <div className="markInfo">
+      <div className="routeInfo">
         <h2> {t("sidebar.details.routes")} </h2>
         <RoutesSection>
           <RoutesContent>
@@ -220,67 +229,48 @@ const RouteInfo = ({ route, close }: InfoProps) => {
             <p>{route.description}</p>
           </RoutesContent>
         </RoutesSection>
-        <div>
-          <button onClick={moveMarkerToTop}>Move to Top</button>
-        </div>
-        <MarkerList>
-          <div className="container">
-            <div className="list">
-              {route.points.map((marker, index) => (
-                <RoutesSection>
-                  <RoutesContent>
-                    <h3>{route.name}</h3>
-                    <p>{route.description}</p>
-                  </RoutesContent>
-                </RoutesSection>
-              ))}
-            </div>
-          </div>
-        </MarkerList>
         <h2> {t("sidebar.details.markers")} </h2>
+        <SelectRouteMenu addMarkerToRoute={addMarkerToRoute} />
         <MarkerList>
-          <div className="container">
-            <div className="list">
-              {finalList.map((marker) => (
-                <Marker
-                  key={marker.id}
-                  marker={marker}
-                  onClick={handleMarkerSelect}
-                />
-              ))}
+          {
+            route.points.length === 0 ?
+            <span>La ruta aun no tiene marcadores añadidos</span>
+            :
+            <div className="container">
+              <div className="list">
+                {route.points.map((marker, index) => (
+                  <MarkerSection
+                    key={marker.id}
+                    draggable
+                    onDragStart={(e) => (dragMarker.current = index)}
+                    onDragEnter={(e) => (dragOverMarker.current = index)}
+                    onDragEnd={handleSort}
+                    onDragOver={(e) => e.preventDefault()}
+                  >
+                    <MarkerContent>
+                      <h3>{marker.name}</h3>
+                      <p>{marker.description}</p>
+                    </MarkerContent>
+                  </MarkerSection>
+                ))}
+              </div>
             </div>
-          </div>
+
+          }
         </MarkerList>
-        <SelectRouteMenu addMarkerToRoute={(route) => { }} />
       </div>
     </>
   );
 };
 
-interface MarkerProps {
-  marker: IMarker;
-  onClick: (marker: IMarker) => void;
-}
-
-const Marker = ({ marker, onClick }: MarkerProps) => {
-  return (
-    <MarkerSection>
-      <MarkerContent onClick={() => onClick(marker)}>
-        <h3>{marker.name}</h3>
-        <p>{marker.description}</p>
-      </MarkerContent>
-    </MarkerSection>
-  );
-};
-
 type MenuProps = {
-  addMarkerToRoute: (route: IRoute) => void
+  addMarkerToRoute: (route: IMarker) => void
 }
 
 const SelectRouteMenu = ({ addMarkerToRoute }: MenuProps) => {
 
   const { t } = useTranslation()
-  const { state: routes } = useContext(RoutesContext)
+  const { state: markers } = useContext(MarkerContext)
   const [searchValue, setSearchValue] = useState("")
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -292,8 +282,8 @@ const SelectRouteMenu = ({ addMarkerToRoute }: MenuProps) => {
     setAnchorElUser(null);
   }
 
-  const addToRoute = (route: IRoute) => {
-    addMarkerToRoute(route)
+  const addToRoute = (marker: IMarker) => {
+    addMarkerToRoute(marker)
     handleCloseUserMenu()
   }
 
@@ -307,7 +297,7 @@ const SelectRouteMenu = ({ addMarkerToRoute }: MenuProps) => {
           </CreateButton>
         </Tooltip>
         <Menu
-        sx={{ mt: '45px', marginTop: "3rem"}}
+        sx={{ marginTop: "3rem"}}
         id="menu-appbar"
         anchorEl={anchorElUser}
         anchorOrigin={{
@@ -321,18 +311,25 @@ const SelectRouteMenu = ({ addMarkerToRoute }: MenuProps) => {
         }}
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
+        variant="menu"
       >
+        <SearchMenuItem onKeyDown={e => e.stopPropagation()}>
+          <SearchBar placeholder={t("sidebar.details.route_list_search") || ''} value={searchValue} onChange={(e) => {
+            e.stopPropagation()
+            e.preventDefault()
+            setSearchValue(e.target.value)
+          }} onKeyDown={e => e.stopPropagation()}/>
+        </SearchMenuItem>
         <Divider />
-          <SearchBar placeholder={'Busca una ruta'} value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
           {
-            routes.length === 0 ?
+            markers.length === 0 ?
               <MenuItem>
                 <Typography textAlign="center">{t('sidebar.details.route_list_empty')}</Typography>
               </MenuItem>
               :
-              routes.filter(r => r.name.toLowerCase().includes(searchValue.toLowerCase())).map(r => (
-                <MenuItem key={r.id} onClick={() => addToRoute(r)}>
-                  <Typography textAlign="center">{r.name}</Typography>
+              markers.filter(m => m.name.toLowerCase().includes(searchValue.toLowerCase()) && m.property.owns).map(m => (
+                <MenuItem key={m.id} onClick={() => addToRoute(m)}>
+                  <Typography textAlign="center">{m.name}</Typography>
                 </MenuItem>
               ))
           }

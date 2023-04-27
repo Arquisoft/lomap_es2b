@@ -110,17 +110,22 @@ export const MarkerImage = styled.img`
   height: auto;
 `
 
-export const MarkerHeader = styled.div`
-
+export const TextMenuItem = styled.div`
+  padding: 1em;
 `
 
 export const IconButton = MUIStyled(MUIIconButton)`
   padding: 0.3em;
   background-color: #ebebeb;
   margin: 0.2em;
-
+  float: right;
   &:hover {
     background-color: #aeaeae;
     color: #505050;
   }
 `
+
+export const SearchMenuItem = styled.div`
+  padding: 0.3em;
+`
+

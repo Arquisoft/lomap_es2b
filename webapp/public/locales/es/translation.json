@@ -100,7 +100,10 @@
       "add_comment": "Añadir",
       "comments": "Comentarios",
       "markers": "Marcadores de la ruta",
-      "routes": "Detalles de la ruta"
+      "routes": "Detalles de la ruta",
+      "add_to_route": "Añadir a Ruta",
+      "route_list_empty": "Aun no hay rutas",
+      "route_list_search": "Buscar marcadores"
     }, 
     "routes": {
       "title": "Rutas", 

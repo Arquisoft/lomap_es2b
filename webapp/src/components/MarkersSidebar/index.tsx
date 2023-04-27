@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 
 import { MarkerContext } from "../../context/MarkersContext";
 import { IMarker } from "../../types/IMarker";
-import { MarkerList, MarkerSection, SearchBar, Title, TopSection, MarkerContent, MarkerImage, MarkerHeader, IconButton } from "./Styles"
+import { MarkerList, MarkerSection, SearchBar, Title, TopSection, MarkerContent, MarkerImage, IconButton, TextMenuItem, SearchMenuItem } from "./Styles"
 import DeleteButton from "../DeleteButton";
 import { Types } from "../../types/ContextActionTypes";
 import { Category } from "../../types/Category";
@@ -137,7 +137,8 @@ type InfoProps = {
 const MarkerInfo = ({ marker, close }: InfoProps) => {
 
 
-  const { dispatch } = useContext(MarkerContext)
+  const { dispatch: mDispatch } = useContext(MarkerContext)
+  const { dispatch: rDispatch } = useContext(RoutesContext)
   const {session} = useSession();
   const { t } = useTranslation()
 
@@ -152,14 +153,14 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
     
     marker.score = newScore
 
-    dispatch({ type: Types.UPDATE, payload:{ id: marker.id, marker: { score: newScore } } });
+    mDispatch({ type: Types.UPDATE, payload:{ id: marker.id, marker: { score: newScore } } });
   }
 
   function addComment(comment:string){
     const listComments = marker.comments;
     if(!session.info.webId) return
     listComments.push({ comment, author: session.info.webId })
-    dispatch({type: Types.UPDATE, payload:{id: marker.id, marker:{comments:listComments}}});
+    mDispatch({type: Types.UPDATE, payload:{id: marker.id, marker:{comments:listComments}}});
     setComment("");
   }
 
@@ -184,7 +185,9 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
    
   }
 
-  
+  const addMarkerToRoute = (route: IRoute) => {
+    rDispatch({ type: Types.UPDATE, payload: { id: route.id, route: { points: [...route.points, marker] } } })
+  }
  
   useEffect(() => {
     getMarkImage()
@@ -197,11 +200,9 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
    
       <Button className="backButton" onClick={close} color='success' variant='contained'><TbArrowBackUp/>{ t('sidebar.details.back') }</Button>  
       <div className="markInfo">
-       {imageToShow ? <MarkerImage src={imageToShow===null ? "" : URL.createObjectURL(imageToShow)} alt="Imagen del sitio" /> : null}
-        <MarkerHeader>
-          <h2>{marker.name}</h2>
-          <SelectRouteMenu addMarkerToRoute={(route) => {}} />
-        </MarkerHeader>
+        <SelectRouteMenu addMarkerToRoute={addMarkerToRoute} />
+        {imageToShow ? <MarkerImage src={imageToShow===null ? "" : URL.createObjectURL(imageToShow)} alt="Imagen del sitio" /> : null}
+        <h2>{marker.name}</h2>
         <p>{marker.description}</p>
 
         <p>{marker.address}</p>
@@ -284,16 +285,23 @@ const SelectRouteMenu = ({addMarkerToRoute}: MenuProps) => {
         }}
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
+        variant="menu"
       > 
-        <input placeholder={'Busca una ruta'} value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
+        <SearchMenuItem onKeyDown={e => e.stopPropagation()}>
+          <SearchBar placeholder={t("sidebar.details.route_list_search") || ''} value={searchValue} onChange={(e) => {
+            e.stopPropagation()
+            e.preventDefault()
+            setSearchValue(e.target.value)
+          }} onKeyDown={e => e.stopPropagation()}/>
+        </SearchMenuItem>
         {
           routes.length === 0 ?
-          <MenuItem>
+          <TextMenuItem>
             <Typography textAlign="center">{ t('sidebar.details.route_list_empty') }</Typography>
-          </MenuItem>
+          </TextMenuItem>
           :
           routes.filter(r => r.name.toLowerCase().includes(searchValue.toLowerCase())).map(r => (
-            <MenuItem key={ r.id } onClick={ () => addToRoute(r) }>
+            <MenuItem key={ r.id } onClick={ () => addToRoute(r) }  >
               <Typography textAlign="center">{ r.name }</Typography>
             </MenuItem>
           ))
