@@ -97,7 +97,7 @@ export const Form = styled.form`
 export const LanguageMenu = styled.div`
   position: absolute;
   top: 0;
-  right: 0;
+  right: 3.6em;
 `
 
 export const IconButton = MUIStyled(MUIIconButton)`
@@ -109,4 +109,9 @@ export const IconButton = MUIStyled(MUIIconButton)`
     background-color: #aeaeae;
     color: #505050;
   }
+`
+export const AboutButton = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
 `

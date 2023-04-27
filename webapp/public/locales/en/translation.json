@@ -112,13 +112,19 @@
     "title": "Create a New Marker",
     "name": {
       "label": "Name",
-      "placeholder": "Name"
+      "placeholder": "Name",
+      "error": "Enter a name for the marker"
     },
     "description": {
       "label": "Description",
       "placeholder": "Description"
     },
     "category": "Category",
+    "image":{
+      "label":"Upload site image",
+      "button": "Add image",
+      "error": "Enter an image"
+    },
     "coordinates": "Coordinates (Lat-Lng)",
     "save": "Save"
   },
