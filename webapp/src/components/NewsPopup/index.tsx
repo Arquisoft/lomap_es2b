@@ -120,7 +120,7 @@ const AddNewsPopup = ({onClose, addNew}:PropsAddNewsPoup)=>{
         <Popup isOpen={true} closePopup={onClose}>
              <AddForm onSubmit={(e)=>handleSubmit(e)}>
             <h2>{t('news.addNew.title')}</h2>
-            <p><label htmlFor="Text">{t('news.addNew.textLabelz')}</label></p>
+            <p><label htmlFor="Text">{t('news.addNew.textLabel')}</label></p>
             <TextField className="textField" helperText={text.length+"/"+maxLong} onChange={(e)=>handleChangeText(e.target.value)} value={text} id='Text' label={t('news.addNew.placeHolder')} variant='standard' multiline maxRows={4} />  
             {error ? <Error>{t('news.addNew.error')}</Error>: null}
             <Button className="addNewsButton" type='submit' color='success' variant='contained'>{t('news.addButton')}</Button>
