@@ -19,11 +19,6 @@ function NewsPopup({isNewsOpen, toggleNews } : Props){
     const { t } = useTranslation()
 
     const {state: news, dispatch} = useContext(NewsContext);
-    const pruebaNews:INews[]=[{id:"1",text:"prueba1",author:"autor1S"},
-    {id:"1",text:"prueba1",author:"autor1S"},
-    {id:"1",text:"prueba1",author:"autor1S"},
-    {id:"1",text:"prueba1",author:"autor1S"},
-    {id:"1",text:"pruecsdddddddccddcsdcsdcrgtehryhtegfwefcrthgyreeargtraergeargerfba1",author:"autor1S"}]
 
     const {session} = useSession();
     const [showPopupNews,setShowPopupNews] = useState<boolean>(false);
