@@ -151,7 +151,7 @@ const Route = ({ route, onClick }: RouteProps) => {
         <h3>{route.name}</h3>
         <p>{route.description}</p>
       </RoutesContent>
-      {<DeleteButton id={route.id} />}
+      <DeleteButton id={route.id} type="route" />
     </RoutesSection>
   );
 };
@@ -219,26 +219,21 @@ const RouteInfo = ({ route, close }: InfoProps) => {
             route.points.length === 0 ?
             <span>La ruta aun no tiene marcadores añadidos</span>
             :
-            <div className="container">
-              <div className="list">
-                {route.points.map((marker, index) => (
-                  <MarkerSection
-                    key={marker.id}
-                    draggable
-                    onDragStart={(e) => (dragMarker.current = index)}
-                    onDragEnter={(e) => (dragOverMarker.current = index)}
-                    onDragEnd={handleSort}
-                    onDragOver={(e) => e.preventDefault()}
-                  >
-                    <MarkerContent>
-                      <h3>{marker.name}</h3>
-                      <p>{marker.description}</p>
-                    </MarkerContent>
-                  </MarkerSection>
-                ))}
-              </div>
-            </div>
-
+            route.points.map((marker, index) => (
+              <MarkerSection
+                key={marker.id}
+                draggable
+                onDragStart={(e) => (dragMarker.current = index)}
+                onDragEnter={(e) => (dragOverMarker.current = index)}
+                onDragEnd={handleSort}
+                onDragOver={(e) => e.preventDefault()}
+              >
+                <MarkerContent>
+                  <h3>{marker.name}</h3>
+                  <p>{marker.description}</p>
+                </MarkerContent>
+              </MarkerSection>
+            ))
           }
         </MarkerList>
       </div>
@@ -280,33 +275,37 @@ const SelectRouteMenu = ({ addMarkerToRoute }: MenuProps) => {
           </CreateButton>
         </Tooltip>
         <Menu
-        sx={{ marginTop: "3rem"}}
-        id="menu-appbar"
-        anchorEl={anchorElUser}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        keepMounted
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        open={Boolean(anchorElUser)}
-        onClose={handleCloseUserMenu}
-        variant="menu"
-      >
-        <SearchMenuItem onKeyDown={e => e.stopPropagation()}>
-          <SearchBar placeholder={t("sidebar.details.route_list_search") || ''} value={searchValue} onChange={(e) => {
-            e.stopPropagation()
-            e.preventDefault()
-            setSearchValue(e.target.value)
-          }} onKeyDown={e => e.stopPropagation()}/>
-        </SearchMenuItem>
-        <Divider />
+          sx={{ 
+            marginTop: "3rem",
+            maxHeight: "30vh",
+
+          }}
+          id="menu-appbar"
+          anchorEl={anchorElUser}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          keepMounted
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          open={Boolean(anchorElUser)}
+          onClose={handleCloseUserMenu}
+          variant="menu"
+        >
+          <SearchMenuItem onKeyDown={e => e.stopPropagation()}>
+            <SearchBar placeholder={t("sidebar.details.route_list_search") || ''} value={searchValue} onChange={(e) => {
+              e.stopPropagation()
+              e.preventDefault()
+              setSearchValue(e.target.value)
+            }} onKeyDown={e => e.stopPropagation()}/>
+          </SearchMenuItem>
+          <Divider />
           {
             markers.length === 0 ?
-              <MenuItem>
+              <MenuItem sx={{ touchAction: 'none' }}>
                 <Typography textAlign="center">{t('sidebar.details.route_list_empty')}</Typography>
               </MenuItem>
               :

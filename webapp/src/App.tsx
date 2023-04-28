@@ -1,4 +1,4 @@
-import { Suspense, useContext } from 'react'
+import { Suspense, useContext, useEffect } from 'react'
 import Login from './pages/LoginPage';
 import Map from './pages/MapPage';
 import { SessionProvider, useSession } from '@inrupt/solid-ui-react';
@@ -22,22 +22,28 @@ function App(): JSX.Element {
   const { dispatch: newsDispatch } = useContext(NewsContext)
   const { dispatch: routesDispatch } = useContext(RoutesContext)
 
-  session.onLogin(() => {
-    setIsLoggedIn(true)
-    getProfile(session.info.webId || '').then(profile => userDispatch({ type: Types.SET, payload: { user: profile }}))
-    readMarkersFromPod(session.info.webId).then(markersList => markersDispatch({ type: Types.SET, payload: { markers: markersList }}))
-    readNewsFromLoMap().then(newsList => newsDispatch({ type: Types.SET, payload: { newsList }}))
-    readRoutesFromPod(session.info.webId).then(routesList => routesDispatch({ type: Types.SET, payload: { routes: routesList }}))
-  })
+  // It only adds the events listeners once, preventing memory leaks
+  useEffect(() => {
+    // We have logged in
+    session.onLogin(() => {
+      setIsLoggedIn(true)
+      getProfile(session.info.webId || '').then(profile => userDispatch({ type: Types.SET, payload: { user: profile }}))
+      readMarkersFromPod(session.info.webId).then(markersList => markersDispatch({ type: Types.SET, payload: { markers: markersList }}))
+      readNewsFromLoMap().then(newsList => newsDispatch({ type: Types.SET, payload: { newsList }}))
+      readRoutesFromPod(session.info.webId).then(routesList => routesDispatch({ type: Types.SET, payload: { routes: routesList }}))
+    })
 
-  //We have logged out
-  session.onLogout(()=>{
-    setIsLoggedIn(false)
-    // Al cerrar sesion elimina los marcadores del usuario de la memoria
-    markersDispatch({ type: Types.SET, payload: { markers: [] } })
-    newsDispatch({ type: Types.SET, payload: { newsList: [] } })
-    routesDispatch({ type: Types.SET, payload: { routes: [] } })
-  })
+    // We have logged out
+    session.onLogout(()=>{
+      setIsLoggedIn(false)
+      // Al cerrar sesion elimina los marcadores del usuario de la memoria
+      markersDispatch({ type: Types.SET, payload: { markers: [] } })
+      newsDispatch({ type: Types.SET, payload: { newsList: [] } })
+      routesDispatch({ type: Types.SET, payload: { routes: [] } })
+    })
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <SessionProvider sessionId="log-in-example">

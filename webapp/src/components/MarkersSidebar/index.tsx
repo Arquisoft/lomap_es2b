@@ -197,7 +197,6 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
 
   return (
     <>
-   
       <Button className="backButton" onClick={close} color='success' variant='contained'><TbArrowBackUp/>{ t('sidebar.details.back') }</Button>  
       <div className="markInfo">
         <SelectRouteMenu addMarkerToRoute={addMarkerToRoute} />
@@ -342,7 +341,7 @@ const Marker = ({ marker, onClick, changeVisibility }: MarkerProps) => {
         </div>
       </MarkerContent>
       {
-        marker.property.owns && <DeleteButton id={marker.id} />
+        marker.property.owns && <DeleteButton id={marker.id} type="marker" />
       }
     </MarkerSection>
   );

@@ -144,6 +144,7 @@ export const MarkerList = styled.div`
 `; 
 
 export const MarkerSection = styled.div`
+  touch-action: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
