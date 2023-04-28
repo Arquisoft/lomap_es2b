@@ -6,11 +6,12 @@ import reportWebVitals from './reportWebVitals';
 import AppContext from './context/AppContext';
 
 import './i18n'
-import { saveMarkersToPod, saveRoutesToPod } from './helpers/SolidHelper';
+import { saveMarkersToPod ,saveNewsToLomap, saveRoutesToPod} from './helpers/SolidHelper';
+
 
 ReactDOM.render(
   // <React.StrictMode>
-  <AppContext markersSaveFunction={saveMarkersToPod} routesSaveFunction={saveRoutesToPod}>
+  <AppContext markersSaveFunction={saveMarkersToPod} routesSaveFunction={saveRoutesToPod} saveFunctionNews={saveNewsToLomap}>
     <App />
   </AppContext>
   // </React.StrictMode>

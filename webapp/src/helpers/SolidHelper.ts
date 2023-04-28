@@ -417,6 +417,7 @@ export async function saveNewsToLomap(newsList: INews[]) {
   let profileDocumentURI = "https://lomapes2b.inrupt.net/";
   let targetFileURL = profileDocumentURI + 'public/LoMap/News.json';
   let str = JSON.stringify(newsList);
+
   const bytes = new TextEncoder().encode(str);
   const blob = new Blob([bytes], {
     type: "application/json;charset=utf-8"

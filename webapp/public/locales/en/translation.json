@@ -143,6 +143,18 @@
     },
     "create": "create"
   },
+  "news":{
+    "title": "News",
+    "author": "Author",
+    "addButton": "Add new",
+    "noNews": "The news will be displayed here",
+    "addNew":{
+      "title": "Enter a news",
+      "textLabel": "Text",
+      "placeHolder": "News",
+      "error": "The text cannot be empty"
+    }
+},
   "options": {
     "title": "Options menu",
     "config": "Configuration",

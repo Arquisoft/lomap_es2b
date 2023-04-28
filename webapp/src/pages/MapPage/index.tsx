@@ -16,6 +16,7 @@ import { NavContainer} from './Styles'
 import { Category } from '../../types/Category';
 import solidHelper from '../../helpers/SolidHelper'
 import RoutesPopUp from '../../components/RoutesPopUp';
+import NewsPopup from '../../components/NewsPopup'
 
 export enum Popups {
   NONE,
@@ -41,6 +42,8 @@ const MapPage = () : JSX.Element => {
 
   const { dispatch } = useContext(MarkerContext)
   const [ selectedCategory, setSelectedCategory ] = useState<Category>(Category.All);
+
+  const[newsOpen, setNewsOPen] = useState<boolean>(false)
 
   function showAddMarkerPopup(lngLat: LngLat): void{
     setPopupVisible(Popups.ADD_MARKER)
@@ -106,16 +109,28 @@ const MapPage = () : JSX.Element => {
   const handleAddRoute = (addRouteF: (name:string, description?:string) => void) => {
     addRoute.current = addRouteF
   }
+
+  const toggleNews = (open:boolean | undefined)=>{
+    
+    if (open !== undefined) {
+      setNewsOPen(open)
+    }
+    else{
+      setNewsOPen(!newsOpen)
+    } 
+     
+  }
   
   return (
     <MapProvider>
       <NavContainer>
-        <Navbar openPopup={openPopup} sidebarView={sidebarView} isSidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+        <Navbar openPopup={openPopup} sidebarView={sidebarView} isSidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} toggleNews={toggleNews} />
         <Filter toggleSidebar={toggleSidebar} activeFilter={selectedCategory} setActiveFilter={setSelectedCategory} />
       </NavContainer>
       <Sidebar isOpen={sidebarOpen} view={sidebarView} toggleSidebar={toggleSidebar} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} setAddRoute={handleAddRoute} openPopup={openPopup} />
       <Map onClick={showAddMarkerPopup} filterType={selectedCategory} />
       <FocusOnUserButton />
+      <NewsPopup  toggleNews={toggleNews} isNewsOpen={newsOpen}/>
       <AddMarkerPopup closePopup={closePopup} visible={popupVisible === Popups.ADD_MARKER} lngLat={lngLat} addMark={addMark} />
       <FriendsPopup closePopup={closePopup} isOpen={popupVisible === Popups.FRIENDS} solidManager={solidHelper} />
       <RoutesPopUp closePopup={closePopup} visible={popupVisible === Popups.ADD_ROUTE}  addRoute={addRoute.current}/>

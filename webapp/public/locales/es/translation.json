@@ -124,9 +124,9 @@
     },
     "category": "Categoría",
     "image": {
-        "label": "Subir imagen del sitio",
-        "button": "Añadir imagen",
-        "error": "Introduce una imagen"
+      "label": "Subir imagen del sitio",
+      "button": "Añadir imagen",
+      "error": "Introduce una imagen"
     },
     "coordinates": "Coordenadas (Lat-Lng)",
     "save": "Guardar"
@@ -142,6 +142,18 @@
       "placeholder": "Descripción"
     },
     "create": "Crear"
+  },
+  "news":{
+    "title": "Noticias",
+    "author": "Autor",
+    "addButton": "Añadir noticia",
+    "noNews": "Aquí se mostrarán las noticias",
+    "addNew":{
+      "title": "Introduce una noticia",
+      "textLabel": "Texto",
+      "placeHolder": "Noticia",
+      "error": "El texto no puede estar vacío"
+    }
   },
   "options": {
     "title": "Menú de Opciones",
