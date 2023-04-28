@@ -153,7 +153,7 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
           <label htmlFor='image'>{t('addMarker.image.label')}</label>
           <div id="div_file">
             <p id="texto">{t('addMarker.image.button')}</p>
-            <input type="file" id="image" onChange={handleChangeImage}/>
+            <input accept="image/png,image/jpeg" type="file" id="image" onChange={handleChangeImage}/>
           </div>
           {filepreview !== null ? <img src={filepreview === null ? "" : URL.createObjectURL(filepreview)} alt='Previsualización'/> : null}
           {errorImage ? <Error>{t('addMarker.image.error')}</Error> : null}

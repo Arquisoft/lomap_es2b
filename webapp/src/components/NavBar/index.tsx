@@ -3,7 +3,7 @@ import { getStringNoLocale, getNamedNodeAll } from "@inrupt/solid-client";
 import { useSession } from '@inrupt/solid-ui-react';
 import { FOAF, VCARD } from '@inrupt/vocab-common-rdf';
 import { Avatar, Box, Divider, IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
-import { FaSearch, FaBars, FaMapMarkerAlt } from "react-icons/fa";
+import { FaSearch, FaBars, FaMapMarkerAlt,FaNewspaper } from "react-icons/fa";
 import {FcAbout, FcDataConfiguration} from "react-icons/fc"
 import { useTranslation } from 'react-i18next';
 import { useMap } from "react-map-gl";
@@ -22,9 +22,10 @@ type Props = {
   isSidebarOpen: boolean
   toggleSidebar: (open: boolean | undefined) => void
   openPopup: (popup : Popups) => void
+  toggleNews:(open: boolean | undefined) => void
 }
 
-const Navbar = ({ openPopup, isSidebarOpen, toggleSidebar } : Props) => {
+const Navbar = ({ openPopup, isSidebarOpen, toggleSidebar, toggleNews } : Props) => {
   const { map  } = useMap()
   const { logout } = useSession()
   const { t } = useTranslation()
@@ -167,6 +168,11 @@ const Navbar = ({ openPopup, isSidebarOpen, toggleSidebar } : Props) => {
         <Tooltip title={t('navbar.tooltips.markers')}>
           <IconButton onClick={() => toggleSidebar(undefined)}>
             <FaMapMarkerAlt />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Ver noticias">
+          <IconButton onClick={() => toggleNews(undefined)}>
+            <FaNewspaper />
           </IconButton>
         </Tooltip>
         <Box sx={{ flexGrow: 0 }}>
