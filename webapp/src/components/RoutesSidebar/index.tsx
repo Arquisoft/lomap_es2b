@@ -204,7 +204,7 @@ const RouteInfo = ({ route, close }: InfoProps) => {
         <TbArrowBackUp />
         {t("sidebar.details.back")}
       </Button>
-      <div className="routeInfo">
+      <div className="infoContainer">
         <h2> {t("sidebar.details.routes")} </h2>
         <RoutesSection>
           <RoutesContent>

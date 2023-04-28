@@ -46,7 +46,7 @@ export const SidebarSection = styled.div`
     }
   }
 
-  .markInfo{
+  .infoContainer {
     display: flex;
     flex-direction: column;
     overflow-y: auto;

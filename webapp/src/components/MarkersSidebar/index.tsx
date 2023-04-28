@@ -198,7 +198,7 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
   return (
     <>
       <Button className="backButton" onClick={close} color='success' variant='contained'><TbArrowBackUp/>{ t('sidebar.details.back') }</Button>  
-      <div className="markInfo">
+      <div className="infoContainer">
         <SelectRouteMenu addMarkerToRoute={addMarkerToRoute} />
         {imageToShow ? <MarkerImage src={imageToShow===null ? "" : URL.createObjectURL(imageToShow)} alt="Imagen del sitio" /> : null}
         <h2>{marker.name}</h2>
