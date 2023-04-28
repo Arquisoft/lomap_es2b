@@ -33,6 +33,14 @@ function App(): JSX.Element {
       readRoutesFromPod(session.info.webId).then(routesList => routesDispatch({ type: Types.SET, payload: { routes: routesList }}))
     })
 
+    session.onSessionRestore(() => {
+      setIsLoggedIn(true)
+      getProfile(session.info.webId || '').then(profile => userDispatch({ type: Types.SET, payload: { user: profile }}))
+      readMarkersFromPod(session.info.webId).then(markersList => markersDispatch({ type: Types.SET, payload: { markers: markersList }}))
+      readNewsFromLoMap().then(newsList => newsDispatch({ type: Types.SET, payload: { newsList }}))
+      readRoutesFromPod(session.info.webId).then(routesList => routesDispatch({ type: Types.SET, payload: { routes: routesList }}))
+    })
+
     // We have logged out
     session.onLogout(()=>{
       setIsLoggedIn(false)
@@ -46,7 +54,7 @@ function App(): JSX.Element {
   }, [])
 
   return (
-    <SessionProvider sessionId="log-in-example">
+    <SessionProvider sessionId="log-in-example" restorePreviousSession={true}>
       <Suspense fallback={<Loader />}>
         {(!isLoggedIn) ? <Login/> : <Map/>}
       </Suspense>
