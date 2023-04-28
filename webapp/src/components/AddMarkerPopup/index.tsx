@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 interface Props{
     visible:boolean;
     lngLat:LngLat|undefined;
-    addMark:(name:string, lngLat:LngLat|undefined,description:string, category:Category, shared:boolean,direction:string,image:string)=>void;
+    addMark:(name:string, lngLat:LngLat|undefined,description:string, category:Category, shared:boolean,direction:string,image?:string)=>void;
     closePopup:()=>void;
 }
 
@@ -65,18 +65,17 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
     e.preventDefault();
     setError(null);
     getDirection();
-    if(filepreview == null){
-      isErrorImage(true);
-      return;
-    }
     if(!validaVacio(name)) {
       setError(t('addMarker.name.error'))
       return;
     }
-    uploadImage();
-      
-    
-     
+    try {
+      const filename = await uploadImage()
+      addMark(name, lngLat, description, category, shared, await getDirection(), filename)
+      cleanForm()
+    } catch (err) {
+
+    }
   }
 
   function cleanForm(){
@@ -87,28 +86,21 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
     setFilepreview(null)
   }
 
-  function uploadImage(){
-    if(filepreview===null){
-      return;
-    }
-    let formData = new FormData();
-    formData.append('image',filepreview);
-    fetch('http://localhost:5000/api/image/upload',{
+  async function uploadImage() {
+    if(!filepreview)
+      return
+
+    let formData = new FormData()
+    formData.append('image',filepreview)
+    const response = await fetch('http://localhost:5000/api/image/upload',{
       method:"POST",
       body: formData
-    }).then(response =>{
-       return response.json();
-    }).then(async data =>{
-      if(data.data.filename==null){
-        addMark(name, lngLat, description, category, shared, await getDirection(),"")
-      }else{
-        addMark(name, lngLat, description, category, shared, await getDirection(),data.data.filename)
-      }
-      cleanForm()
-    }).catch(error=>{
-      console.log("Se ha producido un error: " + error)
     })
-    
+    const data = await response.json()
+    if (!data.data.filename)
+      return
+
+    return data.data.filename as string
   }
 
   

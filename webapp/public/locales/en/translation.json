@@ -43,6 +43,7 @@
       "menu": "Options",
       "search": "Search",
       "markers": "Markers",
+      "routes": "Routes",
       "user": "User Menu"
     }
   },
@@ -84,7 +85,7 @@
         "tooltip": "Delete",
         "confirm": {
           "title": "Do you really want to delete the marker?",
-          "body": "Once deleted, the marker cannot be recovered.",
+          "body": "Once deleted, the marker cannot be recovered. If the marker is part of any route it will dissapear from it",
           "yes": "Delete",
           "no": "Cancel"
         }
@@ -97,7 +98,17 @@
       "comment": "Comment",
       "comment_placeholder": "Write a Comment",
       "add_comment": "Add comment",
-      "comments": "Comments"
+      "comments": "Comments", 
+      "markers": "Route markers", 
+      "routes": "Routes details",
+      "add_to_route": "Add to Route",
+      "route_list_empty": "There are no routes yet",
+      "route_list_search": "Search markers"
+    },
+    "routes": {
+      "title": "Routes",
+      "newRoute": "New Route",
+      "addMarker": "Add marker to route"
     }
   },
   "addMarker": {
@@ -119,6 +130,18 @@
     },
     "coordinates": "Coordinates (Lat-Lng)",
     "save": "Save"
+  },
+  "addRoutes": {
+    "title": "Create a New Route",
+    "name": {
+      "label": "Name",
+      "placeholder": "Name"
+    },
+    "description": {
+      "label": "Description",
+      "placeholder": "Description"
+    },
+    "create": "create"
   },
   "news":{
     "title": "News",

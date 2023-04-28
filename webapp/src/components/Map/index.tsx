@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import { CircularProgress } from '@mui/material'
-import Map, { LngLat, Marker, useMap,Popup} from 'react-map-gl'
+import Map, { LngLat, Marker, useMap,Popup, Source, Layer } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import { mapboxApiKey } from '../../config/constants'
@@ -9,6 +9,7 @@ import { MarkerContext } from '../../context/MarkersContext';
 import { IMarker } from '../../types/IMarker';
 import './Map.css'
 import { Category } from '../../types/Category';
+import { RoutesContext } from '../../context/RoutesContext';
 
 interface Props{
     onClick:(lngLat:LngLat,visible:boolean)=>void;
@@ -24,6 +25,8 @@ const MapComponent = ({ onClick, filterType }:Props) => {
   const[imageToShow,setImageToShow] = useState<Blob|null>(null)
 
   const { state: markers } = useContext(MarkerContext)
+
+  const { state: routes } = useContext(RoutesContext)
 
   const locateUser = () => {
     if ("geolocation" in navigator) {      
@@ -57,15 +60,13 @@ const MapComponent = ({ onClick, filterType }:Props) => {
       }
       
     }catch(err){
-      console.log("Ha ocurrido un error: "+err)
+      console.error("Ha ocurrido un error al cargar la imagen")
       setImageToShow(null);
     }
    
   }
   
   useEffect(locateUser,[map])
-
- 
 
   return (
     <>
@@ -87,7 +88,6 @@ const MapComponent = ({ onClick, filterType }:Props) => {
           }
           
         }>
-       
           {
             markers
             .filter((marker) => filterType === Category.All || filterType === marker.category)
@@ -99,7 +99,6 @@ const MapComponent = ({ onClick, filterType }:Props) => {
                 longitude={marker.lng}
                 latitude={marker.lat}
                 onClick={(e) => {
-                  console.log(marker);
                   e.originalEvent.stopPropagation();
                   setInfoVisible(marker);
                 }}
@@ -107,6 +106,23 @@ const MapComponent = ({ onClick, filterType }:Props) => {
             ))
           }
 
+          {
+            routes.map((route) => {
+              return (
+                <Source key={`${route.name}-${route.created_at}`} id={`${route.name}-${route.created_at}`} type='geojson' data={{
+                  type: 'Feature',
+                  properties: {},
+                  geometry: {
+                    type: 'LineString',
+                    coordinates: route.points.map(m => {
+                      return [m.lng, m.lat]})
+                  }
+                }}>
+                  <Layer type='line' paint={{ 'line-color': 'blue', 'line-width': 3 }} />
+                </Source>
+              );
+            })
+          }
 
           {infoVisible && (
           <Popup 
@@ -130,5 +146,6 @@ const MapComponent = ({ onClick, filterType }:Props) => {
     </>
   )
 }
+
 
 export default MapComponent

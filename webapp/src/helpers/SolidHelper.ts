@@ -28,6 +28,7 @@ import {
 } from "@inrupt/solid-client";
 import { ISolidManager } from "../types/ISolidManager";
 import { INews } from "../types/INews";
+import { IRoute } from "../types/IRoute";
 
 export async function getProfile(webId: string) {
   let profileDocumentURI = webId.split("#")[0];
@@ -429,6 +430,59 @@ export async function saveNewsToLomap(newsList: INews[]) {
     );
   } catch (error) {}
 };
+
+export async function saveRoutesToPod(routes: IRoute[], webId?: string) {
+  if (!webId)
+    return
+
+  let profileDocumentURI = webId?.split("profile")[0];
+  let targetFileURL = profileDocumentURI + 'private/LoMap/Routes.json';
+  let str = JSON.stringify(routes);
+  const bytes = new TextEncoder().encode(str);
+  const blob = new Blob([bytes], {
+    type: "application/json;charset=utf-8"
+  });
+  try {
+    await overwriteFile(
+      targetFileURL,                              // URL for the file.
+      blob,                                       // File
+      { contentType: blob.type, fetch: fetch }    // mimetype if known, fetch from the authenticated session
+    );
+  } catch (error) {
+  }
+}
+
+export async function readRoutesFromPod(webId?: string) {
+  if (!webId)
+    return []
+
+  let routes: IRoute[] = []
+  let profileDocumentURI = webId.split("profile")[0];
+  try {
+    await getFile(
+      profileDocumentURI + 'private/LoMap/Routes.json',
+      { fetch: fetch },
+    ).then(async (file) => {
+      routes = JSON.parse(await file.text());
+    }).catch(async (err: any) => {
+      let str = JSON.stringify([]);
+      const bytes = new TextEncoder().encode(str);
+      const blob = new Blob([bytes], {
+        type: "application/json;charset=utf-8"
+      })
+      try {
+        await overwriteFile(
+          profileDocumentURI + 'private/LoMap/Routes.json', // URL for the file.
+          blob,                                             // File
+          { contentType: blob.type, fetch: fetch }          // mimetype if known, fetch from the authenticated session
+        );
+      } catch (error) {
+      }
+    });
+  } catch (err) {
+  }
+  return routes
+}
 
 const solidHelper: ISolidManager = {
   getProfile,

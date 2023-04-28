@@ -43,6 +43,7 @@
       "menu": "Opciones",
       "search": "Buscar",
       "markers": "Ver marcadores",
+      "routes": "Ver rutas", 
       "user": "Menú de Usuario"
     }
   },
@@ -84,7 +85,7 @@
         "tooltip": "Eliminar",
         "confirm": {
           "title": "¿Está seguro de que quiere borrar el marcador?",
-          "body": "Una vez borrado el marcador no habrá forma de recuperar la información.",
+          "body": "Una vez borrado el marcador no habrá forma de recuperar la información. Si el marcador pertenece a alguna ruta, sera eliminado de esta",
           "yes": "Eliminar",
           "no": "Cancelar"
         }
@@ -97,7 +98,17 @@
       "comment": "Comentar",
       "comment_placeholder": "Escribe un comentario",
       "add_comment": "Añadir",
-      "comments": "Comentarios"
+      "comments": "Comentarios",
+      "markers": "Marcadores de la ruta",
+      "routes": "Detalles de la ruta",
+      "add_to_route": "Añadir a Ruta",
+      "route_list_empty": "Aun no hay rutas",
+      "route_list_search": "Buscar marcadores"
+    }, 
+    "routes": {
+      "title": "Rutas", 
+      "newRoute": "Nueva ruta",
+      "addMarker": "Añade nuevo marcador a la ruta"
     }
   },
   "addMarker": {
@@ -113,24 +124,36 @@
     },
     "category": "Categoría",
     "image": {
-        "label": "Subir imagen del sitio",
-        "button": "Añadir imagen",
-        "error": "Introduce una imagen"
+      "label": "Subir imagen del sitio",
+      "button": "Añadir imagen",
+      "error": "Introduce una imagen"
     },
     "coordinates": "Coordenadas (Lat-Lng)",
     "save": "Guardar"
   },
+  "addRoutes": {
+    "title": "Crear nueva ruta",
+    "name": {
+      "label": "Nombre",
+      "placeholder": "Nombre"
+    },
+    "description": {
+      "label": "Descripción",
+      "placeholder": "Descripción"
+    },
+    "create": "Crear"
+  },
   "news":{
-      "title": "Noticias",
-      "author": "Autor",
-      "addButton": "Añadir noticia",
-      "noNews": "Aquí se mostrarán las noticias",
-      "addNew":{
-        "title": "Introduce una noticia",
-        "textLabel": "Texto",
-        "placeHolder": "Noticia",
-        "error": "El texto no puede estar vacío"
-      }
+    "title": "Noticias",
+    "author": "Autor",
+    "addButton": "Añadir noticia",
+    "noNews": "Aquí se mostrarán las noticias",
+    "addNew":{
+      "title": "Introduce una noticia",
+      "textLabel": "Texto",
+      "placeHolder": "Noticia",
+      "error": "El texto no puede estar vacío"
+    }
   },
   "options": {
     "title": "Menú de Opciones",

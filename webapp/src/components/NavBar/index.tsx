@@ -3,13 +3,14 @@ import { getStringNoLocale, getNamedNodeAll } from "@inrupt/solid-client";
 import { useSession } from '@inrupt/solid-ui-react';
 import { FOAF, VCARD } from '@inrupt/vocab-common-rdf';
 import { Avatar, Box, Divider, IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
+import {MdOutlineAltRoute} from "react-icons/md";
 import { FaSearch, FaBars, FaMapMarkerAlt,FaNewspaper } from "react-icons/fa";
 import {FcAbout, FcDataConfiguration} from "react-icons/fc"
 import { useTranslation } from 'react-i18next';
 import { useMap } from "react-map-gl";
 
 import { IMenuOption } from '../../types/IMenuOption';
-import { Popups } from '../../pages/MapPage';
+import { Popups, SidebarView } from '../../pages/MapPage';
 import { UserContext } from '../../context/UserContext';
 import NavPopup from "../NavPopup";
 import { mapboxApiKey } from "../../config/constants";
@@ -20,12 +21,13 @@ import DefaulPic from '../../assets/defaultPic.png'
 
 type Props = {
   isSidebarOpen: boolean
-  toggleSidebar: (open: boolean | undefined) => void
+  sidebarView: SidebarView
+  toggleSidebar: (open: boolean | undefined, view: SidebarView) => void
   openPopup: (popup : Popups) => void
   toggleNews:(open: boolean | undefined) => void
 }
 
-const Navbar = ({ openPopup, isSidebarOpen, toggleSidebar, toggleNews } : Props) => {
+const Navbar = ({ isSidebarOpen, sidebarView, openPopup, toggleSidebar, toggleNews } : Props) => {
   const { map  } = useMap()
   const { logout } = useSession()
   const { t } = useTranslation()
@@ -105,19 +107,19 @@ const Navbar = ({ openPopup, isSidebarOpen, toggleSidebar, toggleNews } : Props)
 
   const openMenuPopup = () => {
     wasSidebarOpen.current = isSidebarOpen
-    toggleSidebar(false)
+    toggleSidebar(false, sidebarView)
     setIsMenuPopupOpen(true)
   }
 
   const closeMenuPopup = () => {
     setIsMenuPopupOpen(false)
-    toggleSidebar(wasSidebarOpen.current)
+    toggleSidebar(wasSidebarOpen.current, sidebarView)
   }
 
   const openConfigPopup = () => {
     !isMenuPopupOpen && (wasSidebarOpen.current = isSidebarOpen)
     wasMenuOpen.current = isMenuPopupOpen
-    toggleSidebar(false)
+    toggleSidebar(false, sidebarView)
     setIsMenuPopupOpen(false)
     setIsConfigPopupOpen(true)
   }
@@ -125,13 +127,13 @@ const Navbar = ({ openPopup, isSidebarOpen, toggleSidebar, toggleNews } : Props)
   const closeConfigPopup = () => {
     setIsConfigPopupOpen(false)
     setIsMenuPopupOpen(wasMenuOpen.current)
-    toggleSidebar(!wasMenuOpen.current && wasSidebarOpen.current)
+    toggleSidebar(!wasMenuOpen.current && wasSidebarOpen.current, sidebarView)
   }
 
   const openAboutPopup = () => {
     !isMenuPopupOpen && (wasSidebarOpen.current = isSidebarOpen)
     wasMenuOpen.current = isMenuPopupOpen
-    toggleSidebar(false)
+    toggleSidebar(false, sidebarView)
     setIsMenuPopupOpen(false)
     setIsAboutPopupOpen(true)
   }
@@ -139,7 +141,7 @@ const Navbar = ({ openPopup, isSidebarOpen, toggleSidebar, toggleNews } : Props)
   const closeAboutPopup = () => {
     setIsAboutPopupOpen(false)
     setIsMenuPopupOpen(wasMenuOpen.current)
-    toggleSidebar(!wasMenuOpen.current && wasSidebarOpen.current)
+    toggleSidebar(!wasMenuOpen.current && wasSidebarOpen.current, sidebarView)
   }
 
   return (
@@ -166,8 +168,13 @@ const Navbar = ({ openPopup, isSidebarOpen, toggleSidebar, toggleNews } : Props)
           </Tooltip>
         </SearchForm>
         <Tooltip title={t('navbar.tooltips.markers')}>
-          <IconButton onClick={() => toggleSidebar(undefined)}>
+          <IconButton onClick={() => toggleSidebar(undefined, SidebarView.MARKERS)}>
             <FaMapMarkerAlt />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title={t('navbar.tooltips.routes')}>
+          <IconButton onClick={() => toggleSidebar(undefined, SidebarView.ROUTES)}>
+            <MdOutlineAltRoute />
           </IconButton>
         </Tooltip>
         <Tooltip title="Ver noticias">

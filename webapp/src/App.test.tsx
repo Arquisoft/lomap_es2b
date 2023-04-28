@@ -4,7 +4,7 @@ import { render, screen, waitFor,fireEvent } from '@testing-library/react';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 
 import App from './App';
-import Sidebar from './components/Sidebar';
+import Sidebar from './components/MarkersSidebar';
 import { Category } from './types/Category';
 import Loader from './components/Loader';
 import Filter, { FilterComponent } from './components/Filters';
@@ -113,7 +113,7 @@ describe('sideBar', () => {
     render(
       <I18nextProvider i18n={i18n}>
         <Suspense fallback={<Loader />}>
-          <Sidebar isOpen={true} toggleSidebar={mockToggleSidebar} selectedCategory={Category.All} setSelectedCategory={mocksetSelectedCategory}/>
+          <Sidebar toggleSidebar={mockToggleSidebar} selectedCategory={Category.All} setSelectedCategory={mocksetSelectedCategory}/>
         </Suspense>
       </I18nextProvider>
     )
