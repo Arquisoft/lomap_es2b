@@ -120,6 +120,18 @@
     "coordinates": "Coordenadas (Lat-Lng)",
     "save": "Guardar"
   },
+  "news":{
+      "title": "Noticias",
+      "author": "Autor",
+      "addButton": "Añadir noticia",
+      "noNews": "Aquí se mostrarán las noticias",
+      "addNew":{
+        "title": "Introduce una noticia",
+        "textLabel": "Texto",
+        "placeHolder": "Noticia",
+        "error": "El texto no puede estar vacío"
+      }
+  },
   "options": {
     "title": "Menú de Opciones",
     "config": "Configuración",

@@ -7,6 +7,7 @@ import { Types } from "../../types/ContextActionTypes";
 import { useSession } from "@inrupt/solid-ui-react";
 import { v4 as uuid } from 'uuid'
 import { Button, TextField } from "@mui/material";
+import { useTranslation } from 'react-i18next';
 
 interface Props{
     toggleNews:(open: boolean | undefined) => void
@@ -14,6 +15,8 @@ interface Props{
 }
 
 function NewsPopup({isNewsOpen, toggleNews } : Props){
+
+    const { t } = useTranslation()
 
     const {state: news, dispatch} = useContext(NewsContext);
     const pruebaNews:INews[]=[{id:"1",text:"prueba1",author:"autor1S"},
@@ -33,7 +36,7 @@ function NewsPopup({isNewsOpen, toggleNews } : Props){
             news.map((n,index)=>(
                 <New key={index} {...n} />
             )):
-            <p>Aquí se mostrarán las noticias</p> }
+            <p>{t('news.noNews')}</p> }
         </>
         )
     }
@@ -59,10 +62,10 @@ function NewsPopup({isNewsOpen, toggleNews } : Props){
          {isNewsOpen ?  
          <Popup isOpen={isNewsOpen} closePopup={()=>toggleNews(false)}>
             <Container>
-            <h2>Noticias</h2>
+            <h2>{t('news.title')}</h2>
             {showNews()}
             </Container>
-            <Button style={{float:'right'}} onClick={showAddNewPopup} color='success' variant='contained'>Añadir noticia</Button>
+            <Button style={{float:'right'}} onClick={showAddNewPopup} color='success' variant='contained'>{t('news.addButton')}</Button>
          </Popup>
         : showPopupNews ? 
             <AddNewsPopup addNew={addNew} onClose={closeAddNewPopup } />
@@ -73,9 +76,10 @@ function NewsPopup({isNewsOpen, toggleNews } : Props){
 }
 
 const New = (inew:INews)=>{
+    const { t } = useTranslation()
     return(
         <div className="new">
-            <p><strong>Autor: </strong>{inew.author.split(".")[0].split("//")[1]}</p>
+            <p><strong>{t('news.author')}: </strong>{inew.author.split(".")[0].split("//")[1]}</p>
             <p>{inew.text}</p>
         </div>
     )
@@ -87,6 +91,7 @@ interface PropsAddNewsPoup{
 }
 
 const AddNewsPopup = ({onClose, addNew}:PropsAddNewsPoup)=>{
+    const { t } = useTranslation()
     const [text,setText] = useState<string>("");
     const maxLong = 500
     const [error,isError] = useState<boolean>(false)
@@ -114,11 +119,11 @@ const AddNewsPopup = ({onClose, addNew}:PropsAddNewsPoup)=>{
     return(
         <Popup isOpen={true} closePopup={onClose}>
              <AddForm onSubmit={(e)=>handleSubmit(e)}>
-            <h2>Introduce la noticia</h2>
-            <p><label htmlFor="Text">Texto:</label></p>
-            <TextField className="textField" helperText={text.length+"/"+maxLong} onChange={(e)=>handleChangeText(e.target.value)} value={text} id='Text' label="Noticia" variant='standard' multiline maxRows={4} />  
-            {error ? <Error>El texto no puede estar vacío</Error>: null}
-            <Button className="addNewsButton" type='submit' color='success' variant='contained'>Añadir noticia</Button>
+            <h2>{t('news.addNew.title')}</h2>
+            <p><label htmlFor="Text">{t('news.addNew.textLabelz')}</label></p>
+            <TextField className="textField" helperText={text.length+"/"+maxLong} onChange={(e)=>handleChangeText(e.target.value)} value={text} id='Text' label={t('news.addNew.placeHolder')} variant='standard' multiline maxRows={4} />  
+            {error ? <Error>{t('news.addNew.error')}</Error>: null}
+            <Button className="addNewsButton" type='submit' color='success' variant='contained'>{t('news.addButton')}</Button>
             </AddForm>
         </Popup>
        
