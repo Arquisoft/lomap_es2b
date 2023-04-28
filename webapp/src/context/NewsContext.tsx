@@ -32,8 +32,12 @@ export const newsReducer = (state:INews[], action: NewsActions) : INews[] => {
   }
 }
 
-export const NewsContextProvider: React.FC = ({ children }) => {
-  // const { session } = useSession()
+
+type ProviderProps =  React.PropsWithChildren<{
+  saveFunction: (newsList: INews[]) => void
+}>
+
+export const NewsContextProvider = ({ children, saveFunction }: ProviderProps) => {
   
   const [state, dispatch] = useReducer(newsReducer, [])
   const stateRef = useRef(state);
@@ -44,7 +48,7 @@ export const NewsContextProvider: React.FC = ({ children }) => {
     if(loaded){
       const hasChanged = state.length !== stateRef.current.length || state.some((item, index) => item !== stateRef.current[index]);
       if (hasChanged) {
-        saveNewsToLomap(state)
+        saveFunction(state)
       }
   
       // Update the reference to the original array

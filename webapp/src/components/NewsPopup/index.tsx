@@ -40,9 +40,7 @@ function NewsPopup({isNewsOpen, toggleNews } : Props){
 
     function addNew(text:string){
         if(!session.info.webId) return
-        console.log("Llega al addNew, text:"+text)
         dispatch({ type: Types.ADD, payload: { news: {id:uuid(),text:text,author:session.info.webId} } })
-        console.log(news)
     }
 
     function showAddNewPopup(){
