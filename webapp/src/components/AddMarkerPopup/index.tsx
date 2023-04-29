@@ -130,6 +130,7 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
             value={category}
             label="Category"
             onChange={(e) => setCategory(e.target.value as Category)}
+            role='selectCat'
           >
             <MenuItem value={Category.Restaurant}>{ t('markerCategories.restaurant') }</MenuItem>
             <MenuItem value={Category.Hotel}>{ t('markerCategories.hotel') }</MenuItem>
@@ -166,7 +167,7 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
             <ToggleButton value={true} style={{ width: '45%' }}>{ t('sidebar.list.owner.public') }</ToggleButton>
           </ToggleButtonGroup>
         <p>
-          <Button style={{float:'right'}} type='submit' color='success' variant='contained'>{ t('addMarker.save') }</Button>
+          <Button  style={{float:'right'}} type='submit' color='success' variant='contained'>{ t('addMarker.save') }</Button>
         </p>
       </form>
     </Popup>
