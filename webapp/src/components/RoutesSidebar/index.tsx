@@ -11,6 +11,7 @@ import {
   RoutesContent,
   RoutesSection,
   SearchMenuItem,
+  RouteDetails,
 } from "./Styles";
 import CloseButton from "../CloseButton";
 import { useTranslation } from "react-i18next";
@@ -205,13 +206,11 @@ const RouteInfo = ({ route, close }: InfoProps) => {
         {t("sidebar.details.back")}
       </Button>
       <div className="infoContainer">
-        <h2> {t("sidebar.details.routes")} </h2>
-        <RoutesSection>
-          <RoutesContent>
-            <h3>{route.name}</h3>
-            <p>{route.description}</p>
-          </RoutesContent>
-        </RoutesSection>
+        <h2>{t("sidebar.details.routes")}</h2>
+        <RouteDetails>
+          <h3>{route.name}</h3>
+          <p>{route.description}</p>
+        </RouteDetails>
         <h2> {t("sidebar.details.markers")} </h2>
         <SelectRouteMenu addMarkerToRoute={addMarkerToRoute} />
         <MarkerList>
