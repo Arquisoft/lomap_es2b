@@ -11,8 +11,8 @@ import './Map.css'
 import { Category } from '../../types/Category';
 import { RoutesContext } from '../../context/RoutesContext';
 
-interface Props{
-    onClick:(lngLat:LngLat,visible:boolean)=>void;
+type Props = {
+    onClick:(lngLat:LngLat)=>void;
     filterType: Category;
 }
 
@@ -83,7 +83,7 @@ const MapComponent = ({ onClick, filterType }:Props) => {
           onLoad={locateUser}
           mapboxAccessToken={mapboxApiKey}
           mapStyle="mapbox://styles/mapbox/streets-v9"
-          onClick={(MapLayerMouseEvent)=>{onClick(MapLayerMouseEvent.lngLat,true)
+          onClick={(MapLayerMouseEvent)=>{onClick(MapLayerMouseEvent.lngLat)
             MapLayerMouseEvent.preventDefault()
           }
           

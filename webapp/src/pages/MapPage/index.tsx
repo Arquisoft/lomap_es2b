@@ -22,7 +22,6 @@ export enum Popups {
   NONE,
   ADD_MARKER,
   FRIENDS,
-  ABOUT,
   ADD_ROUTE,
 }
 
@@ -82,7 +81,6 @@ const MapPage = () : JSX.Element => {
         public: false
       }
     }
-    console.log(newMarker)
     dispatch({ type: Types.ADD, payload: { marker: newMarker } })
     closePopup()
   }
@@ -110,15 +108,13 @@ const MapPage = () : JSX.Element => {
     addRoute.current = addRouteF
   }
 
-  const toggleNews = (open:boolean | undefined)=>{
-    
+  const toggleNews = (open:boolean | undefined) => {
     if (open !== undefined) {
       setNewsOPen(open)
     }
     else{
       setNewsOPen(!newsOpen)
-    } 
-     
+    }
   }
   
   return (
