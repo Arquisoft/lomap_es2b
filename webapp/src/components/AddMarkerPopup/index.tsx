@@ -3,7 +3,7 @@ import { LngLat } from 'mapbox-gl';
 import { useState } from 'react';
 
 import Popup from '../PopUp';
-import { FormGroup, Error } from "./Styles";
+import { FormGroup, Error, ScrollDiv, ContentDiv, Title } from "./Styles";
 import { Category } from '../../types/Category';
 
 import { mapboxApiKey } from '../../config/constants';
@@ -113,8 +113,12 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
     <Popup isOpen={visible} closePopup={()=>{
     cleanForm()
     closePopup()}}>
-      <form onSubmit={(e)=>handleSubmit(e)}>  
-        <h2>{ t('addMarker.title') }</h2>
+      <Title>{ t('addMarker.title') }</Title>
+      
+        
+        <ContentDiv onSubmit={(e)=>handleSubmit(e)}>
+        <ScrollDiv>
+        
         <FormGroup>
           <label htmlFor="Nombre">{ t('addMarker.name.label') }:</label>
           <TextField className='field' helperText={name.length+'/'+longMaxName} id='Nombre' label={ t('addMarker.name.placeholder') } variant='standard' onChange={(e)=>handleChangeName(e.target.value)} value={name}/>
@@ -165,10 +169,16 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
             <ToggleButton value={false} style={{ width: '45%' }}>{ t('sidebar.list.owner.mine') }</ToggleButton>
             <ToggleButton value={true} style={{ width: '45%' }}>{ t('sidebar.list.owner.public') }</ToggleButton>
           </ToggleButtonGroup>
-        <p>
+          <p>
           <Button style={{float:'right'}} type='submit' color='success' variant='contained'>{ t('addMarker.save') }</Button>
         </p>
-      </form>
+      
+        </ScrollDiv>
+        
+        </ContentDiv>
+       
+      
+      
     </Popup>
   )
 

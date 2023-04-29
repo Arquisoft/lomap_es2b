@@ -42,6 +42,24 @@ export const FormGroup = styled.div`
 	color:white;
     }
 `
+export const ContentDiv = styled.form`
+    height: 85%;
+    overflow: hidden;
+    
+   
+`
+export const Title = styled.h2`
+    height: 15%;
+    margin: 0;
+`
+
+export const ScrollDiv = styled.div`
+     display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    height: 100%;
+`
+
 
 export const Error = styled.p`
     color: red;
