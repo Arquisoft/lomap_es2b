@@ -99,7 +99,7 @@ describe('Navbar', () => {
     expect(screen.getByText('aboutPopup.title')).toBeInTheDocument()
   });
 
-   it("opens the options menu and the about popup and closes it", async () => {
+   it("opens the marker menu and closes it", async () => {
      render(
        <I18nextProvider i18n={i18n}>
          <Suspense fallback={<Loader />}>
@@ -137,4 +137,97 @@ describe('Navbar', () => {
      // Espera a que la barra lateral se abra
      await waitFor(() => expect(isSideBarOpen).toBe(true));
    });
+
+   it("opens the routes menu and closes it", async () => {
+    render(
+      <I18nextProvider i18n={i18n}>
+        <Suspense fallback={<Loader />}>
+          <Navbar
+            sidebarView={SidebarView.ROUTES}
+            toggleSidebar={toggleSidebar}
+            isSidebarOpen={mockIsSidebarOpen}
+            openPopup={mockOpenPopup}
+            toggleNews={mockToggleNews}
+          />
+        </Suspense>
+      </I18nextProvider>
+    );
+   
+    // Espera a que el botón esté presente en la pantalla
+    await waitFor(() =>
+      expect(
+        screen.getByRole("button", { name: "navbar.tooltips.routes" })
+      ).toBeInTheDocument()
+    );
+ 
+    // Simula un clic en el botón
+    fireEvent.click(
+      screen.getByRole("button", { name: "navbar.tooltips.routes" })
+    );
+ 
+    // Espera a que la barra lateral se cierre
+    await waitFor(() => expect(isSideBarOpen).toBe(false));
+
+     // Simula un clic en el botón
+     fireEvent.click(
+      screen.getByRole("button", { name: "navbar.tooltips.routes" })
+    );
+ 
+    // Espera a que la barra lateral se abra
+    await waitFor(() => expect(isSideBarOpen).toBe(true));
+  });
+
+  it("opens the routes menu and clic marker and no closes it", async () => {
+    render(
+      <I18nextProvider i18n={i18n}>
+        <Suspense fallback={<Loader />}>
+          <Navbar
+            sidebarView={SidebarView.ROUTES}
+            toggleSidebar={toggleSidebar}
+            isSidebarOpen={mockIsSidebarOpen}
+            openPopup={mockOpenPopup}
+            toggleNews={mockToggleNews}
+          />
+        </Suspense>
+      </I18nextProvider>
+    );
+   
+    // Espera a que el botón esté presente en la pantalla
+    await waitFor(() =>
+      expect(
+        screen.getByRole("button", { name: "navbar.tooltips.routes" })
+      ).toBeInTheDocument()
+    );
+ 
+    // Simula un clic en el botón
+    fireEvent.click(
+      screen.getByRole("button", { name: "navbar.tooltips.routes" })
+    );
+ 
+    // Espera a que la barra lateral se cierre
+    await waitFor(() => expect(isSideBarOpen).toBe(false));
+
+     // Simula un clic en el botón
+     fireEvent.click(
+      screen.getByRole("button", { name: "navbar.tooltips.routes" })
+    );
+ 
+    // Espera a que la barra lateral se abra
+    await waitFor(() => expect(isSideBarOpen).toBe(true));
+
+    // Espera a que el botón esté presente en la pantalla
+    await waitFor(() =>
+      expect(
+        screen.getByRole("button", { name: "navbar.tooltips.markers" })
+      ).toBeInTheDocument()
+    );
+ 
+    // Simula un clic en el botón
+    fireEvent.click(
+      screen.getByRole("button", { name: "navbar.tooltips.markers" })
+    );
+
+    // Espera a que la barra lateral se abra
+    expect(isSideBarOpen).toBe(true);
+  });
 });
