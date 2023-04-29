@@ -44,7 +44,8 @@
       "search": "Buscar",
       "markers": "Ver marcadores",
       "routes": "Ver rutas", 
-      "user": "Menú de Usuario"
+      "user": "Menú de Usuario",
+      "news": "ver noticias"
     }
   },
   "friends": {
