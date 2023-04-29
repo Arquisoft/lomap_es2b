@@ -174,7 +174,7 @@ const RouteInfo = ({ route, close }: InfoProps) => {
   // Drag and Drop logic
   
   const dragMarker = useRef<any>(null)
-  const dragOverMarker = useRef<any>(null)
+  const [dragOverMarker, setDragOverMarker] = useState<any>(null)
 
   const handleSort = () => {
     // duplicate items
@@ -184,14 +184,14 @@ const RouteInfo = ({ route, close }: InfoProps) => {
     const draggedMarkerContent = markers.splice(dragMarker.current, 1)[0]
 
     // switch the position
-    markers.splice(dragOverMarker.current, 0, draggedMarkerContent)
+    markers.splice(dragOverMarker, 0, draggedMarkerContent)
 
     route.points = [...markers]
     rDispatch({ type: Types.UPDATE, payload: { id: route.id, route: { points: [...markers]} } })
 
     // reset the position ref
     dragMarker.current = null
-    dragOverMarker.current = null
+    setDragOverMarker(null)
   }
 
   return (
@@ -223,9 +223,10 @@ const RouteInfo = ({ route, close }: InfoProps) => {
                 key={marker.id}
                 draggable
                 onDragStart={(e) => (dragMarker.current = index)}
-                onDragEnter={(e) => (dragOverMarker.current = index)}
+                onDragEnter={(e) => (setDragOverMarker(index))}
                 onDragEnd={handleSort}
                 onDragOver={(e) => e.preventDefault()}
+                draggedOver={dragOverMarker === index}
               >
                 <MarkerContent>
                   <h3>{marker.name}</h3>

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const TopSection = styled.div`
   display: flex;
@@ -118,7 +118,7 @@ export const MarkerList = styled.div`
   padding: 0.5em 0.2em;
 `; 
 
-export const MarkerSection = styled.div`
+export const MarkerSection = styled.div<{draggedOver: boolean}>`
   touch-action: none;
   display: flex;
   align-items: center;
@@ -126,9 +126,10 @@ export const MarkerSection = styled.div`
   cursor: move;
   padding: 10px;
   border: 1px solid #ccc;
+  ${p => p.draggedOver && css`
+  border-bottom: 3px solid #49c770
+  `};
   background-color: #fff;
-  top: 0;
-  left: 0;
 `;
 
 export const MarkerContent = styled.div`
