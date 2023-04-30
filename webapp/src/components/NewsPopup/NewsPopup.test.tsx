@@ -70,6 +70,9 @@ const mockClose = jest.fn();
         await waitFor(() => expect(screen.getByText('news.addNew.title')).toBeInTheDocument())
         const text = screen.getAllByRole("textbox")[0];
         fireEvent.change(text, {target: {value: "Texto 1"}})
+        await waitFor(() => expect(screen.getByText('Texto 1')).toBeInTheDocument())
+        fireEvent.change(text, {target: {value: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"}})
+        await waitFor(() => expect(screen.getByText('Texto 1')).toBeInTheDocument())
         fireEvent.click(screen.getByRole("button", { name: "news.addButton" }));
         await waitFor(() => expect(mockAddNew.mock.calls).toHaveLength(1));
         await waitFor(() => expect(mockAddNew.mock.calls[0][0]).toBe('Texto 1'));
