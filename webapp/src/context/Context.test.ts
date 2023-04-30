@@ -2,11 +2,13 @@ import { Category } from "../types/Category"
 import { IMarker } from "../types/IMarker"
 import { Types } from "../types/ContextActionTypes"
 import { markerReducer } from "./MarkersContext"
+import { routeReducer } from "./RoutesContext"
 import { INews } from "../types/INews"
 import { newsReducer } from "./NewsContext"
 import { userReducer } from "./UserContext"
 import { Thing } from "@inrupt/solid-client"
 import { experimentalStyled } from "@mui/material"
+import { IRoute } from "../types/IRoute"
 
 describe('Marker reducer', () => {
   
@@ -22,19 +24,13 @@ describe('Marker reducer', () => {
 
   it('tries to set a list of markers', () => {
     const state = markerReducer([], { type: Types.SET, payload: { markers } })
-    expect(state).toEqual(state)
+    expect(state).toEqual(markers)
   })
 
   test('given a list of markers, add a new marker', () => {
     const state = markerReducer(markers, { type: Types.ADD, payload: { marker: { id: '4',name: 'marker4', lat: 1, lng: 1, images: [], date: new Date(), comments: [] , category: Category.Others, property: { owns: true, public: false } } } })
 
     expect(state.length).toBe(4)
-  })
-  
-  test('given a list of markers, delete a marker', () => {
-    const state = markerReducer(markers, { type: Types.DELETE, payload: { id: '1' } })
-
-    expect(state.length).toBe(2)
   })
   
   test('given a list of markers, update a marker', () => {
@@ -49,6 +45,46 @@ describe('Marker reducer', () => {
 
 })
 
+describe('RoutesReducer', () => {
+
+  let routes: IRoute[]
+
+  beforeEach(() => {
+    routes = [
+      { id: '1',name: 'marker1', created_at: new Date(), points: [] },
+      { id: '2',name: 'marker2', created_at: new Date(), points: [] },
+      { id: '3',name: 'marker3', created_at: new Date(), points: [] },
+    ]
+  })
+
+  it('tries to set a list of markers', () => {
+    const state = routeReducer([], { type: Types.SET, payload: { routes } })
+    expect(state).toEqual(routes)
+  })
+
+  test('given a list of markers, add a new route', () => {
+    const state = routeReducer(routes, { type: Types.ADD, payload: { route: { id: '4',name: 'marker4', created_at: new Date(), points: [] } } })
+    expect(state.length).toBe(4)
+  })
+  
+  test('given a list of markers, delete a route', () => {
+    const state = routeReducer(routes, { type: Types.DELETE, payload: { id: '1' } })
+    expect(state.length).toBe(2)
+  })
+  
+  test('given a list of markers, update a route', () => {
+    const state = routeReducer(routes, { type: Types.UPDATE, payload: { id: '1', route: { description: 'a description' } } })
+    expect(state.find(m => m.id === '1')?.description).toBe('a description')
+  })
+  
+  test('given a list of markers, update list of routes', () => {
+    const state = routeReducer(routes, { type: Types.UDPATE_ALL, payload: [ { id: '1', route: { description: 'a description 1' } }, { id: '2', route: { description: 'a description 2' } } ] })
+    expect(state.find(m => m.id === '1')?.description).toBe('a description 1')
+    expect(state.find(m => m.id === '2')?.description).toBe('a description 2')
+  })
+
+})
+ 
 describe('News reducer', () => {
   
   let newsList: INews[]

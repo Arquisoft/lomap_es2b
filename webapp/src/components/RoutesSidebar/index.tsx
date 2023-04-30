@@ -245,7 +245,7 @@ type MenuProps = {
   addMarkerToRoute: (route: IMarker) => void
 }
 
-const SelectRouteMenu = ({ addMarkerToRoute }: MenuProps) => {
+export const SelectRouteMenu = ({ addMarkerToRoute }: MenuProps) => {
 
   const { t } = useTranslation()
   const { state: markers } = useContext(MarkerContext)
