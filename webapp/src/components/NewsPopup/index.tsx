@@ -1,12 +1,12 @@
 import { useContext, useState } from "react";
 import { INews } from "../../types/INews";
 import { NewsContext } from "../../context/NewsContext";
-import { AddForm, Container,Error } from "./Styles";
+import { Container } from "./Styles";
 import Popup from "../PopUp";
 import { Types } from "../../types/ContextActionTypes";
 import { useSession } from "@inrupt/solid-ui-react";
 import { v4 as uuid } from 'uuid'
-import { Button, TextField } from "@mui/material";
+import { Button } from "@mui/material";
 import { useTranslation } from 'react-i18next';
 import AddNewsPopup from "./AddNewsPopup";
 
