@@ -15,7 +15,7 @@ i18n.use(initReactI18next).init({
   fallbackLng: 'en',
 })
 
-jest.mock('../../components/Navbar', () => ({
+jest.mock('../../components/NavBar', () => ({
   __esModule: true,
   default: (props: {
     isSidebarOpen: boolean
@@ -350,7 +350,6 @@ describe('MapPage', () => {
     
     await waitFor(() => expect(screen.queryByText('Mock Navbar')).toBeInTheDocument())
     fireEvent.click(screen.getByText('publicMarker'))
-    console.log(mockDispatch.mock.calls[0][0])
     expect(mockDispatch.mock.calls[0][0]).toEqual({
       type: 'ADD',
       payload: {
