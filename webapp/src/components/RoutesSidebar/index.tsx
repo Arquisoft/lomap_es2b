@@ -212,7 +212,7 @@ const RouteInfo = ({ route, close }: InfoProps) => {
           <p>{route.description}</p>
         </RouteDetails>
         <h2> {t("sidebar.details.markers")} </h2>
-        <SelectRouteMenu addMarkerToRoute={addMarkerToRoute} />
+        <SelectMarkerMenu addMarkerToRoute={addMarkerToRoute} />
         <MarkerList>
           {
             route.points.length === 0 ?
@@ -245,7 +245,7 @@ type MenuProps = {
   addMarkerToRoute: (route: IMarker) => void
 }
 
-export const SelectRouteMenu = ({ addMarkerToRoute }: MenuProps) => {
+export const SelectMarkerMenu = ({ addMarkerToRoute }: MenuProps) => {
 
   const { t } = useTranslation()
   const { state: markers } = useContext(MarkerContext)

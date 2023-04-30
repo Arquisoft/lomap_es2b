@@ -3,9 +3,8 @@ import { Suspense } from 'react';
 import i18n from 'i18next'
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import Loader from '../Loader';
-import RoutesSidebar, { SelectRouteMenu } from ".";
+import RoutesSidebar, { SelectMarkerMenu } from ".";
 import { IRoute } from "../../types/IRoute";
-import { RoutesContent } from "./Styles";
 import { RoutesContext } from "../../context/RoutesContext";
 import { MarkerContext } from '../../context/MarkersContext'
 import { act } from "react-dom/test-utils";
@@ -29,16 +28,16 @@ describe('SidebarRoutes', () => {
 
   let isSideBarOpen = true;
 
-  const mockRoutes: IRoute[] = [
-    { id: "1", name: "Ruta 1", description: "Descripción de la ruta 1", points: [], created_at: new Date() },
-    { id: "2", name: "Ruta 2", description: "Descripción de la ruta 2", points: [], created_at: new Date() },
-    { id: "3", name: "Ruta 3", description: "Descripción de la ruta 3", points: [], created_at: new Date() },
-  ];
-
   const pruebaMarkers:IMarker[] = [
     { id: '1',name: 'marker1', lat: 1, lng: 1,description:"Description 1",images: [], date: new Date(), comments: [] , category: Category.Others, property: { owns: true, public: false } },
     { id: '2',name: 'marker2', lat: 1, lng: 1, images: [], date: new Date(), comments: [] , category: Category.Others, property: { owns: true, public: false } },
     { id: '3',name: 'marker3', lat: 1, lng: 1, images: [], date: new Date(), comments: [] , category: Category.Others, property: { owns: true, public: false } },
+  ];
+  
+  const mockRoutes: IRoute[] = [
+    { id: "1", name: "Ruta 1", description: "Descripción de la ruta 1", points: [pruebaMarkers[0], pruebaMarkers[1]], created_at: new Date() },
+    { id: "2", name: "Ruta 2", description: "Descripción de la ruta 2", points: [], created_at: new Date() },
+    { id: "3", name: "Ruta 3", description: "Descripción de la ruta 3", points: [], created_at: new Date() },
   ];
 
   const toggleSidebar = (open: boolean | undefined) => {
@@ -212,12 +211,12 @@ describe('SidebarRoutes', () => {
     await waitFor(() => expect(screen.getByText('Ruta 1')).toBeInTheDocument());
   })
 
-  test("SelectRouteMenu adds marker to route on click", async () => {
+  test("SelectMarkerMenu adds marker to route on click", async () => {
     const mockAddMarkerToRoute = jest.fn();
     render(
       <I18nextProvider i18n={i18n}>
         <MarkerContext.Provider value={{ state: pruebaMarkers, dispatch: () => {} }}>
-          <SelectRouteMenu addMarkerToRoute={mockAddMarkerToRoute} />
+          <SelectMarkerMenu addMarkerToRoute={mockAddMarkerToRoute} />
         </MarkerContext.Provider>
       </I18nextProvider>
     );
@@ -233,4 +232,38 @@ describe('SidebarRoutes', () => {
     expect(mockAddMarkerToRoute).toHaveBeenCalledTimes(1);
     expect(mockAddMarkerToRoute).toHaveBeenCalledWith(pruebaMarkers[0]);
   });
-});
+
+  // test('In a route with two markers, reorder them', async () => {
+  //   const mockDispatchRoutes = jest.fn()
+  //   render(
+  //     <I18nextProvider i18n={i18n}>
+  //       <MarkerContext.Provider value={{ state: pruebaMarkers, dispatch: () => {} }}>
+  //         <RoutesContext.Provider value={{ state: mockRoutes, dispatch: mockDispatchRoutes }}>
+  //           <RoutesSidebar toggleSidebar={toggleSidebar} setAddRoute={mockSetaddRoutes} openPopup={mockOpenPopup} />
+  //         </RoutesContext.Provider>
+  //       </MarkerContext.Provider>
+  //     </I18nextProvider>
+  //   )
+
+  //   await waitFor(() => expect(screen.getByText('sidebar.routes.title')).toBeInTheDocument())
+
+  //   // Entering the first route details
+  //   const routeContent = screen.getByText('Ruta 1')
+  //   expect(routeContent).toBeInTheDocument()
+  //   fireEvent.click(routeContent)
+  //   expect(screen.getByText('sidebar.details.routes')).toBeInTheDocument()
+  //   expect(screen.getByText('Ruta 1')).toBeInTheDocument()
+
+  //   // Getting the position of the first marker
+  //   const marker1 = screen.getAllByText('marker1')[1]
+  //   expect(marker1).toBeInTheDocument()
+  //   const marker2 = screen.getAllByText('marker2')[1]
+  //   expect(marker2).toBeInTheDocument()
+
+  //   fireEvent.dragStart(marker1)
+  //   fireEvent.dragEnter(marker2)
+  //   fireEvent.drop(marker1)
+
+  //   expect(mockDispatchRoutes).toHaveBeenCalled()
+  // })
+})
