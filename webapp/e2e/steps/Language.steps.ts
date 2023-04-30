@@ -17,7 +17,7 @@ defineFeature(feature, test => {
       await page.setExtraHTTPHeaders({
         'Accept-Language': 'es'
       });
-      await page.goto(`http://localhost:3000`, { waitUntil: 'networkidle0' });
+      await page.goto(`https://localhost:443`, { waitUntil: 'networkidle0' });
 
     } catch (e) {
       console.log(e);
