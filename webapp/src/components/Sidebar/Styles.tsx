@@ -50,12 +50,16 @@ export const SidebarSection = styled.div`
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    overflow-x: hidden;
     height: 100%;
     .backButton{
       margin-bottom: 0.3em;
     }
     .addComment{
       margin-top: 1em;
+    }
+    h2 {
+      width: 100%;
     }
     p{
       word-wrap:break-word;
@@ -65,6 +69,20 @@ export const SidebarSection = styled.div`
       max-width: 100%;
       max-height: 100%;
       margin: auto;
+    }
+
+    /* Scrollbar */
+    scrollbar-color: #c2c2c2 #f8f8f8;
+    ::-webkit-scrollbar {
+      width: 0.7em;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f8f8f8;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: #c2c2c2;
+      border-radius: 1em;
+      border: 0.15em solid #f8f8f8;
     }
   }
   
