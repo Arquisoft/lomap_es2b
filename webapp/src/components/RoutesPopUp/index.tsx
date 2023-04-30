@@ -1,7 +1,7 @@
 import { TextField, Button } from '@mui/material'
 import { useState } from 'react';
 import Popup from '../PopUp';
-import { FormGroup } from "./Styles";
+import { Error, FormGroup } from "./Styles";
 import { useTranslation } from 'react-i18next';
 
 type Props = {
