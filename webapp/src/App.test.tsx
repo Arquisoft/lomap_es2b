@@ -8,6 +8,7 @@ import Sidebar from './components/MarkersSidebar';
 import { Category } from './types/Category';
 import Loader from './components/Loader';
 import Filter, { FilterComponent } from './components/Filters';
+import DeleteButton from './components/DeleteButton';
 
 const mockToggleSidebar = jest.fn();
 const mocksetSelectedCategory= jest.fn();
@@ -120,4 +121,3 @@ describe('sideBar', () => {
     await waitFor(() => expect(screen.getByText('sidebar.list.title')).toBeInTheDocument())
   }); 
 });
-

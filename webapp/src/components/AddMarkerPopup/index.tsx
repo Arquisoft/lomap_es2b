@@ -11,7 +11,7 @@ import { mapboxApiKey } from '../../config/constants';
 import { useTranslation } from 'react-i18next';
 
 
-interface Props{
+type Props = {
     visible:boolean;
     lngLat:LngLat|undefined;
     addMark:(name:string, lngLat:LngLat|undefined,description:string, category:Category, shared:boolean,direction:string,image?:string)=>void;
@@ -102,11 +102,9 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
 
     return data.data.filename as string
   }
-
   
-
-  function validaVacio(intput:String){
-    return (intput!==null) && (intput.trim().length!==0);
+  function validaVacio(input:String){
+    return (input!==null) && (input.trim().length!==0);
   }
 
   return (
@@ -130,6 +128,7 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
             value={category}
             label="Category"
             onChange={(e) => setCategory(e.target.value as Category)}
+            role='selectCat'
           >
             <MenuItem value={Category.Restaurant}>{ t('markerCategories.restaurant') }</MenuItem>
             <MenuItem value={Category.Hotel}>{ t('markerCategories.hotel') }</MenuItem>
@@ -166,7 +165,7 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
             <ToggleButton value={true} style={{ width: '45%' }}>{ t('sidebar.list.owner.public') }</ToggleButton>
           </ToggleButtonGroup>
         <p>
-          <Button style={{float:'right'}} type='submit' color='success' variant='contained'>{ t('addMarker.save') }</Button>
+          <Button  style={{float:'right'}} type='submit' color='success' variant='contained'>{ t('addMarker.save') }</Button>
         </p>
       </form>
     </Popup>

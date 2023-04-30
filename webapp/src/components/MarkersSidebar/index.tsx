@@ -104,7 +104,7 @@ const MarkersSidebar = ({ toggleSidebar, selectedCategory, setSelectedCategory  
         </div>
         <MarkerList>
           <div className="container">
-            <div className="list">
+            <div className="content">
               {
               finalList.map((marker) => (
                 <Marker key={marker.id} marker={marker} onClick={handleMarkerClick} changeVisibility={changeVisibility} />
