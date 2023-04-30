@@ -109,7 +109,13 @@
     "routes": {
       "title": "Routes",
       "newRoute": "New Route",
-      "addMarker": "Add marker to route"
+      "addMarker": "Add marker to route",
+      "delete": {
+        "confirm": {
+          "title": "Do you really want to delete the route?",
+          "body": "Once deleted, the route cannot be recovered."
+        }
+      }
     }
   },
   "addMarker": {
