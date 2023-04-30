@@ -4,6 +4,9 @@ import { Types } from "../types/ContextActionTypes"
 import { markerReducer } from "./MarkersContext"
 import { INews } from "../types/INews"
 import { newsReducer } from "./NewsContext"
+import { userReducer } from "./UserContext"
+import { Thing } from "@inrupt/solid-client"
+import { experimentalStyled } from "@mui/material"
 
 describe('Marker reducer', () => {
   
@@ -68,6 +71,15 @@ describe('News reducer', () => {
 
     expect(state.length).toBe(4)
   })
-  
 
+})
+
+describe("User reducer",()=>{
+  const newState:Thing= { url:"Url prueba" } as Thing
+
+  it("set a user thing",() =>{
+    const state = userReducer(null,{type: Types.SET, payload:{user:newState} })
+
+    expect(state).toEqual(newState)
+  })
 })
