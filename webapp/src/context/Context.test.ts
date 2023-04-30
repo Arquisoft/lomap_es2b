@@ -2,6 +2,8 @@ import { Category } from "../types/Category"
 import { IMarker } from "../types/IMarker"
 import { Types } from "../types/ContextActionTypes"
 import { markerReducer } from "./MarkersContext"
+import { INews } from "../types/INews"
+import { newsReducer } from "./NewsContext"
 
 describe('Marker reducer', () => {
   
@@ -41,5 +43,31 @@ describe('Marker reducer', () => {
     const state = markerReducer(markers, { type: Types.DELETE, payload: { id: '1' } })
     expect(state.length).toBe(2)
   })
+
+})
+
+describe('News reducer', () => {
+  
+  let newsList: INews[]
+
+  beforeEach(() => {
+    newsList = [
+      { id: '1',text: 'news1', author: 'prueba1' },
+      { id: '2',text: 'news2', author: 'prueba2' },
+      { id: '3',text: 'news3', author: 'prueba3' },
+    ]
+  })
+
+  it('tries to set a list of news', () => {
+    const state = newsReducer([], { type: Types.SET, payload: { newsList } })
+    expect(state).toEqual(state)
+  })
+
+  test('given a list of news, add a new news', () => {
+    const state = newsReducer(newsList, { type: Types.ADD, payload: { news: {  id: '4',text: 'news4', author: 'prueba4' } } })
+
+    expect(state.length).toBe(4)
+  })
+  
 
 })

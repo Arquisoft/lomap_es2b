@@ -14,8 +14,9 @@ export const PopupContent = styled.div`
     z-index: 1050;
     position: absolute;
     overflow: auto;
-    max-height: 95vh;
+    max-height: 90vh;
     max-width: 95vh;
+    min-width: 30vw;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);

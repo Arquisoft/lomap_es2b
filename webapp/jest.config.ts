@@ -5,6 +5,7 @@ export default {
     collectCoverage: true,
     collectCoverageFrom: [
         'src/**/*.{ts,tsx}',
-        '!**/Styles.tsx'
+        '!**/Styles.tsx',
+        '!src/reportWebVitals'
     ]
 }

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const TopSection = styled.div`
   display: flex;
@@ -114,52 +114,22 @@ export const CreateButton = styled.button`
 `;
 
 export const MarkerList = styled.div`
-  overflow: hidden;
   width: calc(100% - 0.3em);
   padding: 0.5em 0.2em;
-  .container {
-    overflow-y: auto;
-    /* overflow-x: hidden; */
-    height: 100%;
-
-    .content {
-      position: relative;
-      height: auto;
-    }
-
-    /* Scrollbar */
-    scrollbar-color: #c2c2c2 #f8f8f8;
-    ::-webkit-scrollbar {
-      width: 0.7em;
-    }
-    ::-webkit-scrollbar-track {
-      background: #f8f8f8;
-    }
-    ::-webkit-scrollbar-thumb {
-      background-color: #c2c2c2;
-      border-radius: 1em;
-      border: 0.15em solid #f8f8f8;
-    }
-  }
 `; 
 
-export const MarkerSection = styled.div`
+export const MarkerSection = styled.div<{draggedOver: boolean}>`
   touch-action: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
   cursor: move;
-  margin-bottom: 10px;
   padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  ${p => p.draggedOver && css`
+  border-bottom: 3px solid #49c770
+  `};
   background-color: #fff;
-  top: 0;
-  left: 0;
-  margin: 0.5em;
-  :hover {
-    background-color: #f8f8f8;
-  }
 `;
 
 export const MarkerContent = styled.div`
@@ -170,7 +140,7 @@ export const MarkerContent = styled.div`
     display: flex;
     justify-content: end;
   }
-  p{
+  p {
     word-wrap: break-word;
     width: 100%;
   }
@@ -179,3 +149,18 @@ export const MarkerContent = styled.div`
 export const SearchMenuItem = styled.div`
   padding: 0.3em;
 `
+
+export const RouteDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0.2em;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 0.5em;
+  p {
+    word-wrap: break-word;
+    width: 100%;
+  }
+`;

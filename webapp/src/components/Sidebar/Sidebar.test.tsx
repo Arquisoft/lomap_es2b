@@ -47,7 +47,7 @@ describe('sidebar', () => {
     // Marker list and idCounter should
     await waitFor(() => expect(screen.getByTestId('instance-id')).toHaveTextContent('1'))
     expect(screen.queryByText('sidebar.list.title')).not.toBeInTheDocument()
-    expect(screen.queryByText('Rutas')).not.toBeInTheDocument()
+    expect(screen.queryByText('sidebar.routes.title')).not.toBeInTheDocument()
 
     rerender(
       <SidebarTest isOpen={true} view={SidebarView.MARKERS} />
@@ -55,7 +55,7 @@ describe('sidebar', () => {
     // Marker list and idCounter should appear
     await waitFor(() => expect(screen.getByTestId('instance-id')).toHaveTextContent('1')) //If the counter is the same, it means the component is rerendering an it is the same instance
     expect(screen.queryByText('sidebar.list.title')).toBeInTheDocument()
-    expect(screen.queryByText('Rutas')).not.toBeInTheDocument()
+    expect(screen.queryByText('sidebar.routes.title')).not.toBeInTheDocument()
 
   })
 
@@ -68,7 +68,7 @@ describe('sidebar', () => {
     // Marker list and idCounter should appear
     await waitFor(() => expect(screen.getByTestId('instance-id')).toHaveTextContent('3'))
     expect(screen.queryByText('sidebar.list.title')).toBeInTheDocument()
-    expect(screen.queryByText('Rutas')).not.toBeInTheDocument()
+    expect(screen.queryByText('sidebar.routes.title')).not.toBeInTheDocument()
 
     rerender(
       <SidebarTest isOpen={true} view={SidebarView.ROUTES} />
@@ -76,5 +76,6 @@ describe('sidebar', () => {
     // Routes list and idCounter should appear
     await waitFor(() => expect(screen.getByTestId('instance-id')).toHaveTextContent('3'))
     expect(screen.queryByText('sidebar.list.title')).not.toBeInTheDocument()
+    expect(screen.queryByText('sidebar.routes.title')).toBeInTheDocument()
   })
 })
