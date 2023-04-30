@@ -50,7 +50,7 @@ const MapComponent = ({ onClick, filterType }:Props) => {
   async function getMarkImage(){
     try{
       if(!infoVisible) return
-      const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000/api'
+      const apiEndPoint = process.env.REACT_APP_API_URI || 'https://localhost:5000/api'
       const response = await fetch(apiEndPoint+'/image/get/'+infoVisible.images[0]);
       if(response!=null) {
         let blob = await response.blob()
