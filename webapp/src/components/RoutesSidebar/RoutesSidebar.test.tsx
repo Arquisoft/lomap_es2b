@@ -233,4 +233,24 @@ describe('SidebarRoutes', () => {
     expect(mockAddMarkerToRoute).toHaveBeenCalledTimes(1);
     expect(mockAddMarkerToRoute).toHaveBeenCalledWith(pruebaMarkers[0]);
   });
+
+  test("SelectRouteMenu adds marker to route on click", async () => {
+    const mockAddMarkerToRoute = jest.fn();
+    render(
+      <I18nextProvider i18n={i18n}>
+        <MarkerContext.Provider value={{ state: pruebaMarkers, dispatch: () => {} }}>
+          <SelectRouteMenu addMarkerToRoute={mockAddMarkerToRoute} />
+        </MarkerContext.Provider>
+      </I18nextProvider>
+    );
+  
+    const addMarkerButton = screen.getByText('sidebar.routes.addMarker');
+    fireEvent.click(addMarkerButton);
+  
+    await waitFor(() => screen.getByText('marker1'));
+  
+    const textSearch = screen.getAllByRole("textbox")[0];
+    fireEvent.change(textSearch, { target: { value: "bbb" } });
+    await waitFor(() => expect(screen.queryByText('marker1')).not.toBeInTheDocument());
+  });
 });
