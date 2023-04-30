@@ -49,6 +49,18 @@ describe('SidebarRoutes', () => {
     );
     await waitFor(() => expect(screen.getByText('sidebar.routes.title')).toBeInTheDocument())
   });
+
+  test("RoutesSidebar show title and close", async () => {
+    render(
+      <I18nextProvider i18n={i18n}>
+        <Suspense fallback={<Loader />}>
+          <RoutesSidebar toggleSidebar={toggleSidebar} setAddRoute={mockSetaddRoutes} openPopup={mockOpenPopup} />
+        </Suspense>
+      </I18nextProvider>
+    );
+    await waitFor(() => expect(screen.getByText('sidebar.routes.title')).toBeInTheDocument())
+    fireEvent.click(screen.getAllByRole('button')[0]) // Presses the close button
+  });
     
   test("RoutesSidebar addroutes button", async () => {
     render(
