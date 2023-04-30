@@ -1,5 +1,5 @@
-import { Suspense, useRef } from "react"
-import { fireEvent, prettyDOM, render, screen, waitFor, within } from '@testing-library/react';
+import { Suspense, } from "react"
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { I18nextProvider, initReactI18next } from "react-i18next"
 import i18n from 'i18next'
 
@@ -8,7 +8,6 @@ import MapPage, { Popups } from ".";
 import { Category } from "../../types/Category";
 import { SidebarView } from "../../pages/MapPage";
 import { LngLat } from "mapbox-gl";
-import { AddModerator } from "@mui/icons-material";
 import { MarkerContext } from "../../context/MarkersContext";
 
 i18n.use(initReactI18next).init({
