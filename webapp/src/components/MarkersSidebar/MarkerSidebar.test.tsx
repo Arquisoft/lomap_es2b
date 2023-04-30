@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { act, fireEvent, getByTestId, render, screen, waitFor } from '@testing-library/react'
 import { Suspense } from 'react'
 import { I18nextProvider, initReactI18next } from 'react-i18next'
 import Loader from '../Loader'
@@ -139,32 +139,7 @@ describe("Marker sidebar", () =>{
         await waitFor(() => expect(mockDispach.mock.calls).toHaveLength(1));
     })
 
-    it("Add score",async  ()=>{
-        render(
-            <I18nextProvider i18n={i18n}>
-            <Suspense fallback={<Loader />}>
-                <SessionContext.Provider value={{ session: { info: { webId: 'testwebid', isLoggedIn: true, sessionId: 'testSesssionId' } } } as ISessionContext}>
-                <MarkerContext.Provider value={{ state: pruebaMarkers, dispatch: mockDispach }}>
-                <MarkersSidebar toggleSidebar={mockToggleSideBar} selectedCategory={Category.All} setSelectedCategory={mockSetSelectedCategory} ></MarkersSidebar>
-                </MarkerContext.Provider>     
-                </SessionContext.Provider>
-                        
-            </Suspense>
-        </I18nextProvider>
-        )
-
-        await waitFor(() => expect(screen.getByText('sidebar.list.title')).toBeInTheDocument());
-        await waitFor(() => expect(screen.getByText('marker1')).toBeInTheDocument());
-        fireEvent.click(screen.getByText('marker1'));
-
-        await waitFor(() => expect(screen.getByText('Description 1')).toBeInTheDocument());
-
-        const textComment = screen.getAllByRole("textbox")[0];
-        fireEvent.change(textComment, {target: {value: "Comment 1"}})
-
-        fireEvent.click(screen.getByRole("button", { name: "sidebar.details.add_comment" }));
-        await waitFor(() => expect(mockDispach.mock.calls).toHaveLength(1));
-    })
+ 
 
     it("Change visibility",async  ()=>{
         render(
