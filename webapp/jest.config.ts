@@ -5,7 +5,6 @@ export default {
     collectCoverage: true,
     collectCoverageFrom: [
         'src/**/*.{ts,tsx}',
-        '!**/Styles.tsx',
-        '!src/reportWebVitals'
-    ]
+    ],
+    coveragePathIgnorePatterns: ["src/index.js", "**/Styles.tsx", "src/reportWebVitals.ts"]
 }
