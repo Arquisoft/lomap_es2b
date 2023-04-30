@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, prettyDOM, render, screen, waitFor } from "@testing-library/react";
 import userEvent from '@testing-library/user-event'
 import { Suspense } from 'react';
 import i18n from 'i18next'
@@ -74,6 +74,30 @@ describe('RoutesPopup', () => {
       'a good name',
       'a good description'
     ])
+  })
+
+  test('closing should clean the inputs', async () => {
+    render(
+      <I18nextProvider i18n={i18n}>
+        <Suspense fallback={<Loader />}>
+          <RoutesPopup visible={true} addRoute={mockAddRoute} closePopup={mockClosePopup} />
+        </Suspense>
+      </I18nextProvider>
+    )
+
+    await waitFor(() => expect(screen.getByText('addRoutes.title')).toBeInTheDocument())
+
+    const nameInput = screen.getByLabelText('addRoutes.name.label:', {collapseWhitespace: true})
+    expect(nameInput).toBeInTheDocument()
+    userEvent.type(nameInput, 'a good name')
+    const descInput = screen.getByLabelText('addRoutes.description.label:', {collapseWhitespace: true})
+    expect(descInput).toBeInTheDocument()
+    userEvent.type(descInput, 'a good description')
+
+    // Close event is triggered
+    fireEvent.click(screen.getAllByRole('button')[0])
+    expect(screen.queryByText('a good name')).not.toBeInTheDocument()
+    expect(screen.queryByText('a good description')).not.toBeInTheDocument()
   })
 
 })
