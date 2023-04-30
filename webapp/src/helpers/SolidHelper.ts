@@ -219,6 +219,7 @@ export async function saveMarkerToFriends(markers: IMarker[], webId?: string) {
 
 
 export async function saveMarkerToLomap(markers: IMarker[]) {
+  console.log("Guardado")
     let profileDocumentURI = "https://lomapes2b.inrupt.net/";
     let targetFileURL = profileDocumentURI + 'public/LoMap/Markers.json';
     const save: object[]= [];
