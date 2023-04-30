@@ -48,11 +48,11 @@ function DeleteButton({ id, type }: Props) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {t('sidebar.list.delete.confirm.title')}
+          {t( type === 'marker' ? 'sidebar.list.delete.confirm.title' : 'sidebar.routes.delete.confirm.title')}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {t('sidebar.list.delete.confirm.body')}
+            {t( type === 'marker' ? 'sidebar.list.delete.confirm.title' : 'sidebar.routes.delete.confirm.body')}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
