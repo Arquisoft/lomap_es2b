@@ -209,6 +209,7 @@ const MarkerInfo = ({ marker, close }: InfoProps) => {
         <Typography component="legend">{ t('sidebar.details.rating') }</Typography>
 
         <Rating
+          data-testid="rating-test"
           name="simple-controlled"
           value={marker.score}
           readOnly={!marker.property.owns}
