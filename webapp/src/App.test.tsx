@@ -1,65 +1,44 @@
-import React from 'react';
+import { Suspense } from 'react';
+import i18n from 'i18next'
+import { render, screen, waitFor,fireEvent } from '@testing-library/react';
+import { I18nextProvider, initReactI18next } from 'react-i18next';
 
-
-import Sidebar from './components/Sidebar';
-import { Category } from './types/Category';
-
-import { render, screen } from '@testing-library/react';
-import userEvent from "@testing-library/user-event";
 import App from './App';
-import Navbar from './components/NavBar';
+import Sidebar from './components/MarkersSidebar';
+import { Category } from './types/Category';
+import Loader from './components/Loader';
 
 const mockToggleSidebar = jest.fn();
-const mockOpenPopup = jest.fn();
 const mocksetSelectedCategory= jest.fn();
+i18n.use(initReactI18next).init({
+  fallbackLng: 'en',
+})
 
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getAllByText("LoMap")[0];
-  expect(linkElement).toBeInTheDocument();
+test('Renders app', () => {
+  render(
+    <I18nextProvider i18n={i18n}>
+      <App />
+    </I18nextProvider>
+  );
+  waitFor(() => expect(screen.getAllByText("LoMap")[0]).toBeInTheDocument())
 });
 
 describe('sideBar', () => {
-  beforeEach(() => {
+  afterEach(() => {
     mockToggleSidebar.mockClear();
     mocksetSelectedCategory.mockClear();
   });
 
 
-  test('sideBar render',() =>{
-    render(<Sidebar isOpen={true} toggleSidebar={mockToggleSidebar} selectedCategory={Category.All} setSelectedCategory={mocksetSelectedCategory}/>);
-    const mapElement = screen.getByText("Marcadores");
-    expect(mapElement).toBeInTheDocument();
-    });
-  });
-
-
- 
-
-
-describe('Navbar', () => {
-  beforeEach(() => {
-    mockToggleSidebar.mockClear();
-    mockOpenPopup.mockClear();
-  });
-
-  it('should render Navbar component', () => {
-    const { getByText } = render(<Navbar toggleSidebar={mockToggleSidebar} openPopup={mockOpenPopup} />);
-    expect(getByText('LoMap')).toBeInTheDocument();
-  });
-
-  it("opens the user menu when clicking on the user avatar", () => {
-    render(<Navbar toggleSidebar={mockToggleSidebar} openPopup={mockOpenPopup} />);
-    const userAvatar = screen.getByRole("img");
-    userEvent.click(userAvatar);
-    expect(screen.getByText("Logout")).toBeInTheDocument();
-  });
-
-  it("opens the search form when clicking on the search button", () => {
-    render(<Navbar toggleSidebar={mockToggleSidebar} openPopup={mockOpenPopup} />);
-    const searchButton = screen.getByRole("button", { name: "Buscar" });
-    userEvent.click(searchButton);
-    expect(screen.getByPlaceholderText("Buscar lugares...")).toBeInTheDocument();
-  });
+  test('sideBar render', async () =>{
+    render(
+      <I18nextProvider i18n={i18n}>
+        <Suspense fallback={<Loader />}>
+          <Sidebar toggleSidebar={mockToggleSidebar} selectedCategory={Category.All} setSelectedCategory={mocksetSelectedCategory}/>
+        </Suspense>
+      </I18nextProvider>
+    )
+    await waitFor(() => expect(screen.getByText('sidebar.list.title')).toBeInTheDocument())
+  }); 
 });

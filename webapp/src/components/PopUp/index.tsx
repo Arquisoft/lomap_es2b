@@ -1,5 +1,6 @@
 import React from 'react';
-import { CloseButton, PopupContainer, PopupContent } from './Styles';
+import { PopupContainer, PopupContent } from './Styles';
+import CloseButton from '../CloseButton';
 
 interface PopupProps {
   isOpen: boolean
@@ -8,6 +9,7 @@ interface PopupProps {
 }
 
 const Popup: React.FC<PopupProps> = ({ isOpen, closePopup, children, className }) => {
+
   return isOpen ? (
     <PopupContainer className={className}>
       <PopupContent className='content'>

@@ -3,5 +3,6 @@ export enum Types {
   SET = 'SET',
   DELETE = 'DELETE',
   UPDATE = 'UPDATE',
-  ADD_ALL = 'ADD_ALL'
+  ADD_ALL = 'ADD_ALL',
+  UDPATE_ALL = 'UPDATE_ALL',
 }

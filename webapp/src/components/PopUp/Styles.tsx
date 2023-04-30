@@ -1,5 +1,4 @@
 import styled from "styled-components"
-import { FaTimes } from "react-icons/fa"
 
 export const PopupContainer = styled.div`
     position: absolute;
@@ -15,8 +14,9 @@ export const PopupContent = styled.div`
     z-index: 1050;
     position: absolute;
     overflow: auto;
-    max-height: 95vh;
+    max-height: 90vh;
     max-width: 95vh;
+    min-width: 30vw;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -30,9 +30,4 @@ export const PopupContent = styled.div`
         max-height: calc(90vh - 2em);
         width: calc(90vw - 2em);
     }
-`
-export const CloseButton = styled(FaTimes)`
-    float:right;
-    font-size: 1.2em;
-    cursor: pointer;
 `
