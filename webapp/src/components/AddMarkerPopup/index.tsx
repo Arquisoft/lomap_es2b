@@ -92,7 +92,8 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
 
     let formData = new FormData()
     formData.append('image',filepreview)
-    const response = await fetch('http://localhost:5000/api/image/upload',{
+    const apiEndPoint = process.env.REACT_APP_API_URI || 'http://localhost:5000/api'
+    const response = await fetch(apiEndPoint+'/image/upload',{
       method:"POST",
       body: formData
     })
