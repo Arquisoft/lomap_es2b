@@ -19,7 +19,13 @@ const pruebaMarkers:IMarker[] = [
     { id: '1',name: 'marker1', lat: 1, lng: 1,description:"Description 1",images: [], date: new Date(), comments: [] , category: Category.Others, property: { owns: true, public: false } },
     { id: '2',name: 'marker2', lat: 1, lng: 1, images: [], date: new Date(), comments: [] , category: Category.Others, property: { owns: true, public: false } },
     { id: '3',name: 'marker3', lat: 1, lng: 1, images: [], date: new Date(), comments: [] , category: Category.Others, property: { owns: true, public: false } },
-  ];
+    { id: '4',name: 'marker4', lat: 1, lng: 1, images: [], date: new Date(), comments: [] , category: Category.Others, property: { owns: false, author: "https://lomapes2b.inrupt.net/" } },
+    { id: '5',name: 'marker5', lat: 1, lng: 1, images: [], date: new Date(), comments: [] , category: Category.Others, property: { owns: false, author: "https://author.inrupt.net/" } },
+    { id: '6',name: 'marker3', lat: 1, lng: 1, images: [], date: new Date("2023-04-29"), comments: [] , category: Category.Others, property: { owns: true, public: false } },
+    { id: '7',name: 'marker3', lat: 1, lng: 1, images: [], date: new Date("2023-12-29"), comments: [] , category: Category.Others, property: { owns: true, public: false } },
+    { id: '8',name: 'marker3', lat: 1, lng: 1, images: [], date: new Date("2023-12-29"), comments: [] , category: Category.Others, property: { owns: true, public: false } },
+    { id: '9',name: 'amarker2', lat: 1, lng: 1, images: [], date: new Date(), comments: [] , category: Category.Others, property: { owns: true, public: false } },
+];
 
 
 i18n.use(initReactI18next).init({
@@ -58,6 +64,39 @@ describe("Marker sidebar", () =>{
         await waitFor(() => expect(screen.getByText('sidebar.list.title')).toBeInTheDocument());
         await waitFor(() => expect(screen.getByText('marker1')).toBeInTheDocument());
     })
+
+    it("Marker sidebar is displayed with markers public",async  ()=>{
+        render(
+            <I18nextProvider i18n={i18n}>
+            <Suspense fallback={<Loader />}>
+                <MarkerContext.Provider value={{ state: pruebaMarkers, dispatch: () => {} }}>
+                <MarkersSidebar toggleSidebar={mockToggleSideBar} selectedCategory={Category.All} setSelectedCategory={mockSetSelectedCategory} ></MarkersSidebar>
+                </MarkerContext.Provider>              
+            </Suspense>
+        </I18nextProvider>
+        )
+
+        await waitFor(() => expect(screen.getByText('sidebar.list.title')).toBeInTheDocument());
+        fireEvent.click(screen.getByRole("button", { name: "sidebar.list.owner.public" }));
+        await waitFor(() => expect(screen.getByText('marker4')).toBeInTheDocument());
+    })
+
+    it("Marker sidebar is displayed with markers friends",async  ()=>{
+        render(
+            <I18nextProvider i18n={i18n}>
+            <Suspense fallback={<Loader />}>
+                <MarkerContext.Provider value={{ state: pruebaMarkers, dispatch: () => {} }}>
+                <MarkersSidebar toggleSidebar={mockToggleSideBar} selectedCategory={Category.All} setSelectedCategory={mockSetSelectedCategory} ></MarkersSidebar>
+                </MarkerContext.Provider>              
+            </Suspense>
+        </I18nextProvider>
+        )
+
+        await waitFor(() => expect(screen.getByText('sidebar.list.title')).toBeInTheDocument());
+        fireEvent.click(screen.getByRole("button", { name: "sidebar.list.owner.friends" }));
+        await waitFor(() => expect(screen.getByText('marker5')).toBeInTheDocument());
+    })
+
 
     it("Close sideBar",async  ()=>{
         render(
@@ -140,7 +179,6 @@ describe("Marker sidebar", () =>{
     })
 
  
-
     it("Change visibility",async  ()=>{
         render(
             <I18nextProvider i18n={i18n}>
@@ -161,6 +199,5 @@ describe("Marker sidebar", () =>{
 
         await waitFor(() => expect(mockDispach.mock.calls).toHaveLength(1));
     })
-
 
 })
