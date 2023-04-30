@@ -39,12 +39,9 @@ const Navbar = ({ isSidebarOpen, sidebarView, openPopup, toggleSidebar, toggleNe
   const [isMenuPopupOpen, setIsMenuPopupOpen] = useState(false);
   const [isConfigPopupOpen, setIsConfigPopupOpen] = useState(false);
   const [isAboutPopupOpen, setIsAboutPopupOpen] = useState(false);
-
   const wasSidebarOpen = useRef(isSidebarOpen)
   const wasMenuOpen = useRef(false)
-
   const [query, setQuery] = useState('');
-
   const { state: user } = useContext(UserContext)
 
 
@@ -177,7 +174,7 @@ const Navbar = ({ isSidebarOpen, sidebarView, openPopup, toggleSidebar, toggleNe
             <MdOutlineAltRoute />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Ver noticias">
+        <Tooltip title="navbar.tooltips.news">
           <IconButton onClick={() => toggleNews(undefined)}>
             <FaNewspaper />
           </IconButton>

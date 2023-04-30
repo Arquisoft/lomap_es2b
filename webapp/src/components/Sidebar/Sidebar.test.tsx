@@ -77,6 +77,5 @@ describe('sidebar', () => {
     await waitFor(() => expect(screen.getByTestId('instance-id')).toHaveTextContent('3'))
     expect(screen.queryByText('sidebar.list.title')).not.toBeInTheDocument()
     expect(screen.queryByText('sidebar.routes.title')).toBeInTheDocument()
-
   })
 })
