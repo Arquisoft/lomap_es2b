@@ -1,8 +1,7 @@
 import { TextField, Button } from '@mui/material'
 import { useState } from 'react';
 import Popup from '../PopUp';
-import { FormGroup, Error } from "./Styles";
-import { Category } from '../../types/Category';
+import { FormGroup } from "./Styles";
 import { useTranslation } from 'react-i18next';
 
 interface Props{
@@ -64,6 +63,9 @@ function RoutesPopUp({ visible, closePopup, addRoute}: Props){
         <FormGroup>
           <label htmlFor="Nombre">{ t('addRoutes.name.label') }:</label>
           <TextField className='field' id='Nombre' variant='standard' onChange={(e)=>handleChangeName(e.target.value)} value={name}/>
+          {
+            error !== null && <span>{error}</span>
+          }
         </FormGroup>
         <FormGroup>
           <label htmlFor="Descripcion">{ t('addRoutes.description.label') }:</label>
