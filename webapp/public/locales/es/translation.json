@@ -142,6 +142,10 @@
       "label": "Descripción",
       "placeholder": "Descripción"
     },
+    "error": {
+      "emptyName": "Introduce un nombre para la ruta",
+      "nameTooLong": "El nombre es demasiado largo: {{actua}}:{{limit}}"
+    },
     "create": "Crear"
   },
   "news":{

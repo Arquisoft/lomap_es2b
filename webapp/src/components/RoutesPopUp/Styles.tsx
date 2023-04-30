@@ -14,6 +14,6 @@ export const FormGroup = styled.div`
     }
 `
 
-export const Error = styled.p`
+export const Error = styled.span`
     color: red;
 `

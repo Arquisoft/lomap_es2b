@@ -142,6 +142,10 @@
       "label": "Description",
       "placeholder": "Description"
     },
+    "error": {
+      "emptyName": "You must type a name for the route",
+      "nameTooLong": "The name is too long: {{actua}}:{{limit}}"
+    },
     "create": "create"
   },
   "news":{

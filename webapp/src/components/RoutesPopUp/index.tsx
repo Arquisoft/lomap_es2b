@@ -5,7 +5,7 @@ import { FormGroup, Error } from "./Styles";
 import { Category } from '../../types/Category';
 import { useTranslation } from 'react-i18next';
 
-interface Props{
+type Props = {
     visible:boolean;
     addRoute:(name:string, description?:string)=>void;
     closePopup:()=>void;
@@ -33,9 +33,9 @@ function RoutesPopUp({ visible, closePopup, addRoute}: Props){
     e.preventDefault();
     setError(null);
     if(!validaVacio(name)){
-      setError("Introduce un nombre para la ruta")
+      setError('addRoutes.error.emptyName')
     }else if(!validaLong(name,longMaxName)){
-      setError("Longitud maxima nombre: "+longMaxName)
+      setError('addRoutes.error.nameTooLong')
     }else{
       addRoute(name, description)
     }
@@ -64,6 +64,9 @@ function RoutesPopUp({ visible, closePopup, addRoute}: Props){
         <FormGroup>
           <label htmlFor="Nombre">{ t('addRoutes.name.label') }:</label>
           <TextField className='field' id='Nombre' variant='standard' onChange={(e)=>handleChangeName(e.target.value)} value={name}/>
+          {
+            error !== null && <Error>{ t(error, { actual: name.length, limit: longMaxName }) }</Error>
+          }
         </FormGroup>
         <FormGroup>
           <label htmlFor="Descripcion">{ t('addRoutes.description.label') }:</label>
