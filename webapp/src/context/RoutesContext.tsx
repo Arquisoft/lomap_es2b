@@ -42,7 +42,7 @@ type RouteActions = {
 
 export const RoutesContext = createContext<{ state: IRoute[], dispatch: Dispatch<RouteActions> }>({state: [], dispatch: () => null})
 
-export const markerReducer = (state:IRoute[], action: RouteActions) : IRoute[] => {
+export const routeReducer = (state:IRoute[], action: RouteActions) : IRoute[] => {
   switch (action.type) {
     case Types.SET: 
       return action.payload.routes
@@ -91,7 +91,7 @@ type ProviderProps =  React.PropsWithChildren<{
 
 export const RoutesContextProvider = ({ children, saveFunction }: ProviderProps) => {
   const { session } = useSession()
-  const [state, dispatch] = useReducer(markerReducer, [])
+  const [state, dispatch] = useReducer(routeReducer, [])
   const [ loaded, setLoaded ] = useState(false)
   const stateRef = useRef(state);
   
