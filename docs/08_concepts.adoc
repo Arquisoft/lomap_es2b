@@ -31,6 +31,4 @@ We are going to explain how the development task will be as well as the tools to
 
 * PODs to store users' personal information.
 
-* MongoDB to store all information related to maps, such as points of interest.
-
 * NodeJS for running web applications outside the client's browser.
