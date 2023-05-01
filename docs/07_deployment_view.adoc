@@ -74,8 +74,6 @@ Mapping of Building Blocks to Infrastructure::
 | It will serve as an interface between the frontend and the database.
 | Atlas
 | It is the provider of the MongoDB database we will use
-| MongoDB
-| This is the NoSQL database we will use to store data that is public for all users.
 | Mapbox
 | To display the user markers we will use Mapbox as the map provider.
 | PodProvider
