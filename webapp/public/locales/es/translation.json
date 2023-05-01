@@ -109,7 +109,13 @@
     "routes": {
       "title": "Rutas", 
       "newRoute": "Nueva ruta",
-      "addMarker": "Añade nuevo marcador a la ruta"
+      "addMarker": "Añade nuevo marcador a la ruta",
+      "delete": {
+        "confirm": {
+          "title": "¿Está seguro de que quiere borrar la ruta?",
+          "body": "Una vez borrada la ruta no habrá forma de recuperar la información."
+        }
+      }
     }
   },
   "addMarker": {
