@@ -19,7 +19,7 @@ defineFeature(feature, test => {
       await page.setExtraHTTPHeaders({
         'Accept-Language': 'es'
       });
-      await page.goto(`http//localhost:3000`, { waitUntil: 'load' });
+      await page.goto(`http://localhost:3000`, { waitUntil: 'load' });
     } catch (e) {
       console.log(e);
       await browser.close();
