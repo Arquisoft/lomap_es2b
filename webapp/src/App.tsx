@@ -54,7 +54,7 @@ function App(): JSX.Element {
   }, [])
 
   return (
-    <SessionProvider sessionId="log-in-example" restorePreviousSession={true}>
+    <SessionProvider sessionId="log-in-example" restorePreviousSession={false}>
       <Suspense fallback={<Loader />}>
         {(!isLoggedIn) ? <Login/> : <Map/>}
       </Suspense>
