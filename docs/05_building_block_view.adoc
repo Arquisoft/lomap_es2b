@@ -33,8 +33,6 @@ Contained Building Blocks::
 |RestApi
 |Manage the data that the webbapp
 
-|Database
-|Saves the data tha the pod does not
 |===
 
 === Level 2
