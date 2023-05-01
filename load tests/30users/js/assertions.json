@@ -1,0 +1,10 @@
+{
+  "simulation": "lomap.LoginSimulation",
+  "simulationId": "loginsimulation-20230501175630059",
+  "start": 1682963790740,
+  "description": "30 users in 30 seconds",
+  "scenarios": ["LoginSimulation"],
+  "assertions": [
+
+  ]
+}

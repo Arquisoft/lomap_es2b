@@ -35,3 +35,18 @@ Potentially more columns in case you need translations.
 | POD         | It  is server or storage space where users can store, share and control their data. The SOLID project is built on PODs.
 | User        | Client that uses our application.
 |===
+
+=== Tests de carga
+Para la realización de los tests de carga se utilizó el programa Gatling versión 3.9.0. Las pruebas realizadas consisten en la carga de los marcadores públicos y de las noticias.
+
+==== Caso A (3 usuarios durante 30 segundos)
+:imagesdir: images/
+image::3USERS.PNG[]
+==== Caso B (15 usuarios durante 30 segundos)
+:imagesdir: images/
+image::15USERS.PNG[]
+==== Caso C (30 usuarios durante 30 segundos)
+:imagesdir: images/
+image::30USERS.PNG[]
+
+Como se puede apreciar a medida que aumentan el número de usuarios los tiempos de respuesta son mayores pero sin llegar a fallar nunca.
