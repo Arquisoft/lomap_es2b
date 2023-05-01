@@ -30,9 +30,9 @@ image::QualityTree.PNG[]
 | Data must not be accessible for any third parties. Data from users will be stored in a secure system.
 | High
 
-| Interoperability 
-| Lomap has to be able to use the data from the other partners' pages without having to modify the code.
-| For this, an attempt will be made to speak with the rest of the colleagues through github or other means to formalize the data system that will be used by all.
+| Testability 
+| The unit tests are necessary to check the correct implementation of the application.
+| For this, the developers implement tests, in order to detect why the app was failing, so that funcionality is fixed as soon as possible.
 | Medium
 
 | Portability

@@ -23,7 +23,7 @@ Documentation of the LoMap system, an application in which citizens can have per
 | _Usability_ | _The system should be able to be used quickly and easily by any user._
 | _Decentralization_ | _To avoid security problems by having all the data in a central base, the personalized maps will be under the control of the users and the shared information will be stored in the personal pod of each one._
 | _Scalability_ | _LoMap must be able to grow and increase its functionalities in a simple way._
-| _Interoperability_ | _The application must be able to exchange its information with others and use the information exchanged._
+| _Testability_ | _Unit tests will be applied to the application to ensure the proper performance of the system._
 |===
 
 === Stakeholders
