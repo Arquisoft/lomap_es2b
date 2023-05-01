@@ -37,7 +37,6 @@ image::diagrama.png[]
 | Entity | Description 
 | User | Uses the application
 | Lomap | The main application
-| MongoDB | The database
 | PODs | Store the personal data
 |===
 

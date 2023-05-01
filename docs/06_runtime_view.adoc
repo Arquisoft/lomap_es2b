@@ -24,7 +24,7 @@ The pod returns the result of the login.
 
 :imagesdir: images/
 image::06_Diagrama_secuencia_anadir_mark.png[]
-The app ask for the data of the mark, when receives the data, the app create the mark and saves it on the pod.
+The app ask for the data of the mark, when receives the data, the app create the mark and saves it on the pod and the image on the Rest Api.
 
 === Delete mark
 
@@ -48,7 +48,7 @@ The user delete and confirm on the app and the app remove the friend from the PO
 
 :imagesdir: images/
 image::06_Diagrama_secuencia_loadMarkers.png[]
-The app first loads its own marks, then those of friends and finally shows them.
+The app first loads its own marks, then those of friends and public, load the images from the Rest Api and finally shows them.
 
 === Share markers
 
@@ -61,3 +61,33 @@ The app change the state of the marker and save it into the public folder of the
 :imagesdir: images/
 image::06_Diagrama_secuencia_privateMark.png[]
 The app change the state of the marker and save it into the private folder of the POD.
+
+=== Add news
+
+:imagesdir: images/
+image::06_Diagrama_secuencia_addNews.png[]
+The app ask for the data of the news, when receives the data, the app create the mark and saves it on the pod.
+
+=== Load news
+
+:imagesdir: images/
+image::06_Diagrama_secuencia_loadNews.png[]
+The app loads the news from the pod.
+
+=== Add routes
+
+:imagesdir: images/
+image::06_Diagrama_secuencia_addRoutes.png[]
+The app ask for the data of the route, when receives the data, the app create the mark and saves it on the pod.
+
+=== Load routes
+
+:imagesdir: images/
+image::06_Diagrama_secuencia_loadRoutes.png[]
+The app loads the routes from the pod.
+
+=== Delete routes
+
+:imagesdir: images/
+image::06_Diagrama_secuencia_deleteRoutes.png[]
+The app delete the route from the Pod.
