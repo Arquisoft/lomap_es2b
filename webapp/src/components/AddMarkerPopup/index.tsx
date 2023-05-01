@@ -140,16 +140,6 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
             <MenuItem value={Category.Others}>{ t('markerCategories.other') }</MenuItem>
           </Select>
         </FormGroup>
-         
-         <FormGroup>
-          <label htmlFor='image'>{t('addMarker.image.label')}</label>
-          <div id="div_file">
-            <p id="texto">{t('addMarker.image.button')}</p>
-            <input accept="image/png,image/jpeg" type="file" id="image" onChange={handleChangeImage}/>
-          </div>
-          {filepreview !== null ? <img src={filepreview === null ? "" : URL.createObjectURL(filepreview)} alt='Previsualización'/> : null}
-          {errorImage ? <Error>{t('addMarker.image.error')}</Error> : null}
-         </FormGroup>
         <FormGroup>
           <label>{ t('addMarker.coordinates') }:</label>
           <TextField disabled label={lngLat?.lat} variant='standard' />
