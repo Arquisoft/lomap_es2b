@@ -16,26 +16,6 @@ describe('POST /api/image/upload', () => {
     expect(response.statusCode).toBe(400)
     expect(response.body).toEqual({ success: false, error: { message: 'Image missing' } })
   })
-
-  // ############################
-  // No funciona por alguna razon
-  // ############################
-
-  // it('tries to upload not an image type file', () => {
-  //   const filepath = join(assetsPath, 'not_an_image.txt')
-  //   // const filepath = join(assetsPath, 'image.jpeg')
-  //   if (!existsSync(filepath))
-  //     fail('Test file missing')
-
-  //   return supertest.post('/api/image/upload').attach('image', filepath).then(response => {
-  //     console.log(response)
-  //     expect(response.body).toEqual({ success: false, error: { message: 'Invalid file type' } })
-  //   }).catch(err => {
-  //     console.log(err)
-  //     throw err
-  //   })
-    
-  // })
   
   it('tries to upload an image', () => {
     const filepath = join(assetsPath, 'image.jpeg')

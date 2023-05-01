@@ -104,7 +104,7 @@ function AddPopup({ visible, closePopup, addMark, lngLat }: Props){
     return data.data.filename as string
   }
   
-  function validaVacio(input:String){
+  function validaVacio(input:string){
     return (input!==null) && (input.trim().length!==0);
   }
 

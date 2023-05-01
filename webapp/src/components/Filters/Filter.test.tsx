@@ -36,7 +36,6 @@ describe('Filter', () => {
     );
 
     await waitFor(() => expect(screen.getByText('markerCategories.restaurants')).toBeInTheDocument());
-    const restaurantButton = screen.getByText('markerCategories.restaurants');
 
     const hotelButton = screen.getByText('markerCategories.hotels');
     expect(hotelButton).toBeInTheDocument();

@@ -54,7 +54,7 @@ const RoutesSidebar = ({ toggleSidebar, setAddRoute, openPopup }: Props) => {
   };
 
   function addRoute(name: string, description?: string) {
-    var newRoute: IRoute = {
+    let newRoute: IRoute = {
       id: uuid(),
       name: name,
       description: description,

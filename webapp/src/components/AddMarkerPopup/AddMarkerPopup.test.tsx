@@ -1,11 +1,10 @@
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { Suspense } from 'react'
 import { I18nextProvider, initReactI18next } from 'react-i18next'
 import Loader from '../Loader'
 import i18n from 'i18next'
 import AddMarkerPopup from '.'
 import { LngLat, LngLatBounds } from 'mapbox-gl'
-import { Category } from '../../types/Category'
 
 const mockClose = jest.fn();
 const mockAddMark = jest.fn();

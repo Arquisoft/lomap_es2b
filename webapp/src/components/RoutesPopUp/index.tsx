@@ -46,11 +46,11 @@ function RoutesPopUp({ visible, closePopup, addRoute}: Props){
     setDescription("")
   }
 
-  function validaLong(intput:String,maxLong:number){
+  function validaLong(intput:string,maxLong:number){
     return intput.length<maxLong;
   }
 
-  function validaVacio(intput:String){
+  function validaVacio(intput:string){
     return (intput!==null) && (intput.trim().length!==0);
   }
 
