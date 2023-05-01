@@ -17,7 +17,7 @@ import CloseButton from "../CloseButton";
 import { useTranslation } from "react-i18next";
 import { IRoute } from "../../types/IRoute";
 import DeleteButton from "../DeleteButton";
-import { Box, Button, Divider, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Divider, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { TbArrowBackUp } from "react-icons/tb";
 import { v4 as uuid } from "uuid";
@@ -26,6 +26,7 @@ import { RoutesContext } from "../../context/RoutesContext";
 import { IMarker } from "../../types/IMarker";
 import { Types } from "../../types/ContextActionTypes";
 import { MarkerContext } from "../../context/MarkersContext";
+import { Close as CloseIcon } from '@mui/icons-material';
 
 type Props = {
   toggleSidebar: (open?: boolean) => void;
@@ -194,6 +195,14 @@ const RouteInfo = ({ route, close }: InfoProps) => {
     setDragOverMarker(null)
   }
 
+  const deleteMarker = (id: string) => {
+    console.log(id)
+    let markers = route.points.filter(m => m.id !== id)
+    console.log(markers)
+    route.points = [...markers]
+    rDispatch({ type: Types.UPDATE, payload: { id: route.id, route: { points: [...markers]} } })
+  }
+
   return (
     <>
       <Button
@@ -232,6 +241,11 @@ const RouteInfo = ({ route, close }: InfoProps) => {
                   <h3>{marker.name}</h3>
                   <p>{marker.description}</p>
                 </MarkerContent>
+                <Tooltip title={t('sidebar.list.delete.tooltip')}>
+                  <IconButton onClick={() => deleteMarker(marker.id)}>
+                    <CloseIcon />
+                  </IconButton>
+                </Tooltip>
               </MarkerSection>
             ))
           }
