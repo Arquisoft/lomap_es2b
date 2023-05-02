@@ -32,6 +32,7 @@ const AddNewsPopup = ({onClose, addNew}:PropsAddNewsPoup)=>{
             isError(false);
         }
         addNew(text)
+        setText('')
         onClose();
       }
 

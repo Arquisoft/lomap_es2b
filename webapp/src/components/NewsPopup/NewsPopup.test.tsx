@@ -7,6 +7,10 @@ import { NewsContext } from '../../context/NewsContext'
 import NewsPopup from '.'
 import { INews } from '../../types/INews'
 import AddNewsPopup from './AddNewsPopup'
+import userEvent from '@testing-library/user-event'
+import { act } from 'react-dom/test-utils'
+import { SessionContext } from '@inrupt/solid-ui-react'
+import { ISessionContext } from '@inrupt/solid-ui-react/dist/src/context/sessionContext'
 
 i18n.use(initReactI18next).init({
     fallbackLng: 'en',
@@ -27,10 +31,10 @@ const mockClose = jest.fn();
 
         render(
             <I18nextProvider i18n={i18n}>
-            <Suspense fallback={<Loader />}>
-                <NewsPopup toggleNews={ mockToggleNews} isNewsOpen={true} ></NewsPopup>
-            </Suspense>
-        </I18nextProvider>
+                <Suspense fallback={<Loader />}>
+                    <NewsPopup toggleNews={ mockToggleNews} isNewsOpen={true} ></NewsPopup>
+                </Suspense>
+            </I18nextProvider>
         )
 
         await waitFor(() => expect(screen.getByText('news.title')).toBeInTheDocument())
@@ -61,10 +65,10 @@ const mockClose = jest.fn();
 
         render(
             <I18nextProvider i18n={i18n}>
-            <Suspense fallback={<Loader />}>
-                <AddNewsPopup onClose={mockClose} addNew={mockAddNew}></AddNewsPopup>
-            </Suspense>
-        </I18nextProvider>
+                <Suspense fallback={<Loader />}>
+                    <AddNewsPopup onClose={mockClose} addNew={mockAddNew}></AddNewsPopup>
+                </Suspense>
+            </I18nextProvider>
         )
 
         await waitFor(() => expect(screen.getByText('news.addNew.title')).toBeInTheDocument())
@@ -82,15 +86,69 @@ const mockClose = jest.fn();
 
         render(
             <I18nextProvider i18n={i18n}>
-            <Suspense fallback={<Loader />}>
-                <AddNewsPopup onClose={mockClose} addNew={mockAddNew}></AddNewsPopup>
-            </Suspense>
-        </I18nextProvider>
+                <Suspense fallback={<Loader />}>
+                    <AddNewsPopup onClose={mockClose} addNew={mockAddNew}></AddNewsPopup>
+                </Suspense>
+            </I18nextProvider>
         )
 
         await waitFor(() => expect(screen.getByText('news.addNew.title')).toBeInTheDocument())
         fireEvent.click(screen.getByRole("button", { name: "news.addButton" }));
         await waitFor(() => expect(screen.getByText('news.addNew.error')).toBeInTheDocument())
+    })
+
+    it("Add a new news", async ()=>{
+        const mockNewsDispatch = jest.fn()
+        const {rerender} = render(
+            <I18nextProvider i18n={i18n}>
+                <Suspense fallback={<Loader />}>
+                    <SessionContext.Provider value={{ session: { info: { webId: 'testwebid', isLoggedIn: true, sessionId: 'testSesssionId' } } } as ISessionContext}>
+                        <NewsContext.Provider value={{ state: [], dispatch: mockNewsDispatch }}>
+                            <NewsPopup toggleNews={ mockToggleNews} isNewsOpen={true} ></NewsPopup>
+                        </NewsContext.Provider>
+                    </SessionContext.Provider>
+                </Suspense>
+            </I18nextProvider>
+        )
+
+        await waitFor(() => expect(screen.getByText('news.title')).toBeInTheDocument())
+        expect(screen.getByText('news.noNews')).toBeInTheDocument()
+
+        const addButton = screen.getByText('news.addButton')
+        act(() => {fireEvent.click(addButton)})
+        expect(screen.getByText('news.addNew.title')).toBeInTheDocument()
+
+        const text = screen.getAllByRole("textbox")[0];
+        userEvent.type(text, 'una noticia')
+        act(() => {fireEvent.click(screen.getAllByText("news.addButton")[1])})
+
+        await waitFor(() => expect(screen.getByText('news.title')).toBeInTheDocument())
+        expect(screen.queryByText('news.addNew.title')).not.toBeInTheDocument()
+
+        expect(mockNewsDispatch).toHaveBeenCalled()
+        expect(mockNewsDispatch.mock.lastCall[0]).toEqual({
+            payload: {
+                news: {
+                    author: "testwebid",
+                    id: expect.any(String),
+                    text: "una noticia",
+                },
+              },
+              type: "ADD",
+            })
+        
+        rerender(
+            <I18nextProvider i18n={i18n}>
+                <Suspense fallback={<Loader />}>
+                    <SessionContext.Provider value={{ session: { info: { webId: 'testwebid', isLoggedIn: true, sessionId: 'testSesssionId' } } } as ISessionContext}>
+                        <NewsContext.Provider value={{ state: [mockNewsDispatch.mock.lastCall[0].payload.news], dispatch: mockNewsDispatch }}>
+                            <NewsPopup toggleNews={ mockToggleNews} isNewsOpen={true} ></NewsPopup>
+                        </NewsContext.Provider>
+                    </SessionContext.Provider>
+                </Suspense>
+            </I18nextProvider>
+        )
+        expect(screen.getByText('una noticia')).toBeInTheDocument()
     })
 
   })

@@ -196,9 +196,7 @@ const RouteInfo = ({ route, close }: InfoProps) => {
   }
 
   const deleteMarker = (id: string) => {
-    console.log(id)
     let markers = route.points.filter(m => m.id !== id)
-    console.log(markers)
     route.points = [...markers]
     rDispatch({ type: Types.UPDATE, payload: { id: route.id, route: { points: [...markers]} } })
   }
@@ -231,8 +229,8 @@ const RouteInfo = ({ route, close }: InfoProps) => {
               <MarkerSection
                 key={marker.id}
                 draggable
-                onDragStart={(e) => (dragMarker.current = index)}
-                onDragEnter={(e) => (setDragOverMarker(index))}
+                onDragStart={() => (dragMarker.current = index)}
+                onDragEnter={() => (setDragOverMarker(index))}
                 onDragEnd={handleSort}
                 onDragOver={(e) => e.preventDefault()}
                 draggedOver={dragOverMarker === index}
