@@ -1,3 +1,6 @@
+[[testing]]
+== Testing
+
 === Análisis de estadísticas
 Hemos utilizado SonarCloud en nuestro proyecto para mejorar la mantenibilidad del proyecto y reducir los code smells y los problemas de seguridad.
 
