@@ -27,6 +27,42 @@ LoMap system, an application in which citizens can have personalized maps of pla
 * Users will be able to see places and information taken from their friends.
 * Filters are allowed for searches on the map.
 
+# Getting Started
+## 📋 Prerequisites
+
+<p align="justify">If you already have Node.js and npm, ensure that you update them before trying to construct the images. To run the project, you'll need <a href="https://nodejs.org/en/download">Node.js</a>, <a href="https://www.docker.com/">Docker</a>, <a href="https://docs.npmjs.com/downloading-and-installing-node-js-and-npm">npm</a> and <a href="https://git-scm.com/downloads">git</a> installed on your machine. Make certain that all four are installed.</p>
+
+## Installation
+<p align="justify">You can obtain the project by using the command <code>git clone https://github.com/Arquisoft/lomap_es2b</code>.</p>
+
+### With Docker
+<p align="justify">The most efficient method to initiate everything is by using Docker:</p>
+
+```sh
+docker-compose up --build
+```
+<p align="justify">Two docker images will be generated for the webapp and the restapi since they are not currently present on your system.</p>
+
+### Without Docker
+<p align="justify">Compile and run the restapi:</p>
+
+```shell
+cd restapi
+npm install
+npm start
+```
+
+<p align="justify">Now the webapp:</p>
+
+```shell
+cd webapp
+npm install
+npm start
+```
+
+You should be able to access the application in [http://localhost:3000](http://localhost:3000).
+
+
 # Technologies
 
 <p float="left">
