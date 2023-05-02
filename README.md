@@ -65,6 +65,8 @@ You should be able to access the application in [http://localhost:3000](http://l
 # Deployment
 Lomap aplicattion is deployed in an Azure Machine with the next direction: https://20.19.208.114/. <br/>
 There is an account with markers shared to its friends with the next webId: https://pruebapod11.inrupt.net/. 
+![image](https://user-images.githubusercontent.com/113984522/235773337-58f4dea9-c9ec-41a0-a772-fc9637a105c2.png)
+
 
 # Technologies
 
