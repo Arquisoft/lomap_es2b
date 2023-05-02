@@ -45,9 +45,6 @@ function App(): JSX.Element {
     session.onLogout(()=>{
       setIsLoggedIn(false)
       // Al cerrar sesion elimina los marcadores del usuario de la memoria
-      markersDispatch({ type: Types.SET, payload: { markers: [] } })
-      newsDispatch({ type: Types.SET, payload: { newsList: [] } })
-      routesDispatch({ type: Types.SET, payload: { routes: [] } })
     })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
