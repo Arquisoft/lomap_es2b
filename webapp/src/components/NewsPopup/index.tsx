@@ -43,29 +43,35 @@ function NewsPopup({isNewsOpen, toggleNews } : Props){
     }
 
     function showAddNewPopup(){
-        toggleNews(false);
+        // toggleNews(false);
         setShowPopupNews(true);
     }
 
     function closeAddNewPopup(){
         setShowPopupNews(false);
-        toggleNews(true);
-        
+        // toggleNews(true);
     }
 
     return(
         <>
-         {isNewsOpen ?  
-         <Popup isOpen={isNewsOpen} closePopup={()=>toggleNews(false)}>
-            <Container>
-            <h2>{t('news.title')}</h2>
-            {showNews()}
-            </Container>
-            <Button style={{float:'right'}} onClick={showAddNewPopup} color='success' variant='contained'>{t('news.addButton')}</Button>
-         </Popup>
-        : showPopupNews ? 
-            <AddNewsPopup addNew={addNew} onClose={closeAddNewPopup } />
-        : null}
+        {
+        isNewsOpen ?
+        <>
+            <Popup isOpen={isNewsOpen} closePopup={()=>toggleNews(false)}>
+                <Container>
+                    <h2>{t('news.title')}</h2>
+                    {showNews()}
+                </Container>
+                <Button style={{float:'right'}} onClick={showAddNewPopup} color='success' variant='contained'>{t('news.addButton')}</Button>
+            </Popup>
+            {
+                showPopupNews ? 
+                <AddNewsPopup addNew={addNew} onClose={closeAddNewPopup } />
+                : null
+            }
+        </>
+        : null
+        }
         </> 
     )
 
