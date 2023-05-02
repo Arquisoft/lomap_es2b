@@ -11,6 +11,7 @@ import { SessionContext } from '@inrupt/solid-ui-react'
 import { ISessionContext } from '@inrupt/solid-ui-react/dist/src/context/sessionContext'
 import { IRoute } from '../../types/IRoute'
 import { RoutesContext } from '../../context/RoutesContext'
+import userEvent from '@testing-library/user-event'
 
 const mockToggleSideBar = jest.fn();
 const mockSetSelectedCategory = jest.fn();
@@ -250,4 +251,45 @@ it("Marker sidebar is displayed with markers friends",async  ()=>{
     expect(mockAddMarkerToRoute).toHaveBeenCalled();
     expect(mockAddMarkerToRoute).toHaveBeenCalledWith(mockRoutes[0]);
   });
+
+  test("SelectRouteMenu search routes", async () => {
+    const mockAddMarkerToRoute = jest.fn();
+    render(
+      <I18nextProvider i18n={i18n}>
+        <RoutesContext.Provider value={{ state: mockRoutes, dispatch: () => {} }}>
+          <SelectRouteMenu addMarkerToRoute={mockAddMarkerToRoute} />
+        </RoutesContext.Provider>
+      </I18nextProvider>
+    );
+  
+    expect(screen.getByPlaceholderText('sidebar.details.route_list_search')).toBeInTheDocument()
+    const textSearch = screen.getByPlaceholderText('sidebar.details.route_list_search');
+    userEvent.type(textSearch,'1')
+    expect(screen.getByText('Ruta 1')).toBeInTheDocument();
+    expect(screen.queryByText('Ruta 2')).not.toBeInTheDocument();
+    expect(screen.queryByText('Ruta 3')).not.toBeInTheDocument();
+  });
+
+  test('Open details of a marker', async () => {
+    render(
+      <I18nextProvider i18n={i18n}>
+        <Suspense fallback={<Loader />}>
+          <SessionContext.Provider value={{ session: { info: { webId: 'testwebid', isLoggedIn: true, sessionId: 'testSesssionId' } } } as ISessionContext}>
+            <MarkerContext.Provider value={{ state: pruebaMarkers, dispatch: mockDispach }}>
+              <MarkersSidebar toggleSidebar={mockToggleSideBar} selectedCategory={Category.All} setSelectedCategory={mockSetSelectedCategory} ></MarkersSidebar>
+            </MarkerContext.Provider>     
+          </SessionContext.Provider>
+        </Suspense>
+      </I18nextProvider>
+    );
+
+    await waitFor(() => expect(screen.getByText('sidebar.list.title')).toBeInTheDocument())
+
+    const routeContent = screen.getByText('marker1')
+    expect(routeContent).toBeInTheDocument()
+    fireEvent.click(routeContent)
+
+    expect(screen.getByText('sidebar.details.title')).toBeInTheDocument()
+    expect(screen.getByText('marker1')).toBeInTheDocument()
+  })
 })

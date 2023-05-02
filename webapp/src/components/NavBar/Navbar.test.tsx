@@ -6,6 +6,8 @@ import { I18nextProvider, initReactI18next } from 'react-i18next';
 import Navbar from '.';
 import Loader from '../Loader';
 import { SidebarView } from '../../pages/MapPage';
+import { UserContext } from '../../context/UserContext';
+import { Thing } from '@inrupt/solid-client';
 
 const mockOpenPopup = jest.fn();
 const mockToggleSidebar = jest.fn();
@@ -16,6 +18,26 @@ const mockIsNewsOpen = false;
 i18n.use(initReactI18next).init({
   fallbackLng: 'en',
 })
+
+const testUser = {
+  "type": "Subject",
+  "url": "https://adrimr202.solidcommunity.net/profile/card#me",
+  "predicates": {
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": {
+          "namedNodes": [
+              "http://schema.org/Person",
+              "http://xmlns.com/foaf/0.1/Person"
+          ]
+      },
+      "http://xmlns.com/foaf/0.1/name": {
+          "literals": {
+              "http://www.w3.org/2001/XMLSchema#string": [
+                  "John Doe"
+              ]
+          }
+      },
+  }
+}
 
 describe('Navbar', () => {
   afterEach(() => {
@@ -43,7 +65,9 @@ describe('Navbar', () => {
     render(
       <I18nextProvider i18n={i18n}>
         <Suspense fallback={<Loader />}>
-          <Navbar toggleNews={mockToggleNews} sidebarView={SidebarView.MARKERS} toggleSidebar={mockToggleSidebar} isSidebarOpen={mockIsSidebarOpen} openPopup={mockOpenPopup} />
+          <UserContext.Provider value={{ state: testUser as Thing, dispatch: () => {} }}>
+            <Navbar toggleNews={mockToggleNews} sidebarView={SidebarView.MARKERS} toggleSidebar={mockToggleSidebar} isSidebarOpen={mockIsSidebarOpen} openPopup={mockOpenPopup} />
+          </UserContext.Provider>
         </Suspense>
       </I18nextProvider>
     );
@@ -126,6 +150,7 @@ describe('Navbar', () => {
     expect(screen.getByText('configPopup.title')).toBeInTheDocument()
     fireEvent.click(screen.getAllByRole('button')[0]) // Presses the close button
     expect(screen.getByText('options.title')).toBeInTheDocument()
+    fireEvent.click(screen.getAllByRole('button')[0]) // Presses the close button
   });
 
   it("opens the about popup from user menu", async () => {
@@ -142,7 +167,7 @@ describe('Navbar', () => {
     expect(screen.getByText('aboutPopup.title')).toBeInTheDocument()
   });
 
-  it("opens the about popup from user menu", async () => {
+  it("click logout from user menu", async () => {
     render(
       <I18nextProvider i18n={i18n}>
         <Suspense fallback={<Loader />}>
@@ -155,7 +180,7 @@ describe('Navbar', () => {
     fireEvent.click(screen.getByText('navbar.user.logout'))
   });
 
-  it("opens the about popup from user menu", async () => {
+  it("opens the friends popup from user menu", async () => {
     render(
       <I18nextProvider i18n={i18n}>
         <Suspense fallback={<Loader />}>

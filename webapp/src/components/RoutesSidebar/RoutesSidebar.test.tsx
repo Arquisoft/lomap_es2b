@@ -10,6 +10,7 @@ import { MarkerContext } from '../../context/MarkersContext'
 import { act } from "react-dom/test-utils";
 import { Category } from "../../types/Category";
 import { IMarker } from "../../types/IMarker";
+import userEvent from "@testing-library/user-event";
 
 const mockIsSidebarOpen = false;
 const mockSetaddRoutes = jest.fn();
@@ -285,5 +286,51 @@ describe('SidebarRoutes', () => {
     const textSearch = screen.getAllByRole("textbox")[0];
     fireEvent.change(textSearch, { target: { value: "bbb" } });
     await waitFor(() => expect(screen.queryByText('marker1')).not.toBeInTheDocument());
+  });
+  
+  test("Delete marker from route", async () => {
+    render(
+      <I18nextProvider i18n={i18n}>
+        <Suspense fallback={<Loader />}>
+          <RoutesContext.Provider value={{ state: mockRoutes, dispatch: mockRoutesDispatch }}>
+            <RoutesSidebar toggleSidebar={toggleSidebar} setAddRoute={mockSetaddRoutes} openPopup={mockOpenPopup} />
+          </RoutesContext.Provider>
+        </Suspense>
+      </I18nextProvider>
+    );
+
+    await waitFor(() => expect(screen.getByText('sidebar.routes.title')).toBeInTheDocument())
+
+    const routeContent = screen.getByText('Ruta 1')
+    expect(routeContent).toBeInTheDocument()
+    fireEvent.click(routeContent)
+
+    expect(screen.getByText('sidebar.details.routes')).toBeInTheDocument()
+    expect(screen.getByText('Ruta 1')).toBeInTheDocument()
+
+    const deleteMarker1 = screen.getAllByRole('button')[3]
+    expect(deleteMarker1).toBeInTheDocument()
+    fireEvent.click(deleteMarker1)
+
+    expect(mockRoutesDispatch).toHaveBeenCalled()
+    expect(mockRoutesDispatch.mock.calls[0][0]).toEqual({ type: 'UPDATE', payload: { id: '1', route: { points: [pruebaMarkers[1]] } } })
+  });
+
+  test("SelectRouteMenu search marker", async () => {
+    const mockAddMarkerToRoute = jest.fn();
+    render(
+      <I18nextProvider i18n={i18n}>
+        <MarkerContext.Provider value={{ state: pruebaMarkers, dispatch: () => {} }}>
+          <SelectMarkerMenu addMarkerToRoute={mockAddMarkerToRoute} />
+        </MarkerContext.Provider>
+      </I18nextProvider>
+    );
+  
+    expect(screen.getByPlaceholderText('sidebar.details.route_list_search')).toBeInTheDocument()
+    const textSearch = screen.getByPlaceholderText('sidebar.details.route_list_search');
+    userEvent.type(textSearch,'1')
+    expect(screen.getByText('marker1')).toBeInTheDocument();
+    expect(screen.queryByText('marker2')).not.toBeInTheDocument();
+    expect(screen.queryByText('marker3')).not.toBeInTheDocument();
   });
 })
